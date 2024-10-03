@@ -71,7 +71,12 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
     // const AboutScreen(),
     const AboutUsScreen(),
   ];
-
+@override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+homecontroller.dispose();
+  }
   @override
   void initState() {
     homecontroller.numberTextList = ['0', '0', '0', '0'];
