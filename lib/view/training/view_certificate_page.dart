@@ -6,6 +6,7 @@ import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:darlsco/core/constants/color_resources.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:dio/dio.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -27,39 +28,91 @@ class _PDFViewerPageState extends State<PDFViewerPage> {
     super.initState();
     _downloadAndSavePdf();
   }
-
-  Future<void> _downloadAndSavePdf() async {
+ Future<void> _downloadAndSavePdf() async {
     try {
-      String filePath='';
+      String filePath = '';
 
-      final url =
-          'https://darlsco-files.s3.ap-south-1.amazonaws.com/${widget.pdfPath}';
-          print(url)
-;      final dio = Dio();
+      final url = 'https://darlsco-files.s3.ap-south-1.amazonaws.com/${widget.pdfPath}';
+      print(url);
+
+      final dio = Dio();
 
       if (Platform.isAndroid) {
-        var dir = Directory('/storage/emulated/0/Downloads');
+        var dir = Directory('/storage/emulated/0/Download');
         filePath = "${dir.path}/${widget.fileName}.pdf";
       } else {
         var dir = await getApplicationDocumentsDirectory();
         filePath = "${dir.path}/${widget.fileName}.pdf";
       }
- var status = await Permission.storage.status;
-    if (!status.isGranted) {
-      await Permission.storage.request();
-    } else{
- await dio.download(url, filePath);
 
-      setState(() {
-        localPath = filePath;
-      });
+      // Request storage permission
+      var status = await Permission.storage.status;
+      print('hiii permission asked 2 $status');
+        bool havePermission = false;
+
+      if (!status.isGranted) {
+        // If permission is denied, request it
+        await Permission.storage.request();
+        status = await Permission.storage.status; // Check the status again
+         final request = await [
+          Permission.photos,
+          Permission.videos,
+          // Permission.storage,
+            Permission.manageExternalStorage,
+            //..... as needed
+          ].request(); 
+            havePermission = request.values.every((status) => status == PermissionStatus.granted);
+
+      }
+      print('hiii permission asked 2 $havePermission');
+
+      // Proceed only if permission is granted
+      if (status.isGranted||havePermission) {
+        await dio.download(url, filePath);
+        setState(() {
+          localPath = filePath;
+        });
+        Get.snackbar('${widget.fileName} Downloaded', 'Tap to open',
+        
+        backgroundColor: ColorResources.colorBlue,
+        colorText: Colors.white,
+        snackPosition: SnackPosition.BOTTOM,
+        onTap: (s)async{  
+                  await Permission.storage.request();
+
+          
+   final result=   await     OpenFile.open(localPath);
+                           print('Open File Result: ${result.type}, Message: ${result.message}');
 
 
-    }        } catch (e) {
+        }
+        
+
+        );
+
+        // ScaffoldMessenger.of(context).showSnackBar(
+        //   SnackBar(
+        //     content: Text('${widget.fileName} Downloaded'),
+        //   ),
+        // );
+      } else {  await Permission.storage.request();
+        status = await Permission.storage.status; 
+        print('Storage permission is denied');
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Storage permission is denied. Cannot download file.'),
+          ),
+        );
+      }
+    } catch (e) {
       print('Error downloading ${widget.fileName}: $e');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Error downloading ${widget.fileName}'),
+        ),
+      );
     }
   }
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -71,14 +124,7 @@ class _PDFViewerPageState extends State<PDFViewerPage> {
           backgroundColor:ColorResources.backgroundColors3[0],
           actions: [
                           IconButton(
-                          onPressed: () => _downloadAndSavePdf().then(
-                                (value) =>
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                   SnackBar(
-                                    content: Text('${widget.fileName} Downloaded'),
-                                  ),
-                                ),
-                              ),
+                          onPressed: () async=>await _downloadAndSavePdf(),
                           icon: const Icon(Icons.download),),],
           title: 
                      Text(
@@ -110,7 +156,11 @@ class _PDFViewerPageState extends State<PDFViewerPage> {
         ),
         body: commonBackgroundLinearColorCart(
 
-          childWidget:   localPath != null? PDFView(filePath: localPath):const CircularProgressIndicator()
+          childWidget:   localPath != null? PDFView(filePath: localPath):const Column(
+            children: [
+              CircularProgressIndicator(),
+            ],
+          )
           // childWidget: SingleChildScrollView(
           //   child: Padding(
           //     padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 32.h),

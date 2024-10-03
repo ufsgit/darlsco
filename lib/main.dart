@@ -186,8 +186,12 @@ getcountry(BuildContext context) async {
       if (locationStatus.isDenied) {
         locationStatus = await Permission.location.request();
       }
-      print('hiii permission asked $locationStatus');
+   PermissionStatus storageStatus = await Permission.storage.status;
+      print('hiii permission asked $storageStatus');
 
+      if (storageStatus.isDenied) {
+        storageStatus = await Permission.storage.request();
+      }
       // print(locationStatus);
       // if (locationStatus.isPermanentlyDenied) {
       //   await openAppSettings();
