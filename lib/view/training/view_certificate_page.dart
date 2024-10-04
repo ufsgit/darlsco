@@ -33,7 +33,7 @@ class _PDFViewerPageState extends State<PDFViewerPage> {
     _downloadAndSavePdf();
   }
 
-  Future<void> _downloadAndSavePdf() async {
+  Future<bool> _downloadAndSavePdf() async {
     try {
       String filePath = '';
 
@@ -44,10 +44,12 @@ class _PDFViewerPageState extends State<PDFViewerPage> {
       final dio = Dio();
 
       if (Platform.isAndroid) {
-        var dir = Directory('/storage/emulated/0/Download');
+        var dir = Directory('/storage/emulated/0/Downloads');
         filePath = "${dir.path}/${widget.fileName}.pdf";
       } else {
         var dir = await getApplicationDocumentsDirectory();
+
+      print('jbutfghbn ${dir.path}');
         filePath = "${dir.path}/${widget.fileName}.pdf";
       }
 
@@ -70,29 +72,13 @@ class _PDFViewerPageState extends State<PDFViewerPage> {
         havePermission = request.values
             .every((status) => status == PermissionStatus.granted);
       }
-      print('hiii permission asked 2 $havePermission');
 
       // Proceed only if permission is granted
       if (status.isGranted || havePermission) {
+        
         await dio.download(url, filePath);
         setState(() {
           localPath = filePath;
-        });
-        Get.snackbar('${widget.fileName} Downloaded', 'Tap to open',
-            backgroundColor: ColorResources.colorBlue,
-            colorText: Colors.white,
-            snackPosition: SnackPosition.BOTTOM, onTap: (s) async {
-          DeviceInfoPlugin plugin = DeviceInfoPlugin();
-          AndroidDeviceInfo android = await plugin.androidInfo;
-          if (android.version.sdkInt != null && android.version.sdkInt! <= 33) {
-            final result = await OpenFile.open(localPath);
-
-            print(
-                'Open File Result: ${result.type}, Message: ${result.message}');
-          } else {
-            await launchUrl(Uri.parse(
-                'https://darlsco-files.s3.ap-south-1.amazonaws.com/${widget.pdfPath}'));
-          }
         });
 
         // ScaffoldMessenger.of(context).showSnackBar(
@@ -100,24 +86,27 @@ class _PDFViewerPageState extends State<PDFViewerPage> {
         //     content: Text('${widget.fileName} Downloaded'),
         //   ),
         // );
+        return true;
       } else {
         await Permission.storage.request();
         status = await Permission.storage.status;
         print('Storage permission is denied');
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content:
-                Text('Storage permission is denied. Cannot download file.'),
-          ),
-        );
+        // ScaffoldMessenger.of(context).showSnackBar(
+        //   const SnackBar(
+        //     content:
+        //         Text('Storage permission is denied. Cannot download file.'),
+        //   ),
+        // );
+        return false;
       }
     } catch (e) {
       print('Error downloading ${widget.fileName}: $e');
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Error downloading ${widget.fileName}'),
-        ),
-      );
+      // ScaffoldMessenger.of(context).showSnackBar(
+      //   SnackBar(
+      //     content: Text('Error downloading ${widget.fileName}'),
+      //   ),
+      // );
+      return false;
     }
   }
 
@@ -132,7 +121,35 @@ class _PDFViewerPageState extends State<PDFViewerPage> {
           backgroundColor: ColorResources.backgroundColors3[0],
           actions: [
             IconButton(
-              onPressed: () async => await _downloadAndSavePdf(),
+              onPressed: () async => await _downloadAndSavePdf().then((v) =>
+                  Get.snackbar(
+                      '${widget.fileName} ${v ? 'Downloaded' : "Can't Download"}',
+                      v ? 'Tap to open' : '',
+                      duration: Duration(seconds: 2),
+                      backgroundColor:
+                          v ? ColorResources.colorBlue : Colors.red,
+                      colorText: Colors.white,
+                      snackPosition: SnackPosition.BOTTOM, onTap: (s) async {
+                    if (v) {
+                      if (Platform.isAndroid) {
+                        DeviceInfoPlugin plugin = DeviceInfoPlugin();
+                        AndroidDeviceInfo android = await plugin.androidInfo;
+                        if (android.version.sdkInt != null &&
+                                android.version.sdkInt! <= 33 ||
+                            Platform.isIOS) {
+                          final result = await OpenFile.open(localPath);
+
+                          print(
+                              'Open File Result: ${result.type}, Message: ${result.message}');
+                        } else {
+                          await launchUrl(Uri.parse(
+                              'https://darlsco-files.s3.ap-south-1.amazonaws.com/${widget.pdfPath}'));
+                        }
+                      } else {
+                        final result = await OpenFile.open(localPath);
+                      }
+                    }
+                  })),
               icon: const Icon(Icons.download),
             ),
           ],

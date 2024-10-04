@@ -33,7 +33,7 @@ class _CertificatePageState extends State<CertificatePage> {
       _downloadProgress = 0.0;
     });
 
-    try {
+  try {
       String ?filePath;
       if (Platform.isAndroid) {
         var dir =Directory('/storage/emulated/0/Download');

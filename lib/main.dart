@@ -190,6 +190,7 @@ getcountry(BuildContext context) async {
       print('hiii permission asked $storageStatus');
 
       if (storageStatus.isDenied) {
+        print('dfrf');
         storageStatus = await Permission.storage.request();
       }
       // print(locationStatus);

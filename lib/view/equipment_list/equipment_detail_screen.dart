@@ -139,7 +139,7 @@ class _EquipmentDetailScreenState extends State<EquipmentDetailScreen> {
                 color: ColorResources.color294C73),
           ),
           const Spacer(),
-         if (valueText.isEmpty) ElevatedButton(onPressed: ()=>Get.to(()=>PDFViewerPage(fileName: 'Certifiacte $name', pdfPath: pdfPath??'')), child: const Text('View')) else Text(valueText),
+         if (valueText.isEmpty) ElevatedButton(onPressed: ()=>Get.to(()=>PDFViewerPage(fileName: 'Certificate $name', pdfPath: pdfPath??'')), child: const Text('View')) else Text(valueText),
         ],
       ),
     );

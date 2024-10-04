@@ -34,7 +34,6 @@ class _TrainingHomeScreenState extends State<TrainingHomeScreen> {
   void dispose() {
     // TODO: implement dispose
     super.dispose();
-    trainingController.dispose();
   }
   @override
   Widget build(BuildContext context) {
