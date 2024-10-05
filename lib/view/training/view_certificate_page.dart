@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:darlsco/core/constants/common_widgets.dart';
@@ -35,77 +36,60 @@ class _PDFViewerPageState extends State<PDFViewerPage> {
 
   Future<bool> _downloadAndSavePdf() async {
     try {
+      log('PDF SAVE : Entered into function');
       String filePath = '';
 
       final url =
           'https://darlsco-files.s3.ap-south-1.amazonaws.com/${widget.pdfPath}';
-      print(url);
-      ;
+      log('PDF SAVE : URL = $url');
       final dio = Dio();
 
       if (Platform.isAndroid) {
-        var dir = Directory('/storage/emulated/0/Downloads');
+        log('PDF SAVE : isAndroid =true');
+        var dir = Directory('/storage/emulated/0/Download');
         filePath = "${dir.path}/${widget.fileName}.pdf";
+        log('PDF SAVE : isAndroid filepath = $filePath');
       } else {
+        log('PDF SAVE : isAndroid =false');
         var dir = await getApplicationDocumentsDirectory();
-
-      print('jbutfghbn ${dir.path}');
         filePath = "${dir.path}/${widget.fileName}.pdf";
+        log('PDF SAVE : isIOS filepath = $filePath');
       }
-
-      // Request storage permission
       var status = await Permission.storage.status;
-      print('hiii permission asked 2 $status');
+
+      log('PDF SAVE : permission status = $status');
       bool havePermission = false;
+      log('PDF SAVE : havePermission initially  = $havePermission');
 
       if (!status.isGranted) {
-        // If permission is denied, request it
+        log('PDF SAVE : permissionnot granted');
+
         await Permission.storage.request();
-        status = await Permission.storage.status; // Check the status again
+        status = await Permission.storage.status;
         final request = await [
           Permission.photos,
           Permission.videos,
-          // Permission.storage,
           Permission.manageExternalStorage,
-          //..... as needed
         ].request();
         havePermission = request.values
             .every((status) => status == PermissionStatus.granted);
       }
 
-      // Proceed only if permission is granted
       if (status.isGranted || havePermission) {
-        
+        log('PDF SAVE : status $status havepermission $havePermission');
         await dio.download(url, filePath);
         setState(() {
           localPath = filePath;
         });
-
-        // ScaffoldMessenger.of(context).showSnackBar(
-        //   SnackBar(
-        //     content: Text('${widget.fileName} Downloaded'),
-        //   ),
-        // );
         return true;
       } else {
+        log('PDF SAVE : status $status havepermission $havePermission is false');
         await Permission.storage.request();
         status = await Permission.storage.status;
-        print('Storage permission is denied');
-        // ScaffoldMessenger.of(context).showSnackBar(
-        //   const SnackBar(
-        //     content:
-        //         Text('Storage permission is denied. Cannot download file.'),
-        //   ),
-        // );
         return false;
       }
     } catch (e) {
       print('Error downloading ${widget.fileName}: $e');
-      // ScaffoldMessenger.of(context).showSnackBar(
-      //   SnackBar(
-      //     content: Text('Error downloading ${widget.fileName}'),
-      //   ),
-      // );
       return false;
     }
   }
@@ -124,8 +108,8 @@ class _PDFViewerPageState extends State<PDFViewerPage> {
               onPressed: () async => await _downloadAndSavePdf().then((v) =>
                   Get.snackbar(
                       '${widget.fileName} ${v ? 'Downloaded' : "Can't Download"}',
-                      v ? 'Tap to open' : '',
-                      duration: Duration(seconds: 2),
+                      v ? 'Tap to open $v' : '',
+                      duration: const Duration(seconds: 2),
                       backgroundColor:
                           v ? ColorResources.colorBlue : Colors.red,
                       colorText: Colors.white,

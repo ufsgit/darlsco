@@ -1,9 +1,9 @@
 class HttpUrls {
   // static String baseUrl = 'http://3.89.129.51:3514';
  
-  // static String baseUrl = 'http://34.228.212.237:3514'; //  new live
+  static String baseUrl = 'http://34.228.212.237:3514'; //  new live
 
-  static String baseUrl = 'https://7413-103-214-232-132.ngrok-free.app';
+//   static String baseUrl = 'https://7413-103-214-232-132.ngrok-free.app';
 
   static String agentLogin = '/Login/Agent_Login/';
   static String saveOrderApp = '/Customer_Training/Save_Order_App/';
