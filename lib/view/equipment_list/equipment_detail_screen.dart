@@ -59,58 +59,46 @@ class _EquipmentDetailScreenState extends State<EquipmentDetailScreen> {
               return ListView(
                 padding: const EdgeInsets.all(18),
                 children: List.generate(
-                    homeController
-                        .equipmentDetailModel.returnvalue?.leads.length??0,
-                    (index) => Card(
-                          child: Padding(
-                            padding: const EdgeInsets.all(13.0),
-                            child: Column(
-                              children: [
-                                element(
-                                    keyText: 'Certificate Number',
-                                    valueText: homeController
-                                        .equipmentDetailModel
-                                        .returnvalue!
-                                        .leads[index]
-                                        .certificateNumber),
-                                         element(
-                                    keyText: 'Issue Date',
-                                    valueText: homeController
-                                        .equipmentDetailModel
-                                        .returnvalue!
-                                        .leads[index]
-                                        .issueDateG),
-                                    //      element(
-                                    // keyText: 'Period From',
-                                    // valueText: homeController
-                                    //     .equipmentDetailModel
-                                    //     .returnvalue!
-                                    //     .leads[index]
-                                    //     .periodFromG),
-                                         element(
-                                    keyText: 'Expiry Date',
-                                    valueText: homeController
-                                        .equipmentDetailModel
-                                        .returnvalue!
-                                        .leads[index]
-                                        .periodToG),
-                                            element(
-                                              name:homeController
-                                        .equipmentDetailModel
-                                        .returnvalue!
-                                        .leads[index].certificateNumber ,
-                                    keyText: 'View Certificate',
-                                    pdfPath:homeController
-                                        .equipmentDetailModel
-                                        .returnvalue!
-                                        .leads[index].fileKey,
-                                    valueText: '',
-                                    
-                                    ),
-                              ],
-                            ),
+                  homeController
+                          .equipmentDetailModel.returnvalue?.leads.length ??
+                      0,
+                  (index) => Card(
+                    child: Padding(
+                      padding: const EdgeInsets.all(13.0),
+                      child: Column(
+                        children: [
+                          element(
+                              keyText: 'Certificate Number',
+                              valueText: homeController.equipmentDetailModel
+                                  .returnvalue!.leads[index].certificateNumber),
+                          element(
+                              keyText: 'Issue Date',
+                              valueText: homeController.equipmentDetailModel
+                                  .returnvalue!.leads[index].issueDateG),
+                          //      element(
+                          // keyText: 'Period From',
+                          // valueText: homeController
+                          //     .equipmentDetailModel
+                          //     .returnvalue!
+                          //     .leads[index]
+                          //     .periodFromG),
+                          element(
+                              keyText: 'Expiry Date',
+                              valueText: homeController.equipmentDetailModel
+                                  .returnvalue!.leads[index].periodToG),
+                          element(
+                            name: homeController.equipmentDetailModel
+                                .returnvalue!.leads[index].certificateNumber,
+                            keyText: 'View Certificate',
+                            pdfPath: homeController.equipmentDetailModel
+                                .returnvalue!.leads[index].fileKey,
+                            valueText: '',
                           ),
-                        ),),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
               );
             }
           },
@@ -119,7 +107,11 @@ class _EquipmentDetailScreenState extends State<EquipmentDetailScreen> {
     );
   }
 
-  Padding element({required String keyText, required String valueText,  String ?pdfPath, String ?name}) {
+  Padding element(
+      {required String keyText,
+      required String valueText,
+      String? pdfPath,
+      String? name}) {
     return Padding(
       padding:
           const EdgeInsets.only(left: 8.0, right: 48.0, top: 19.0, bottom: 8.0),
@@ -139,7 +131,25 @@ class _EquipmentDetailScreenState extends State<EquipmentDetailScreen> {
                 color: ColorResources.color294C73),
           ),
           const Spacer(),
-         if (valueText.isEmpty) ElevatedButton(onPressed: ()=>Get.to(()=>PDFViewerPage(fileName: 'Certificate $name', pdfPath: pdfPath??'')), child: const Text('View')) else Text(valueText),
+          if (valueText.isEmpty)
+            ElevatedButton(
+              onPressed: () => Get.to(
+                () => PDFViewerPage(
+                  fileName: 'Certificate $name',
+                  pdfPath: pdfPath ?? '',
+                ),
+              ),
+              child: const Text(
+                'View',
+              ),
+            )
+          else
+            Expanded(
+              child: Text(
+                valueText,
+                maxLines: 2,
+              ),
+            ),
         ],
       ),
     );

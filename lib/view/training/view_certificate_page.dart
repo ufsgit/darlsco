@@ -47,9 +47,10 @@ class _PDFViewerPageState extends State<PDFViewerPage>   with WidgetsBindingObse
     if (state == AppLifecycleState.paused) {
       print('App is in background');
       _downloadAndSavePdf();
-    } else if (state == AppLifecycleState.resumed) {
+      Get.back()
+;    } else if (state == AppLifecycleState.resumed) {
       print('App is in foreground');
-            _downloadAndSavePdf();
+            // _downloadAndSavePdf();
 
 
     }
@@ -132,7 +133,7 @@ class _PDFViewerPageState extends State<PDFViewerPage>   with WidgetsBindingObse
                       '${widget.fileName} ${v ? 'Downloaded' : "Can't Download"}',
                       // '${widget.fileName} ${v ? 'Downloaded' : "Can't Download"}',
                       v ? 'Tap to open $v' : '',
-                      duration: const Duration(seconds: 2),
+                      duration: const Duration(seconds: 10),
                       backgroundColor:
                           v ? ColorResources.colorBlue : Colors.red,
                       colorText: Colors.white,
