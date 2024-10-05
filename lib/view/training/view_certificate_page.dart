@@ -25,13 +25,34 @@ class PDFViewerPage extends StatefulWidget {
   _PDFViewerPageState createState() => _PDFViewerPageState();
 }
 
-class _PDFViewerPageState extends State<PDFViewerPage> {
+class _PDFViewerPageState extends State<PDFViewerPage>   with WidgetsBindingObserver{
   String? localPath;
 
   @override
   void initState() {
-    super.initState();
+    super.initState();    WidgetsBinding.instance.addObserver(this);
+
     _downloadAndSavePdf();
+  }
+
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.paused) {
+      print('App is in background');
+      _downloadAndSavePdf();
+    } else if (state == AppLifecycleState.resumed) {
+      print('App is in foreground');
+            _downloadAndSavePdf();
+
+
+    }
   }
 
   Future<bool> _downloadAndSavePdf() async {
@@ -96,7 +117,6 @@ class _PDFViewerPageState extends State<PDFViewerPage> {
 
   @override
   Widget build(BuildContext context) {
-   checkBackgroundTerminated();
 
     return SafeArea(
       child: Scaffold(
@@ -110,6 +130,7 @@ class _PDFViewerPageState extends State<PDFViewerPage> {
               onPressed: () async => await _downloadAndSavePdf().then((v) =>
                   Get.snackbar(
                       '${widget.fileName} ${v ? 'Downloaded' : "Can't Download"}',
+                      // '${widget.fileName} ${v ? 'Downloaded' : "Can't Download"}',
                       v ? 'Tap to open $v' : '',
                       duration: const Duration(seconds: 2),
                       backgroundColor:
