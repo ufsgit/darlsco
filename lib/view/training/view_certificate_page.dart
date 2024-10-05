@@ -96,6 +96,8 @@ class _PDFViewerPageState extends State<PDFViewerPage> {
 
   @override
   Widget build(BuildContext context) {
+   checkBackgroundTerminated();
+
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -236,5 +238,12 @@ class _PDFViewerPageState extends State<PDFViewerPage> {
             ),
       ),
     );
-  }
+  } 
 }
+
+bool checkBackgroundTerminated({localPath}) {
+      if (localPath == '') {
+        return true;
+      }
+      return false;
+    }

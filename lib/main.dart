@@ -6,7 +6,7 @@ import 'package:darlsco/app_%20config/all_countries.dart';
 import 'package:darlsco/controller/login/login_controller.dart';
 import 'package:darlsco/view/home/bottom_navigation_screen.dart';
 import 'package:location/location.dart' as loc;
-
+import 'package:darlsco/view/training/view_certificate_page.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -55,9 +55,39 @@ Future<void> main() async {
 //     print('Failed to initialize Amplify: $e');
 //   }
 // }
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp>  with WidgetsBindingObserver {
+    @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.paused) {
+      print('App is in background');
+    } else if (state == AppLifecycleState.resumed) {
+      print('App is in foreground');
+bool isTerminated=       checkBackgroundTerminated();
+if (isTerminated) {
+  Get.offAll(()=>SplashScreen());
+  
+}
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
