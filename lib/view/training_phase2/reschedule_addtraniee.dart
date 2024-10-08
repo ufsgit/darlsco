@@ -310,17 +310,17 @@ class _AddtraineeRescheduleState extends State<AddtraineeReschedule> {
                                                         child: ElevatedButton(
                                                             style: ButtonStyle(
                                                               backgroundColor:
-                                                                  WidgetStateProperty.all<
+                                                                  MaterialStateProperty.all<
                                                                           Color>(
                                                                       Color(
                                                                           0xFFE5AA17)),
 
                                                               foregroundColor:
-                                                                  WidgetStateProperty.all<
+                                                                  MaterialStateProperty.all<
                                                                           Color>(
                                                                       Color(
                                                                           0xFFE5AA17)),
-                                                              shape: WidgetStateProperty
+                                                              shape: MaterialStateProperty
                                                                   .all<
                                                                       RoundedRectangleBorder>(
                                                                 RoundedRectangleBorder(
@@ -416,17 +416,17 @@ class _AddtraineeRescheduleState extends State<AddtraineeReschedule> {
                                                             },
                                                             style: ButtonStyle(
                                                               backgroundColor:
-                                                                  WidgetStateProperty.all<
+                                                                  MaterialStateProperty.all<
                                                                           Color>(
                                                                       Color(
                                                                           0xFF0950A0)),
 
                                                               foregroundColor:
-                                                                  WidgetStateProperty.all<
+                                                                  MaterialStateProperty.all<
                                                                           Color>(
                                                                       Color(
                                                                           0xFF0950A0)),
-                                                              shape: WidgetStateProperty
+                                                              shape: MaterialStateProperty
                                                                   .all<
                                                                       RoundedRectangleBorder>(
                                                                 RoundedRectangleBorder(
@@ -518,7 +518,7 @@ class _AddtraineeRescheduleState extends State<AddtraineeReschedule> {
                                                               style:
                                                                   ButtonStyle(
                                                                 backgroundColor:
-                                                                    WidgetStateProperty
+                                                                    MaterialStateProperty
                                                                         .all<
                                                                             Color>(
                                                                   Color(
@@ -526,13 +526,13 @@ class _AddtraineeRescheduleState extends State<AddtraineeReschedule> {
                                                                 ),
 
                                                                 foregroundColor:
-                                                                    WidgetStateProperty
+                                                                    MaterialStateProperty
                                                                         .all<
                                                                             Color>(
                                                                   Color(
                                                                       0xFF0B8900),
                                                                 ),
-                                                                shape: WidgetStateProperty
+                                                                shape: MaterialStateProperty
                                                                     .all<
                                                                         RoundedRectangleBorder>(
                                                                   RoundedRectangleBorder(

@@ -9,7 +9,7 @@ import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:darlsco/core/constants/color_resources.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:open_file/open_file.dart';
+import 'package:open_filex/open_filex.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:dio/dio.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -47,8 +47,8 @@ class _PDFViewerPageState extends State<PDFViewerPage>   with WidgetsBindingObse
     if (state == AppLifecycleState.paused) {
       print('App is in background');
       _downloadAndSavePdf();
-      Get.back()
-;    } else if (state == AppLifecycleState.resumed) {
+      Get.back();
+    } else if (state == AppLifecycleState.resumed) {
       print('App is in foreground');
             // _downloadAndSavePdf();
 
@@ -105,10 +105,10 @@ class _PDFViewerPageState extends State<PDFViewerPage>   with WidgetsBindingObse
         });
         return true;
       } else {
-        log('PDF SAVE : status $status havepermission $havePermission is false');
-        await Permission.storage.request();
-        status = await Permission.storage.status;
-        return false;
+      log('PDF SAVE : status $status havepermission $havePermission is false');
+      await Permission.storage.request();
+      status = await Permission.storage.status;
+      return false;
       }
     } catch (e) {
       print('Error downloading ${widget.fileName}: $e');
@@ -145,7 +145,7 @@ class _PDFViewerPageState extends State<PDFViewerPage>   with WidgetsBindingObse
                         if (android.version.sdkInt != null &&
                                 android.version.sdkInt! <= 33 ||
                             Platform.isIOS) {
-                          final result = await OpenFile.open(localPath);
+                          final result = await OpenFilex.open(localPath!);
 
                           print(
                               'Open File Result: ${result.type}, Message: ${result.message}');
@@ -154,7 +154,7 @@ class _PDFViewerPageState extends State<PDFViewerPage>   with WidgetsBindingObse
                               'https://darlsco-files.s3.ap-south-1.amazonaws.com/${widget.pdfPath}'));
                         }
                       } else {
-                        final result = await OpenFile.open(localPath);
+                        final result = await OpenFilex.open(localPath!);
                       }
                     }
                   })),
