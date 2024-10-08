@@ -1,3 +1,4 @@
+import 'package:darlsco/view/sample/sample_home_screen.dart';
 import 'package:darlsco/view/user_block/user_block_screen.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -211,7 +212,8 @@ class _SplashScreenState extends State<SplashScreen> {
 
         break;
       default:
-        Get.offAll(() => BottomNavigationWidget());
+        // Get.offAll(() => BottomNavigationWidget());
+        Get.offAll(()=>SampleHomeScreen());
     }
   }
 

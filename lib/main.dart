@@ -73,16 +73,19 @@ class MyApp extends StatelessWidget {
         return GetMaterialApp(
           // scaffoldMessengerKey: scaffoldMessengerKey,
           title: 'Darlsco',
+        
           debugShowCheckedModeBanner: false,
           // routes: {
           //   '/cart': (context) => const CartScreen(),
           // },
           initialRoute: '/',
           theme: ThemeData(
+            scaffoldBackgroundColor: Color(0xFFF4F7FA),
             elevatedButtonTheme: ElevatedButtonThemeData(
                 style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.blue.shade700,
                     foregroundColor: Colors.white)),
+
             dialogTheme: const DialogTheme(
                 backgroundColor: Colors.white,
                 surfaceTintColor: Colors.white,
