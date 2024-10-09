@@ -206,19 +206,19 @@ class _OrderPageState extends State<OrderPage> {
                                                         },
                                                         style: ButtonStyle(
                                                           backgroundColor:
-                                                              WidgetStateProperty
+                                                              MaterialStateProperty
                                                                   .all<Color>(
                                                             const Color(
                                                                 0xFF0B8900),
                                                           ),
 
                                                           foregroundColor:
-                                                              WidgetStateProperty
+                                                              MaterialStateProperty
                                                                   .all<Color>(
                                                             const Color(
                                                                 0xFF0B8900),
                                                           ),
-                                                          shape: WidgetStateProperty
+                                                          shape: MaterialStateProperty
                                                               .all<
                                                                   RoundedRectangleBorder>(
                                                             RoundedRectangleBorder(

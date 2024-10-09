@@ -221,7 +221,7 @@ class _TotalTrainingAttendedPageState extends State<TotalTrainingAttendedPage> {
                                             height: 16.h,
                                           ),
                                           Table(
-                                            border:    const TableBorder.symmetric(
+                                            border:     TableBorder.symmetric(
                                                 outside: BorderSide(
                                                     width: 0,
                                                     color: Colors.white)),

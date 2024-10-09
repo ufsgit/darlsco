@@ -12,6 +12,7 @@ import 'package:darlsco/model/used_equipment/equipment_detail_model.dart';
 import 'package:darlsco/view/equipment_list/equipment_list_screen_mob.dart';
 
 import 'package:darlsco/view/login/company_location_screen.dart';
+import 'package:darlsco/view/sample/sample_equipment_screen.dart';
 import 'package:darlsco/view/telr/telr_dummy_page.dart';
 import 'package:darlsco/view/training/training_inspection_screen.dart';
 
@@ -42,7 +43,7 @@ final HomeController globalHomeController = Get.put(HomeController());
 
 class HomeController extends GetxController {
   String testKey = '0'; // 1 for  test and 0 for live
-RxBool isHomeLoading =false.obs;
+  RxBool isHomeLoading = false.obs;
   late TabController tabController;
   CarouselSliderController homeTab1CarouselController =
       CarouselSliderController();
@@ -68,8 +69,8 @@ RxBool isHomeLoading =false.obs;
   RxBool isuserLogin = false.obs;
   RxBool isTraineeLogin = false.obs;
   List<CustomerLocations> customerLocations = [];
-  RxBool isLoadingEquipmentDetailsscreen=false.obs;
- EquipmentDetailModel equipmentDetailModel=EquipmentDetailModel();
+  RxBool isLoadingEquipmentDetailsscreen = false.obs;
+  EquipmentDetailModel equipmentDetailModel = EquipmentDetailModel();
   List<Map<String, dynamic>> googleReview = [
     {
       "name": 'Ivy Dalde',
@@ -83,7 +84,7 @@ RxBool isHomeLoading =false.obs;
       "message":
           'I had an experience to work with one of the leading company in adventure outdoors and indoors whereby have gain skills and knowledge in different fields at work.',
     },
-    { 
+    {
       "name": 'Geetika Monga',
       "imgUrl": 'assets/images/unnamed_2.png',
       "message":
@@ -345,7 +346,7 @@ RxBool isHomeLoading =false.obs;
 //   }
 
   initfunction() async {
-    isHomeLoading.value=true;
+    isHomeLoading.value = true;
     await isUsersignedIn();
     //  await InAppUpdateInfo.checkForUpdate();
     //  if(InAppUpdateInfo.updateInfo?.immediateUpdateAllowed ==true){
@@ -364,7 +365,7 @@ RxBool isHomeLoading =false.obs;
     trainingController.fetchTrainingHomeData();
     trainingController.getItemCart();
     print('getItemCart8');
-    isHomeLoading.value=false;
+    isHomeLoading.value = false;
 
     update();
   }
@@ -693,15 +694,17 @@ RxBool isHomeLoading =false.obs;
     ).then((value) {
       if (value.statusCode == 200) {
         if (isFromLocationScreen) {
-          Get.to(
-            () => const EquipmentListScreenMob(),
-          );
+          Get.to(() => SampleEquipmentScreen()
+              // () => const EquipmentListScreenMob(),
+              );
         } else {
           if (value.data[0].isEmpty && isFromLocationScreen == false) {
             ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                 content: Text('No equipment found this location')));
           } else {
-            Get.to(() => HomeEquipmentListScreen());
+            Get.to(
+                // () => HomeEquipmentListScreen()
+                () => SampleEquipmentScreen());
           }
         }
 
@@ -739,8 +742,9 @@ RxBool isHomeLoading =false.obs;
     ).then((value) {
       if (value.statusCode == 200) {
         // Loader.stopLoader();
-
+        print('sdaefeaf ${value.data}');
         for (var element in value.data[0]) {
+          customerLocations.clear();
           customerLocations.add(CustomerLocations.fromJson(element));
         }
 
@@ -908,7 +912,6 @@ RxBool isHomeLoading =false.obs;
 
     update();
   }
-  
 
   selectingEquipment(value, bool check) {
     if (check) {
@@ -1045,20 +1048,20 @@ RxBool isHomeLoading =false.obs;
     }
   }
 
-  Future<void> getSingleEquipMentData(String equipmentId) async{
+  Future<void> getSingleEquipMentData(String equipmentId) async {
     // try {
-      isLoadingEquipmentDetailsscreen.value=true;
-    var res=  await HttpRequest.httpGetRequest(endPoint: '/Customer/Search_Equipment_Certificate/?Equipment_Id_=$equipmentId');
- equipmentDetailModel=EquipmentDetailModel.fromJson(res.data);
-       isLoadingEquipmentDetailsscreen.value=false;
+    isLoadingEquipmentDetailsscreen.value = true;
+    var res = await HttpRequest.httpGetRequest(
+        endPoint:
+            '/Customer/Search_Equipment_Certificate/?Equipment_Id_=$equipmentId');
+    equipmentDetailModel = EquipmentDetailModel.fromJson(res.data);
+    isLoadingEquipmentDetailsscreen.value = false;
 
-  
-   print('Equip $equipmentDetailModel');
+    print('Equip $equipmentDetailModel');
     // } catch (e) {
     //   print(e.toString());
     //          isLoadingEquipmentDetailsscreen.value=false;
 
     // }
   }
-
 }

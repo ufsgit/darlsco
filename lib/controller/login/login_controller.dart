@@ -7,6 +7,9 @@ import 'package:darlsco/http/http_request.dart';
 import 'package:darlsco/http/http_urls.dart';
 import 'package:darlsco/model/login/login_model.dart';
 import 'package:darlsco/view/login/otp_screen.dart';
+import 'package:darlsco/view/sample/sample_bottom_nav_widget.dart';
+import 'package:darlsco/view/sample/sample_otp_screen.dart';
+import 'package:darlsco/view/sample/sample_user_section.dart';
 import 'package:darlsco/view/training/widgets/bottom_navigation_widget.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
@@ -77,8 +80,9 @@ RxBool isLoading=false.obs;
             //     SnackBar(content: Text('Otp: ${loginData!.customerOtp}')));
           }
 
-          Get.to(() => const OtpScreen());
-        }
+          // Get.to(() => const OtpScreen());
+
+Get.to(()=>SampleOTPScreen());        }
       } else {
         ScaffoldMessenger.of(context)
             .showSnackBar(const SnackBar(content: Text('Server Error')));
@@ -208,7 +212,8 @@ RxBool isLoading=false.obs;
           print('objedfsedfsct${globalHomeController.tabIndex.value}');
           switch (dashboardController.dashboardRole) {
             case 'user':
-              Get.offAll(() => const TrainingInspectionScreen());
+              // Get.offAll(() => const TrainingInspectionScreen());
+                      Get.offAll(() => const SampleUserSection());
 
               break;
             case 'customer':
@@ -235,7 +240,9 @@ RxBool isLoading=false.obs;
                       context,
                       tcontoller.totalPrice);
                 } else {
-                  Get.offAll(() => BottomNavigationWidget());
+                          Get.offAll(() => const SampleBottomNavWidget(isLoggedIn: true));
+
+                  // Get.offAll(() => BottomNavigationWidget());
                 }
               }
 
@@ -243,7 +250,9 @@ RxBool isLoading=false.obs;
 
               break;
             default:
-              Get.offAll(() => BottomNavigationWidget());
+                    Get.offAll(() => const SampleBottomNavWidget(isLoggedIn: true));
+
+              // Get.offAll(() => BottomNavigationWidget());
           }
 
           // Get.offAll(() => const BottomNavigationScreen());

@@ -245,7 +245,7 @@ class _TodayTaskState extends State<TodayTask> {
                                                                   height: 16.h,
                                                                 ),
                                                                 Table(
-                                                                  border:   const TableBorder.symmetric(
+                                                                  border:    TableBorder.symmetric(
                                                                       outside: BorderSide(
                                                                           width:
                                                                               0,
@@ -1610,7 +1610,7 @@ class _TodayTaskState extends State<TodayTask> {
                                                             height: 16.h,
                                                           ),
                                                           Table(
-                                                            border:   const TableBorder.symmetric(
+                                                            border:    TableBorder.symmetric(
                                                                 outside: BorderSide(
                                                                     width: 0,
                                                                     color: Colors
