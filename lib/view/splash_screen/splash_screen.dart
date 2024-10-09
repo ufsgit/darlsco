@@ -207,17 +207,17 @@ class _SplashScreenState extends State<SplashScreen> {
     print('dfwrf $customerType');
     switch (customerType) {
       case 'user':
-        // Get.offAll(() => const TrainingInspectionScreen());
-        Get.offAll(() => const SampleUserSection());
+        Get.offAll(() => const TrainingInspectionScreen());
+        // Get.offAll(() => const SampleUserSection());
         break;
       case 'customer':
-        // Get.offAll(() => BottomNavigationWidget());
-        Get.offAll(() => const SampleBottomNavWidget(isLoggedIn: true));
+        Get.offAll(() => BottomNavigationWidget());
+        // Get.offAll(() => const SampleBottomNavWidget(isLoggedIn: true));
 
         break;
       default:
-        // Get.offAll(() => BottomNavigationWidget());
-        Get.offAll(()=>const SampleBottomNavWidget(isLoggedIn: false));
+        Get.offAll(() => BottomNavigationWidget());
+        // Get.offAll(()=>const SampleBottomNavWidget(isLoggedIn: false));
     }
   }
 
