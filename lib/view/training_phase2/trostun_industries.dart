@@ -207,20 +207,18 @@ class _Trostun_IndustriesState extends State<Trostun_Industries> {
                                                     firstDate: DateTime.now(),
                                                     lastDate: DateTime(2101));
                     
-                                            if (pickedDate != null) {
-                                              print(pickedDate);
-                                              String formattedDate =
-                                                  DateFormat('dd-MM-yyyy')
-                                                      .format(pickedDate);
-                                                      print(formattedDate);
-                                                      selectDate=pickedDate;
-                    
-                                                      // selectDate= DateTime.parse(formattedDate);
-                                                      trainingController.trainingRescheduleController.text=formattedDate;
-                                             
-                                             
-                                            } else {}
-                                          },
+                                            print(pickedDate);
+                                            String formattedDate =
+                                                DateFormat('dd-MM-yyyy')
+                                                    .format(pickedDate!);
+                                                    print(formattedDate);
+                                                    selectDate=pickedDate;
+                  
+                                                    // selectDate= DateTime.parse(formattedDate);
+                                                    trainingController.trainingRescheduleController.text=formattedDate;
+                                           
+                                           
+                                                                                    },
                                         ),
                                       ),
                     

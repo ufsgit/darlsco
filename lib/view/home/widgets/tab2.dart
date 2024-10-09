@@ -623,15 +623,13 @@ class _Tab2State extends State<Tab2> {
                   firstDate: startDate,
                   lastDate: DateTime(2101));
 
-              if (pickedDate != null) {
-                String formattedDate =
-                    DateFormat('dd-MM-yyyy').format(pickedDate);
+              String formattedDate =
+                  DateFormat('dd-MM-yyyy').format(pickedDate!);
 
-                setState(() {
-                  datePickController.text = formattedDate;
-                });
-              } else {}
-            },
+              setState(() {
+                datePickController.text = formattedDate;
+              });
+                        },
           ),
         ),
       ],

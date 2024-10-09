@@ -930,7 +930,7 @@ RxBool isHomeLoading =false.obs;
     String isInspectionCustomer =
         preferences.getString('inspection_login') ?? '';
 
-    if (token == '' || token == 'null' || userId == null) {
+    if (token == '' || token == 'null') {
       isuserLogin.value = false;
       isTraineeLogin.value = false;
     } else if (isTraineeCustomer == '1' && isInspectionCustomer == '0') {

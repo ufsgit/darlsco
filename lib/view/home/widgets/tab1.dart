@@ -123,7 +123,7 @@ CarouselSlider(
 
  
 }
- Container homeColorContainer({
+ Container  homeColorContainer({
     required String contentText,
     required String numberText,
     required Color cBgColor,

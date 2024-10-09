@@ -495,27 +495,24 @@ class _ProfileViewPageState extends State<ProfileViewPage> {
                                                                   DateTime(
                                                                       2101));
 
-                                                      if (pickedDate != null) {
-                                                        String formattedDate =
-                                                            DateFormat(
-                                                                    'dd-MM-yyyy')
-                                                                .format(
-                                                                    pickedDate);
+                                                      String formattedDate =
+                                                          DateFormat(
+                                                                  'dd-MM-yyyy')
+                                                             .format(pickedDate!);
+                                                      trainingHomeController
+                                                          .tradeLicenceExpiryDateController
+                                                          .text = DateFormat(
+                                                              'dd-MM-yyyy')
+                                                          .format(DateFormat(
+                                                                  'yyyy-MM-dd')
+                                                              .parse(
+                                                                  (formattedDate)));
+                                                      setState(() {
                                                         trainingHomeController
                                                             .tradeLicenceExpiryDateController
-                                                            .text = DateFormat(
-                                                                'dd-MM-yyyy')
-                                                            .format(DateFormat(
-                                                                    'yyyy-MM-dd')
-                                                                .parse(
-                                                                    (formattedDate)));
-                                                        setState(() {
-                                                          trainingHomeController
-                                                              .tradeLicenceExpiryDateController
-                                                              .text = formattedDate;
-                                                        });
-                                                      } else {}
-                                                    },
+                                                            .text = formattedDate;
+                                                      });
+                                                                                                        },
                                             ),
                                           ),
                                           SizedBox(height: 8.h),
@@ -611,27 +608,24 @@ class _ProfileViewPageState extends State<ProfileViewPage> {
                                                                   DateTime(
                                                                       2101));
 
-                                                      if (pickedDate != null) {
-                                                        String formattedDate =
-                                                            DateFormat(
-                                                                    'yyyy-MM-dd')
-                                                                .format(
-                                                                    pickedDate);
+                                                      String formattedDate =
+                                                          DateFormat(
+                                                                  'yyyy-MM-dd')
+                                                             .format(pickedDate!);
+                                                      trainingHomeController
+                                                          .emiratesIdExpiryDateController
+                                                          .text = DateFormat(
+                                                              'dd-MM-yyyy')
+                                                          .format(DateFormat(
+                                                                  'yyyy-MM-dd')
+                                                              .parse(
+                                                                  (formattedDate)));
+                                                      setState(() {
                                                         trainingHomeController
-                                                            .emiratesIdExpiryDateController
-                                                            .text = DateFormat(
-                                                                'dd-MM-yyyy')
-                                                            .format(DateFormat(
-                                                                    'yyyy-MM-dd')
-                                                                .parse(
-                                                                    (formattedDate)));
-                                                        setState(() {
-                                                          trainingHomeController
-                                                              .tradeLicenceExpiryDateController
-                                                              .text = formattedDate;
-                                                        });
-                                                      } else {}
-                                                    },
+                                                            .tradeLicenceExpiryDateController
+                                                            .text = formattedDate;
+                                                      });
+                                                                                                        },
                                             ),
                                           ),
                                           SizedBox(height: 16.h),

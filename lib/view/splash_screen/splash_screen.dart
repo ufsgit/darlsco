@@ -1,4 +1,6 @@
+import 'package:darlsco/view/sample/sample_bottom_nav_widget.dart';
 import 'package:darlsco/view/sample/sample_home_screen.dart';
+import 'package:darlsco/view/sample/sample_user_section.dart';
 import 'package:darlsco/view/user_block/user_block_screen.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -205,15 +207,17 @@ class _SplashScreenState extends State<SplashScreen> {
     print('dfwrf $customerType');
     switch (customerType) {
       case 'user':
-        Get.offAll(() => const TrainingInspectionScreen());
+        // Get.offAll(() => const TrainingInspectionScreen());
+        Get.offAll(() => const SampleUserSection());
         break;
       case 'customer':
-        Get.offAll(() => BottomNavigationWidget());
+        // Get.offAll(() => BottomNavigationWidget());
+        Get.offAll(() => const SampleBottomNavWidget(isLoggedIn: true));
 
         break;
       default:
         // Get.offAll(() => BottomNavigationWidget());
-        Get.offAll(()=>SampleHomeScreen());
+        Get.offAll(()=>const SampleBottomNavWidget(isLoggedIn: false));
     }
   }
 

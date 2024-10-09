@@ -2116,17 +2116,15 @@ Widget traineeDetailsWidget(
                                   lastDate: lastDate,
                                 );
 
-                                if (pickedDate != null) {
-                                  String formattedDate =
-                                      DateFormat('yyyy-MM-dd')
-                                          .format(pickedDate);
-                                  DateTime parsedDate =
-                                      DateTime.parse(formattedDate);
-                                  String newDate = DateFormat('dd/MM/yyyy')
-                                      .format(parsedDate);
-                                  dobController.text = newDate;
-                                }
-                              },
+                                String formattedDate =
+                                    DateFormat('yyyy-MM-dd')
+                                        .format(pickedDate!);
+                                DateTime parsedDate =
+                                    DateTime.parse(formattedDate);
+                                String newDate = DateFormat('dd/MM/yyyy')
+                                    .format(parsedDate);
+                                dobController.text = newDate;
+                                                            },
                             ),
                           ),
                         )

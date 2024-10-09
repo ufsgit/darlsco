@@ -142,8 +142,7 @@ class _PDFViewerPageState extends State<PDFViewerPage>   with WidgetsBindingObse
                       if (Platform.isAndroid) {
                         DeviceInfoPlugin plugin = DeviceInfoPlugin();
                         AndroidDeviceInfo android = await plugin.androidInfo;
-                        if (android.version.sdkInt != null &&
-                                android.version.sdkInt! <= 33 ||
+                        if (android.version.sdkInt <= 33 ||
                             Platform.isIOS) {
                           final result = await OpenFilex.open(localPath!);
 

@@ -470,23 +470,21 @@ class _ProfilePageState extends State<ProfilePage> {
                                                   firstDate: DateTime.now(),
                                                   lastDate: DateTime(2101));
 
-                                          if (pickedDate != null) {
-                                            String formattedDate =
-                                                DateFormat('dd-MM-yyyy')
-                                                    .format(pickedDate);
-                                            trainingController
-                                                .tradeLicenceExpiryDateController
-                                                .text = DateFormat(
-                                                    'dd-MM-yyyy')
-                                                .format(DateFormat('yyyy-MM-dd')
-                                                    .parse((formattedDate)));
-                                            print(pickedDate);
+                                          String formattedDate =
+                                              DateFormat('dd-MM-yyyy')
+                                                  .format(pickedDate!);
+                                          trainingController
+                                              .tradeLicenceExpiryDateController
+                                              .text = DateFormat(
+                                                  'dd-MM-yyyy')
+                                              .format(DateFormat('yyyy-MM-dd')
+                                                  .parse((formattedDate)));
+                                          print(pickedDate);
 
-                                            trainingController
-                                                .tradeLicenceExpiryDateController
-                                                .text = formattedDate;
-                                          } else {}
-                                        },
+                                          trainingController
+                                              .tradeLicenceExpiryDateController
+                                              .text = formattedDate;
+                                                                                },
                                       ),
                                     ),
                                     SizedBox(
@@ -571,22 +569,20 @@ class _ProfilePageState extends State<ProfilePage> {
                                                   firstDate: DateTime.now(),
                                                   lastDate: DateTime(2101));
 
-                                          if (pickedDate != null) {
-                                            String formattedDate =
-                                                DateFormat('dd-MM-yyyy')
-                                                    .format(pickedDate);
-                                            trainingController
-                                                .emiratesIdExpiryDateController
-                                                .text = DateFormat(
-                                                    'dd-MM-yyyy')
-                                                .format(DateFormat('yyyy-MM-dd')
-                                                    .parse((formattedDate)));
+                                          String formattedDate =
+                                              DateFormat('dd-MM-yyyy')
+                                                  .format(pickedDate!);
+                                          trainingController
+                                              .emiratesIdExpiryDateController
+                                              .text = DateFormat(
+                                                  'dd-MM-yyyy')
+                                              .format(DateFormat('yyyy-MM-dd')
+                                                  .parse((formattedDate)));
 
-                                            trainingController
-                                                .emiratesIdExpiryDateController
-                                                .text = formattedDate;
-                                          } else {}
-                                        },
+                                          trainingController
+                                              .emiratesIdExpiryDateController
+                                              .text = formattedDate;
+                                                                                },
                                       ),
                                     ),
                                   ],

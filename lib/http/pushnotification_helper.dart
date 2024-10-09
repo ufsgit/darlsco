@@ -80,7 +80,7 @@ class NotificationHelper {
     try {
       final id = DateTime.now().millisecondsSinceEpoch ~/ 100;
       const notificationDetails = NotificationDetails(
-        android: AndroidNotificationDetails("Darlsco", "darlsco inspection",'',
+        android: AndroidNotificationDetails("Darlsco", "darlsco inspection",
             importance: Importance.max, priority: Priority.high),
       );
       await flutterLocalNotificationsPlugin.show(

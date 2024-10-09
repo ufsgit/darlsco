@@ -80,7 +80,7 @@ class MyApp extends StatelessWidget {
           // },
           initialRoute: '/',
           theme: ThemeData(
-            scaffoldBackgroundColor: Color(0xFFF4F7FA),
+            scaffoldBackgroundColor: const Color(0xFFF4F7FA),
             elevatedButtonTheme: ElevatedButtonThemeData(
                 style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.blue.shade700,

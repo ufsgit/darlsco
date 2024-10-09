@@ -31,6 +31,23 @@ class AppStyles {
           color: AppColors.primaryBlue,
         ),
         fixedSize:
-            Size(width ?? MediaQuery.sizeOf(context).width, height ?? 60));
+            Size(width ?? MediaQuery.sizeOf(context).width, height ?? 45));
+  }
+
+  static ButtonStyle getPrimaryButtonStyle(BuildContext context,
+      {double? width, double? height}) {
+    return ElevatedButton.styleFrom(
+        backgroundColor: AppColors.primaryBlue,
+        foregroundColor:Colors.white,
+        textStyle: AppStyles.getHeadingTextStyle(),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15),
+        ),
+      
+        side: BorderSide(
+          color: AppColors.primaryBlue,
+        ),
+        fixedSize:
+            Size(width ?? MediaQuery.sizeOf(context).width, height ?? 45));
   }
 }

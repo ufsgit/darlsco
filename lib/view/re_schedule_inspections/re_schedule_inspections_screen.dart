@@ -127,19 +127,17 @@ class _ReScheduleInspectionsScreenState
                                         .add(const Duration(days: 1)),
                                     lastDate: DateTime(2101));
                       
-                                if (pickedDate != null) {
-                                  String formattedDate =
-                                      DateFormat('yyyy-MM-dd').format(pickedDate);
-                                  resheduleInspectionController
-                                          .reschudleDateController.text =
-                                      DateFormat('dd-MM-yyyy').format(
-                                          DateFormat('yyyy-MM-dd')
-                                              .parse((formattedDate)));
-                                  // setState(() {
-                                  //   datePickController.text = formattedDate;
-                                  // });
-                                } else {}
-                              },
+                                String formattedDate =
+                                    DateFormat('yyyy-MM-dd').format(pickedDate!);
+                                resheduleInspectionController
+                                        .reschudleDateController.text =
+                                    DateFormat('dd-MM-yyyy').format(
+                                        DateFormat('yyyy-MM-dd')
+                                            .parse((formattedDate)));
+                                // setState(() {
+                                //   datePickController.text = formattedDate;
+                                // });
+                                                            },
                             ),
                           ),
                       
