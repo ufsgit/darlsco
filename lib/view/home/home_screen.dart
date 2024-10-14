@@ -422,6 +422,7 @@
 import 'package:darlsco/controller/home/home_controller.dart';
 import 'package:darlsco/controller/login/login_controller.dart';
 import 'package:darlsco/controller/tainning/training_controller_home.dart';
+import 'package:darlsco/controller/upcoming_inspections/upcoming_inspection_controller.dart';
 import 'package:darlsco/core/constants/color_resources.dart';
 import 'package:darlsco/core/constants/common_widgets.dart';
 import 'package:darlsco/view/training/training_home_screen.dart';
@@ -449,7 +450,6 @@ class HomePageState extends State<HomePage>
     with SingleTickerProviderStateMixin {
   final HomeController homeController = Get.put(HomeController());
   late TabController _tabController;
-
 
   @override
   void initState() {
@@ -818,8 +818,22 @@ class HomePageState extends State<HomePage>
                                                   contentText: homeController
                                                           .contentTextTrainingTab2[
                                                       index],
-                                                  numberText: homeController
-                                                      .numberTextList[index],
+                                                  numberText: index == 0
+                                                      ? homeController
+                                                          .customerLocations
+                                                          .length
+                                                          .toString()
+                                                      :index==1?homeController.customerEquipmentData.length.toString(): index == 2
+                                                          ? homeController
+                                                              .customerEquipmentExpiringData
+                                                              .length
+                                                              .toString()
+                                                          : index == 3
+                                                              ? upcomingInspectionsController
+                                                                  .upcomingInspectionListData
+                                                                  .length
+                                                                  .toString()
+                                                              : '0',
                                                   cBgColor: homeController
                                                           .cBgColorTrainingTab2[
                                                       index],

@@ -25,16 +25,19 @@ class PDFViewerPage extends StatefulWidget {
   _PDFViewerPageState createState() => _PDFViewerPageState();
 }
 
-class _PDFViewerPageState extends State<PDFViewerPage>   with WidgetsBindingObserver{
+class _PDFViewerPageState extends State<PDFViewerPage>
+    with WidgetsBindingObserver {
   String? localPath;
+  bool isIinitstate = false;
+  int fileNumber = 1;
 
   @override
   void initState() {
-    super.initState();    WidgetsBinding.instance.addObserver(this);
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
 
-    _downloadAndSavePdf();
+    _downloadAndSavePdf(isInitState: isIinitstate);
   }
-
 
   @override
   void dispose() {
@@ -46,120 +49,116 @@ class _PDFViewerPageState extends State<PDFViewerPage>   with WidgetsBindingObse
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.paused) {
       print('App is in background');
-      _downloadAndSavePdf();
+      _downloadAndSavePdf(isInitState: isIinitstate);
       Get.back();
     } else if (state == AppLifecycleState.resumed) {
       print('App is in foreground');
-            // _downloadAndSavePdf();
-
-
+      // _downloadAndSavePdf();
     }
   }
 
-  // Future<bool> _downloadAndSavePdf() async {
-  //   try {
-  //     log('PDF SAVE : Entered into function');
-  //     String filePath = '';
-
-  //     final url =
-  //         'https://darlsco-files.s3.ap-south-1.amazonaws.com/${widget.pdfPath}';
-  //     log('PDF SAVE : URL = $url');
-  //     final dio = Dio();
-
-  //     if (Platform.isAndroid) {
-  //       log('PDF SAVE : isAndroid =true');
-  //       var dir = Directory('/storage/emulated/0/Download');
-  //       filePath = "${dir.path}/${widget.fileName}.pdf";
-  //       log('PDF SAVE : isAndroid filepath = $filePath');
-  //     } else {
-  //       log('PDF SAVE : isAndroid =false');
-  //       var dir = await getApplicationDocumentsDirectory();
-  //       filePath = "${dir.path}/${widget.fileName}.pdf";
-  //       log('PDF SAVE : isIOS filepath = $filePath');
-  //     }
-  //     var status = await Permission.storage.status;
-
-  //     log('PDF SAVE : permission status = $status');
-  //     bool havePermission = false;
-  //     log('PDF SAVE : havePermission initially  = $havePermission');
-
-  //     if (!status.isGranted) {
-  //       log('PDF SAVE : permissionnot granted');
-
-  //       await Permission.storage.request();
-  //       status = await Permission.storage.status;
-  //       final request = await [
-  //         Permission.photos,
-  //         Permission.videos,
-  //         Permission.storage,
-  //       ].request();
-  //       havePermission = request.values
-  //           .every((status) => status == PermissionStatus.granted);
-  //     }
-
-  //     if (status.isGranted || havePermission) {
-  //       log('PDF SAVE : status $status havepermission $havePermission');
-  //       await dio.download(url, filePath);
-  //       setState(() {
-  //         localPath = filePath;
-  //       });
-  //       return true;
-  //     } else {
-  //     log('PDF SAVE : status $status havepermission $havePermission is false');
-  //     await Permission.storage.request();
-  //     status = await Permission.storage.status;
-  //     return false;
-  //     }
-  //   } catch (e) {
-  //     print('Error downloading ${widget.fileName}: $e');
-  //     return false;
-  //   }
-  // }
-
-  Future<bool> _downloadAndSavePdf() async {
+  Future<bool> _downloadAndSavePdf({required bool isInitState}) async {
     await Permission.photos.request();
     await Permission.storage.request();
     // await Permission.manageExternalStorage.request();
     Dio dio = Dio();
 
     try {
-      String filePath = '';
-      final url =
-          'https://darlsco-files.s3.ap-south-1.amazonaws.com/${widget.pdfPath}';
-      log('PDF SAVE : URL = $url');
-      Directory dir;
+    String filePath = '';
+    final url =
+        'https://darlsco-files.s3.ap-south-1.amazonaws.com/${widget.pdfPath}';
+    log('PDF SAVE : URL = $url');
+    Directory dir;
 
-      if (Platform.isAndroid) {
-        log('PDF SAVE : isAndroid =true');
-        DeviceInfoPlugin plugin = DeviceInfoPlugin();
-        AndroidDeviceInfo android = await plugin.androidInfo;
-        if (android.version.sdkInt >= 34){
-          dir = await getExternalStorageDirectory() ?? Directory('/storage/emulated/0/Download');
-        }else{
-          dir = Directory('/storage/emulated/0/Download');
-        }
-        
-        filePath = "${dir.path}/${widget.fileName}.pdf";
-        log('PDF SAVE : isAndroid filepath = $filePath');
+    if (Platform.isAndroid) {
+      log('PDF SAVE : isAndroid =true');
+      DeviceInfoPlugin plugin = DeviceInfoPlugin();
+      AndroidDeviceInfo android = await plugin.androidInfo;
+      if (android.version.sdkInt >= 33) {
+        dir = await getExternalStorageDirectory() ??
+            Directory('/storage/emulated/0/Download');
       } else {
-        log('PDF SAVE : isAndroid = false');
-        dir = await getApplicationDocumentsDirectory();
-        filePath = "${dir.path}/${widget.fileName}.pdf";
-        log('PDF SAVE : isIOS filepath = $filePath');
+        dir = Directory('/storage/emulated/0/Download');
+      }
+      if (await File(filePath).exists()) {
+        Set<int> fileNumbers = {};
+        List<FileSystemEntity> filesList = dir.listSync();
+        log('FileNumber $fileNumber');
+        for (var i = 0; i < filesList.length; i++) {
+          String path = filesList[i].path;
+          try {
+            fileNumbers.add(
+              int.parse(path
+                  .split('/')
+                  .last
+                  .split('-')
+                  .last
+                  .replaceRange(1, null, ' ')
+                  .trim()),
+            );
+          } catch (e) {}
+        }
+        log('FileList ${filesList}');
+        int highestNumber = fileNumbers
+            .reduce((value, element) => value > element ? value : element);
+        setState(() {
+          fileNumber = highestNumber + 1;
+        });
+
+        print('sdffrw ${filesList.length}');
       }
 
-      // Download the file
-      await dio.download(url, filePath, onReceiveProgress: (received, total) {
-        if (total != -1) {
-          print('Progress: ${(received / total * 100).toStringAsFixed(0)}%');
-        }
-      });
-      setState(() {
-          localPath = filePath;
-        });
-      print('File downloaded to: $filePath');
-      return true;
+      log('PDF SAVE : isAndroid filepath = $filePath');
+    } else {
+      log('PDF SAVE : isAndroid = false');
+      dir = await getApplicationDocumentsDirectory();
+      filePath = "${dir.path}/${widget.fileName}.pdf";
+      log('PDF SAVE : isIOS filepath = $filePath');
+    }
 
+    filePath = "${dir.path}/${widget.fileName}-$fileNumber.pdf";
+    if (await File(filePath).exists()) {
+      Set<int> fileNumbers = {};
+      List<FileSystemEntity> filesList = dir.listSync();
+      log('FileNumber $fileNumber');
+      for (var i = 0; i < filesList.length; i++) {
+        String path = filesList[i].path;
+        try {
+          fileNumbers.add(
+            int.parse(path
+                .split('/')
+                .last
+                .split('-')
+                .last
+                .replaceRange(1, null, ' ')
+                .trim()),
+          );
+        } catch (e) {}
+      }
+      log('FileList ${filesList}');
+      int highestNumber = fileNumbers
+          .reduce((value, element) => value > element ? value : element);
+      setState(() {
+        fileNumber = highestNumber + 1;
+      });
+
+      print('sdffrw ${filesList.length}');
+    }
+
+    // Download the file
+    if (!isIinitstate) {
+      await dio.download(url, filePath, onReceiveProgress: (received, total) {
+        // if (total != -1) {
+        //   print('Progress: ${(received / total * 100).toStringAsFixed(0)}%');
+        // }
+      });
+    }
+
+    setState(() {
+      localPath = filePath;
+    });
+    print('File downloaded to: $filePath');
+    return true;
     } catch (e) {
       print('Error downloading file: $e');
       return false;
@@ -168,7 +167,6 @@ class _PDFViewerPageState extends State<PDFViewerPage>   with WidgetsBindingObse
 
   @override
   Widget build(BuildContext context) {
-
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -178,44 +176,80 @@ class _PDFViewerPageState extends State<PDFViewerPage>   with WidgetsBindingObse
           backgroundColor: ColorResources.backgroundColors3[0],
           actions: [
             IconButton(
-              onPressed: () async { 
-                DeviceInfoPlugin plugin = DeviceInfoPlugin();
-                        AndroidDeviceInfo android = await plugin.androidInfo;
-                        if (android.version.sdkInt >= 34){
-                          await launchUrl(Uri.parse(
-                              'https://darlsco-files.s3.ap-south-1.amazonaws.com/${widget.pdfPath}'));
-                        }else{
-                          await _downloadAndSavePdf().then((v) =>
-                            Get.snackbar(
-                                '${widget.fileName} ${v ? 'Downloaded' : "Can't Download"}',
-                                // '${widget.fileName} ${v ? 'Downloaded' : "Can't Download"}',
-                                v ? 'Tap to open $v' : '',
-                                duration: const Duration(seconds: 10),
-                                backgroundColor:
-                                    v ? ColorResources.colorBlue : Colors.red,
-                                colorText: Colors.white,
-                                snackPosition: SnackPosition.BOTTOM, onTap: (s) async {
-                              if (v) {
-                                if (Platform.isAndroid) {
-                                  final result = await OpenFilex.open(localPath!);
-                                  // DeviceInfoPlugin plugin = DeviceInfoPlugin();
-                                  // AndroidDeviceInfo android = await plugin.androidInfo;
-                                  // if (android.version.sdkInt <= 33 ||
-                                  //     Platform.isIOS) {
-                                  //   final result = await OpenFilex.open(localPath!);
+              onPressed: () async {
+                if (Platform.isAndroid) {
+                  DeviceInfoPlugin plugin = DeviceInfoPlugin();
+                  AndroidDeviceInfo android = await plugin.androidInfo;
 
-                                  //   print(
-                                  //       'Open File Result: ${result.type}, Message: ${result.message}');
-                                  // } else {
-                                  //   await launchUrl(Uri.parse(
-                                  //       'https://darlsco-files.s3.ap-south-1.amazonaws.com/${widget.pdfPath}'));
-                                  // }
-                                } else {
-                                  final result = await OpenFilex.open(localPath!);
-                                }
-                              }
-                            }));
+                  if (android.version.sdkInt >= 33) {
+                    await launchUrl(Uri.parse(
+                        'https://darlsco-files.s3.ap-south-1.amazonaws.com/${widget.pdfPath}'));
+                  } else {
+                    await _downloadAndSavePdf(isInitState: false).then((v) =>
+                        Get.snackbar(
+                            '${widget.fileName}-$fileNumber ${v ? 'Downloaded' : "Can't Download"}',
+                            // '${widget.fileName} ${v ? 'Downloaded' : "Can't Download"}',
+                            v ? 'Tap to open ' : '',
+                            duration: const Duration(seconds: 10),
+                            backgroundColor:
+                                v ? ColorResources.colorBlue : Colors.red,
+                            colorText: Colors.white,
+                            snackPosition: SnackPosition.BOTTOM,
+                            onTap: (s) async {
+                          if (v) {
+                            if (Platform.isAndroid) {
+                              final result = await OpenFilex.open(localPath!);
+                              // DeviceInfoPlugin plugin = DeviceInfoPlugin();
+                              // AndroidDeviceInfo android = await plugin.androidInfo;
+                              // if (android.version.sdkInt <= 33 ||
+                              //     Platform.isIOS) {
+                              //   final result = await OpenFilex.open(localPath!);
+
+                              //   print(
+                              //       'Open File Result: ${result.type}, Message: ${result.message}');
+                              // } else {
+                              //   await launchUrl(Uri.parse(
+                              //       'https://darlsco-files.s3.ap-south-1.amazonaws.com/${widget.pdfPath}'));
+                              // }
+                            } else {
+                              final result = await OpenFilex.open(localPath!);
+                            }
+                          }
+                        }));
+                  }
+                } else {
+                  _downloadAndSavePdf(isInitState: false).then((v) =>
+                      Get.snackbar(
+                          '${widget.fileName}-$fileNumber ${v ? 'Downloaded' : "Can't Download"}',
+                          // '${widget.fileName} ${v ? 'Downloaded' : "Can't Download"}',
+                          v ? 'Tap to open ' : '',
+                          duration: const Duration(seconds: 10),
+                          backgroundColor:
+                              v ? ColorResources.colorBlue : Colors.red,
+                          colorText: Colors.white,
+                          snackPosition: SnackPosition.BOTTOM,
+                          onTap: (s) async {
+                        if (v) {
+                          if (Platform.isAndroid) {
+                            final result = await OpenFilex.open(localPath!);
+                            // DeviceInfoPlugin plugin = DeviceInfoPlugin();
+                            // AndroidDeviceInfo android = await plugin.androidInfo;
+                            // if (android.version.sdkInt <= 33 ||
+                            //     Platform.isIOS) {
+                            //   final result = await OpenFilex.open(localPath!);
+
+                            //   print(
+                            //       'Open File Result: ${result.type}, Message: ${result.message}');
+                            // } else {
+                            //   await launchUrl(Uri.parse(
+                            //       'https://darlsco-files.s3.ap-south-1.amazonaws.com/${widget.pdfPath}'));
+                            // }
+                          } else {
+                            final result = await OpenFilex.open(localPath!);
+                          }
                         }
+                      }));
+                }
               },
               icon: const Icon(Icons.download),
             ),
@@ -319,12 +353,12 @@ class _PDFViewerPageState extends State<PDFViewerPage>   with WidgetsBindingObse
             ),
       ),
     );
-  } 
+  }
 }
 
 bool checkBackgroundTerminated({localPath}) {
-      if (localPath == '') {
-        return true;
-      }
-      return false;
-    }
+  if (localPath == '') {
+    return true;
+  }
+  return false;
+}

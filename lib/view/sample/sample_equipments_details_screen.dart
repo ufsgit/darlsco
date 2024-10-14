@@ -1,20 +1,22 @@
 import 'package:darlsco/controller/home/home_controller.dart';
 import 'package:darlsco/core/constants/color_resources.dart';
-import 'package:darlsco/core/constants/common_widgets.dart';
+import 'package:darlsco/view/home/bottom_navigation_screen.dart';
 import 'package:darlsco/view/training/view_certificate_page.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
-class EquipmentDetailScreen extends StatefulWidget {
-  const EquipmentDetailScreen({super.key, required this.equipmentId});
+class SampleEquipmentsDetailsScreen extends StatefulWidget {
+  const SampleEquipmentsDetailsScreen({super.key, required this.equipmentId});
   final String equipmentId;
+
   @override
-  State<EquipmentDetailScreen> createState() => _EquipmentDetailScreenState();
+  State<SampleEquipmentsDetailsScreen> createState() => _SampleEquipmentsDetailsScreenState();
 }
 
-class _EquipmentDetailScreenState extends State<EquipmentDetailScreen> {
-  HomeController homeController = Get.put(HomeController());
+class _SampleEquipmentsDetailsScreenState extends State<SampleEquipmentsDetailsScreen> {
+   HomeController homeController = Get.put(HomeController());
 
   @override
   void initState() {
@@ -28,28 +30,28 @@ class _EquipmentDetailScreenState extends State<EquipmentDetailScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: Size(70.w, 70.h),
-        child: commonBackgroundLinearColor(
-          childWidget: AppBar(
-            leading: IconButton(
-                onPressed: () {
-                  homeController.inspectionDropdownValue.value = '';
-                  homeController.equipmentListCustomer = {};
-                  homeController.inspectionDateController.clear();
-                  homeController.inspectionMessageController.clear();
-                  homeController.isChooseEquipment.value = false;
-                  homeController.update();
-
-                  Get.back();
-                },
-                icon: const Icon(Icons.arrow_back_ios)),
-            backgroundColor: ColorResources.colorTransparent,
-          ),
-        ),
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+        surfaceTintColor: Colors.transparent,
+        leading: IconButton.filledTonal(
+            style: ButtonStyle(
+                backgroundColor:
+                    MaterialStatePropertyAll(Colors.grey.shade300)),
+            onPressed: () {
+              homeController.inspectionDropdownValue.value = '';
+              homeController.equipmentListCustomer = {};
+              homeController.inspectionDateController.clear();
+              homeController.inspectionMessageController.clear();
+              homeController.isChooseEquipment.value = false;
+              homeController.update();
+              Get.back();
+            },
+            icon: const Icon(Icons.arrow_back_ios_new)),
+        title: Text('Equipment List'),
+        centerTitle: false,
       ),
-      body: commonBackgroundLinearColorHome(
-        childWidget: Obx(
+      body:  Obx(
           () {
             if (homeController.isLoadingEquipmentDetailsscreen.value) {
               return const Center(
@@ -63,6 +65,8 @@ class _EquipmentDetailScreenState extends State<EquipmentDetailScreen> {
                           .equipmentDetailModel.returnvalue?.leads.length ??
                       0,
                   (index) => Card(
+                    color: Colors.white,
+                    surfaceTintColor: Colors.white,
                     child: Padding(
                       padding: const EdgeInsets.all(13.0),
                       child: Column(
@@ -103,7 +107,6 @@ class _EquipmentDetailScreenState extends State<EquipmentDetailScreen> {
             }
           },
         ),
-      ),
     );
   }
 
@@ -117,10 +120,7 @@ class _EquipmentDetailScreenState extends State<EquipmentDetailScreen> {
           const EdgeInsets.only(left: 8.0, right: 48.0, top: 19.0, bottom: 8.0),
       child: Row(
         children: [
-          Icon(
-            Icons.arrow_forward_ios_rounded,
-            size: 12.sp,
-          ),
+          
           const SizedBox(width: 2),
           Text(
             keyText,
@@ -147,7 +147,7 @@ class _EquipmentDetailScreenState extends State<EquipmentDetailScreen> {
             Expanded(
               child: Text(
                 valueText,
-                maxLines: 4,
+                maxLines: 2,
               ),
             ),
         ],

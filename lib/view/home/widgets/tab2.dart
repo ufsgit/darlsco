@@ -28,7 +28,8 @@ class Tab2 extends StatefulWidget {
 
 class _Tab2State extends State<Tab2> {
   @override
-  void initState() {
+  void initState() 
+  {
     homeController.checkCountryCode(context);
     homeController.inspectionDropdownValue.value = '';
     homeController.equipmentListCustomer = {};
@@ -235,9 +236,12 @@ class _Tab2State extends State<Tab2> {
                           if (homeController.isuserLogin.value == true)
                             commonHmeButtonWidget(
                                 ontap: () {
+
 // ScaffoldMessenger.of(context)
 //             .showSnackBar(const SnackBar(
 
+              
+              
 //               content: Text('homeController.inspectionDropdownValue.value')));
 
                                   if (homeController
@@ -625,7 +629,7 @@ class _Tab2State extends State<Tab2> {
               setState(() {
                 datePickController.text = formattedDate;
               });
-            },
+                        },
           ),
         ),
       ],

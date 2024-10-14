@@ -1,12 +1,6 @@
-import 'package:darlsco/controller/home/home_controller.dart';
-import 'package:darlsco/core/constants/color_resources.dart';
-import 'package:darlsco/model/home/location_model.dart';
-import 'package:darlsco/view/home/bottom_navigation_screen.dart';
 import 'package:darlsco/view/sample/styles/app_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
-import 'package:get/get_state_manager/src/simple/get_state.dart';
 import 'package:intl/intl.dart';
 
 class SampleInspectionForm extends StatefulWidget {
@@ -23,189 +17,75 @@ class _SampleInspectionFormState extends State<SampleInspectionForm> {
     return Form(
       child: Column(
         children: [
-          if (homeController.isuserLogin.value == true)
-            GetBuilder<HomeController>(builder: (data) {
-              return DropdownButtonFormField(
-                  value: data.inspectionDropdownValue.value == ''
-                      ? null
-                      : data.inspectionDropdownValue.value,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(15),
-                      borderSide: BorderSide(color: Colors.black),
-                    ),
-                  ),
-                  onChanged: (value) {
-                    homeController.isChooseEquipment.value = false;
-                    data.equipmentListCustomer.clear();
-                    data.equipmentCheckValue.clear();
-                    data.inspectionDropdownValue.value = value.toString();
-                  },
-                  hint: const Text(
-                    'Location',
-                    style: TextStyle(color: Colors.black),
-                  ),
-                  items: data.customerLocations
-                      .map((e) => DropdownMenuItem(
-                            value: e.locationName,
-                            child: SizedBox(
-                                width: Get.width > 615 ? 600.w : 250.w,
-                                child: Text(
-                                  e.locationName,
-                                  overflow: TextOverflow.ellipsis,
-                                  softWrap: true,
-                                )),
-                          ))
-                      .toList());
-            }),
-          SizedBox(
-            height: 11.h,
+          Text(
+            'Please Fill Out This Form',
+            style: AppStyles.getHeadingTextStyle(),
           ),
-          if (homeController.isuserLogin.value == true)
-            ElevatedButton(
-                style: AppStyles.getPrimaryButtonStyle(context),
-                onPressed: () {
-                  if (homeController.inspectionDropdownValue.value == '') {
-                    homeController.isChooseEquipment.value = true;
-                  } else {
-                    final List<CustomerLocations> loctionIdSearch =
-                        homeController.customerLocations.where((element) {
-                      return element.locationName ==
-                          homeController.inspectionDropdownValue.value;
-                    }).toList();
-
-                    homeController.getCustomerEquipments(
-                        context, loctionIdSearch[0].locationId);
-                  }
-                },
-                child: Text('Choose Equipment')),
-          Obx(() => homeController.isChooseEquipment.value == true &&
-                  homeController.isuserLogin.value == true
-              ? Text(
-                  'Select Location First!',
-                  style: TextStyle(color: Colors.red, fontSize: 12.sp),
-                )
-              : Container()),
-          SizedBox(
-            height: 5.h,
-          ),
-          GetBuilder<HomeController>(builder: (selectData) {
-            return selectData.isuserLogin.value == true &&
-                    selectData.equipmentListCustomer.isNotEmpty
-                ? Theme(
-                    data: Theme.of(context)
-                        .copyWith(dividerColor: Colors.transparent),
-                    child: ExpansionTile(
-                      collapsedShape: const OutlineInputBorder(
-                          borderSide: BorderSide(
-                              color: Color.fromARGB(197, 22, 22, 22))),
-                      shape: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10.r)),
-                      title: Text(
-                        "View Selected Equipments",
-                        style: TextStyle(
-                          fontFamily: "Helvetica Neue",
-                          fontSize: 12.sp,
-                          fontWeight: FontWeight.w700,
-                          color: ColorResources.color294C73,
-                        ),
-                        textAlign: TextAlign.left,
-                      ),
-                      children: [
-                        SingleChildScrollView(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: List.generate(
-                              selectData.equipmentListCustomer.length,
-                              (index) => Container(
-                                margin: EdgeInsets.only(
-                                    left: 15.w, right: 15.w, bottom: 10.h),
-                                width: Get.width,
-                                padding: EdgeInsets.all(10.sp),
-                                decoration: BoxDecoration(
-                                    color: ColorResources.whiteColor,
-                                    borderRadius: BorderRadius.circular(8.r),
-                                    border: Border.all()),
-                                child: Text(
-                                  '${selectData.equipmentListCustomer.elementAt(index)['Equipment_Name']}',
-                                  style: TextStyle(fontSize: 14.sp),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  )
-                : Container();
-          }),
-          if (homeController.isuserLogin.value == true)
-            datepickerWidget(
-                titleSpacing: 0,
-                initialDate: DateTime.now(),
-                startDate: DateTime.now(),
-                context: context,
-                datePickController: homeController.inspectionDateController,
-                labelText: 'Inspection Date',
-                titleText: ''),
-          if (homeController.isuserLogin.value == true)
-            SizedBox(
-              height: 11.h,
-            ),
-          if (homeController.isuserLogin.value == true)
-            TextFormField(
-              controller: homeController.inspectionMessageController,
-              maxLines: 3,
-              maxLength: 250,
+          const SizedBox(height: 10),
+          DropdownButtonFormField(
+              value: null,
               decoration: InputDecoration(
-                  prefixIcon: Icon(Icons.chat_bubble_outline),
-                  labelText: 'Remark',
-                  labelStyle: TextStyle(color: Colors.black),
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(15),
-                      borderSide:
-                          BorderSide(color: Color.fromARGB(255, 27, 27, 27)))),
+                      borderSide: const BorderSide(color: Colors.black))),
+              onChanged: (value) {},
+              hint: const Text(
+                'Location',
+                style: TextStyle(color: Colors.black),
+              ),
+              items: data
+                  .map((e) => DropdownMenuItem(
+                        value: e,
+                        child: Text(
+                          e,
+                          overflow: TextOverflow.ellipsis,
+                          softWrap: true,
+                        ),
+                      ))
+                  .toList()),
+          const SizedBox(height: 12),
+          ElevatedButton(
+            onPressed: () {},
+            style: AppStyles.getSecondaryButtonStyle(context),
+            child: const Text(
+              'Choose Equipment',
             ),
+          ),
+          const SizedBox(height: 12),
+          datepickerWidget(
+              titleSpacing: 0,
+              initialDate: DateTime.now(),
+              startDate: DateTime.now(),
+              context: context,
+              datePickController: widget.inspectionDateController,
+              labelText: 'Inspection Date',
+              titleText: ''),
+          const SizedBox(height: 12),
+          TextFormField(
+            maxLines: 3,
+            maxLength: 250,
+            decoration: InputDecoration(
+              // prefixIcon: Icon(Icons.chat_bubble_outline),
+              labelText: 'Remark',
+              labelStyle: const TextStyle(color: Colors.black),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(15),
+                borderSide: const BorderSide(
+                  color: Color.fromARGB(
+                    255,
+                    27,
+                    27,
+                    27,
+                  ),
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(height: 12),
           ElevatedButton(
             style: AppStyles.getPrimaryButtonStyle(context),
-            onPressed: () {
-              print('fdere');
-              if (homeController.isuserLogin.value == true) {
-
-                if (homeController.inspectionDropdownValue.value == '') {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Select location!')));
-                } else if (homeController.equipmentListCustomer.isEmpty) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Choose Equipment!')));
-                } else if (homeController
-                    .inspectionDateController.text.isEmpty) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Choose Inspection Date!')));
-                } else if (homeController
-                    .inspectionMessageController.text.isEmpty) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Enter Remark!')));
-                }
-
-                if (homeController.inspectionDropdownValue.value != '' &&
-                    homeController
-                        .inspectionMessageController.text.isNotEmpty &&
-                    homeController.inspectionDateController.text.isNotEmpty &&
-                    homeController.equipmentListCustomer.isNotEmpty) {
-                  homeController.saveCustomerRequest(context: context);
-                }
-              } else {
-                // homeController.publicTextboxValidation();
-
-                homeController.pageIndex.value = 1;
-
-                globalHomeController.pageIndex.value = 1;
-              }
-
-              // Get.to(()=>const  ExpiringEquipmentScreen(),);
-            },
-            child: Text('Enquire Now'),
+            onPressed: () {},
+            child: const Text('Confirm Request'),
           ),
         ],
       ),

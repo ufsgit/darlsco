@@ -41,9 +41,13 @@ class BottomNavigationWidgetState extends State<BottomNavigationWidget> {
     if (homeController.isuserLogin.value == true || // inspection enabled
             homeController.isTraineeLogin.value == true // training enabled
         ) {
-      Timer.periodic(const Duration(minutes: 1), (timer) {
+     try {
+        Timer.periodic(const Duration(minutes: 1), (timer) {
         homeController.checkUserTypeChanged(context);
       });
+     } catch (e) {
+       
+     }
     }
      print('getItemCart1');
     trainingHomeController.getItemCart();

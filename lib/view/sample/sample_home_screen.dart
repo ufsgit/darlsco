@@ -1,6 +1,3 @@
-import 'package:darlsco/controller/home/home_controller.dart';
-import 'package:darlsco/controller/login/login_controller.dart';
-import 'package:darlsco/controller/tainning/training_controller_home.dart';
 import 'package:darlsco/view/home/bottom_navigation_screen.dart';
 import 'package:darlsco/view/login/login_screen.dart';
 import 'package:darlsco/view/sample/sample_login_screen.dart';
@@ -27,29 +24,6 @@ class SampleHomeScreen extends StatefulWidget {
 
 class _SampleHomeScreenState extends State<SampleHomeScreen> {
   TextEditingController inspectionDateController = TextEditingController();
-  bool isLoading = false;
-  @override
-  void initState() {
-    super.initState();
-    getData();
-  }
-
-  getData() async {
-    print('getItemCart3');
-    homeController.isHomeLoading.value = true;
-    await trainingController.getItemCart();
-
-    if (globalHomeController.isTraineeLogin.value) {
-      await trainingController.getProfile();
-      await trainingController.getIndividualTrainee();
-    }
-    if (homeController.isuserLogin.value) {
-      await trainingController.getIndividualTrainee();
-    }
-    await homeController.checkUserTypeChanged(context);
-    await globalHomeController.initfunction();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -62,46 +36,7 @@ class _SampleHomeScreenState extends State<SampleHomeScreen> {
               ? IconButton.filledTonal(
                   style: const ButtonStyle(
                       backgroundColor: MaterialStatePropertyAll(Colors.white)),
-                  onPressed: () {
-                    showDialog(
-                      barrierDismissible: false,
-                      context: context,
-                      builder: (ctx) => AlertDialog(
-                        // title: const Text(
-                        //   '',
-                        //   style: TextStyle(fontWeight: FontWeight.w800),
-                        // ),
-                        content: SingleChildScrollView(
-                          child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                SizedBox(
-                                  height: 20.h,
-                                ),
-                                const Text("Are you sure to logout?")
-                              ]),
-                        ),
-                        actions: [
-                          TextButton(
-                            child: const Text('Cancel'),
-                            onPressed: () {
-                              Get.back();
-                            },
-                          ),
-                          TextButton(
-                            child: const Text('Logout'),
-                            onPressed: () async {
-                              await loginController.logout(context);
-                              globalHomeController.isTrainingSection.value =
-                                  false;
-
-                              Get.back();
-                            },
-                          ),
-                        ],
-                      ),
-                    );
-                  },
+                  onPressed: () {},
                   icon: const Icon(
                     Icons.power_settings_new_rounded,
                   ),
@@ -126,86 +61,77 @@ class _SampleHomeScreenState extends State<SampleHomeScreen> {
           const SizedBox(width: 16, height: 10),
         ],
       ),
-      body: GetBuilder<HomeController>(builder: (loginDatas) {
-        return homeController.isHomeLoading.value
-            ? Center(
-                child: CircularProgressIndicator(),
-              )
-            : ListView(
-                padding: const EdgeInsets.all(16),
-                children: [
-                  Row(
-                    children: [
-                      Image.asset(
-                        'assets/images/inspection_logo.png',
-                        height: 30,
-                        width: 30,
-                        color: AppColors.primaryBlue,
+      body: ListView(
+        padding: const EdgeInsets.all(16),
+        children: [
+          Row(
+            children: [
+              Image.asset(
+                'assets/images/inspection_logo.png',
+                height: 30,
+                width: 30,
+                color: AppColors.primaryBlue,
+              ),
+              const SizedBox(width: 5),
+              Text(
+                'Inspection',
+                style: AppStyles.getHeadingTextStyle(
+                    fontColor: AppColors.primaryBlue),
+              ),
+            ],
+          ),
+          const SizedBox(height: 16),
+          if (widget.isLoggedIn) const InspectionCardWidget(),
+          Text(
+            "  We’re ready to Inspect",
+            style: AppStyles.getHeadingTextStyle(),
+          ),
+          const SizedBox(height: 16),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: Card(
+              color: Colors.white,
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    widget.isLoggedIn
+                        ? Image.asset(
+                            'assets/images/inspection_cover_image.png')
+                        : Image.asset('assets/images/Rectangle 161296.png'),
+                    const SizedBox(height: 16),
+                    if (widget.isLoggedIn)
+                      SampleInspectionForm(
+                          inspectionDateController: inspectionDateController)
+                    else
+                      Column(
+                        children: [
+                          Text(
+                            'Building trust through perfection.',
+                            style: AppStyles.getHeadingTextStyle(),
+                          ),
+                          const SizedBox(height: 16),
+                          Text(
+                            inspectionText,
+                            style: AppStyles.getBodyTextStyle(),
+                          ),
+                          const SizedBox(height: 16),
+                          ElevatedButton(
+                            style: AppStyles.getPrimaryButtonStyle(context),
+                            onPressed: widget.onClickEnquire,
+                            child: const Text('Enquire Now'),
+                          )
+                        ],
                       ),
-                      const SizedBox(width: 5),
-                      Text(
-                        'Inspection',
-                        style: AppStyles.getHeadingTextStyle(
-                            fontColor: AppColors.primaryBlue),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 16),
-                  if (widget.isLoggedIn) const InspectionCardWidget(),
-                  Text(
-                    "  We’re ready to Inspect",
-                    style: AppStyles.getHeadingTextStyle(),
-                  ),
-                  const SizedBox(height: 16),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                    child: Card(
-                      color: Colors.white,
-                      child: Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            widget.isLoggedIn
-                                ? Image.asset(
-                                    'assets/images/inspection_cover_image.png')
-                                : Image.asset(
-                                    'assets/images/Rectangle 161296.png'),
-                            const SizedBox(height: 16),
-                            if (widget.isLoggedIn)
-                              SampleInspectionForm(
-                                  inspectionDateController:
-                                      inspectionDateController)
-                            else
-                              Column(
-                                children: [
-                                  Text(
-                                    'Building trust through perfection.',
-                                    style: AppStyles.getHeadingTextStyle(),
-                                  ),
-                                  const SizedBox(height: 16),
-                                  Text(
-                                    inspectionText,
-                                    style: AppStyles.getBodyTextStyle(),
-                                  ),
-                                  const SizedBox(height: 16),
-                                  ElevatedButton(
-                                    style: AppStyles.getPrimaryButtonStyle(
-                                        context),
-                                    onPressed: widget.onClickEnquire,
-                                    child: const Text('Enquire Now'),
-                                  )
-                                ],
-                              ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  )
-                ],
-              );
-      }),
+                  ],
+                ),
+              ),
+            ),
+          )
+        ],
+      ),
     );
   }
 }
