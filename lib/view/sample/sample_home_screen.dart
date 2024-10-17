@@ -35,7 +35,7 @@ class _SampleHomeScreenState extends State<SampleHomeScreen> {
           widget.isLoggedIn
               ? IconButton.filledTonal(
                   style: const ButtonStyle(
-                      backgroundColor: MaterialStatePropertyAll(Colors.white)),
+                      backgroundColor: WidgetStatePropertyAll(Colors.white)),
                   onPressed: () {},
                   icon: const Icon(
                     Icons.power_settings_new_rounded,
@@ -48,11 +48,11 @@ class _SampleHomeScreenState extends State<SampleHomeScreen> {
                     Get.to(() => const SampleLoginScreen());
                   },
                   style: AppStyles.getPrimaryButtonStyle(context).copyWith(
-                      fixedSize: const MaterialStatePropertyAll(Size(80, 36)),
-                      side: const MaterialStatePropertyAll(
+                      fixedSize: const WidgetStatePropertyAll(Size(80, 36)),
+                      side: const WidgetStatePropertyAll(
                           BorderSide(color: Colors.white)),
                       backgroundColor:
-                          const MaterialStatePropertyAll(Colors.white)),
+                          const WidgetStatePropertyAll(Colors.white)),
                   child: Text(
                     'Login',
                     style: AppStyles.getBodyTextStyle(

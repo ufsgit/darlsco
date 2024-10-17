@@ -14,16 +14,16 @@ class SampleLoginScreen extends StatelessWidget {
         surfaceTintColor: Colors.transparent,
         leading: IconButton.filledTonal(
           onPressed: () {},
-          icon: Icon(Icons.keyboard_arrow_left_outlined),
+          icon: const Icon(Icons.keyboard_arrow_left_outlined),
           style: ButtonStyle(
-            backgroundColor: MaterialStatePropertyAll(Colors.grey.shade200),
+            backgroundColor: WidgetStatePropertyAll(Colors.grey.shade200),
           ),
         ),
       ),
       body: Stack(
         children: [
           Container(
-          padding: EdgeInsets.all(16),
+          padding: const EdgeInsets.all(16),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -31,7 +31,7 @@ class SampleLoginScreen extends StatelessWidget {
                   'Enter your mobile number \nto verify',
                   style: AppStyles.getHeadingTextStyle(),
                 ),
-                SizedBox(height: 16),
+                const SizedBox(height: 16),
                 Text(
                   'we will send you confirmation code with a 4 digit number  to your registered mobile number. If not verified, please contact the Darlsco team',
                   style: AppStyles.getBodyTextStyle(

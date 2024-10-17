@@ -37,7 +37,7 @@ class _SampleEquipmentsDetailsScreenState extends State<SampleEquipmentsDetailsS
         leading: IconButton.filledTonal(
             style: ButtonStyle(
                 backgroundColor:
-                    MaterialStatePropertyAll(Colors.grey.shade300)),
+                    WidgetStatePropertyAll(Colors.grey.shade300)),
             onPressed: () {
               homeController.inspectionDropdownValue.value = '';
               homeController.equipmentListCustomer = {};
@@ -48,7 +48,7 @@ class _SampleEquipmentsDetailsScreenState extends State<SampleEquipmentsDetailsS
               Get.back();
             },
             icon: const Icon(Icons.arrow_back_ios_new)),
-        title: Text('Equipment List'),
+        title: const Text('Equipment List'),
         centerTitle: false,
       ),
       body:  Obx(

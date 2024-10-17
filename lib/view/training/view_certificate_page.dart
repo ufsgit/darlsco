@@ -65,7 +65,7 @@ class _PDFViewerPageState extends State<PDFViewerPage>
 
     await Permission.photos.request();
     await Permission.storage.request();
-    };
+    }
     if (storage.isDenied) {
       
     await Permission.photos.request();
@@ -85,7 +85,9 @@ class _PDFViewerPageState extends State<PDFViewerPage>
       log('PDF SAVE : isAndroid =true');
       DeviceInfoPlugin plugin = DeviceInfoPlugin();
       AndroidDeviceInfo android = await plugin.androidInfo;
-      if (android.version.sdkInt >= 33) {
+      log('SDK ${android.version.sdkInt}');
+      if (android.version.sdkInt >= 31) {
+        log('true');
         dir = await getExternalStorageDirectory() ??
             Directory('/storage/emulated/0/Download');
       } else {
@@ -107,9 +109,11 @@ class _PDFViewerPageState extends State<PDFViewerPage>
                   .replaceRange(1, null, ' ')
                   .trim()),
             );
-          } catch (e) {}
+          } catch (e) {
+         
+          }
         }
-        log('FileList ${filesList}');
+        log('FileList $filesList');
         int highestNumber = fileNumbers
             .reduce((value, element) => value > element ? value : element);
         setState(() {
@@ -146,7 +150,7 @@ class _PDFViewerPageState extends State<PDFViewerPage>
           );
         } catch (e) {}
       }
-      log('FileList ${filesList}');
+      log('FileList $filesList');
       int highestNumber = fileNumbers
           .reduce((value, element) => value > element ? value : element);
       setState(() {
@@ -172,6 +176,9 @@ class _PDFViewerPageState extends State<PDFViewerPage>
     return true;
     } catch (e) {
       print('Error downloading file: $e');
+        //  showDialog(context: context, builder:(c)=> AlertDialog(
+        //       content: Text(e.toString()),
+        //     ));
       return false;
     }
   }

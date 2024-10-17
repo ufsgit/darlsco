@@ -1,6 +1,3 @@
-import 'package:darlsco/view/sample/sample_bottom_nav_widget.dart';
-import 'package:darlsco/view/sample/sample_home_screen.dart';
-import 'package:darlsco/view/sample/sample_user_section.dart';
 import 'package:darlsco/view/user_block/user_block_screen.dart';
 import 'package:path_provider/path_provider.dart';
 

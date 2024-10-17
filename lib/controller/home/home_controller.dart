@@ -359,7 +359,6 @@ class HomeController extends GetxController {
       await upcomingInspectionsController.getCustomerTask(isFromSplash: true);
       // for (var i = 0; i < 1; i++) {
       //   print('ferfget')
-      ;
       await upcomingInspectionsController.getAllEquipments(
           isFromSplash: true, isNotHomeBlock: false);
       //     break;

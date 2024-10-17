@@ -164,7 +164,7 @@ Container homeColorContainer({
               backgroundColor: numBgColor,
               radius: 20.r,
               child: homeController.isHomeLoading.value
-                  ? Center(
+                  ? const Center(
                       child: CircularProgressIndicator.adaptive(
         
         
