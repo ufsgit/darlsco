@@ -674,9 +674,7 @@ class HomePageState extends State<HomePage>
                                   ),
                                 )
                               : Container(),
-                      bottom: homeController.isHomeLoading.value
-                          ? null
-                          : TabBar(
+                      bottom: TabBar(
                               controller: _tabController,
 
                               isScrollable: homeController.isuserLogin.value ==
@@ -777,11 +775,7 @@ class HomePageState extends State<HomePage>
                 ),
               ),
             ),
-            body: homeController.isHomeLoading.value
-                ? const Center(
-                    child: CircularProgressIndicator(),
-                  )
-                : TabBarView(
+            body: TabBarView(
                     controller: _tabController,
                     physics: const NeverScrollableScrollPhysics(),
                     children: [

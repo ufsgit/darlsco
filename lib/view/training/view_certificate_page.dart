@@ -58,8 +58,19 @@ class _PDFViewerPageState extends State<PDFViewerPage>
   }
 
   Future<bool> _downloadAndSavePdf({required bool isInitState}) async {
+    // PermissionStatus photoStatus =await Permission.photos.status;
+    PermissionStatus storage = await Permission.storage.status;
+    if(await Permission.storage.isLimited){
+      Get.back();
+
     await Permission.photos.request();
     await Permission.storage.request();
+    };
+    if (storage.isDenied) {
+      
+    await Permission.photos.request();
+    await Permission.storage.request();
+    }
     // await Permission.manageExternalStorage.request();
     Dio dio = Dio();
 

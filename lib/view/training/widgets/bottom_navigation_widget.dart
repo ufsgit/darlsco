@@ -237,7 +237,7 @@ class BottomNavigationWidgetState extends State<BottomNavigationWidget> {
           //                 .pageIndex.value] // show training pages
           //         : pagesDefault[globalHomeController
           //             .pageIndex.value], // show default pages
-          body:homeController.isHomeLoading.value?const Center(child: CircularProgressIndicator(),): !homeController.isuserLogin.value && // inspection disabled
+          body: !homeController.isuserLogin.value && // inspection disabled
                   !homeController.isTraineeLogin
                       .value // training disabled (when both are disabled which means there is a fresh user)
               ? homeController.isTrainingSection.value // selected training tab

@@ -1,4 +1,5 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:darlsco/view/home/bottom_navigation_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -11,29 +12,36 @@ import 'common_bottom_widget.dart';
 import 'common_carousel_tile_tab1.dart';
 
 class Tab1 extends StatelessWidget {
-   Tab1({
+  Tab1({
     super.key,
   });
- final HomeController homeController = Get.put(HomeController());
-
+  final HomeController homeController = Get.put(HomeController());
 
   @override
   Widget build(BuildContext context) {
-    
     return commonBackgroundLinearColorHome(
       childWidget: Container(
         padding: EdgeInsets.all(10.w),
         child: SingleChildScrollView(
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-           if (  homeController.isuserLogin.value==true ) Wrap(
-                  spacing: 15.w,
-                  runSpacing: 15.h,
-                  
-                  children: List.generate(2, (index) => 
-            homeColorContainer(contentText:   homeController.contentTextTrainingTab1[index], numberText: '${index+1}', cBgColor:homeController.cBgColorTrainingTab1[index] , numBgColor: homeController.numBgColorTrainingTab1[index] )
-            ),),
-            SizedBox(height: 20.h,),
+            if (homeController.isuserLogin.value == true)
+              Wrap(
+                spacing: 15.w,
+                runSpacing: 15.h,
+                children: List.generate(
+                    2,
+                    (index) => homeColorContainer(
+                        contentText:
+                            homeController.contentTextTrainingTab1[index],
+                        numberText: '${index + 1}',
+                        cBgColor: homeController.cBgColorTrainingTab1[index],
+                        numBgColor:
+                            homeController.numBgColorTrainingTab1[index])),
+              ),
+            SizedBox(
+              height: 20.h,
+            ),
             RichText(
                 text: TextSpan(children: [
               TextSpan(
@@ -94,8 +102,7 @@ class Tab1 extends StatelessWidget {
             SizedBox(
               height: 30.h,
             ),
-CarouselSlider(
-  
+            CarouselSlider(
                 carouselController: homeController.homeTab1CarouselController,
                 options: CarouselOptions(
                     initialPage: 0,
@@ -120,57 +127,63 @@ CarouselSlider(
       ),
     );
   }
-
- 
 }
- Container  homeColorContainer({
-    required String contentText,
-    required String numberText,
-    required Color cBgColor,
-    required Color numBgColor,
 
-
-
-
-
-  }) {
-    return Container(
-            width: 170.w,
-            height: 100.w,
-            padding: EdgeInsets.all(15.sp),
-            decoration: BoxDecoration(color:cBgColor,borderRadius: BorderRadius.circular(10.r)),
-            child: Center(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                SizedBox(
-                  width: 98.w,
-                  child: Text(
-                    contentText,
-                    style: TextStyle(
-                      fontFamily: "DM Sans",
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.w500,
-                      color: ColorResources.color294C73,
-                    ),
-                  ),
+Container homeColorContainer({
+  required String contentText,
+  required String numberText,
+  required Color cBgColor,
+  required Color numBgColor,
+}) {
+  return Container(
+    width: 170.w,
+    height: 100.w,
+    padding: EdgeInsets.all(15.sp),
+    decoration: BoxDecoration(
+        color: cBgColor, borderRadius: BorderRadius.circular(10.r)),
+    child: Obx(
+       () {
+        return Center(
+            child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            SizedBox(
+              width: 98.w,
+              child: Text(
+                contentText,
+                style: TextStyle(
+                  fontFamily: "DM Sans",
+                  fontSize: 14.sp,
+                  fontWeight: FontWeight.w500,
+                  color: ColorResources.color294C73,
                 ),
-                CircleAvatar(
-                  backgroundColor:numBgColor,
-                  radius: 20.r,
-                  child: Text(
-                    numberText,
-                    style: TextStyle(
-                      fontFamily: "DM Sans",
-                      fontSize: 13.sp,
-                      fontWeight: FontWeight.w500,
-                      color: ColorResources.color294C73,
+              ),
+            ),
+            CircleAvatar(
+              backgroundColor: numBgColor,
+              radius: 20.r,
+              child: homeController.isHomeLoading.value
+                  ? Center(
+                      child: CircularProgressIndicator.adaptive(
+        
+        
+                      ),
+                    )
+                  : Text(
+                      numberText,
+                      style: TextStyle(
+                        fontFamily: "DM Sans",
+                        fontSize: 13.sp,
+                        fontWeight: FontWeight.w500,
+                        color: ColorResources.color294C73,
+                      ),
+                      textAlign: TextAlign.center,
                     ),
-                    textAlign: TextAlign.center,
-                  ),
-                )
-              ],
-            )),
-          );
-  }
+            )
+          ],
+        ));
+      }
+    ),
+  );
+}

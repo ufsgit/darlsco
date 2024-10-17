@@ -58,9 +58,9 @@ class UpcomingInspectionsController extends GetxController {
   TextEditingController searchControllerTestEquipment = TextEditingController();
   TextEditingController searchControllerTestPpe = TextEditingController();
   TextEditingController searchControllerTestDocument = TextEditingController();
-RxBool isLoading =false.obs;
+  RxBool isLoading = false.obs;
   taskInitFunction(BuildContext context) async {
-isLoading.value=true;
+    isLoading.value = true;
     await todayTaskController.fetchTaskCount();
     // await trainingController.getTodayTask();
     await trainingController.getUpComingTask();
@@ -68,22 +68,21 @@ isLoading.value=true;
     await upcomingInspectionsController.getTodayTaskDetails(true);
     await upcomingInspectionsController.getTommorrowTaskDetails(true);
     await upcomingInspectionsController.getYesterdayTaskDetails(true);
-    if( homeController. isuserLogin.value==true|| homeController. isTraineeLogin.value==true){
-      Timer.periodic(const Duration(minutes: 1), (timer) { 
-
+    if (homeController.isuserLogin.value == true ||
+        homeController.isTraineeLogin.value == true) {
+      Timer.periodic(const Duration(minutes: 1), (timer) {
         homeController.checkUserTypeChanged(
-   context,
-  );
-      }); 
-
-      
+          context,
+        );
+      });
     }
-    isLoading.value=false;
-
+    isLoading.value = false;
   }
 
   getCustomerTask({required isFromSplash}) async {
     // Loader.showLoader();
+    upcomingInspectionListData.clear();
+
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
 
     int customerId = int.parse(sharedPreferences.getString('darlsco_id') ?? '');
@@ -121,7 +120,9 @@ isLoading.value=true;
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
 
     int customerId = int.parse(sharedPreferences.getString('darlsco_id') ?? '');
+
     homeController.customerEquipmentData.clear();
+
     await HttpRequest.httpGetRequest(
       bodyData: {
         "Customer_Id_": customerId,
@@ -130,6 +131,7 @@ isLoading.value=true;
     ).then((value) {
       if (value.statusCode == 200) {
         // Loader.stopLoader();
+        print('sdfsvert ${value.data[0]}');
 
         if (value.data[0].isEmpty) {
           if (isFromSplash == false && isNotHomeBlock == false) {
@@ -490,7 +492,7 @@ isLoading.value=true;
         });
         tcontoller.periodicCheck.value =
             bool.parse(taskUserDetails[0]['Periodic'] ?? 'false');
-             tcontoller.independentCheck.value =
+        tcontoller.independentCheck.value =
             bool.parse(taskUserDetails[0]['Independent'] ?? 'false');
         tcontoller.visualCheck.value =
             bool.parse(taskUserDetails[0]['Visual'] ?? 'false');
@@ -682,14 +684,15 @@ isLoading.value=true;
         'Visual': tcontoller.visualCheck.value.toString(),
         'Thorough': tcontoller.thoroughCheck.value.toString(),
         'Major': tcontoller.majorCheck.value.toString(),
-        'Initial_Examination':tcontoller.examinationCheck.value.toString(),
-        "In_Service":tcontoller.inServiceCheck.value.toString(),
-         "Independent":tcontoller.independentCheck.value.toString(),
-        "Start_Date_Time":dateTimeString.isEmpty?DateTime.now():
-        DateTime.parse(dateTimeString.split('.')[0])     ,
-        "Notes":tcontoller.otherEqupmentNotecntrlr.text,
-        "Others_Checked":tcontoller.otherEqupmentNotecntrlr.text.isEmpty?  0:1,
-
+        'Initial_Examination': tcontoller.examinationCheck.value.toString(),
+        "In_Service": tcontoller.inServiceCheck.value.toString(),
+        "Independent": tcontoller.independentCheck.value.toString(),
+        "Start_Date_Time": dateTimeString.isEmpty
+            ? DateTime.now()
+            : DateTime.parse(dateTimeString.split('.')[0]),
+        "Notes": tcontoller.otherEqupmentNotecntrlr.text,
+        "Others_Checked":
+            tcontoller.otherEqupmentNotecntrlr.text.isEmpty ? 0 : 1,
         "Equipments": sendEqpListData,
         "User_Id": userId,
       },
@@ -806,16 +809,17 @@ isLoading.value=true;
           usedTestDocumentData.where((e) => e['Is_Checkbox'] == true).toList(),
     };
 
-     await dio.post(
-        '${HttpUrls.baseUrl}${HttpUrls.saveTaskTest}',
-        options: Options(headers: {
-          'ngrok-skip-browser-warning': 'true',
-          "Content-Type": "application/json",
-          "Authorization": "Bearer $token",
-        }),
-     
-        data: sendSaveTaskTestData,
-      ).then((value) {
+    await dio
+        .post(
+      '${HttpUrls.baseUrl}${HttpUrls.saveTaskTest}',
+      options: Options(headers: {
+        'ngrok-skip-browser-warning': 'true',
+        "Content-Type": "application/json",
+        "Authorization": "Bearer $token",
+      }),
+      data: sendSaveTaskTestData,
+    )
+        .then((value) {
       if (value.statusCode == 200) {
         if (value.data['0'][0].isNotEmpty) {
           // WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -823,6 +827,6 @@ isLoading.value=true;
           // });
         }
       }
-        });
+    });
   }
 }
