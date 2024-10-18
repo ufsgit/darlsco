@@ -9,6 +9,10 @@ import 'package:darlsco/view/training_phase2/ordered_successfully.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:xml/xml.dart';
+import 'package:flutter/material.dart';
+import 'package:webview_flutter/webview_flutter.dart';
+import 'package:webview_flutter_android/webview_flutter_android.dart';
+import 'package:webview_flutter_wkwebview/webview_flutter_wkwebview.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 import '../../core/constants/image_url.dart';
@@ -34,7 +38,7 @@ class WebViewScreenState extends State<WebViewScreen> {
   String _code = '';
   final bool _showLoader = false;
   bool _showedOnce = false;
-
+late WebViewController webController;
   @override
   void initState() {
     super.initState();
@@ -42,7 +46,7 @@ class WebViewScreenState extends State<WebViewScreen> {
     print(
         'web view bill list ${trainingController.retakePurchaseBillDataList}');
 
-    if (Platform.isAndroid) WebView.platform = SurfaceAndroidWebView();
+    // if (Platform.isAndroid) WebView.platform = SurfaceAndroidWebView();
     _url = widget.url;
     _code = widget.code;
     print('url in webview $_url, $_code');
