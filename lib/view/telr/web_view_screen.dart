@@ -184,44 +184,44 @@ late WebViewController webController;
           child: Container(
             decoration: BoxDecoration(
                 image: DecorationImage(image: AssetImage(splashScreenLogo))),
-            child: WebView(
-              onProgress: (progress) {
-                print('WEB VIEW PROGRESS   $progress');
-              },
-              initialUrl: _url,
-              javascriptMode: JavascriptMode.unrestricted,
-              onWebViewCreated: (WebViewController webViewController) {
-                _controller.complete(webViewController);
-              },
-              navigationDelegate: (NavigationRequest request) {
-                print('allowing navigation to $request');
-                return NavigationDecision.navigate;
-              },
-              onPageStarted: (String url) {
-                print('Page started loading: $url');
-                _showedOnce = false;
-                if (url.contains('close')) {
-                  print('call the api');
-                }
-                if (url.contains('abort')) {
-                  print('show fail and pop');
-                }
-              },
-              onPageFinished: (String url) {
-                print('Page finished loading: $url');
-                if (url.contains('close')) {
-                  print('call the api');
-                  createXml();
-                }
-                if (url.contains('abort')) {
-                  print('show fail and pop');
-                }
-              },
-              onWebResourceError: (error) {
-                print('web view error ${error.description}');
-              },
-              gestureNavigationEnabled: true,
-            ),
+            // child: WebView(
+            //   onProgress: (progress) {
+            //     print('WEB VIEW PROGRESS   $progress');
+            //   },
+            //   initialUrl: _url,
+            //   javascriptMode: JavascriptMode.unrestricted,
+            //   onWebViewCreated: (WebViewController webViewController) {
+            //     _controller.complete(webViewController);
+            //   },
+            //   navigationDelegate: (NavigationRequest request) {
+            //     print('allowing navigation to $request');
+            //     return NavigationDecision.navigate;
+            //   },
+            //   onPageStarted: (String url) {
+            //     print('Page started loading: $url');
+            //     _showedOnce = false;
+            //     if (url.contains('close')) {
+            //       print('call the api');
+            //     }
+            //     if (url.contains('abort')) {
+            //       print('show fail and pop');
+            //     }
+            //   },
+            //   onPageFinished: (String url) {
+            //     print('Page finished loading: $url');
+            //     if (url.contains('close')) {
+            //       print('call the api');
+            //       createXml();
+            //     }
+            //     if (url.contains('abort')) {
+            //       print('show fail and pop');
+            //     }
+            //   },
+            //   onWebResourceError: (error) {
+            //     print('web view error ${error.description}');
+            //   },
+            //   gestureNavigationEnabled: true,
+            // ),
           ),
         ));
   }
