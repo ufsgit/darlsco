@@ -385,6 +385,7 @@ RxBool isLoading=false.obs;
     homeController.isFromPurchase.value = false;
     globalHomeController.isTraineeLogin.value == false;
     globalHomeController.isuserLogin.value = false;
+    globalHomeController.isCaliberationSection.value=false;
     getcountry(context);
     homeController.isUsersignedIn();
 

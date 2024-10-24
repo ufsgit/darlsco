@@ -348,7 +348,7 @@ class HomeController extends GetxController {
 
   initfunction() async {
     print('efertgetr');
-    isHomeLoading.value=true;
+    isHomeLoading.value = true;
     await isUsersignedIn();
     //  await InAppUpdateInfo.checkForUpdate();
     //  if(InAppUpdateInfo.updateInfo?.immediateUpdateAllowed ==true){
@@ -373,7 +373,7 @@ class HomeController extends GetxController {
     await trainingController.fetchTrainingHomeData();
     await trainingController.getItemCart();
     print('getItemCart8');
-    isHomeLoading.value=false;
+    isHomeLoading.value = false;
 
     update();
   }
@@ -938,28 +938,38 @@ class HomeController extends GetxController {
 
     String isInspectionCustomer =
         preferences.getString('inspection_login') ?? '';
-    String isCalliberationCustomer ='1';
+    String isCalliberationCustomer = '1';
 
     if (token == '' || token == 'null') {
       isuserLogin.value = false;
       isTraineeLogin.value = false;
-      
+      isCalliberationLogin.value = false;
+      print('tabIndex hi1');
     } else if (isTraineeCustomer == '1' && isInspectionCustomer == '0') {
+      print('tabIndex hi2');
+
       isTraineeLogin.value = true;
       isuserLogin.value = false;
     } else if (isTraineeCustomer == '1' && isInspectionCustomer == '1') {
+      print('tabIndex hi3');
+
       isuserLogin.value = true;
       isTraineeLogin.value = true;
     } else if (isTraineeCustomer == '0' && isInspectionCustomer == '1') {
+      print('tabIndex hi4');
+
       isuserLogin.value = true;
       isTraineeLogin.value = false;
     } else {
+      print('tabIndex hi5');
+
       isuserLogin.value = false;
       isTraineeLogin.value = false;
     }
-    if (isCalliberationCustomer=='1') {
+    if (isCalliberationCustomer == '1' && token != '' ) {
+      print('tabIndex hi6 ${isCalliberationCustomer == '1' && token != 'null'}');
+
       isCalliberationLogin.value = true;
-      
     }
   }
 

@@ -93,12 +93,16 @@ class BottomNavigationWidgetState extends State<BottomNavigationWidget> {
   void _onItemTapped(int index) {
     setState(() {
       if (homeController.isuserLogin.value &&
-              homeController.isTraineeLogin.value ||
+              homeController.isTraineeLogin.value &&
+              homeController.isCalliberationLogin.value ||
           homeController.isuserLogin.value &&
-              !homeController.isTraineeLogin.value ||
+              !homeController.isTraineeLogin.value &&
+              !homeController.isCalliberationLogin.value ||
           !homeController.isuserLogin.value &&
-              !homeController.isTraineeLogin.value) {
+              !homeController.isTraineeLogin.value &&
+              !homeController.isCalliberationLogin.value) {
         print('hiii 112');
+
         if (globalHomeController.tabIndex.value == 0) {
         } else {
           print('eferwg3w');
@@ -109,7 +113,7 @@ class BottomNavigationWidgetState extends State<BottomNavigationWidget> {
             _scaffoldKey.currentState?.openEndDrawer(); // open drawer
           } else {
             print('fetgtr 2');
-
+            print('dfswfg $index');
             homeController.pageIndex.value =
                 index; // inspection tab page should be shown
 
@@ -365,69 +369,108 @@ class BottomNavigationWidgetState extends State<BottomNavigationWidget> {
                               label: 'Profile',
                             ),
                           ]
-                    : homeController.isTraineeLogin.value
+                    : homeController.tabIndex.value == 2 &&
+                            homeController.isCaliberationSection.value
                         ? [
                             BottomNavigationBarItem(
-                              icon:
-                                  _getIcon(0, Icons.home, Icons.home_outlined),
-                              label: 'Home',
-                            ),
+                                icon: homeController.pageIndex.value == 0
+                                    ? const Icon(
+                                        Icons.home,
+                                        color: ColorResources.color294C73,
+                                      )
+                                    : const Icon(Icons.home_outlined),
+                                label: 'Home'),
                             BottomNavigationBarItem(
-                              icon: _getIcon(1, Icons.shopping_cart,
-                                  Icons.shopping_cart_outlined),
-                              label: 'Cart',
-                            ),
+                                icon: homeController.pageIndex.value == 1
+                                    ? const Icon(
+                                        Icons.mail,
+                                        color: ColorResources.color294C73,
+                                      )
+                                    : const Icon(Icons.mail_outline),
+                                label: 'Contact'),
+                            // if (homeController.isuserLogin.value == true)
+                            //   const BottomNavigationBarItem(
+                            //       icon: Icon(Icons.dashboard_customize_outlined),
+                            //       activeIcon: Icon(
+                            //         Icons.dashboard,
+                            //         color: ColorResources.color294C73,
+                            //       ),
+                            //       label: 'Dashboard'),
                             BottomNavigationBarItem(
-                              icon: _getIcon(2, Icons.view_comfortable_rounded,
-                                  Icons.view_comfortable_outlined),
-                              label: 'Order',
-                            ),
+                                icon: globalHomeController.pageIndex.value == 2
+                                    ? const Icon(
+                                        Icons.groups_2,
+                                        color: ColorResources.color294C73,
+                                      )
+                                    : const Icon(Icons.groups_2_outlined),
+                                label: 'About Us'),
+                          ]
+                        : homeController.isTraineeLogin.value
+                            ? [
+                                BottomNavigationBarItem(
+                                  icon: _getIcon(
+                                      0, Icons.home, Icons.home_outlined),
+                                  label: 'Home',
+                                ),
+                                BottomNavigationBarItem(
+                                  icon: _getIcon(1, Icons.shopping_cart,
+                                      Icons.shopping_cart_outlined),
+                                  label: 'Cart',
+                                ),
+                                BottomNavigationBarItem(
+                                  icon: _getIcon(
+                                      2,
+                                      Icons.view_comfortable_rounded,
+                                      Icons.view_comfortable_outlined),
+                                  label: 'Order',
+                                ),
 
-                            // BottomNavigationBarItem(
-                            //   icon: _getIcon(3, Icons.email, Icons.email_outlined),
-                            //   label: 'Contact',
-                            // ),
-                            // BottomNavigationBarItem(
-                            //   icon: _getIcon(4, Icons.groups, Icons.groups_2_outlined),
-                            //   label: 'About Us',
-                            // ),
-                            BottomNavigationBarItem(
-                              icon:
-                                  _getIcon(3, Icons.book, Icons.book_outlined),
-                              label: 'Documentation',
-                            ),
-                            BottomNavigationBarItem(
-                              icon: _getIcon(4, Icons.person_2_rounded,
-                                  Icons.person_2_outlined),
-                              label: 'Profile',
-                            ),
-                          ]
-                        : [
-                            BottomNavigationBarItem(
-                              icon:
-                                  _getIcon(0, Icons.home, Icons.home_outlined),
-                              label: 'Home',
-                            ),
-                            BottomNavigationBarItem(
-                              icon: _getIcon(1, Icons.shopping_cart,
-                                  Icons.shopping_cart_outlined),
-                              label: 'Cart',
-                            ),
-                            BottomNavigationBarItem(
-                              icon: _getIcon(2, Icons.mail, Icons.mail_outline),
-                              label: 'Contact',
-                            ),
-                            BottomNavigationBarItem(
-                              icon: _getIcon(
-                                  3, Icons.groups, Icons.groups_2_outlined),
-                              label: 'About Us',
-                            ),
-                            BottomNavigationBarItem(
-                              icon:
-                                  _getIcon(4, Icons.book, Icons.book_outlined),
-                              label: 'Documentation',
-                            ),
-                          ]
+                                // BottomNavigationBarItem(
+                                //   icon: _getIcon(3, Icons.email, Icons.email_outlined),
+                                //   label: 'Contact',
+                                // ),
+                                // BottomNavigationBarItem(
+                                //   icon: _getIcon(4, Icons.groups, Icons.groups_2_outlined),
+                                //   label: 'About Us',
+                                // ),
+                                BottomNavigationBarItem(
+                                  icon: _getIcon(
+                                      3, Icons.book, Icons.book_outlined),
+                                  label: 'Documentatsion',
+                                ),
+                                BottomNavigationBarItem(
+                                  icon: _getIcon(4, Icons.person_2_rounded,
+                                      Icons.person_2_outlined),
+                                  label: 'Profile',
+                                ),
+                              ]
+                            : [
+                                BottomNavigationBarItem(
+                                  icon: _getIcon(
+                                      0, Icons.home, Icons.home_outlined),
+                                  label: 'Home',
+                                ),
+                                BottomNavigationBarItem(
+                                  icon: _getIcon(1, Icons.shopping_cart,
+                                      Icons.shopping_cart_outlined),
+                                  label: 'Cart',
+                                ),
+                                BottomNavigationBarItem(
+                                  icon: _getIcon(
+                                      2, Icons.mail, Icons.mail_outline),
+                                  label: 'Contact',
+                                ),
+                                BottomNavigationBarItem(
+                                  icon: _getIcon(
+                                      3, Icons.groups, Icons.groups_2_outlined),
+                                  label: 'About Us',
+                                ),
+                                BottomNavigationBarItem(
+                                  icon: _getIcon(
+                                      4, Icons.book, Icons.book_outlined),
+                                  label: 'Documentation',
+                                ),
+                              ]
                 //  !homeController.isTrainingSection.value ||
                 //         homeController.isuserLogin.value == true &&
                 //             homeController.isTraineeLogin.value == false
@@ -603,15 +646,25 @@ class BottomNavigationWidgetState extends State<BottomNavigationWidget> {
           homeController.isCaliberationSection.value) {
         return calliberationTabPages[homeController.pageIndex.value];
       } else if (homeController.isTrainingSection.value) {
-        print('NAVIGATION 7');
 //  NOT LOGGED IN USER
 //  LOGGED IN USER WITH FULL ACCESS
+        // if (homeController.isCaliberationSection.value) {
+        //   print('NAVIGATION 9');
+        //   print('sdaegfrugueir ${homeController.isCaliberationSection.value}');
+        //           print('sdaegfrugueir ${homeController.isTrainingSection.value}');
 
-        return trainingTabPages[widget.selectedIndex];
+        //   return calliberationTabPages[widget.selectedIndex];
+        // }
+        print('NAVIGATION 10');
+
+        return homeController.isuserLogin.value
+            ? trainingTabPages[widget.selectedIndex]
+            : trainigPagesDefault[widget.selectedIndex];
       } else if (homeController.isCaliberationSection.value) {
-        calliberationTabPages[homeController.pageIndex.value];
-      }
-      {
+        print('NAVIGATION 11');
+
+        return calliberationTabPages[homeController.pageIndex.value];
+      } else {
         print('NAVIGATION 8');
 // NOT LOGGED IN USER
 //  LOGGED IN USER WITH FULL ACCESS

@@ -42,11 +42,18 @@ class HomePageState extends State<HomePage>
           homeController.isCalliberationLogin.value
         ].where((element) => element).length >=
         2;
-    if (globalHomeController.isuserLogin.value == true ||
-        (globalHomeController.isuserLogin.value == false &&
-            globalHomeController.isTraineeLogin.value == false)) {
-      print('tabIndex 2');
-    } else {
+    if ( homeController.isTraineeLogin.value == false &&
+                    homeController.isuserLogin.value == false &&
+                    homeController.isCalliberationLogin.value == false ||
+                homeController.isTraineeLogin.value == true &&
+                    homeController.isuserLogin.value == true &&
+                    homeController.isCalliberationLogin.value == true) {
+      print('tabIndex 3');
+    } else if(areAnyTwoTrue){
+            print('tabIndex 2');
+
+    } else{
+      print('tabIndex ${homeController.isCalliberationLogin.value }');
       print('tabIndex 1 ${widget.initialIndex}');
     }
     _tabController = TabController(
@@ -306,14 +313,19 @@ class HomePageState extends State<HomePage>
                           if (index == 0) {
                             globalHomeController.isTrainingSection.value =
                                 false;
+                                
                             homeController.tabIndex.value = index;
                           } else if (index == 2) {
+                             globalHomeController.isTrainingSection.value =
+                                false;
                             globalHomeController.isCaliberationSection.value =
                                 true;
                             homeController.tabIndex.value = index;
-                          }
+                          }else
                           {
                             globalHomeController.isTrainingSection.value = true;
+                            globalHomeController.isCaliberationSection.value =
+                                false;
                             homeController.tabIndex.value = index;
                           }
                         },
@@ -360,7 +372,7 @@ class HomePageState extends State<HomePage>
                                 size: 30,
                               ),
                             ),
-                            if(globalHomeController.isCalliberationLogin.value)
+                            if(globalHomeController.isCalliberationLogin.value||!globalHomeController.isuserLogin.value&&!globalHomeController.isCalliberationLogin.value)
                              const Tab(
                               iconMargin: EdgeInsets.all(0),
                               text: 'Calliberation',
@@ -465,11 +477,11 @@ class HomePageState extends State<HomePage>
                     (globalHomeController.isuserLogin.value == false &&
                         globalHomeController.isTraineeLogin.value == false))
                   const TrainingHomeScreen(),
-                   if (globalHomeController.isuserLogin.value == true ||
+                 if (globalHomeController.isCalliberationLogin.value == true ||
                     (globalHomeController.isuserLogin.value == false &&
-                        globalHomeController.isTraineeLogin.value == true))
+                        globalHomeController.isCalliberationLogin.value == false))
                   Tab2(
-                    btnText: 'Inspection',
+                    btnText: 'Calliberation',
                     imgurlList: const [
                       'https://s3-alpha-sig.figma.com/img/641b/30d6/0527f4c4463314a0e51342ca65015b8a?Expires=1701648000&Signature=b3Vf84hA3SPBQdsIYadxD69GmrohKr3CvC~q1CD57dD4NSTWzQMisHJtTaQ~NMufu9IIN2KEsnM4wcyss~flnFXyvB1xWmHLWwXrqCgvyrKDQq0tIP76lrodeGfsiE4YUm4A0IBOoihQoml9jmYxufepXFh0DhaWY-qHczbDczDEHnzzaqjqalyrhhhzbJlQGZb5RDEQOqYhk5XZ96G02DYdXRsmz~bLqfN~gZSBb47X7eRpYICs5ARKnID~0MqIWokpkb34~ZlrynYc1TglNRUy3soJoe3VM3ptaR~kCf2AsN8vAr0e5BEV45Jyzwzl~mJjjO5TcIrsk8ExdSQPRg__&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4'
                     ],
