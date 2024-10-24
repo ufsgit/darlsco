@@ -239,34 +239,35 @@ class BottomNavigationWidgetState extends State<BottomNavigationWidget> {
           //                 .pageIndex.value] // show training pages
           //         : pagesDefault[globalHomeController
           //             .pageIndex.value], // show default pages
-          body: !homeController.isuserLogin.value && // inspection disabled
-                  !homeController.isTraineeLogin.value &&
-                  !homeController.isCalliberationLogin
-                      .value // training disabled (when both are disabled which means there is a fresh user)
-              ? homeController.isTrainingSection.value // selected training tab
-                  ? homeController.isCaliberationSection.value
-                      ? calliberationTabPages[widget.selectedIndex]
-                      : trainigPagesDefault[
-                          widget.selectedIndex] // default training pages
-                  : inspectionTabPages[
-                      homeController.pageIndex.value] // inspection pages
-              : homeController.isuserLogin.value && // inspection enabled
-                      !homeController.isTraineeLogin.value // training disbled
-                  ? inspectionTabPages[
-                      homeController.pageIndex.value] // show inspection pages
-                  : !homeController.isuserLogin.value && // inspection disabled
-                          homeController
-                              .isTraineeLogin.value // training enabled
-                      ? trainingTabPages[
-                          widget.selectedIndex] // show training pages
-                      :
-                      // both of the inspection and training allowed
-                      homeController
-                              .isTrainingSection.value // training tab clicked
-                          ? trainingTabPages[
-                              widget.selectedIndex] // show training pages
-                          : inspectionTabPages[homeController
-                              .pageIndex.value], // show inspection tab pages
+          body: getPage(),
+          // body: !homeController.isuserLogin.value && // inspection disabled
+          //         !homeController.isTraineeLogin.value &&
+          //         !homeController.isCalliberationLogin
+          //             .value // training disabled (when both are disabled which means there is a fresh user)
+          //     ? homeController.isTrainingSection.value // selected training tab
+          //         ? homeController.isCaliberationSection.value
+          //             ? calliberationTabPages[widget.selectedIndex]
+          //             : trainigPagesDefault[
+          //                 widget.selectedIndex] // default training pages
+          //         : inspectionTabPages[
+          //             homeController.pageIndex.value] // inspection pages
+          //     : homeController.isuserLogin.value && // inspection enabled
+          //             !homeController.isTraineeLogin.value // training disbled
+          //         ? inspectionTabPages[
+          //             homeController.pageIndex.value] // show inspection pages
+          //         : !homeController.isuserLogin.value && // inspection disabled
+          //                 homeController
+          //                     .isTraineeLogin.value // training enabled
+          //             ? trainingTabPages[
+          //                 widget.selectedIndex] // show training pages
+          //             :
+          //             // both of the inspection and training allowed
+          //             homeController
+          //                     .isTrainingSection.value // training tab clicked
+          //                 ? trainingTabPages[
+          //                     widget.selectedIndex] // show training pages
+          //                 : inspectionTabPages[homeController
+          //                     .pageIndex.value], // show inspection tab pages
           // <<<<<<<<<Bottom NAV >>>>>>>>>>
           bottomNavigationBar: Obx(
             () => BottomNavigationBar(
@@ -564,17 +565,59 @@ class BottomNavigationWidgetState extends State<BottomNavigationWidget> {
     );
   }
 
-  // Widget getPage(
-  //     {required int index,
-  //     required bool isInpectionOn,
-  //     required bool isTrainingOn,
-  //     required bool isUser,
-  //     required bool isUserLoggedIn,
-  //     required bool isCustomer,
-  //     required bool isCalliberationOn}) {
-  //       if (!isUserLoggedIn) {
+  Widget getPage() {
+    if (homeController.isuserLogin.value &&
+        !homeController.isTraineeLogin.value) {
+// USER LOGGED IN
+      if (homeController.isTrainingSection.value) {
+        print('NAVIGATION 2');
+// TRAINING SECTION TRUE
 
-  //        return inspectionTabPages[index];
-  //       }else if(!is) {}
-  // }
+        return trainigPagesDefault[widget.selectedIndex];
+      } else if (homeController.isCaliberationSection.value) {
+        return calliberationTabPages[homeController.pageIndex.value];
+      } else {
+        print('NAVIGATION 3');
+// LOGGED IN USER WITH ONLY INSPECTION
+        return inspectionTabPages[homeController.pageIndex.value];
+      }
+    } else if (homeController.isuserLogin.value &&
+        !homeController.isTraineeLogin.value &&
+        !homeController.isCalliberationLogin.value) {
+      print('NAVIGATION 4');
+// USER LOGGED IN
+      return inspectionTabPages[homeController.pageIndex.value];
+    } else if (homeController.isuserLogin.value &&
+        !homeController.isTraineeLogin.value &&
+        homeController.isCaliberationSection.value) {
+      return calliberationTabPages[homeController.pageIndex.value];
+    } else {
+      if (!homeController.isuserLogin.value &&
+          homeController.isTraineeLogin.value) {
+// TRAINEE LOGGED IN
+        print('NAVIGATION 6');
+// LOGGED IN USER WITH ONLY training
+
+        return trainingTabPages[widget.selectedIndex];
+      } else if (!homeController.isuserLogin.value &&
+          homeController.isCaliberationSection.value) {
+        return calliberationTabPages[homeController.pageIndex.value];
+      } else if (homeController.isTrainingSection.value) {
+        print('NAVIGATION 7');
+//  NOT LOGGED IN USER
+//  LOGGED IN USER WITH FULL ACCESS
+
+        return trainingTabPages[widget.selectedIndex];
+      } else if (homeController.isCaliberationSection.value) {
+        calliberationTabPages[homeController.pageIndex.value];
+      }
+      {
+        print('NAVIGATION 8');
+// NOT LOGGED IN USER
+//  LOGGED IN USER WITH FULL ACCESS
+
+        return inspectionTabPages[homeController.pageIndex.value];
+      }
+    }
+  }
 }
