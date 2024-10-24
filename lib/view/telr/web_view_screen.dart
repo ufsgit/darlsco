@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:darlsco/controller/tainning/training_controller_home.dart';
 import 'package:darlsco/controller/tainning/trainnig_controller.dart';
@@ -9,10 +8,6 @@ import 'package:darlsco/view/training_phase2/ordered_successfully.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:xml/xml.dart';
-import 'package:flutter/material.dart';
-import 'package:webview_flutter/webview_flutter.dart';
-import 'package:webview_flutter_android/webview_flutter_android.dart';
-import 'package:webview_flutter_wkwebview/webview_flutter_wkwebview.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 import '../../core/constants/image_url.dart';
@@ -38,7 +33,8 @@ class WebViewScreenState extends State<WebViewScreen> {
   String _code = '';
   final bool _showLoader = false;
   bool _showedOnce = false;
-late WebViewController webController;
+  late WebViewController webController;
+
   @override
   void initState() {
     super.initState();
@@ -49,6 +45,48 @@ late WebViewController webController;
     // if (Platform.isAndroid) WebView.platform = SurfaceAndroidWebView();
     _url = widget.url;
     _code = widget.code;
+    webController = WebViewController()
+      ..setJavaScriptMode(JavaScriptMode.unrestricted)
+      ..setNavigationDelegate(
+         
+        NavigationDelegate(
+        
+          onProgress: (int progress) {
+            
+            print('WEB VIEW PROGRESS   $progress');
+          },
+          onPageStarted: (String url) {
+            print('Page started loading: $url');
+            _showedOnce = false;
+            
+            if (url.contains('close')) {
+              print('call the api');
+            }
+            if (url.contains('abort')) {
+              print('show fail and pop');
+            }
+          },
+          onPageFinished: (String url) {
+
+            print('Page finished loading: $url');
+            if (url.contains('close')) {
+              print('call the api');
+              createXml();
+            }
+            if (url.contains('abort')) {
+              print('show fail and pop');
+            }
+          },
+          onHttpError: (HttpResponseError error) {},
+          onWebResourceError: (WebResourceError error) {
+            print('web view error ${error.description}');
+          },
+          onNavigationRequest: (NavigationRequest request) {
+            return NavigationDecision.navigate;
+          },
+        ),
+      )
+      ..loadRequest(Uri.parse(_url));
     print('url in webview $_url, $_code');
   }
 
@@ -184,44 +222,45 @@ late WebViewController webController;
           child: Container(
             decoration: BoxDecoration(
                 image: DecorationImage(image: AssetImage(splashScreenLogo))),
-            child: WebView(
-              onProgress: (progress) {
-                print('WEB VIEW PROGRESS   $progress');
-              },
-              initialUrl: _url,
-              javascriptMode: JavascriptMode.unrestricted,
-              onWebViewCreated: (WebViewController webViewController) {
-                _controller.complete(webViewController);
-              },
-              navigationDelegate: (NavigationRequest request) {
-                print('allowing navigation to $request');
-                return NavigationDecision.navigate;
-              },
-              onPageStarted: (String url) {
-                print('Page started loading: $url');
-                _showedOnce = false;
-                if (url.contains('close')) {
-                  print('call the api');
-                }
-                if (url.contains('abort')) {
-                  print('show fail and pop');
-                }
-              },
-              onPageFinished: (String url) {
-                print('Page finished loading: $url');
-                if (url.contains('close')) {
-                  print('call the api');
-                  createXml();
-                }
-                if (url.contains('abort')) {
-                  print('show fail and pop');
-                }
-              },
-              onWebResourceError: (error) {
-                print('web view error ${error.description}');
-              },
-              gestureNavigationEnabled: true,
-            ),
+            child: WebViewWidget(controller: webController),
+            //  WebView(
+            //   onProgress: (progress) {
+            //     print('WEB VIEW PROGRESS   $progress');
+            //   },
+            //   initialUrl: _url,
+            //   javascriptMode: JavascriptMode.unrestricted,
+            //   onWebViewCreated: (WebViewController webViewController) {
+            //     _controller.complete(webViewController);
+            //   },
+            //   navigationDelegate: (NavigationRequest request) {
+            //     print('allowing navigation to $request');
+            //     return NavigationDecision.navigate;
+            //   },
+            //   onPageStarted: (String url) {
+            //     print('Page started loading: $url');
+            //     _showedOnce = false;
+            //     if (url.contains('close')) {
+            //       print('call the api');
+            //     }
+            //     if (url.contains('abort')) {
+            //       print('show fail and pop');
+            //     }
+            //   },
+            //   onPageFinished: (String url) {
+            //     print('Page finished loading: $url');
+            //     if (url.contains('close')) {
+            //       print('call the api');
+            //       createXml();
+            //     }
+            //     if (url.contains('abort')) {
+            //       print('show fail and pop');
+            //     }
+            //   },
+            //   onWebResourceError: (error) {
+            //     print('web view error ${error.description}');
+            //   },
+            //   gestureNavigationEnabled: true,
+            // ),
           ),
         ));
   }

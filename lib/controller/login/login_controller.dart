@@ -26,7 +26,7 @@ final LoginController loginController = Get.put(LoginController());
 class LoginController extends GetxController {
   TextEditingController mobileNumberController = TextEditingController();
   TextEditingController pinPutOtpController = TextEditingController();
-RxBool isLoading=false.obs;
+  RxBool isLoading = false.obs;
   LoginOtpModel? userData;
 
   List<String> companyLocationList = [
@@ -127,15 +127,15 @@ RxBool isLoading=false.obs;
     required String phNo,
   }) async {
     // Loader.showLoader();
-    isLoading.value=true;
+    isLoading.value = true;
     SharedPreferences preferences = await SharedPreferences.getInstance();
     String firebaseToken = '';
     try {
       homeController.messagingToken = FirebaseMessaging.instance;
       firebaseToken = await homeController.messagingToken.getToken() ?? '';
-   isLoading.value=false;
+      isLoading.value = false;
     } catch (e) {
-         isLoading.value=false;
+      isLoading.value = false;
 
       if (kDebugMode) {
         print(e);
