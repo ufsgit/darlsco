@@ -177,6 +177,7 @@ RxBool isLoading=false.obs;
               'trainee_login', data['0'][0]['Training'].toString());
           preferences.setString(
               'inspection_login', data['0'][0]['Inspection'].toString());
+              // TODO:NEED TO STORE LOCALLY
           homeController.isInspection.value =
               data['0'][0]['Inspection'].toString();
           homeController.isTraineee.value = data['0'][0]['Training'].toString();
@@ -195,8 +196,9 @@ RxBool isLoading=false.obs;
           }
           if (homeController.isuserLogin.value &&
               homeController.isTraineeLogin.value &&
-              homeController.isTrainingSection.value) {
+              homeController.isTrainingSection.value&&homeController.isCaliberationSection.value) {
             homeController.isTrainingSection.value = false;
+            homeController.isCaliberationSection.value = false;
           }
           if (globalHomeController.tabIndex.value == 1) {
             globalHomeController.tabIndex.value = 0;

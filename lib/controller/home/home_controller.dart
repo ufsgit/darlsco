@@ -59,6 +59,7 @@ class HomeController extends GetxController {
   RxString isInspection = ''.obs;
   RxBool isTraineeUserLogin = false.obs; //training logined or not
   RxBool isTrainingSection = false.obs;
+  RxBool isCaliberationSection = false.obs;
   RxBool isFromHome = false
       .obs; //for login condition if the user is navigate from home to login screen
   RxBool isFromPurchase = false.obs; //for
@@ -67,6 +68,7 @@ class HomeController extends GetxController {
   List<bool> equipmentCheckValue = [];
   RxBool isuserLogin = false.obs;
   RxBool isTraineeLogin = false.obs;
+  RxBool isCalliberationLogin = false.obs;
   List<CustomerLocations> customerLocations = [];
   RxBool isLoadingEquipmentDetailsscreen = false.obs;
   EquipmentDetailModel equipmentDetailModel = EquipmentDetailModel();
@@ -933,12 +935,15 @@ class HomeController extends GetxController {
     String token = preferences.getString('token') ?? '';
     String? userId = preferences.getString('darlsco_id');
     String isTraineeCustomer = preferences.getString('trainee_login') ?? '';
+
     String isInspectionCustomer =
         preferences.getString('inspection_login') ?? '';
+    String isCalliberationCustomer ='1';
 
     if (token == '' || token == 'null') {
       isuserLogin.value = false;
       isTraineeLogin.value = false;
+      
     } else if (isTraineeCustomer == '1' && isInspectionCustomer == '0') {
       isTraineeLogin.value = true;
       isuserLogin.value = false;
@@ -951,6 +956,10 @@ class HomeController extends GetxController {
     } else {
       isuserLogin.value = false;
       isTraineeLogin.value = false;
+    }
+    if (isCalliberationCustomer=='1') {
+      isCalliberationLogin.value = true;
+      
     }
   }
 

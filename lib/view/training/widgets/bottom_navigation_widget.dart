@@ -36,20 +36,18 @@ class BottomNavigationWidgetState extends State<BottomNavigationWidget> {
   @override
   void initState() {
     print('kjbihjbh ${homeController.tabIndex.value}');
-          print('hiii 111 ${widget.selectedIndex}');
+    print('hiii 111 ${widget.selectedIndex}');
 
     if (homeController.isuserLogin.value == true || // inspection enabled
             homeController.isTraineeLogin.value == true // training enabled
         ) {
-     try {
+      try {
         Timer.periodic(const Duration(minutes: 1), (timer) {
-        homeController.checkUserTypeChanged(context);
-      });
-     } catch (e) {
-       
-     }
+          homeController.checkUserTypeChanged(context);
+        });
+      } catch (e) {}
     }
-     print('getItemCart1');
+    print('getItemCart1');
     trainingHomeController.getItemCart();
     super.initState();
   }
@@ -84,9 +82,16 @@ class BottomNavigationWidgetState extends State<BottomNavigationWidget> {
     const AboutUsScreen(),
   ];
 
+  // calliberation tab
+
+  final calliberationTabPages = [
+    const HomePage(initialIndex: 2), // select inspection tab
+    const ContactUs(),
+    const AboutUsScreen(),
+  ];
+
   void _onItemTapped(int index) {
     setState(() {
-
       if (homeController.isuserLogin.value &&
               homeController.isTraineeLogin.value ||
           homeController.isuserLogin.value &&
@@ -94,10 +99,7 @@ class BottomNavigationWidgetState extends State<BottomNavigationWidget> {
           !homeController.isuserLogin.value &&
               !homeController.isTraineeLogin.value) {
         print('hiii 112');
-        if (globalHomeController.tabIndex.value == 0
-
-            ) {
-
+        if (globalHomeController.tabIndex.value == 0) {
         } else {
           print('eferwg3w');
           if (globalHomeController.isTraineeLogin.value &&
@@ -200,7 +202,7 @@ class BottomNavigationWidgetState extends State<BottomNavigationWidget> {
     // } catch (e) {
 
     // }
-   
+
     return PopScope(
       canPop: false,
       child: Obx(
@@ -238,11 +240,14 @@ class BottomNavigationWidgetState extends State<BottomNavigationWidget> {
           //         : pagesDefault[globalHomeController
           //             .pageIndex.value], // show default pages
           body: !homeController.isuserLogin.value && // inspection disabled
-                  !homeController.isTraineeLogin
+                  !homeController.isTraineeLogin.value &&
+                  !homeController.isCalliberationLogin
                       .value // training disabled (when both are disabled which means there is a fresh user)
               ? homeController.isTrainingSection.value // selected training tab
-                  ? trainigPagesDefault[
-                     widget.selectedIndex] // default training pages
+                  ? homeController.isCaliberationSection.value
+                      ? calliberationTabPages[widget.selectedIndex]
+                      : trainigPagesDefault[
+                          widget.selectedIndex] // default training pages
                   : inspectionTabPages[
                       homeController.pageIndex.value] // inspection pages
               : homeController.isuserLogin.value && // inspection enabled
@@ -253,12 +258,13 @@ class BottomNavigationWidgetState extends State<BottomNavigationWidget> {
                           homeController
                               .isTraineeLogin.value // training enabled
                       ? trainingTabPages[
-                         widget.selectedIndex] // show training pages
+                          widget.selectedIndex] // show training pages
                       :
                       // both of the inspection and training allowed
                       homeController
                               .isTrainingSection.value // training tab clicked
-                          ? trainingTabPages[ widget.selectedIndex ] // show training pages
+                          ? trainingTabPages[
+                              widget.selectedIndex] // show training pages
                           : inspectionTabPages[homeController
                               .pageIndex.value], // show inspection tab pages
           // <<<<<<<<<Bottom NAV >>>>>>>>>>
@@ -557,4 +563,18 @@ class BottomNavigationWidgetState extends State<BottomNavigationWidget> {
       ),
     );
   }
+
+  // Widget getPage(
+  //     {required int index,
+  //     required bool isInpectionOn,
+  //     required bool isTrainingOn,
+  //     required bool isUser,
+  //     required bool isUserLoggedIn,
+  //     required bool isCustomer,
+  //     required bool isCalliberationOn}) {
+  //       if (!isUserLoggedIn) {
+
+  //        return inspectionTabPages[index];
+  //       }else if(!is) {}
+  // }
 }

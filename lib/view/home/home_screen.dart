@@ -522,6 +522,10 @@ class HomePageState extends State<HomePage>
           homeController.isTraineeLogin.value) {
         homeController.isTrainingSection.value = true;
       }
+      if (homeController.isuserLogin.value == false &&
+          homeController.isCalliberationLogin.value) {
+        homeController.isCaliberationSection.value = true;
+      }
     } catch (e) {}
     return SafeArea(
       child: GetBuilder<HomeController>(builder: (loginDatas) {
@@ -648,6 +652,9 @@ class HomePageState extends State<HomePage>
                                                       .logout(context);
                                                   globalHomeController
                                                       .isTrainingSection
+                                                      .value = false;
+                                                  globalHomeController
+                                                      .isCaliberationSection
                                                       .value = false;
 
                                                   _handleTabSelection();
