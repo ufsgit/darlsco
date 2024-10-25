@@ -436,7 +436,7 @@ class BottomNavigationWidgetState extends State<BottomNavigationWidget> {
                                 BottomNavigationBarItem(
                                   icon: _getIcon(
                                       3, Icons.book, Icons.book_outlined),
-                                  label: 'Documentatsion',
+                                  label: 'Documentation',
                                 ),
                                 BottomNavigationBarItem(
                                   icon: _getIcon(4, Icons.person_2_rounded,

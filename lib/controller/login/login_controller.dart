@@ -379,7 +379,7 @@ RxBool isLoading=false.obs;
     // tcontoller.refresh();
     // upcomingInspectionsController.refresh();
     // riskAssessmentController.dispose();
-    if (homeController.tabIndex.value == 1) {
+    if (homeController.tabIndex.value == 1||homeController.tabIndex.value==2) {
       homeController.tabIndex.value = 0;
     }
     homeController.isFromPurchase.value = false;

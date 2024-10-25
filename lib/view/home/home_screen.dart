@@ -42,18 +42,17 @@ class HomePageState extends State<HomePage>
           homeController.isCalliberationLogin.value
         ].where((element) => element).length >=
         2;
-    if ( homeController.isTraineeLogin.value == false &&
-                    homeController.isuserLogin.value == false &&
-                    homeController.isCalliberationLogin.value == false ||
-                homeController.isTraineeLogin.value == true &&
-                    homeController.isuserLogin.value == true &&
-                    homeController.isCalliberationLogin.value == true) {
+    if (homeController.isTraineeLogin.value == false &&
+            homeController.isuserLogin.value == false &&
+            homeController.isCalliberationLogin.value == false ||
+        homeController.isTraineeLogin.value == true &&
+            homeController.isuserLogin.value == true &&
+            homeController.isCalliberationLogin.value == true) {
       print('tabIndex 3');
-    } else if(areAnyTwoTrue){
-            print('tabIndex 2');
-
-    } else{
-      print('tabIndex ${homeController.isCalliberationLogin.value }');
+    } else if (areAnyTwoTrue) {
+      print('tabIndex 2');
+    } else {
+      print('tabIndex ${homeController.isCalliberationLogin.value}');
       print('tabIndex 1 ${widget.initialIndex}');
     }
     _tabController = TabController(
@@ -299,6 +298,30 @@ class HomePageState extends State<HomePage>
                             : TabAlignment.start,
 
                         onTap: (index) async {
+                          if (homeController.tabIndex.value == 0) {
+                            print('dfsrgre 6');
+
+                            if (!homeController.isTraineeLogin.value &&
+                                    homeController.isuserLogin.value ||
+                                homeController.isTraineeLogin.value &&
+                                    homeController.isuserLogin.value ||
+                                !homeController.isTraineeLogin.value &&
+                                    !homeController.isuserLogin.value) {
+                              print('dfsrgre 5');
+                              // inspection
+                            } else {
+                              print('dfsrgre 1');
+                            }
+                          } else if (homeController.tabIndex.value == 2 &&
+                              homeController.isCaliberationSection.value) {
+                            print('dfsrgre 2');
+                          } else if (homeController.isTraineeLogin.value) {
+                            print('dfsrgre 3');
+                          } else {
+                            print('dfsrgre 4');
+                          }
+
+                          ///////========/////
                           if (index == 1 &&
                               homeController.isTraineeLogin.value == true &&
                               homeController.isuserLogin.value == false) {
@@ -313,16 +336,15 @@ class HomePageState extends State<HomePage>
                           if (index == 0) {
                             globalHomeController.isTrainingSection.value =
                                 false;
-                                
+
                             homeController.tabIndex.value = index;
                           } else if (index == 2) {
-                             globalHomeController.isTrainingSection.value =
+                            globalHomeController.isTrainingSection.value =
                                 false;
                             globalHomeController.isCaliberationSection.value =
                                 true;
                             homeController.tabIndex.value = index;
-                          }else
-                          {
+                          } else {
                             globalHomeController.isTrainingSection.value = true;
                             globalHomeController.isCaliberationSection.value =
                                 false;
@@ -372,8 +394,11 @@ class HomePageState extends State<HomePage>
                                 size: 30,
                               ),
                             ),
-                            if(globalHomeController.isCalliberationLogin.value||!globalHomeController.isuserLogin.value&&!globalHomeController.isCalliberationLogin.value)
-                             const Tab(
+                          if (globalHomeController.isCalliberationLogin.value ||
+                              !globalHomeController.isuserLogin.value &&
+                                  !globalHomeController
+                                      .isCalliberationLogin.value)
+                            const Tab(
                               iconMargin: EdgeInsets.all(0),
                               text: 'Calliberation',
                               icon: Icon(
@@ -472,14 +497,15 @@ class HomePageState extends State<HomePage>
                       ),
                     ])),
                   ),
-                  // CALLIBERATION
+                // CALLIBERATION
                 if (globalHomeController.isTraineeLogin.value == true ||
                     (globalHomeController.isuserLogin.value == false &&
                         globalHomeController.isTraineeLogin.value == false))
                   const TrainingHomeScreen(),
-                 if (globalHomeController.isCalliberationLogin.value == true ||
+                if (globalHomeController.isCalliberationLogin.value == true ||
                     (globalHomeController.isuserLogin.value == false &&
-                        globalHomeController.isCalliberationLogin.value == false))
+                        globalHomeController.isCalliberationLogin.value ==
+                            false))
                   Tab2(
                     btnText: 'Calliberation',
                     imgurlList: const [
