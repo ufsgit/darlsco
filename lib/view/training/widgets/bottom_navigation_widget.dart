@@ -54,7 +54,7 @@ class BottomNavigationWidgetState extends State<BottomNavigationWidget> {
 // default pages training pages
 
   final List<Widget> trainigPagesDefault = [
-    const HomePage(initialIndex: 1), // select inspection tab
+    const HomePage(initialIndex: 0), // select inspection tab
     const CartScreen(isFromPurchase: false),
 
     const ContactUs(),
@@ -85,13 +85,15 @@ class BottomNavigationWidgetState extends State<BottomNavigationWidget> {
   // calliberation tab
 
   final calliberationTabPages = [
-    const HomePage(initialIndex: 2), // select inspection tab
+    const HomePage(initialIndex:  null), // select inspection tab
     const ContactUs(),
     const AboutUsScreen(),
   ];
 
   void _onItemTapped(int index) {
     setState(() {
+      print('HIII we1');
+
       if (homeController.isuserLogin.value &&
               homeController.isTraineeLogin.value &&
               homeController.isCalliberationLogin.value ||
@@ -100,20 +102,29 @@ class BottomNavigationWidgetState extends State<BottomNavigationWidget> {
               !homeController.isCalliberationLogin.value ||
           !homeController.isuserLogin.value &&
               !homeController.isTraineeLogin.value &&
-              !homeController.isCalliberationLogin.value) {
-        print('hiii 112');
+              !homeController.isCalliberationLogin.value ||
+          homeController.isuserLogin.value &&
+              homeController.isTraineeLogin.value &&
+              !homeController.isCalliberationLogin.value ||
+          homeController.isuserLogin.value &&
+              !homeController.isTraineeLogin.value &&
+              homeController.isCalliberationLogin.value) {
+        print('HIII 1');
 
         if (globalHomeController.tabIndex.value == 0) {
+          print('HIII 2');
         } else {
-          print('eferwg3w');
+          print('HIII 3');
+
           if (globalHomeController.isTraineeLogin.value &&
                   index == 4 // training enabled and 4th index of bnb
               ) {
-            print('fetgtr 1');
+            print('HIII 4');
+
             _scaffoldKey.currentState?.openEndDrawer(); // open drawer
           } else {
-            print('fetgtr 2');
-            print('dfswfg $index');
+            print('HIII 5');
+
             homeController.pageIndex.value =
                 index; // inspection tab page should be shown
 
@@ -121,9 +132,12 @@ class BottomNavigationWidgetState extends State<BottomNavigationWidget> {
           }
         }
         if (index == 4) {
-          print('hiii 115');
+          print('HIII 6');
+
           _scaffoldKey.currentState?.openEndDrawer(); // open drawer
         } else {
+          print('HIII 7 $index');
+
           homeController.inspectionDropdownValue.value = '';
           homeController.equipmentListCustomer = {};
           homeController.inspectionDateController.clear();
@@ -136,13 +150,13 @@ class BottomNavigationWidgetState extends State<BottomNavigationWidget> {
         }
       } else if (!homeController.isuserLogin.value &&
           homeController.isTraineeLogin.value) {
-        print('hiii 113');
+        print('HIII 8');
 
         if (homeController.isuserLogin.value == true &&
                 homeController.isTraineeLogin.value ==
                     false // inspection enabled and training disabled
             ) {
-          print('hiii 114');
+          print('HIII 9');
 
           homeController.inspectionDropdownValue.value = '';
           homeController.equipmentListCustomer = {};
@@ -154,17 +168,22 @@ class BottomNavigationWidgetState extends State<BottomNavigationWidget> {
               index; // inspection tab page should be shown
           widget.selectedIndex = index; // bottom nav index
           if (index == 4) {
-            print('hiii 115');
+            print('HIII 10');
+
             _scaffoldKey.currentState?.openEndDrawer(); // open drawer
           }
         } else {
+          print('HIII 12');
+
           if (globalHomeController.isTraineeLogin.value &&
                   index == 4 // training enabled and 4th index of bnb
               ) {
-            print('hiii 116');
+            print('HIII 13');
+
             _scaffoldKey.currentState?.openEndDrawer(); // open drawer
           } else {
-            print('hiii 117');
+            print('HIII 14');
+            print('HIII $index');
 
             homeController.pageIndex.value =
                 index; // inspection tab page should be shown
@@ -316,14 +335,6 @@ class BottomNavigationWidgetState extends State<BottomNavigationWidget> {
                                       )
                                     : const Icon(Icons.mail_outline),
                                 label: 'Contact'),
-                            // if (homeController.isuserLogin.value == true)
-                            //   const BottomNavigationBarItem(
-                            //       icon: Icon(Icons.dashboard_customize_outlined),
-                            //       activeIcon: Icon(
-                            //         Icons.dashboard,
-                            //         color: ColorResources.color294C73,
-                            //       ),
-                            //       label: 'Dashboard'),
                             BottomNavigationBarItem(
                                 icon: globalHomeController.pageIndex.value == 2
                                     ? const Icon(
@@ -349,15 +360,6 @@ class BottomNavigationWidgetState extends State<BottomNavigationWidget> {
                                   Icons.view_comfortable_outlined),
                               label: 'Order',
                             ),
-
-                            // BottomNavigationBarItem(
-                            //   icon: _getIcon(3, Icons.email, Icons.email_outlined),
-                            //   label: 'Contact',
-                            // ),
-                            // BottomNavigationBarItem(
-                            //   icon: _getIcon(4, Icons.groups, Icons.groups_2_outlined),
-                            //   label: 'About Us',
-                            // ),
                             BottomNavigationBarItem(
                               icon:
                                   _getIcon(3, Icons.book, Icons.book_outlined),
@@ -406,7 +408,8 @@ class BottomNavigationWidgetState extends State<BottomNavigationWidget> {
                                 label: 'About Us'),
                           ]
                         : homeController.isTraineeLogin.value &&
-                                homeController.isTrainingSection.value
+                                homeController.isTrainingSection.value &&
+                                !homeController.isCaliberationSection.value
                             ? [
                                 BottomNavigationBarItem(
                                   icon: _getIcon(
@@ -686,7 +689,17 @@ class BottomNavigationWidgetState extends State<BottomNavigationWidget> {
         print('NAVIGATION 6');
 // LOGGED IN USER WITH ONLY training
 
-        return trainingTabPages[widget.selectedIndex];
+        if (homeController.isTraineeLogin.value &&
+            !homeController.isTrainingSection.value &&
+            homeController.isCaliberationSection.value) {
+          print('dfwrfgrew');
+          return calliberationTabPages[widget.selectedIndex];
+        }
+        print('nrojgenrtg ${homeController.isCaliberationSection.value}');
+
+        return homeController.isCaliberationSection.value
+            ? calliberationTabPages[widget.selectedIndex]
+            : trainingTabPages[widget.selectedIndex];
       } else if (!homeController.isuserLogin.value &&
           homeController.isCaliberationSection.value) {
         return calliberationTabPages[homeController.pageIndex.value];
@@ -701,6 +714,7 @@ class BottomNavigationWidgetState extends State<BottomNavigationWidget> {
         //   return calliberationTabPages[widget.selectedIndex];
         // }
         print('NAVIGATION 10');
+        print('knoeor ${homeController.isuserLogin.value}');
 
         return homeController.isuserLogin.value
             ? trainingTabPages[widget.selectedIndex]
@@ -709,11 +723,13 @@ class BottomNavigationWidgetState extends State<BottomNavigationWidget> {
         print('NAVIGATION 11');
 
         return calliberationTabPages[homeController.pageIndex.value];
+      } else if (homeController.isTrainingSection.value) {
+        return trainingTabPages[homeController.pageIndex.value];
       } else {
         print('NAVIGATION 8');
 // NOT LOGGED IN USER
 //  LOGGED IN USER WITH FULL ACCESS
-
+        print('NDIOFNWEIOFW ${homeController.isTrainingSection.value}');
         return inspectionTabPages[homeController.pageIndex.value];
       }
     }

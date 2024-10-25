@@ -20,7 +20,7 @@ import 'widgets/tab2.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key, required this.initialIndex});
-  final int initialIndex;
+  final int? initialIndex;
   @override
   HomePageState createState() => HomePageState();
 }
@@ -42,6 +42,7 @@ class HomePageState extends State<HomePage>
           homeController.isCalliberationLogin.value
         ].where((element) => element).length >=
         2;
+
     if (homeController.isTraineeLogin.value == false &&
             homeController.isuserLogin.value == false &&
             homeController.isCalliberationLogin.value == false ||
@@ -50,10 +51,18 @@ class HomePageState extends State<HomePage>
             homeController.isCalliberationLogin.value == true) {
       print('tabIndex 3');
     } else if (areAnyTwoTrue) {
-      print('tabIndex 2');
+      print('tabIndex kbhj2');
     } else {
-      print('tabIndex ${homeController.isCalliberationLogin.value}');
+      print('tabIndexhjgvuhj ${homeController.isCalliberationLogin.value}');
       print('tabIndex 1 ${widget.initialIndex}');
+    }
+    if (globalHomeController.isCalliberationLogin.value ||
+        !globalHomeController.isuserLogin.value &&
+            globalHomeController.isCalliberationLogin.value) {
+      print(
+          'tabIndex here ${!globalHomeController.isuserLogin.value && !globalHomeController.isCalliberationLogin.value}');
+    } else {
+      print('tabIndex here 2000');
     }
     _tabController = TabController(
         length: homeController.isTraineeLogin.value == false &&
@@ -72,11 +81,28 @@ class HomePageState extends State<HomePage>
             homeController.isuserLogin.value == false) ||
         (homeController.tabIndex.value == 1) ||
         homeController.isuserLogin.value == true) {
-      _tabController.index = widget.initialIndex;
+      if (widget.initialIndex == null) {
+        _tabController.index = homeController.isuserLogin.value &&
+                homeController.isTraineeLogin.value &&
+                homeController.isCalliberationLogin.value
+            ? 2
+            : 1;
+      } else {
+        _tabController.index = widget.initialIndex ?? 0;
+      }
+      print('oiubib ${widget.initialIndex}');
     } else {
+      print('oiubib 5${widget.initialIndex}');
+
       _tabController.index = 0;
     }
-
+    if (globalHomeController.isCalliberationLogin.value ||
+        !globalHomeController.isuserLogin.value &&
+            globalHomeController.isCalliberationLogin.value) {
+      print('dfsrfgdfweer');
+    } else {
+      print('dfsrfgdfweer2000 ${globalHomeController.isuserLogin.value}');
+    }
     trainingController.selectedCategory.value?.duration = null;
     _tabController.addListener(_handleTabSelection);
     getData();
@@ -119,6 +145,7 @@ class HomePageState extends State<HomePage>
       }
       if (homeController.isuserLogin.value == false &&
           homeController.isCalliberationLogin.value) {
+        print('erioioertniogtng');
         homeController.isCaliberationSection.value = true;
       }
     } catch (e) {}
@@ -341,24 +368,33 @@ class HomePageState extends State<HomePage>
                           if (index == 0) {
                             globalHomeController.isTrainingSection.value =
                                 false;
+                            globalHomeController.isCaliberationSection.value =
+                                false;
 
                             homeController.tabIndex.value = index;
                           } else if (index == 2) {
                             print('dfsrgre 8');
+                            
                             globalHomeController.isTrainingSection.value =
                                 false;
                             globalHomeController.isCaliberationSection.value =
                                 true;
                             homeController.tabIndex.value = index;
                           } else if (index == 1) {
-                            if (!homeController.isuserLogin.value||!homeController.isTraineeLogin.value) {
-                           globalHomeController.isTrainingSection.value =
-                                false;
+                            print('iiiihoioihi 1');
                             globalHomeController.isCaliberationSection.value =
-                                true;
-                          
-                            }else{
-                              
+                                false;
+                            if (!homeController.isuserLogin.value ||
+                                !homeController.isTraineeLogin.value) {
+                              print('iiiihoioihi 2');
+                              globalHomeController.isTrainingSection.value =
+                                  false;
+                              globalHomeController.isCaliberationSection.value =
+                                  true;
+                            } else {
+                              print('iiiihoioihi 3');
+                              globalHomeController.isTrainingSection.value =
+                                  true;
                             }
                             /////////
                             if (homeController.isCalliberationLogin.value &&
@@ -369,7 +405,8 @@ class HomePageState extends State<HomePage>
                                   false;
                               globalHomeController.isCaliberationSection.value =
                                   true;
-                            } else if(!homeController.isCalliberationLogin.value &&
+                            } else if (!homeController
+                                    .isCalliberationLogin.value &&
                                 homeController.isTraineeLogin.value) {
                               print('dfsrgre 11');
 
@@ -388,7 +425,8 @@ class HomePageState extends State<HomePage>
                                 false;
                             homeController.tabIndex.value = index;
                           }
-                          print('dfsrgre ${homeController.isTraineeLogin.value}');
+                          print(
+                              'dfsrgre ${homeController.isTrainingSection.value}');
                         },
                         indicatorColor: ColorResources.colorE5AA17,
                         unselectedLabelColor: ColorResources.color294C73,
@@ -435,6 +473,8 @@ class HomePageState extends State<HomePage>
                             ),
                           if (globalHomeController.isCalliberationLogin.value ||
                               !globalHomeController.isuserLogin.value &&
+                                  globalHomeController
+                                      .isCalliberationLogin.value||!globalHomeController.isuserLogin.value &&
                                   !globalHomeController
                                       .isCalliberationLogin.value)
                             const Tab(
@@ -536,12 +576,16 @@ class HomePageState extends State<HomePage>
                       ),
                     ])),
                   ),
-                // CALLIBERATION
                 if (globalHomeController.isTraineeLogin.value == true ||
                     (globalHomeController.isuserLogin.value == false &&
                         globalHomeController.isTraineeLogin.value == false))
                   const TrainingHomeScreen(),
+                // CALLIBERATION
+
                 if (globalHomeController.isCalliberationLogin.value == true ||
+                    (globalHomeController.isuserLogin.value == false &&
+                        globalHomeController.isCalliberationLogin.value ==
+                            true) ||
                     (globalHomeController.isuserLogin.value == false &&
                         globalHomeController.isCalliberationLogin.value ==
                             false))

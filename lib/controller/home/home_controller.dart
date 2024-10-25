@@ -938,7 +938,7 @@ class HomeController extends GetxController {
 
     String isInspectionCustomer =
         preferences.getString('inspection_login') ?? '';
-    String isCalliberationCustomer = '0';
+    String isCalliberationCustomer = '1';
 
     if (token == '' || token == 'null') {
       isuserLogin.value = false;

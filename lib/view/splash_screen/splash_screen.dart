@@ -209,12 +209,10 @@ class _SplashScreenState extends State<SplashScreen> {
         break;
       case 'customer':
         Get.offAll(() => BottomNavigationWidget());
-        // Get.offAll(() => const SampleBottomNavWidget(isLoggedIn: true));
 
         break;
       default:
         Get.offAll(() => BottomNavigationWidget());
-        // Get.offAll(()=>const SampleBottomNavWidget(isLoggedIn: false));
     }
   }
 

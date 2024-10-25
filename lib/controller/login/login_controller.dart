@@ -26,7 +26,7 @@ final LoginController loginController = Get.put(LoginController());
 class LoginController extends GetxController {
   TextEditingController mobileNumberController = TextEditingController();
   TextEditingController pinPutOtpController = TextEditingController();
-RxBool isLoading=false.obs;
+  RxBool isLoading = false.obs;
   LoginOtpModel? userData;
 
   List<String> companyLocationList = [
@@ -127,15 +127,15 @@ RxBool isLoading=false.obs;
     required String phNo,
   }) async {
     // Loader.showLoader();
-    isLoading.value=true;
+    isLoading.value = true;
     SharedPreferences preferences = await SharedPreferences.getInstance();
     String firebaseToken = '';
     try {
       homeController.messagingToken = FirebaseMessaging.instance;
       firebaseToken = await homeController.messagingToken.getToken() ?? '';
-   isLoading.value=false;
+      isLoading.value = false;
     } catch (e) {
-         isLoading.value=false;
+      isLoading.value = false;
 
       if (kDebugMode) {
         print(e);
@@ -177,7 +177,7 @@ RxBool isLoading=false.obs;
               'trainee_login', data['0'][0]['Training'].toString());
           preferences.setString(
               'inspection_login', data['0'][0]['Inspection'].toString());
-              // TODO:NEED TO STORE LOCALLY
+          // TODO:NEED TO STORE LOCALLY
           homeController.isInspection.value =
               data['0'][0]['Inspection'].toString();
           homeController.isTraineee.value = data['0'][0]['Training'].toString();
@@ -196,7 +196,8 @@ RxBool isLoading=false.obs;
           }
           if (homeController.isuserLogin.value &&
               homeController.isTraineeLogin.value &&
-              homeController.isTrainingSection.value&&homeController.isCaliberationSection.value) {
+              homeController.isTrainingSection.value &&
+              homeController.isCaliberationSection.value) {
             homeController.isTrainingSection.value = false;
             homeController.isCaliberationSection.value = false;
           }
@@ -379,13 +380,14 @@ RxBool isLoading=false.obs;
     // tcontoller.refresh();
     // upcomingInspectionsController.refresh();
     // riskAssessmentController.dispose();
-    if (homeController.tabIndex.value == 1||homeController.tabIndex.value==2) {
+    if (homeController.tabIndex.value == 1 ||
+        homeController.tabIndex.value == 2) {
       homeController.tabIndex.value = 0;
     }
     homeController.isFromPurchase.value = false;
     globalHomeController.isTraineeLogin.value == false;
     globalHomeController.isuserLogin.value = false;
-    globalHomeController.isCaliberationSection.value=false;
+    globalHomeController.isCaliberationSection.value = false;
     getcountry(context);
     homeController.isUsersignedIn();
 
