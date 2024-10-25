@@ -77,6 +77,7 @@ class UpcomingInspectionsController extends GetxController {
       });
     }
     isLoading.value = false;
+    update();
   }
 
   getCustomerTask({required isFromSplash}) async {
@@ -215,7 +216,7 @@ class UpcomingInspectionsController extends GetxController {
         startDate: DateTime.now().add(const Duration(days: 1)),
         endDate: DateTime.now().add(const Duration(days: 1)));
 
-    // update();
+    update();
   }
 
   getYesterdayTaskDetails(isInitState) async {
@@ -223,7 +224,7 @@ class UpcomingInspectionsController extends GetxController {
         isInitSate: isInitState,
         startDate: DateTime.now().subtract(const Duration(days: 1)),
         endDate: DateTime.now().subtract(const Duration(days: 1)));
-
+update();
 // yesterdayTaskListData    .reversed;// update();
   }
 

@@ -625,7 +625,7 @@ class _TrainingInspectionScreenState extends State<TrainingInspectionScreen> {
                 setState(() {
                   datePickController.text = formattedDate;
                 });
-                            },
+              },
             ),
           ),
         ],
