@@ -405,7 +405,8 @@ class BottomNavigationWidgetState extends State<BottomNavigationWidget> {
                                     : const Icon(Icons.groups_2_outlined),
                                 label: 'About Us'),
                           ]
-                        : homeController.isTraineeLogin.value
+                        : homeController.isTraineeLogin.value &&
+                                homeController.isTrainingSection.value
                             ? [
                                 BottomNavigationBarItem(
                                   icon: _getIcon(
@@ -444,33 +445,77 @@ class BottomNavigationWidgetState extends State<BottomNavigationWidget> {
                                   label: 'Profile',
                                 ),
                               ]
-                            : [
-                                BottomNavigationBarItem(
-                                  icon: _getIcon(
-                                      0, Icons.home, Icons.home_outlined),
-                                  label: 'Home',
-                                ),
-                                BottomNavigationBarItem(
-                                  icon: _getIcon(1, Icons.shopping_cart,
-                                      Icons.shopping_cart_outlined),
-                                  label: 'Cart',
-                                ),
-                                BottomNavigationBarItem(
-                                  icon: _getIcon(
-                                      2, Icons.mail, Icons.mail_outline),
-                                  label: 'Contact',
-                                ),
-                                BottomNavigationBarItem(
-                                  icon: _getIcon(
-                                      3, Icons.groups, Icons.groups_2_outlined),
-                                  label: 'About Us',
-                                ),
-                                BottomNavigationBarItem(
-                                  icon: _getIcon(
-                                      4, Icons.book, Icons.book_outlined),
-                                  label: 'Documentation',
-                                ),
-                              ]
+                            : homeController.isCalliberationLogin.value &&
+                                    homeController.isCaliberationSection.value
+                                ? [
+                                    BottomNavigationBarItem(
+                                        icon: homeController.pageIndex.value ==
+                                                0
+                                            ? const Icon(
+                                                Icons.home,
+                                                color:
+                                                    ColorResources.color294C73,
+                                              )
+                                            : const Icon(Icons.home_outlined),
+                                        label: 'Home'),
+                                    BottomNavigationBarItem(
+                                        icon: homeController.pageIndex.value ==
+                                                1
+                                            ? const Icon(
+                                                Icons.mail,
+                                                color:
+                                                    ColorResources.color294C73,
+                                              )
+                                            : const Icon(Icons.mail_outline),
+                                        label: 'Contact'),
+                                    // if (homeController.isuserLogin.value == true)
+                                    //   const BottomNavigationBarItem(
+                                    //       icon: Icon(Icons.dashboard_customize_outlined),
+                                    //       activeIcon: Icon(
+                                    //         Icons.dashboard,
+                                    //         color: ColorResources.color294C73,
+                                    //       ),
+                                    //       label: 'Dashboard'),
+                                    BottomNavigationBarItem(
+                                        icon: globalHomeController
+                                                    .pageIndex.value ==
+                                                2
+                                            ? const Icon(
+                                                Icons.groups_2,
+                                                color:
+                                                    ColorResources.color294C73,
+                                              )
+                                            : const Icon(
+                                                Icons.groups_2_outlined),
+                                        label: 'About Us'),
+                                  ]
+                                : [
+                                    BottomNavigationBarItem(
+                                      icon: _getIcon(
+                                          0, Icons.home, Icons.home_outlined),
+                                      label: 'Home',
+                                    ),
+                                    BottomNavigationBarItem(
+                                      icon: _getIcon(1, Icons.shopping_cart,
+                                          Icons.shopping_cart_outlined),
+                                      label: 'Cart',
+                                    ),
+                                    BottomNavigationBarItem(
+                                      icon: _getIcon(
+                                          2, Icons.mail, Icons.mail_outline),
+                                      label: 'Contact',
+                                    ),
+                                    BottomNavigationBarItem(
+                                      icon: _getIcon(3, Icons.groups,
+                                          Icons.groups_2_outlined),
+                                      label: 'About Us',
+                                    ),
+                                    BottomNavigationBarItem(
+                                      icon: _getIcon(
+                                          4, Icons.book, Icons.book_outlined),
+                                      label: 'Documentation',
+                                    ),
+                                  ]
                 //  !homeController.isTrainingSection.value ||
                 //         homeController.isuserLogin.value == true &&
                 //             homeController.isTraineeLogin.value == false

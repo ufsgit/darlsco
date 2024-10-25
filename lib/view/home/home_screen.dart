@@ -315,14 +315,19 @@ class HomePageState extends State<HomePage>
                           } else if (homeController.tabIndex.value == 2 &&
                               homeController.isCaliberationSection.value) {
                             print('dfsrgre 2');
-                          } else if (homeController.isTraineeLogin.value) {
+                          } else if (homeController.isTraineeLogin.value &&
+                              homeController.isTrainingSection.value) {
                             print('dfsrgre 3');
+                          } else if (homeController
+                                  .isCaliberationSection.value &&
+                              homeController.isCaliberationSection.value) {
+                            print('dfsrgre 7');
                           } else {
                             print('dfsrgre 4');
                           }
 
                           ///////========/////
-                          if (index == 1 &&
+                          if (index == 2 &&
                               homeController.isTraineeLogin.value == true &&
                               homeController.isuserLogin.value == false) {
                             SharedPreferences sharedPreferences =
@@ -339,17 +344,51 @@ class HomePageState extends State<HomePage>
 
                             homeController.tabIndex.value = index;
                           } else if (index == 2) {
+                            print('dfsrgre 8');
                             globalHomeController.isTrainingSection.value =
                                 false;
                             globalHomeController.isCaliberationSection.value =
                                 true;
                             homeController.tabIndex.value = index;
+                          } else if (index == 1) {
+                            if (!homeController.isuserLogin.value||!homeController.isTraineeLogin.value) {
+                           globalHomeController.isTrainingSection.value =
+                                false;
+                            globalHomeController.isCaliberationSection.value =
+                                true;
+                          
+                            }else{
+                              
+                            }
+                            /////////
+                            if (homeController.isCalliberationLogin.value &&
+                                !homeController.isTraineeLogin.value) {
+                              print('dfsrgre 10');
+
+                              globalHomeController.isTrainingSection.value =
+                                  false;
+                              globalHomeController.isCaliberationSection.value =
+                                  true;
+                            } else if(!homeController.isCalliberationLogin.value &&
+                                homeController.isTraineeLogin.value) {
+                              print('dfsrgre 11');
+
+                              globalHomeController.isTrainingSection.value =
+                                  true;
+                              globalHomeController.isCaliberationSection.value =
+                                  false;
+                            }
+
+                            homeController.tabIndex.value = index;
                           } else {
+                            print('dfsrgre 9');
+
                             globalHomeController.isTrainingSection.value = true;
                             globalHomeController.isCaliberationSection.value =
                                 false;
                             homeController.tabIndex.value = index;
                           }
+                          print('dfsrgre ${homeController.isTraineeLogin.value}');
                         },
                         indicatorColor: ColorResources.colorE5AA17,
                         unselectedLabelColor: ColorResources.color294C73,
