@@ -170,6 +170,8 @@ class LoginController extends GetxController {
           print('//////////tp${data['0'][0]["tp"].toString()}');
           print('//////mobile${data['0'][0]["Mobile"].toString()}');
           print('////////id${data['0'][0]["Id"].toString()}');
+          print('jhdfbweyui ${data['0'][0]['Training']}');
+          
 
           // preferences.setString('name_user_', data['0'][0]['Name'].toString());
           //   preferences.setString('token', '${data['token']}');

@@ -138,7 +138,7 @@ class _Tab2State extends State<Tab2> {
                       SizedBox(
                         height: 15.w,
                       ),
-                      if (homeController.isuserLogin.value == true)
+                      if (homeController.isUserLoggedIn)
                         Text(
                           "Please fill out the form",
                           style: TextStyle(

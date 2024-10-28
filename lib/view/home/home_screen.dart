@@ -88,13 +88,14 @@ class HomePageState extends State<HomePage>
 
         _tabController.index = homeController.isuserLogin.value &&
                     homeController.isTraineeLogin.value &&
-                    homeController.isCaliberationSection.value ||
+                    homeController.isCalliberationSection.value ||
                 !homeController.isuserLogin.value &&
                     !homeController.isTraineeLogin.value &&
-                    homeController.isCaliberationSection.value
+                    homeController.isCalliberationSection.value
             ? 2
             : 1;
       } else {
+        print('dffgdasf ${widget.initialIndex}');
         _tabController.index = widget.initialIndex ?? 0;
       }
       print('oiubib ${widget.initialIndex}');
@@ -285,6 +286,7 @@ class HomePageState extends State<HomePage>
                                                   globalHomeController
                                                       .isCaliberationSection
                                                       .value = false;
+                                                  globalHomeController.isUserLoggedIn=false;
 
                                                   _handleTabSelection();
                                                   Get.back();
@@ -332,33 +334,6 @@ class HomePageState extends State<HomePage>
                             : TabAlignment.start,
 
                         onTap: (index) async {
-                          if (homeController.tabIndex.value == 0) {
-                            print('dfsrgre 6');
-                            if (!homeController.isTraineeLogin.value &&
-                                    homeController.isuserLogin.value ||
-                                homeController.isTraineeLogin.value &&
-                                    homeController.isuserLogin.value ||
-                                !homeController.isTraineeLogin.value &&
-                                    !homeController.isuserLogin.value) {
-                              print('dfsrgre 5');
-                              // inspection
-                            } else {
-                              print('dfsrgre 1');
-                            }
-                          } else if (homeController.tabIndex.value == 2 &&
-                              homeController.isCaliberationSection.value) {
-                            print('dfsrgre 2');
-                          } else if (homeController.isTraineeLogin.value &&
-                              homeController.isTrainingSection.value) {
-                            print('dfsrgre 3');
-                          } else if (homeController
-                                  .isCaliberationSection.value &&
-                              homeController.isCaliberationSection.value) {
-                            print('dfsrgre 7');
-                          } else {
-                            print('dfsrgre 4');
-                          }
-
                           ///////========/////
                           if (index == 2 &&
                               homeController.isTraineeLogin.value == true &&
@@ -368,71 +343,119 @@ class HomePageState extends State<HomePage>
                             sharedPreferences.clear();
                             await homeController.isUsersignedIn();
                             loginController.logout(context);
-                            homeController.update();
+                          }
+                          print('dfgswrlkkkjkh $index');
+                          if (index == 0 &&
+                                  !homeController.isInspectionEnabled &&
+                                  !homeController.isTrainingEnabled ||
+                              index == 1 &&
+                                  homeController.isInspectionEnabled &&
+                                  !homeController.isTrainingEnabled ||
+                              index == 1 &&
+                                  !homeController.isInspectionEnabled &&
+                                  homeController.isTrainingEnabled ||
+                                  index == 2 &&
+                                  homeController.isInspectionEnabled &&
+                                  homeController.isTrainingEnabled &&
+                                  homeController.isCalliberationEnabled) {
+                            print('sdaed success');
+                          } else {
+                            print(
+                                'sdaed  v1 ${homeController.isTrainingEnabled}');
+                            print(
+                                'sdaed v2 ${homeController.isCalliberationEnabled}');
+                            print(
+                                'sdaed v3 ${homeController.isInspectionEnabled}');
                           }
                           homeController.tabIndex.value = index;
-                          if (index == 0) {
-                            globalHomeController.isTrainingSection.value =
-                                false;
-                            globalHomeController.isCaliberationSection.value =
-                                false;
+                          homeController.isInspectionSection.value =
+                              index == 0 && homeController.isInspectionEnabled;
+                          homeController.isTrainingSectionnew.value =
+                              index == 0 &&
+                                      !homeController.isInspectionEnabled ||
+                                  index == 1 &&
+                                      homeController.isTrainingEnabled &&
+                                      homeController.isInspectionEnabled;
 
-                            homeController.tabIndex.value = index;
-                          } else if (index == 2) {
-                            print('dfsrgre 8');
-
-                            globalHomeController.isTrainingSection.value =
-                                false;
-                            globalHomeController.isCaliberationSection.value =
-                                true;
-                            homeController.tabIndex.value = index;
-                          } else if (index == 1) {
-                            print('iiiihoioihi 1');
-                            globalHomeController.isCaliberationSection.value =
-                                false;
-                            if (!homeController.isuserLogin.value ||
-                                !homeController.isTraineeLogin.value) {
-                              print('iiiihoioihi 2');
-                              globalHomeController.isTrainingSection.value =
-                                  false;
-                              globalHomeController.isCaliberationSection.value =
-                                  true;
-                            } else {
-                              print('iiiihoioihi 3');
-                              globalHomeController.isTrainingSection.value =
-                                  true;
-                            }
-                            /////////
-                            if (homeController.isCalliberationLogin.value &&
-                                !homeController.isTraineeLogin.value) {
-                              print('dfsrgre 10');
-
-                              globalHomeController.isTrainingSection.value =
-                                  false;
-                              globalHomeController.isCaliberationSection.value =
-                                  true;
-                            } else if (!homeController
-                                    .isCalliberationLogin.value &&
-                                homeController.isTraineeLogin.value) {
-                              print('dfsrgre 11');
-
-                              globalHomeController.isTrainingSection.value =
-                                  true;
-                              globalHomeController.isCaliberationSection.value =
-                                  false;
-                            }
-
-                            homeController.tabIndex.value = index;
-                          } else {
-                            print('dfsrgre 9');
-
-                            globalHomeController.isTrainingSection.value = true;
-                            globalHomeController.isCaliberationSection.value =
-                                false;
-                            homeController.tabIndex.value = index;
-                          }
+                          homeController.isCalliberationSection.value =
+                            index == 0 &&
+                                  !homeController.isInspectionEnabled &&
+                                  !homeController.isTrainingEnabled ||
+                              index == 1 &&
+                                  homeController.isInspectionEnabled &&
+                                  !homeController.isTrainingEnabled ||
+                              index == 1 &&
+                                  !homeController.isInspectionEnabled &&
+                                  homeController.isTrainingEnabled ||
+                                  index == 2 &&
+                                  homeController.isInspectionEnabled &&
+                                  homeController.isTrainingEnabled &&
+                                  homeController.isCalliberationEnabled;
                           print(
-                              'dfsrgre ${homeController.isTrainingSection.value}');
+                              'dfwerhbbhbgyg57 ${homeController.isCalliberationSection.value}');
+                          homeController.update();
+                          // if (index == 0) {
+                          //   globalHomeController.isTrainingSection.value =
+                          //       false;
+                          //   globalHomeController.isCaliberationSection.value =
+                          //       false;
+
+                          //   homeController.tabIndex.value = index;
+                          // } else if (index == 2) {
+                          //   print('dfsrgre 8');
+
+                          //   globalHomeController.isTrainingSection.value =
+                          //       false;
+                          //   globalHomeController.isCaliberationSection.value =
+                          //       true;
+                          //   homeController.tabIndex.value = index;
+                          // } else if (index == 1) {
+                          //   print('iiiihoioihi 1');
+                          //   globalHomeController.isCaliberationSection.value =
+                          //       false;
+                          //   if (!homeController.isuserLogin.value ||
+                          //       !homeController.isTraineeLogin.value) {
+                          //     print('iiiihoioihi 2');
+                          //     globalHomeController.isTrainingSection.value =
+                          //         false;
+                          //     globalHomeController.isCaliberationSection.value =
+                          //         true;
+                          //   } else {
+                          //     print('iiiihoioihi 3');
+                          //     globalHomeController.isTrainingSection.value =
+                          //         true;
+                          //   }
+                          //   /////////
+                          //   if (homeController.isCalliberationLogin.value &&
+                          //       !homeController.isTraineeLogin.value) {
+                          //     print('dfsrgre 10');
+
+                          //     globalHomeController.isTrainingSection.value =
+                          //         false;
+                          //     globalHomeController.isCaliberationSection.value =
+                          //         true;
+                          //   } else if (!homeController
+                          //           .isCalliberationLogin.value &&
+                          //       homeController.isTraineeLogin.value) {
+                          //     print('dfsrgre 11');
+
+                          //     globalHomeController.isTrainingSection.value =
+                          //         true;
+                          //     globalHomeController.isCaliberationSection.value =
+                          //         false;
+                          //   }
+
+                          //   homeController.tabIndex.value = index;
+                          // } else {
+                          //   print('dfsrgre 9');
+
+                          //   globalHomeController.isTrainingSection.value = true;
+                          //   globalHomeController.isCaliberationSection.value =
+                          //       false;
+                          //   homeController.tabIndex.value = index;
+                          // }
+                          // print(
+                          //     'dfsrgre ${homeController.isTrainingSection.value}');
                         },
                         indicatorColor: ColorResources.colorE5AA17,
                         unselectedLabelColor: ColorResources.color294C73,
@@ -512,7 +535,7 @@ class HomePageState extends State<HomePage>
                     imgurlList: const [
                       'https://s3-alpha-sig.figma.com/img/641b/30d6/0527f4c4463314a0e51342ca65015b8a?Expires=1701648000&Signature=b3Vf84hA3SPBQdsIYadxD69GmrohKr3CvC~q1CD57dD4NSTWzQMisHJtTaQ~NMufu9IIN2KEsnM4wcyss~flnFXyvB1xWmHLWwXrqCgvyrKDQq0tIP76lrodeGfsiE4YUm4A0IBOoihQoml9jmYxufepXFh0DhaWY-qHczbDczDEHnzzaqjqalyrhhhzbJlQGZb5RDEQOqYhk5XZ96G02DYdXRsmz~bLqfN~gZSBb47X7eRpYICs5ARKnID~0MqIWokpkb34~ZlrynYc1TglNRUy3soJoe3VM3ptaR~kCf2AsN8vAr0e5BEV45Jyzwzl~mJjjO5TcIrsk8ExdSQPRg__&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4'
                     ],
-                    cContainer: homeController.isuserLogin.value == true
+                    cContainer: homeController.isUserLoggedIn
                         ? Wrap(
                             spacing: Get.width > 615 ? 30.w : 10.w,
                             runSpacing: Get.width > 615 ? 30.w : 10.w,
@@ -601,8 +624,7 @@ class HomePageState extends State<HomePage>
                     imgurlList: const [
                       'https://s3-alpha-sig.figma.com/img/641b/30d6/0527f4c4463314a0e51342ca65015b8a?Expires=1701648000&Signature=b3Vf84hA3SPBQdsIYadxD69GmrohKr3CvC~q1CD57dD4NSTWzQMisHJtTaQ~NMufu9IIN2KEsnM4wcyss~flnFXyvB1xWmHLWwXrqCgvyrKDQq0tIP76lrodeGfsiE4YUm4A0IBOoihQoml9jmYxufepXFh0DhaWY-qHczbDczDEHnzzaqjqalyrhhhzbJlQGZb5RDEQOqYhk5XZ96G02DYdXRsmz~bLqfN~gZSBb47X7eRpYICs5ARKnID~0MqIWokpkb34~ZlrynYc1TglNRUy3soJoe3VM3ptaR~kCf2AsN8vAr0e5BEV45Jyzwzl~mJjjO5TcIrsk8ExdSQPRg__&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4'
                     ],
-                    cContainer: homeController.isuserLogin.value == true
-                        ? Wrap(
+                    cContainer: homeController.isUserLoggedIn                        ? Wrap(
                             spacing: Get.width > 615 ? 30.w : 10.w,
                             runSpacing: Get.width > 615 ? 30.w : 10.w,
                             children: List.generate(

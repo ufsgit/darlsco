@@ -318,6 +318,17 @@ class HomeController extends GetxController {
   List getCurrentUsersList = [];
   //methhod for getting device id
 
+  //TODO===================
+  bool isUserLoggedIn = false;
+  bool isInspectionEnabled = true;
+  bool isTrainingEnabled = true;
+  bool isCalliberationEnabled = true;
+
+  RxBool isInspectionSection = false.obs;
+  RxBool isTrainingSectionnew = false.obs;
+  RxBool isCalliberationSection = false.obs;
+  //TODO===================
+
   Future<String?> _getId() async {
     var deviceInfo = DeviceInfoPlugin();
     if (Platform.isIOS) {
@@ -939,7 +950,13 @@ class HomeController extends GetxController {
     String isInspectionCustomer =
         preferences.getString('inspection_login') ?? '';
     String isCalliberationCustomer = '1';
-
+    isUserLoggedIn = token != '' || token != '';
+    isInspectionEnabled = isInspectionCustomer == '1' || !isUserLoggedIn;
+    isTrainingEnabled = isTraineeCustomer == '1' || !isUserLoggedIn;
+    isCalliberationEnabled = isCalliberationCustomer == '1' || !isUserLoggedIn;
+    print('dfwerfwejiji ${isTraineeCustomer}');
+    print('dfwerfwejiji ${isTrainingEnabled}');
+    print('dfwerfwejiji ${isCalliberationEnabled}');
     if (token == '' || token == 'null') {
       isuserLogin.value = false;
       isTraineeLogin.value = false;
@@ -966,11 +983,13 @@ class HomeController extends GetxController {
       isuserLogin.value = false;
       isTraineeLogin.value = false;
     }
-    if (isCalliberationCustomer == '1' && token != '' ) {
-      print('tabIndex hi6 ${isCalliberationCustomer == '1' && token != 'null'}');
+    if (isCalliberationCustomer == '1' && token != '') {
+      print(
+          'tabIndex hi6 ${isCalliberationCustomer == '1' && token != 'null'}');
 
       isCalliberationLogin.value = true;
     }
+    
   }
 
   publicTextboxValidation() {
@@ -1038,7 +1057,7 @@ class HomeController extends GetxController {
             }).then((response) {
           if (response.statusCode == 200) {
             final data = response.data;
-
+print('jhdfbweyuisdfwer ${data[0][0]}');
             prefs.setString(
                 'trainee_login', (data[0][0]['Training_'] ?? '0').toString());
             prefs.setString('inspection_login',
