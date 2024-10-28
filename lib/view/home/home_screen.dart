@@ -82,9 +82,16 @@ class HomePageState extends State<HomePage>
         (homeController.tabIndex.value == 1) ||
         homeController.isuserLogin.value == true) {
       if (widget.initialIndex == null) {
+        print('dfwsrfwrdfs${homeController.isuserLogin.value}');
+        print('dfwsrfwrdfs${homeController.isTraineeLogin.value}');
+        print('dfwsrfwrdfs${homeController.isCalliberationLogin.value}');
+
         _tabController.index = homeController.isuserLogin.value &&
-                homeController.isTraineeLogin.value &&
-                homeController.isCalliberationLogin.value
+                    homeController.isTraineeLogin.value &&
+                    homeController.isCaliberationSection.value ||
+                !homeController.isuserLogin.value &&
+                    !homeController.isTraineeLogin.value &&
+                    homeController.isCaliberationSection.value
             ? 2
             : 1;
       } else {
@@ -327,7 +334,6 @@ class HomePageState extends State<HomePage>
                         onTap: (index) async {
                           if (homeController.tabIndex.value == 0) {
                             print('dfsrgre 6');
-
                             if (!homeController.isTraineeLogin.value &&
                                     homeController.isuserLogin.value ||
                                 homeController.isTraineeLogin.value &&
@@ -374,7 +380,7 @@ class HomePageState extends State<HomePage>
                             homeController.tabIndex.value = index;
                           } else if (index == 2) {
                             print('dfsrgre 8');
-                            
+
                             globalHomeController.isTrainingSection.value =
                                 false;
                             globalHomeController.isCaliberationSection.value =
@@ -474,7 +480,8 @@ class HomePageState extends State<HomePage>
                           if (globalHomeController.isCalliberationLogin.value ||
                               !globalHomeController.isuserLogin.value &&
                                   globalHomeController
-                                      .isCalliberationLogin.value||!globalHomeController.isuserLogin.value &&
+                                      .isCalliberationLogin.value ||
+                              !globalHomeController.isuserLogin.value &&
                                   !globalHomeController
                                       .isCalliberationLogin.value)
                             const Tab(

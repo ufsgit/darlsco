@@ -85,7 +85,7 @@ class BottomNavigationWidgetState extends State<BottomNavigationWidget> {
   // calliberation tab
 
   final calliberationTabPages = [
-    const HomePage(initialIndex:  null), // select inspection tab
+    const HomePage(initialIndex: null), // select inspection tab
     const ContactUs(),
     const AboutUsScreen(),
   ];
@@ -110,7 +110,6 @@ class BottomNavigationWidgetState extends State<BottomNavigationWidget> {
               !homeController.isTraineeLogin.value &&
               homeController.isCalliberationLogin.value) {
         print('HIII 1');
-
         if (globalHomeController.tabIndex.value == 0) {
           print('HIII 2');
         } else {
@@ -519,136 +518,7 @@ class BottomNavigationWidgetState extends State<BottomNavigationWidget> {
                                       label: 'Documentation',
                                     ),
                                   ]
-                //  !homeController.isTrainingSection.value ||
-                //         homeController.isuserLogin.value == true &&
-                //             homeController.isTraineeLogin.value == false
-                //     ? [
-                //         BottomNavigationBarItem(
-                //             icon: homeController.pageIndex.value == 0
-                //                 ? const Icon(
-                //                     Icons.home,
-                //                     color: ColorResources.color294C73,
-                //                   )
-                //                 : const Icon(Icons.home_outlined),
-                //             label: 'Home'),
-                //         BottomNavigationBarItem(
-                //             icon: homeController.pageIndex.value == 1
-                //                 ? const Icon(
-                //                     Icons.mail,
-                //                     color: ColorResources.color294C73,
-                //                   )
-                //                 : const Icon(Icons.mail_outline),
-                //             label: 'Contact'),
-                //         // if (homeController.isuserLogin.value == true)
-                //         //   const BottomNavigationBarItem(
-                //         //       icon: Icon(Icons.dashboard_customize_outlined),
-                //         //       activeIcon: Icon(
-                //         //         Icons.dashboard,
-                //         //         color: ColorResources.color294C73,
-                //         //       ),
-                //         //       label: 'Dashboard'),
-                //         BottomNavigationBarItem(
-                //             icon: globalHomeController.pageIndex.value == 2
-                //                 ? const Icon(
-                //                     Icons.groups_2,
-                //                     color: ColorResources.color294C73,
-                //                   )
-                //                 : const Icon(Icons.groups_2_outlined),
-                //             label: 'About Us'),
-                //       ]
-                //     : globalHomeController.isTraineeLogin.value == true ||
-                //             homeController.isTrainingSection.value
-                //         ? !homeController.isuserLogin.value &&
-                //                 !homeController.isTraineeLogin.value
-                //             ? [
-                //                 BottomNavigationBarItem(
-                //                   icon: _getIcon(
-                //                       0, Icons.home, Icons.home_outlined),
-                //                   label: 'Home',
-                //                 ),
-                //                 BottomNavigationBarItem(
-                //                   icon: _getIcon(1, Icons.shopping_cart,
-                //                       Icons.shopping_cart_outlined),
-                //                   label: 'Cart',
-                //                 ),
-                //                 BottomNavigationBarItem(
-                //                   icon:
-                //                       _getIcon(2, Icons.mail, Icons.mail_outline),
-                //                   label: 'Contact',
-                //                 ),
-                //                 BottomNavigationBarItem(
-                //                   icon: _getIcon(
-                //                       3, Icons.groups, Icons.groups_2_outlined),
-                //                   label: 'About Us',
-                //                 ),
-                //                 BottomNavigationBarItem(
-                //                   icon: _getIcon(
-                //                       4, Icons.book, Icons.book_outlined),
-                //                   label: 'Documentation',
-                //                 ),
-                //               ]
-                //             : [
-                //                 BottomNavigationBarItem(
-                //                   icon: _getIcon(
-                //                       0, Icons.home, Icons.home_outlined),
-                //                   label: 'Home',
-                //                 ),
-                //                 BottomNavigationBarItem(
-                //                   icon: _getIcon(1, Icons.shopping_cart,
-                //                       Icons.shopping_cart_outlined),
-                //                   label: 'Cart',
-                //                 ),
-                //                 BottomNavigationBarItem(
-                //                   icon: _getIcon(
-                //                       2,
-                //                       Icons.view_comfortable_rounded,
-                //                       Icons.view_comfortable_outlined),
-                //                   label: 'Order',
-                //                 ),
-
-                //                 // BottomNavigationBarItem(
-                //                 //   icon: _getIcon(3, Icons.email, Icons.email_outlined),
-                //                 //   label: 'Contact',
-                //                 // ),
-                //                 // BottomNavigationBarItem(
-                //                 //   icon: _getIcon(4, Icons.groups, Icons.groups_2_outlined),
-                //                 //   label: 'About Us',
-                //                 // ),
-                //                 BottomNavigationBarItem(
-                //                   icon: _getIcon(
-                //                       3, Icons.book, Icons.book_outlined),
-                //                   label: 'Documentation',
-                //                 ),
-                //                 BottomNavigationBarItem(
-                //                   icon: _getIcon(4, Icons.person_2_rounded,
-                //                       Icons.person_2_outlined),
-                //                   label: 'Profile',
-                //                 ),
-                //               ]
-                //         : [
-                //             BottomNavigationBarItem(
-                //               icon: _getIcon(0, Icons.home, Icons.home_outlined),
-                //               label: 'Home',
-                //             ),
-                //             BottomNavigationBarItem(
-                //               icon: _getIcon(1, Icons.shopping_cart,
-                //                   Icons.shopping_cart_outlined),
-                //               label: 'Cart',
-                //             ),
-                //             BottomNavigationBarItem(
-                //               icon: _getIcon(2, Icons.mail, Icons.mail_outline),
-                //               label: 'Contact',
-                //             ),
-                //             BottomNavigationBarItem(
-                //               icon: _getIcon(
-                //                   3, Icons.groups, Icons.groups_2_outlined),
-                //               label: 'About Us',
-                //             ),
-                //             BottomNavigationBarItem(
-                //               icon: _getIcon(4, Icons.book, Icons.book_outlined),
-                //               label: 'Documentation',
-                //             ),
-                //           ],
+              
                 ),
           ),
         ),
@@ -661,21 +531,18 @@ class BottomNavigationWidgetState extends State<BottomNavigationWidget> {
         !homeController.isTraineeLogin.value) {
 // USER LOGGED IN
       if (homeController.isTrainingSection.value) {
-        print('NAVIGATION 2');
 // TRAINING SECTION TRUE
 
         return trainigPagesDefault[widget.selectedIndex];
       } else if (homeController.isCaliberationSection.value) {
         return calliberationTabPages[homeController.pageIndex.value];
       } else {
-        print('NAVIGATION 3');
 // LOGGED IN USER WITH ONLY INSPECTION
         return inspectionTabPages[homeController.pageIndex.value];
       }
     } else if (homeController.isuserLogin.value &&
         !homeController.isTraineeLogin.value &&
         !homeController.isCalliberationLogin.value) {
-      print('NAVIGATION 4');
 // USER LOGGED IN
       return inspectionTabPages[homeController.pageIndex.value];
     } else if (homeController.isuserLogin.value &&
@@ -686,50 +553,30 @@ class BottomNavigationWidgetState extends State<BottomNavigationWidget> {
       if (!homeController.isuserLogin.value &&
           homeController.isTraineeLogin.value) {
 // TRAINEE LOGGED IN
-        print('NAVIGATION 6');
 // LOGGED IN USER WITH ONLY training
 
         if (homeController.isTraineeLogin.value &&
             !homeController.isTrainingSection.value &&
             homeController.isCaliberationSection.value) {
-          print('dfwrfgrew');
           return calliberationTabPages[widget.selectedIndex];
         }
-        print('nrojgenrtg ${homeController.isCaliberationSection.value}');
 
         return homeController.isCaliberationSection.value
             ? calliberationTabPages[widget.selectedIndex]
             : trainingTabPages[widget.selectedIndex];
       } else if (!homeController.isuserLogin.value &&
           homeController.isCaliberationSection.value) {
+            print('dfwrfuigwhr ${homeController.isuserLogin.value}');
         return calliberationTabPages[homeController.pageIndex.value];
       } else if (homeController.isTrainingSection.value) {
-//  NOT LOGGED IN USER
-//  LOGGED IN USER WITH FULL ACCESS
-        // if (homeController.isCaliberationSection.value) {
-        //   print('NAVIGATION 9');
-        //   print('sdaegfrugueir ${homeController.isCaliberationSection.value}');
-        //           print('sdaegfrugueir ${homeController.isTrainingSection.value}');
-
-        //   return calliberationTabPages[widget.selectedIndex];
-        // }
-        print('NAVIGATION 10');
-        print('knoeor ${homeController.isuserLogin.value}');
-
         return homeController.isuserLogin.value
             ? trainingTabPages[widget.selectedIndex]
             : trainigPagesDefault[widget.selectedIndex];
       } else if (homeController.isCaliberationSection.value) {
-        print('NAVIGATION 11');
-
         return calliberationTabPages[homeController.pageIndex.value];
       } else if (homeController.isTrainingSection.value) {
         return trainingTabPages[homeController.pageIndex.value];
       } else {
-        print('NAVIGATION 8');
-// NOT LOGGED IN USER
-//  LOGGED IN USER WITH FULL ACCESS
-        print('NDIOFNWEIOFW ${homeController.isTrainingSection.value}');
         return inspectionTabPages[homeController.pageIndex.value];
       }
     }
