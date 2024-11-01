@@ -39,20 +39,13 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     mainInitFunction();
 
-    // homeController.numberTextList = [
-    //   '0',
-    //   '0',
-    //   '${upcontroller.upcomingInspectionListData.length}',
-    //   '${homeController.customerLocations.length}'
-    // ];
-
     super.initState();
   }
 
   mainInitFunction() async {
     try {
       PackageInfo packageInfo = await PackageInfo.fromPlatform();
-      const String version = '1.0.9';
+      const String version = '1.0.11';
       await homeController.versionCheck(version, context);
       if (homeController.isAppBlocked.value) {
         Get.to(() => const UserBlockScreen());
@@ -201,7 +194,6 @@ class _SplashScreenState extends State<SplashScreen> {
   checkUserType() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     String customerType = sharedPreferences.getString('type') ?? '';
-    print('dfwrf $customerType');
     switch (customerType) {
       case 'user':
         Get.offAll(() => const TrainingInspectionScreen());

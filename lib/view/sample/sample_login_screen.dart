@@ -1,4 +1,3 @@
-import 'package:darlsco/view/sample/styles/app_colors.dart';
 import 'package:darlsco/view/sample/styles/app_styles.dart';
 import 'package:flutter/material.dart';
 

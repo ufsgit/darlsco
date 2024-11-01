@@ -1,4 +1,3 @@
-
 import 'package:darlsco/controller/upcoming_inspections/upcoming_inspection_controller.dart';
 import 'package:darlsco/core/constants/color_resources.dart';
 import 'package:darlsco/view/home/bottom_navigation_screen.dart';
@@ -421,8 +420,8 @@ class _TrainningScreenTabState extends State<TrainningScreenTab> {
 
                                               // tcontoller.update();
                                             })),
-                                        Text('Visual',style
-                                        :TextStyle(fontSize: 12.sp))
+                                        Text('Visual',
+                                            style: TextStyle(fontSize: 12.sp))
                                       ],
                                     ),
                                   ),
@@ -451,8 +450,8 @@ class _TrainningScreenTabState extends State<TrainningScreenTab> {
 
                                               //  tcontroller.update();
                                             })),
-                                        Text('Periodic',style
-                                        :TextStyle(fontSize: 12.sp))
+                                        Text('Periodic',
+                                            style: TextStyle(fontSize: 12.sp))
                                       ],
                                     ),
                                   ),
@@ -476,8 +475,8 @@ class _TrainningScreenTabState extends State<TrainningScreenTab> {
                                                   .value = false;
                                               //  tcontroller.update();
                                             })),
-                                        Text('Major',style
-                                        :TextStyle(fontSize: 12.sp))
+                                        Text('Major',
+                                            style: TextStyle(fontSize: 12.sp))
                                       ],
                                     ),
                                   ),
@@ -497,8 +496,8 @@ class _TrainningScreenTabState extends State<TrainningScreenTab> {
 
                                               //  tcontoller.update();
                                             })),
-                                        Text('In-Service',style
-                                        :TextStyle(fontSize: 12.sp))
+                                        Text('In-Service',
+                                            style: TextStyle(fontSize: 12.sp))
                                       ],
                                     ),
                                   ),
@@ -525,12 +524,11 @@ class _TrainningScreenTabState extends State<TrainningScreenTab> {
 
                                               //  tcontoller.update();
                                             })),
-                                        Text('Thorough',style
-                                        :TextStyle(fontSize: 12.sp))
+                                        Text('Thorough',
+                                            style: TextStyle(fontSize: 12.sp))
                                       ],
                                     ),
                                   ),
-
 
                                   SizedBox(
                                     width: 200.w,
@@ -547,8 +545,8 @@ class _TrainningScreenTabState extends State<TrainningScreenTab> {
 
                                               //  tcontoller.update();
                                             })),
-                                        Text('Independent',style
-                                        :TextStyle(fontSize: 12.sp))
+                                        Text('Independent',
+                                            style: TextStyle(fontSize: 12.sp))
                                       ],
                                     ),
                                   ),
@@ -588,8 +586,8 @@ class _TrainningScreenTabState extends State<TrainningScreenTab> {
 
                                               //  tcontoller.update();
                                             })),
-                                        Text('Initial Examination',style
-                                        :TextStyle(fontSize: 12.sp))
+                                        Text('Initial Examination',
+                                            style: TextStyle(fontSize: 12.sp))
                                       ],
                                     ),
                                   ),
@@ -633,105 +631,254 @@ class _TrainningScreenTabState extends State<TrainningScreenTab> {
 
 commonBottomButton() {
   print('periodic value ${tcontoller.periodicCheck.value}');
+  if (homeController.isCalliberationSection.value) {
+    return upcomingInspectionsController.taskUserDetailsCalliberation[0]
+                        ['Task_Status_Id']
+                    .toString() ==
+                '4' ||
+            upcomingInspectionsController.taskUserDetailsCalliberation[0]
+                        ['Task_Status_Id']
+                    .toString() ==
+                '1'
+        ?
 
-  return upcomingInspectionsController.taskUserDetails[0]['Task_Status_Id']
-                  .toString() ==
-              '4' ||
-          upcomingInspectionsController.taskUserDetails[0]['Task_Status_Id']
-                  .toString() ==
-              '1'
-      ?
+        // return
 
-      // return
+        InkWell(
+            splashColor: ColorResources.color294C73,
+            borderRadius: BorderRadius.circular(6.sp),
+            onLongPress: () {},
+            onTap: () async {
+              // await upcomingInspectionsController.saveTaskUserStart();
 
-      InkWell(
-          splashColor: ColorResources.color294C73,
-          borderRadius: BorderRadius.circular(6.sp),
-          onLongPress: () {},
-          onTap: () async {
-            // await upcomingInspectionsController.saveTaskUserStart();
+              final equipmentCheck = upcomingInspectionsController
+                  .taskEquipmentListDataCalliberation
+                  .where((element) => element['Checked'].toString() == '1')
+                  .toList();
+              print(
+                  'equipment list ${upcomingInspectionsController.taskEquipmentListDataCalliberation}');
 
-            final equipmentCheck = upcomingInspectionsController
-                .taskEquipmentListData
-                .where((element) => element['Checked'].toString() == '1')
-                .toList();
-            print(
-                'equipment list ${upcomingInspectionsController.taskEquipmentListData}');
-
-            if (equipmentCheck.isNotEmpty) {
-              if (upcomingInspectionsController
-                          .taskEquipmentListData.last['Checked']
+              if (equipmentCheck.isNotEmpty) {
+                if (upcomingInspectionsController
+                            .taskEquipmentListDataCalliberation.last['Checked']
+                            .toString() ==
+                        '1' &&
+                    upcomingInspectionsController
+                            .taskEquipmentListDataCalliberation
+                            .last['Equipment_Name']
+                            .toString() ==
+                        'Other' &&
+                    tcontoller.otherEqupmentNotecntrlr.text.isEmpty) {
+                  ScaffoldMessenger.of(Get.context!).showSnackBar(
+                      const SnackBar(
+                          content: Text(
+                              'Enter Additional Equipment Name Recieved!')));
+                } else {
+                  if (upcomingInspectionsController
+                          .taskUserDetailsCalliberation[0]['Role_Id']
                           .toString() ==
-                      '1' &&
-                  upcomingInspectionsController
-                          .taskEquipmentListData.last['Equipment_Name']
-                          .toString() ==
-                      'Other' &&
-                  tcontoller.otherEqupmentNotecntrlr.text.isEmpty) {
-                ScaffoldMessenger.of(Get.context!).showSnackBar(const SnackBar(
-                    content:
-                        Text('Enter Additional Equipment Name Recieved!')));
-              } else {
-                if (upcomingInspectionsController.taskUserDetails[0]['Role_Id']
-                        .toString() ==
-                    '38') {
-                  print(' visual check     ${tcontoller.visualCheck.value}');
-                  print(' periodicCheck    ${tcontoller.periodicCheck.value}');
+                      '38') {
+                    print(' visual check     ${tcontoller.visualCheck.value}');
+                    print(
+                        ' periodicCheck    ${tcontoller.periodicCheck.value}');
 
-                  print('thoroughCheck     ${tcontoller.thoroughCheck.value}');
+                    print(
+                        'thoroughCheck     ${tcontoller.thoroughCheck.value}');
 
-                  print(' majorCheck    ${tcontoller.majorCheck.value}');
+                    print(' majorCheck    ${tcontoller.majorCheck.value}');
 
-                  if (tcontoller.visualCheck.value == true ||
-                      tcontoller.periodicCheck.value == true ||
-                      tcontoller.thoroughCheck.value == true ||
-                      tcontoller.inServiceCheck.value == true ||
-                      tcontoller.examinationCheck.value == true ||
-                      tcontoller.independentCheck.value == true ||
-                      tcontoller.majorCheck.value == true) {
+                    if (tcontoller.visualCheck.value == true ||
+                        tcontoller.periodicCheck.value == true ||
+                        tcontoller.thoroughCheck.value == true ||
+                        tcontoller.inServiceCheck.value == true ||
+                        tcontoller.examinationCheck.value == true ||
+                        tcontoller.independentCheck.value == true ||
+                        tcontoller.majorCheck.value == true) {
+                      final userEnter = await tcontoller.geofenceLocation(
+                        fenceLatitude: upcomingInspectionsController
+                                .taskDetailsDataCalliberation.isEmpty
+                            ? 10.005548201562277
+                            : double.parse(upcomingInspectionsController
+                                .taskDetailsDataCalliberation[0]['Latitude']
+                                .toString()),
+                        fenceLongitude: upcomingInspectionsController
+                                .taskDetailsDataCalliberation.isEmpty
+                            ? 76.37540812327876
+                            : double.parse(upcomingInspectionsController
+                                .taskDetailsDataCalliberation[0]['Longitude']
+                                .toString()),
+                      );
+
+                      if (userEnter == 'inside') {
+                        if (tcontoller.isTaskStarted.value == true) {
+                          await upcomingInspectionsController.getTestEquipment(
+                            taskUserDetailsId: upcomingInspectionsController
+                                    .taskUserDetailsCalliberation[0]
+                                ['Task_User_Details_Id'],
+                            taskId: upcomingInspectionsController
+                                .taskDetailsDataCalliberation[0]['Task_Id'],
+                          );
+                          // await upcomingInspectionsController.getUserTaskDetails(taskId: upcomingInspectionsController
+                          //       .taskDetailsData[0]['Task_Id']); // need to change
+                          await upcomingInspectionsController.getTestppe(
+                            taskUserDetailsId: upcomingInspectionsController
+                                    .taskUserDetailsCalliberation[0]
+                                ['Task_User_Details_Id'],
+                            taskId: upcomingInspectionsController
+                                .taskDetailsDataCalliberation[0]['Task_Id'],
+                          );
+                          await upcomingInspectionsController.getTestDocument(
+                            taskUserDetailsId: upcomingInspectionsController
+                                    .taskUserDetailsCalliberation[0]
+                                ['Task_User_Details_Id'],
+                            taskId: upcomingInspectionsController
+                                .taskDetailsDataCalliberation[0]['Task_Id'],
+                          );
+
+                          Get.to(() => TrainingEquipmentScreen(
+                                taskId: int.parse(upcomingInspectionsController
+                                    .taskDetailsDataCalliberation[0]['Task_Id']
+                                    .toString()),
+                              ));
+                        } else {
+                          showDialog(
+                            barrierDismissible: false,
+                            context: Get.context!,
+                            builder: (ctx) => AlertDialog(
+                              // title: const Text(
+                              //   'Logout',
+                              //   style: TextStyle(fontWeight: FontWeight.w800),
+                              // ),
+                              content: const SingleChildScrollView(
+                                child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                          "Are you sure you want to start? Please confirm your equipment selection in the equipment list. Once you start your task, you won't be able to change it again.")
+                                    ]),
+                              ),
+                              actions: [
+                                TextButton(
+                                  child: const Text('Cancel'),
+                                  onPressed: () {
+                                    Get.back();
+                                  },
+                                ),
+                                TextButton(
+                                  child: const Text('Continue'),
+                                  onPressed: () async {
+                                    Get.back();
+                                    await upcomingInspectionsController
+                                        .getTestEquipment(
+                                      taskUserDetailsId:
+                                          upcomingInspectionsController
+                                                  .taskUserDetailsCalliberation[
+                                              0]['Task_User_Details_Id'],
+                                      taskId: upcomingInspectionsController
+                                              .taskDetailsDataCalliberation[0]
+                                          ['Task_Id'],
+                                    );
+                                    await upcomingInspectionsController
+                                        .getTestppe(
+                                      taskUserDetailsId:
+                                          upcomingInspectionsController
+                                                  .taskUserDetailsCalliberation[
+                                              0]['Task_User_Details_Id'],
+                                      taskId: upcomingInspectionsController
+                                              .taskDetailsDataCalliberation[0]
+                                          ['Task_Id'],
+                                    );
+                                    await upcomingInspectionsController
+                                        .getTestDocument(
+                                      taskUserDetailsId:
+                                          upcomingInspectionsController
+                                                  .taskUserDetailsCalliberation[
+                                              0]['Task_User_Details_Id'],
+                                      taskId: upcomingInspectionsController
+                                              .taskDetailsDataCalliberation[0]
+                                          ['Task_Id'],
+                                    );
+                                    await upcomingInspectionsController
+                                        .saveTaskUserStart();
+                                  },
+                                ),
+                              ],
+                            ),
+                          );
+                        }
+                      } else {
+                        ScaffoldMessenger.of(Get.context!).showSnackBar(
+                            const SnackBar(
+                                content: Text(
+                                    "Your current location doesn't match the task location. You won't be able to start the task!")));
+                      }
+
+                      // if (tcontoller.isTaskStarted.value == false) {
+                      //         tcontoller.geofenceService
+                      //       .addGeofenceStatusChangeListener(tcontoller.onGeofenceStatusChanged);
+                      //   tcontoller.geofenceService
+                      //       .addLocationChangeListener(tcontoller.onLocationChanged);
+                      //   tcontoller.geofenceService.addLocationServicesStatusChangeListener(
+                      //       tcontoller.onLocationServicesStatusChanged);
+                      //   tcontoller.geofenceService
+                      //       .addActivityChangeListener(tcontoller.onActivityChanged);
+                      //   tcontoller.geofenceService.addStreamErrorListener(tcontoller.onError);
+                      //   tcontoller.geofenceService
+                      //       .start(tcontoller.geofenceList)
+                      //       .catchError(tcontoller.onError);
+                      //   // await upcomingInspectionsController.saveTaskUserStart();
+                      // } else {
+                      //   Get.to(() => const TrainingEquipmentScreen());
+                      // }
+
+                      // await upcomingInspectionsController.saveTaskUserStart();
+                    } else {
+                      if (homeController.isStartBtnClicked.value == false) {
+                        ScaffoldMessenger.of(Get.context!).showSnackBar(
+                            const SnackBar(content: Text('Select Task Type')));
+                      }
+                      homeController.isStartBtnClicked.value = true;
+                    }
+                  } else {
                     final userEnter = await tcontoller.geofenceLocation(
-                      fenceLatitude:
-                          upcomingInspectionsController.taskDetailsData.isEmpty
-                              ? 10.005548201562277
-                              : double.parse(upcomingInspectionsController
-                                  .taskDetailsData[0]['Latitude']
-                                  .toString()),
-                      fenceLongitude:
-                          upcomingInspectionsController.taskDetailsData.isEmpty
-                              ? 76.37540812327876
-                              : double.parse(upcomingInspectionsController
-                                  .taskDetailsData[0]['Longitude']
-                                  .toString()),
+                      fenceLatitude: upcomingInspectionsController
+                              .taskDetailsDataCalliberation.isEmpty
+                          ? 10.005548201562277
+                          : double.parse(upcomingInspectionsController
+                              .taskDetailsDataCalliberation[0]['Latitude']
+                              .toString()),
+                      fenceLongitude: upcomingInspectionsController
+                              .taskDetailsDataCalliberation.isEmpty
+                          ? 76.37540812327876
+                          : double.parse(upcomingInspectionsController
+                              .taskDetailsDataCalliberation[0]['Longitude']
+                              .toString()),
                     );
 
                     if (userEnter == 'inside') {
-                      if (tcontoller.isTaskStarted.value == true) {
-                        await upcomingInspectionsController.getTestEquipment(
-                          taskUserDetailsId: upcomingInspectionsController
-                              .taskUserDetails[0]['Task_User_Details_Id'],
-                          taskId: upcomingInspectionsController
-                              .taskDetailsData[0]['Task_Id'],
-                        );
-                        // await upcomingInspectionsController.getUserTaskDetails(taskId: upcomingInspectionsController
-                        //       .taskDetailsData[0]['Task_Id']); // need to change
-                        await upcomingInspectionsController.getTestppe(
-                          taskUserDetailsId: upcomingInspectionsController
-                              .taskUserDetails[0]['Task_User_Details_Id'],
-                          taskId: upcomingInspectionsController
-                              .taskDetailsData[0]['Task_Id'],
-                        );
-                        await upcomingInspectionsController.getTestDocument(
-                          taskUserDetailsId: upcomingInspectionsController
-                              .taskUserDetails[0]['Task_User_Details_Id'],
-                          taskId: upcomingInspectionsController
-                              .taskDetailsData[0]['Task_Id'],
-                        );
+                      //  await upcomingInspectionsController.saveTaskUserStart();
+                      // await upcomingInspectionsController.getTestEquipment(
+                      //   taskUserDetailsId: upcomingInspectionsController
+                      //       .taskUserDetails[0]['Task_User_Details_Id'],
+                      //   taskId: upcomingInspectionsController.taskDetailsData[0]
+                      //       ['Task_Id'],
+                      // );
+                      // await upcomingInspectionsController.getTestppe(
+                      //   taskUserDetailsId: upcomingInspectionsController
+                      //       .taskUserDetails[0]['Task_User_Details_Id'],
+                      //   taskId: upcomingInspectionsController.taskDetailsData[0]
+                      //       ['Task_Id'],
+                      // );
+                      // await upcomingInspectionsController.getTestDocument(
+                      //   taskUserDetailsId: upcomingInspectionsController
+                      //       .taskUserDetails[0]['Task_User_Details_Id'],
+                      //   taskId: upcomingInspectionsController.taskDetailsData[0]
+                      //       ['Task_Id'],
+                      // );
 
-                        Get.to(() => TrainingEquipmentScreen(
-                              taskId: int.parse(upcomingInspectionsController
-                                  .taskDetailsData[0]['Task_Id']
-                                  .toString()),
-                            ));
+                      if (tcontoller.isTaskStarted.value == true) {
+                        Get.to(() => const RiskAssesmentStopScreen());
                       } else {
                         showDialog(
                           barrierDismissible: false,
@@ -760,33 +907,7 @@ commonBottomButton() {
                                 child: const Text('Continue'),
                                 onPressed: () async {
                                   Get.back();
-                                  await upcomingInspectionsController
-                                      .getTestEquipment(
-                                    taskUserDetailsId:
-                                        upcomingInspectionsController
-                                                .taskUserDetails[0]
-                                            ['Task_User_Details_Id'],
-                                    taskId: upcomingInspectionsController
-                                        .taskDetailsData[0]['Task_Id'],
-                                  );
-                                  await upcomingInspectionsController
-                                      .getTestppe(
-                                    taskUserDetailsId:
-                                        upcomingInspectionsController
-                                                .taskUserDetails[0]
-                                            ['Task_User_Details_Id'],
-                                    taskId: upcomingInspectionsController
-                                        .taskDetailsData[0]['Task_Id'],
-                                  );
-                                  await upcomingInspectionsController
-                                      .getTestDocument(
-                                    taskUserDetailsId:
-                                        upcomingInspectionsController
-                                                .taskUserDetails[0]
-                                            ['Task_User_Details_Id'],
-                                    taskId: upcomingInspectionsController
-                                        .taskDetailsData[0]['Task_Id'],
-                                  );
+
                                   await upcomingInspectionsController
                                       .saveTaskUserStart();
                                 },
@@ -803,7 +924,7 @@ commonBottomButton() {
                     }
 
                     // if (tcontoller.isTaskStarted.value == false) {
-                    //         tcontoller.geofenceService
+                    //        tcontoller.geofenceService
                     //       .addGeofenceStatusChangeListener(tcontoller.onGeofenceStatusChanged);
                     //   tcontoller.geofenceService
                     //       .addLocationChangeListener(tcontoller.onLocationChanged);
@@ -817,145 +938,367 @@ commonBottomButton() {
                     //       .catchError(tcontoller.onError);
                     //   // await upcomingInspectionsController.saveTaskUserStart();
                     // } else {
-                    //   Get.to(() => const TrainingEquipmentScreen());
+                    //   Get.to(() => const RiskAssesmentStopScreen());
                     // }
-
-                    // await upcomingInspectionsController.saveTaskUserStart();
-                  } else {
-                    if (homeController.isStartBtnClicked.value == false) {
-                      ScaffoldMessenger.of(Get.context!).showSnackBar(
-                          const SnackBar(content: Text('Select Task Type')));
-                    }
-                    homeController.isStartBtnClicked.value = true;
                   }
+                }
+              } else {
+                ScaffoldMessenger.of(Get.context!).showSnackBar(const SnackBar(
+                    content: Text("Select atleast one equipment!")));
+              }
+            },
+            child: Container(
+              height: 50.h,
+              color: ColorResources.colorE5AA17,
+              child: Center(
+                  child: Obx(
+                () => Text(
+                  tcontoller.isTaskStarted.value == false
+                      ? "Start"
+                      : 'View Details',
+                  style: TextStyle(
+                    fontFamily: "Roboto",
+                    fontSize: 20.sp,
+                    fontWeight: FontWeight.w500,
+                    color: ColorResources.color0d0d0d,
+                    height: 14.9767427444458 / 20,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              )),
+            ),
+          )
+        : const SizedBox();
+  } else {
+    return upcomingInspectionsController.taskUserDetails[0]['Task_Status_Id']
+                    .toString() ==
+                '4' ||
+            upcomingInspectionsController.taskUserDetails[0]['Task_Status_Id']
+                    .toString() ==
+                '1'
+        ?
+
+        // return
+
+        InkWell(
+            splashColor: ColorResources.color294C73,
+            borderRadius: BorderRadius.circular(6.sp),
+            onLongPress: () {},
+            onTap: () async {
+              // await upcomingInspectionsController.saveTaskUserStart();
+
+              final equipmentCheck = upcomingInspectionsController
+                  .taskEquipmentListData
+                  .where((element) => element['Checked'].toString() == '1')
+                  .toList();
+              print(
+                  'equipment list ${upcomingInspectionsController.taskEquipmentListData}');
+
+              if (equipmentCheck.isNotEmpty) {
+                if (upcomingInspectionsController
+                            .taskEquipmentListData.last['Checked']
+                            .toString() ==
+                        '1' &&
+                    upcomingInspectionsController
+                            .taskEquipmentListData.last['Equipment_Name']
+                            .toString() ==
+                        'Other' &&
+                    tcontoller.otherEqupmentNotecntrlr.text.isEmpty) {
+                  ScaffoldMessenger.of(Get.context!).showSnackBar(
+                      const SnackBar(
+                          content: Text(
+                              'Enter Additional Equipment Name Recieved!')));
                 } else {
-                  final userEnter = await tcontoller.geofenceLocation(
-                    fenceLatitude:
-                        upcomingInspectionsController.taskDetailsData.isEmpty
+                  if (upcomingInspectionsController.taskUserDetails[0]
+                              ['Role_Id']
+                          .toString() ==
+                      '38') {
+                    print(' visual check     ${tcontoller.visualCheck.value}');
+                    print(
+                        ' periodicCheck    ${tcontoller.periodicCheck.value}');
+
+                    print(
+                        'thoroughCheck     ${tcontoller.thoroughCheck.value}');
+
+                    print(' majorCheck    ${tcontoller.majorCheck.value}');
+
+                    if (tcontoller.visualCheck.value == true ||
+                        tcontoller.periodicCheck.value == true ||
+                        tcontoller.thoroughCheck.value == true ||
+                        tcontoller.inServiceCheck.value == true ||
+                        tcontoller.examinationCheck.value == true ||
+                        tcontoller.independentCheck.value == true ||
+                        tcontoller.majorCheck.value == true) {
+                      final userEnter = await tcontoller.geofenceLocation(
+                        fenceLatitude: upcomingInspectionsController
+                                .taskDetailsData.isEmpty
                             ? 10.005548201562277
                             : double.parse(upcomingInspectionsController
                                 .taskDetailsData[0]['Latitude']
                                 .toString()),
-                    fenceLongitude:
-                        upcomingInspectionsController.taskDetailsData.isEmpty
+                        fenceLongitude: upcomingInspectionsController
+                                .taskDetailsData.isEmpty
                             ? 76.37540812327876
                             : double.parse(upcomingInspectionsController
                                 .taskDetailsData[0]['Longitude']
                                 .toString()),
-                  );
-
-                  if (userEnter == 'inside') {
-                    //  await upcomingInspectionsController.saveTaskUserStart();
-                    // await upcomingInspectionsController.getTestEquipment(
-                    //   taskUserDetailsId: upcomingInspectionsController
-                    //       .taskUserDetails[0]['Task_User_Details_Id'],
-                    //   taskId: upcomingInspectionsController.taskDetailsData[0]
-                    //       ['Task_Id'],
-                    // );
-                    // await upcomingInspectionsController.getTestppe(
-                    //   taskUserDetailsId: upcomingInspectionsController
-                    //       .taskUserDetails[0]['Task_User_Details_Id'],
-                    //   taskId: upcomingInspectionsController.taskDetailsData[0]
-                    //       ['Task_Id'],
-                    // );
-                    // await upcomingInspectionsController.getTestDocument(
-                    //   taskUserDetailsId: upcomingInspectionsController
-                    //       .taskUserDetails[0]['Task_User_Details_Id'],
-                    //   taskId: upcomingInspectionsController.taskDetailsData[0]
-                    //       ['Task_Id'],
-                    // );
-
-                    if (tcontoller.isTaskStarted.value == true) {
-                      Get.to(() => const RiskAssesmentStopScreen());
-                    } else {
-                      showDialog(
-                        barrierDismissible: false,
-                        context: Get.context!,
-                        builder: (ctx) => AlertDialog(
-                          // title: const Text(
-                          //   'Logout',
-                          //   style: TextStyle(fontWeight: FontWeight.w800),
-                          // ),
-                          content: const SingleChildScrollView(
-                            child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                      "Are you sure you want to start? Please confirm your equipment selection in the equipment list. Once you start your task, you won't be able to change it again.")
-                                ]),
-                          ),
-                          actions: [
-                            TextButton(
-                              child: const Text('Cancel'),
-                              onPressed: () {
-                                Get.back();
-                              },
-                            ),
-                            TextButton(
-                              child: const Text('Continue'),
-                              onPressed: () async {
-                                Get.back();
-
-                                await upcomingInspectionsController
-                                    .saveTaskUserStart();
-                              },
-                            ),
-                          ],
-                        ),
                       );
+
+                      if (userEnter == 'inside') {
+                        if (tcontoller.isTaskStarted.value == true) {
+                          await upcomingInspectionsController.getTestEquipment(
+                            taskUserDetailsId: upcomingInspectionsController
+                                .taskUserDetails[0]['Task_User_Details_Id'],
+                            taskId: upcomingInspectionsController
+                                .taskDetailsData[0]['Task_Id'],
+                          );
+                          // await upcomingInspectionsController.getUserTaskDetails(taskId: upcomingInspectionsController
+                          //       .taskDetailsData[0]['Task_Id']); // need to change
+                          await upcomingInspectionsController.getTestppe(
+                            taskUserDetailsId: upcomingInspectionsController
+                                .taskUserDetails[0]['Task_User_Details_Id'],
+                            taskId: upcomingInspectionsController
+                                .taskDetailsData[0]['Task_Id'],
+                          );
+                          await upcomingInspectionsController.getTestDocument(
+                            taskUserDetailsId: upcomingInspectionsController
+                                .taskUserDetails[0]['Task_User_Details_Id'],
+                            taskId: upcomingInspectionsController
+                                .taskDetailsData[0]['Task_Id'],
+                          );
+
+                          Get.to(() => TrainingEquipmentScreen(
+                                taskId: int.parse(upcomingInspectionsController
+                                    .taskDetailsData[0]['Task_Id']
+                                    .toString()),
+                              ));
+                        } else {
+                          showDialog(
+                            barrierDismissible: false,
+                            context: Get.context!,
+                            builder: (ctx) => AlertDialog(
+                              // title: const Text(
+                              //   'Logout',
+                              //   style: TextStyle(fontWeight: FontWeight.w800),
+                              // ),
+                              content: const SingleChildScrollView(
+                                child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                          "Are you sure you want to start? Please confirm your equipment selection in the equipment list. Once you start your task, you won't be able to change it again.")
+                                    ]),
+                              ),
+                              actions: [
+                                TextButton(
+                                  child: const Text('Cancel'),
+                                  onPressed: () {
+                                    Get.back();
+                                  },
+                                ),
+                                TextButton(
+                                  child: const Text('Continue'),
+                                  onPressed: () async {
+                                    Get.back();
+                                    await upcomingInspectionsController
+                                        .getTestEquipment(
+                                      taskUserDetailsId:
+                                          upcomingInspectionsController
+                                                  .taskUserDetails[0]
+                                              ['Task_User_Details_Id'],
+                                      taskId: upcomingInspectionsController
+                                          .taskDetailsData[0]['Task_Id'],
+                                    );
+                                    await upcomingInspectionsController
+                                        .getTestppe(
+                                      taskUserDetailsId:
+                                          upcomingInspectionsController
+                                                  .taskUserDetails[0]
+                                              ['Task_User_Details_Id'],
+                                      taskId: upcomingInspectionsController
+                                          .taskDetailsData[0]['Task_Id'],
+                                    );
+                                    await upcomingInspectionsController
+                                        .getTestDocument(
+                                      taskUserDetailsId:
+                                          upcomingInspectionsController
+                                                  .taskUserDetails[0]
+                                              ['Task_User_Details_Id'],
+                                      taskId: upcomingInspectionsController
+                                          .taskDetailsData[0]['Task_Id'],
+                                    );
+                                    await upcomingInspectionsController
+                                        .saveTaskUserStart();
+                                  },
+                                ),
+                              ],
+                            ),
+                          );
+                        }
+                      } else {
+                        ScaffoldMessenger.of(Get.context!).showSnackBar(
+                            const SnackBar(
+                                content: Text(
+                                    "Your current location doesn't match the task location. You won't be able to start the task!")));
+                      }
+
+                      // if (tcontoller.isTaskStarted.value == false) {
+                      //         tcontoller.geofenceService
+                      //       .addGeofenceStatusChangeListener(tcontoller.onGeofenceStatusChanged);
+                      //   tcontoller.geofenceService
+                      //       .addLocationChangeListener(tcontoller.onLocationChanged);
+                      //   tcontoller.geofenceService.addLocationServicesStatusChangeListener(
+                      //       tcontoller.onLocationServicesStatusChanged);
+                      //   tcontoller.geofenceService
+                      //       .addActivityChangeListener(tcontoller.onActivityChanged);
+                      //   tcontoller.geofenceService.addStreamErrorListener(tcontoller.onError);
+                      //   tcontoller.geofenceService
+                      //       .start(tcontoller.geofenceList)
+                      //       .catchError(tcontoller.onError);
+                      //   // await upcomingInspectionsController.saveTaskUserStart();
+                      // } else {
+                      //   Get.to(() => const TrainingEquipmentScreen());
+                      // }
+
+                      // await upcomingInspectionsController.saveTaskUserStart();
+                    } else {
+                      if (homeController.isStartBtnClicked.value == false) {
+                        ScaffoldMessenger.of(Get.context!).showSnackBar(
+                            const SnackBar(content: Text('Select Task Type')));
+                      }
+                      homeController.isStartBtnClicked.value = true;
                     }
                   } else {
-                    ScaffoldMessenger.of(Get.context!).showSnackBar(const SnackBar(
-                        content: Text(
-                            "Your current location doesn't match the task location. You won't be able to start the task!")));
-                  }
+                    final userEnter = await tcontoller.geofenceLocation(
+                      fenceLatitude:
+                          upcomingInspectionsController.taskDetailsData.isEmpty
+                              ? 10.005548201562277
+                              : double.parse(upcomingInspectionsController
+                                  .taskDetailsData[0]['Latitude']
+                                  .toString()),
+                      fenceLongitude:
+                          upcomingInspectionsController.taskDetailsData.isEmpty
+                              ? 76.37540812327876
+                              : double.parse(upcomingInspectionsController
+                                  .taskDetailsData[0]['Longitude']
+                                  .toString()),
+                    );
 
-                  // if (tcontoller.isTaskStarted.value == false) {
-                  //        tcontoller.geofenceService
-                  //       .addGeofenceStatusChangeListener(tcontoller.onGeofenceStatusChanged);
-                  //   tcontoller.geofenceService
-                  //       .addLocationChangeListener(tcontoller.onLocationChanged);
-                  //   tcontoller.geofenceService.addLocationServicesStatusChangeListener(
-                  //       tcontoller.onLocationServicesStatusChanged);
-                  //   tcontoller.geofenceService
-                  //       .addActivityChangeListener(tcontoller.onActivityChanged);
-                  //   tcontoller.geofenceService.addStreamErrorListener(tcontoller.onError);
-                  //   tcontoller.geofenceService
-                  //       .start(tcontoller.geofenceList)
-                  //       .catchError(tcontoller.onError);
-                  //   // await upcomingInspectionsController.saveTaskUserStart();
-                  // } else {
-                  //   Get.to(() => const RiskAssesmentStopScreen());
-                  // }
+                    if (userEnter == 'inside') {
+                      //  await upcomingInspectionsController.saveTaskUserStart();
+                      // await upcomingInspectionsController.getTestEquipment(
+                      //   taskUserDetailsId: upcomingInspectionsController
+                      //       .taskUserDetails[0]['Task_User_Details_Id'],
+                      //   taskId: upcomingInspectionsController.taskDetailsData[0]
+                      //       ['Task_Id'],
+                      // );
+                      // await upcomingInspectionsController.getTestppe(
+                      //   taskUserDetailsId: upcomingInspectionsController
+                      //       .taskUserDetails[0]['Task_User_Details_Id'],
+                      //   taskId: upcomingInspectionsController.taskDetailsData[0]
+                      //       ['Task_Id'],
+                      // );
+                      // await upcomingInspectionsController.getTestDocument(
+                      //   taskUserDetailsId: upcomingInspectionsController
+                      //       .taskUserDetails[0]['Task_User_Details_Id'],
+                      //   taskId: upcomingInspectionsController.taskDetailsData[0]
+                      //       ['Task_Id'],
+                      // );
+
+                      if (tcontoller.isTaskStarted.value == true) {
+                        Get.to(() => const RiskAssesmentStopScreen());
+                      } else {
+                        showDialog(
+                          barrierDismissible: false,
+                          context: Get.context!,
+                          builder: (ctx) => AlertDialog(
+                            // title: const Text(
+                            //   'Logout',
+                            //   style: TextStyle(fontWeight: FontWeight.w800),
+                            // ),
+                            content: const SingleChildScrollView(
+                              child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                        "Are you sure you want to start? Please confirm your equipment selection in the equipment list. Once you start your task, you won't be able to change it again.")
+                                  ]),
+                            ),
+                            actions: [
+                              TextButton(
+                                child: const Text('Cancel'),
+                                onPressed: () {
+                                  Get.back();
+                                },
+                              ),
+                              TextButton(
+                                child: const Text('Continue'),
+                                onPressed: () async {
+                                  Get.back();
+
+                                  await upcomingInspectionsController
+                                      .saveTaskUserStart();
+                                },
+                              ),
+                            ],
+                          ),
+                        );
+                      }
+                    } else {
+                      ScaffoldMessenger.of(Get.context!).showSnackBar(
+                          const SnackBar(
+                              content: Text(
+                                  "Your current location doesn't match the task location. You won't be able to start the task!")));
+                    }
+
+                    // if (tcontoller.isTaskStarted.value == false) {
+                    //        tcontoller.geofenceService
+                    //       .addGeofenceStatusChangeListener(tcontoller.onGeofenceStatusChanged);
+                    //   tcontoller.geofenceService
+                    //       .addLocationChangeListener(tcontoller.onLocationChanged);
+                    //   tcontoller.geofenceService.addLocationServicesStatusChangeListener(
+                    //       tcontoller.onLocationServicesStatusChanged);
+                    //   tcontoller.geofenceService
+                    //       .addActivityChangeListener(tcontoller.onActivityChanged);
+                    //   tcontoller.geofenceService.addStreamErrorListener(tcontoller.onError);
+                    //   tcontoller.geofenceService
+                    //       .start(tcontoller.geofenceList)
+                    //       .catchError(tcontoller.onError);
+                    //   // await upcomingInspectionsController.saveTaskUserStart();
+                    // } else {
+                    //   Get.to(() => const RiskAssesmentStopScreen());
+                    // }
+                  }
                 }
+              } else {
+                ScaffoldMessenger.of(Get.context!).showSnackBar(const SnackBar(
+                    content: Text("Select atleast one equipment!")));
               }
-            } else {
-              ScaffoldMessenger.of(Get.context!).showSnackBar(const SnackBar(
-                  content: Text("Select atleast one equipment!")));
-            }
-          },
-          child: Container(
-            height: 50.h,
-            color: ColorResources.colorE5AA17,
-            child: Center(
-                child: Obx(
-              () => Text(
-                tcontoller.isTaskStarted.value == false
-                    ? "Start"
-                    : 'View Details',
-                style: TextStyle(
-                  fontFamily: "Roboto",
-                  fontSize: 20.sp,
-                  fontWeight: FontWeight.w500,
-                  color: ColorResources.color0d0d0d,
-                  height: 14.9767427444458 / 20,
+            },
+            child: Container(
+              height: 50.h,
+              color: ColorResources.colorE5AA17,
+              child: Center(
+                  child: Obx(
+                () => Text(
+                  tcontoller.isTaskStarted.value == false
+                      ? "Start"
+                      : 'View Details',
+                  style: TextStyle(
+                    fontFamily: "Roboto",
+                    fontSize: 20.sp,
+                    fontWeight: FontWeight.w500,
+                    color: ColorResources.color0d0d0d,
+                    height: 14.9767427444458 / 20,
+                  ),
+                  textAlign: TextAlign.center,
                 ),
-                textAlign: TextAlign.center,
-              ),
-            )),
-          ),
-        )
-      : const SizedBox();
+              )),
+            ),
+          )
+        : const SizedBox();
+  }
 }
 
 Container trainningGridWidget(

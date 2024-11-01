@@ -28,8 +28,8 @@ class Tab2 extends StatefulWidget {
 
 class _Tab2State extends State<Tab2> {
   @override
-  void initState() 
-  {
+  void initState() {
+    getData();
     homeController.checkCountryCode(context);
     homeController.inspectionDropdownValue.value = '';
     homeController.equipmentListCustomer = {};
@@ -37,6 +37,12 @@ class _Tab2State extends State<Tab2> {
     homeController.inspectionMessageController.clear();
     homeController.isChooseEquipment.value = false;
     super.initState();
+  }
+
+  getData() async {
+    if (homeController.isUserLoggedIn) {
+      await homeController.initfunction();
+    }
   }
 
   HomeController homeController = Get.put(HomeController());
@@ -48,7 +54,7 @@ class _Tab2State extends State<Tab2> {
         padding: EdgeInsets.symmetric(horizontal: 15.sp),
         child: RefreshIndicator(
           onRefresh: () async {
-            if (homeController.isuserLogin.value == true) {
+            if (homeController.isUserLoggedIn) {
               await homeController.initfunction();
             }
           },
@@ -236,12 +242,9 @@ class _Tab2State extends State<Tab2> {
                           if (homeController.isuserLogin.value == true)
                             commonHmeButtonWidget(
                                 ontap: () {
-
 // ScaffoldMessenger.of(context)
 //             .showSnackBar(const SnackBar(
 
-              
-              
 //               content: Text('homeController.inspectionDropdownValue.value')));
 
                                   if (homeController
@@ -629,7 +632,7 @@ class _Tab2State extends State<Tab2> {
               setState(() {
                 datePickController.text = formattedDate;
               });
-                        },
+            },
           ),
         ),
       ],

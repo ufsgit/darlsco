@@ -1,5 +1,6 @@
 import 'package:darlsco/controller/tainning/trainnig_controller.dart';
 import 'package:darlsco/controller/upcoming_inspections/upcoming_inspection_controller.dart';
+import 'package:darlsco/view/home/bottom_navigation_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -179,7 +180,7 @@ class _TrainingEquipmentScreenState extends State<TrainingEquipmentScreen>
               searchResultText:
                   upcomingInspectionsController.testEquipmentSearchResult,
               cWidth: 250.w,
-              mainList: upcomingInspectionsController.usedEquipmentData,
+              mainList:homeController.isCalliberationSection.value? upcomingInspectionsController.usedEquipmentDataCalliberation: upcomingInspectionsController.usedEquipmentData,
               searchController:
                   upcomingInspectionsController.searchControllerTestEquipment,
             ),
@@ -187,7 +188,7 @@ class _TrainingEquipmentScreenState extends State<TrainingEquipmentScreen>
               equipmentKeyId: 'Test_PPE_Id',
               equipmentKeyName: 'Test_PPE_Name',
               searchText: 'Search PPE....',
-              mainList: upcomingInspectionsController.usedTestppeData,
+              mainList:homeController.isCalliberationSection.value? upcomingInspectionsController.usedTestppeDataCalliberation: upcomingInspectionsController.usedTestppeData,
               searchController:
                   upcomingInspectionsController.searchControllerTestPpe,
               searchResultText:
@@ -201,7 +202,7 @@ class _TrainingEquipmentScreenState extends State<TrainingEquipmentScreen>
                 searchResultText:
                     upcomingInspectionsController.testDocumentSearchResult,
                 cWidth: 250.w,
-                mainList: upcomingInspectionsController.usedTestDocumentData,
+                mainList:homeController.isCalliberationSection.value? upcomingInspectionsController.usedTestDocumentDataCalliberation: upcomingInspectionsController.usedTestDocumentData,
                 searchController:
                     upcomingInspectionsController.searchControllerTestDocument,
                 expandFlex: 10),
@@ -270,7 +271,12 @@ class _TrainingEquipmentScreenState extends State<TrainingEquipmentScreen>
 
                       break;
                     case 1:
-                      List emptyListCheck = upcomingInspectionsController
+                      List emptyListCheck =homeController.isCalliberationSection.value?
+                       upcomingInspectionsController
+                          .usedTestppeDataCalliberation
+                          .where((e) => e['Is_Checkbox'] == true)
+                          .toList()
+                      : upcomingInspectionsController
                           .usedTestppeData
                           .where((e) => e['Is_Checkbox'] == true)
                           .toList();
@@ -284,7 +290,10 @@ class _TrainingEquipmentScreenState extends State<TrainingEquipmentScreen>
 
                       break;
                     case 2:
-                      List emptyListCheck = upcomingInspectionsController
+                      List emptyListCheck =homeController.isCalliberationSection.value?upcomingInspectionsController
+                          .usedTestDocumentDataCalliberation
+                          .where((e) => e['Is_Checkbox'] == true)
+                          .toList(): upcomingInspectionsController
                           .usedTestDocumentData
                           .where((e) => e['Is_Checkbox'] == true)
                           .toList();

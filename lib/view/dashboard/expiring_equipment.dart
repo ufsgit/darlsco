@@ -14,6 +14,8 @@ class ExpiringEquipmentScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var data=homeController.isCalliberationSection.value?homeController.customerEquipmentExpiringDataCalliberation:
+    homeController.customerEquipmentExpiringData;
     return Scaffold(
       // drawer: const Drawer(),
       appBar: PreferredSize(
@@ -37,7 +39,7 @@ class ExpiringEquipmentScreen extends StatelessWidget {
             backgroundColor: ColorResources.colorTransparent,
           ))),
 
-      bottomNavigationBar: homeController.customerEquipmentExpiringData.isEmpty
+      bottomNavigationBar:data.isEmpty
           ? const SizedBox()
           : InkWell(
               onTap: () {
@@ -95,12 +97,17 @@ class ExpiringEquipmentScreen extends StatelessWidget {
                     ),
 
                     Column(
-                      mainAxisAlignment:
-                          homeController.customerEquipmentExpiringData.isEmpty
+                      mainAxisAlignment: homeController
+                              .isCalliberationSection.value
+                          ? homeController
+                                  .customerEquipmentExpiringDataCalliberation
+                                  .isEmpty
+                              ? MainAxisAlignment.center
+                              : MainAxisAlignment.start
+                          : homeController.customerEquipmentExpiringData.isEmpty
                               ? MainAxisAlignment.center
                               : MainAxisAlignment.start,
-                      children: homeController
-                              .customerEquipmentExpiringData.isEmpty
+                      children: data.isEmpty
                           ? [
                               SizedBox(
                                   height: 500.h,
@@ -111,8 +118,7 @@ class ExpiringEquipmentScreen extends StatelessWidget {
                                   )))
                             ]
                           : List.generate(
-                              homeController
-                                  .customerEquipmentExpiringData.length,
+                             data.length,
                               (index) => InkWell(
                                 // onTap: () {
                                 //   homeController.selectingEquipment(homeController
@@ -140,8 +146,7 @@ class ExpiringEquipmentScreen extends StatelessWidget {
                                             width:
                                                 Get.width > 615 ? 550.w : 200.w,
                                             child: Text(
-                                              homeController
-                                                  .customerEquipmentExpiringData[
+                                             data[
                                                       index]
                                                   .equipmentName,
                                               overflow: TextOverflow.ellipsis,
@@ -156,59 +161,49 @@ class ExpiringEquipmentScreen extends StatelessWidget {
                                               textAlign: TextAlign.left,
                                             ),
                                           ),
-                                          homeController
-                                                      .customerEquipmentExpiringData[
-                                                          index]
-                                                      .statusId ==
-                                                  11|| homeController
-                                                      .customerEquipmentExpiringData[
-                                                          index]
-                                                      .statusId ==0
+                                        data[
+                                                              index]
+                                                          .statusId ==
+                                                      11 ||
+                                                 data[
+                                                              index]
+                                                          .statusId ==
+                                                      0
                                               ? GetBuilder<HomeController>(
-                                                  builder: (data) {
+                                                  builder: (hdata) {
                                                   return Checkbox(
                                                       value:
-                                                          data.equipmentCheckValue[
+                                                          hdata.equipmentCheckValue[
                                                               index],
                                                       onChanged: (value) {
-                                                        data.equipmentCheckValue[
+                                                        hdata.equipmentCheckValue[
                                                             index] = value!;
                                                         homeController
                                                             .selectingEquipment(
                                                                 {
-                                                              'Equipment_Id': data
-                                                                  .customerEquipmentExpiringData[
+                                                              'Equipment_Id': data[
                                                                       index]
                                                                   .equipmentId,
-                                                              'Equipment_Name': data
-                                                                  .customerEquipmentExpiringData[
+                                                              'Equipment_Name': data[
                                                                       index]
                                                                   .equipmentName
                                                             },
                                                                 value);
                                                       });
-                                                }):
-                                              
-                                              
-                                              
-                                              
-                                              
-                                              
-                                              
-                                              Text( homeController
-                                                      .customerEquipmentExpiringData[
-                                                          index]
-                                                      .statusId ==
-                                                12?'Requested':
-                                                  homeController
-                                                      .customerEquipmentExpiringData[
-                                                          index]
-                                                      .statusName ,
+                                                })
+                                              : Text(
+                                                  data[
+                                                                  index]
+                                                              .statusId ==
+                                                          12
+                                                      ? 'Requested'
+                                                      : data[
+                                                              index]
+                                                          .statusName,
                                                   style: TextStyle(
                                                       color: Colors.red,
                                                       fontSize: 12.sp),
                                                 )
-                                             
                                         ],
                                       ),
                                       SizedBox(
@@ -262,21 +257,19 @@ class ExpiringEquipmentScreen extends StatelessWidget {
                                             textAlign: TextAlign.left,
                                           ),
                                           Text(
-                                            int.parse(homeController
-                                                        .customerEquipmentExpiringData[
+                                            int.parse(data[
                                                             index]
                                                         .experingIn
                                                         .toString()) <
                                                     0
                                                 ? 'Expired'
-                                                : int.parse(homeController
-                                                            .customerEquipmentExpiringData[
+                                                : int.parse(data[
                                                                 index]
                                                             .experingIn
                                                             .toString()) ==
                                                         0
                                                     ? 'Today'
-                                                    : '${homeController.customerEquipmentExpiringData[index].experingIn} Days',
+                                                    : '${data[index].experingIn} Days',
                                             style: TextStyle(
                                               fontFamily: "DM Sans",
                                               fontSize: 13.sp,

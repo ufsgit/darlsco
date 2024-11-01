@@ -59,7 +59,6 @@ class HomeController extends GetxController {
   RxString isInspection = ''.obs;
   RxBool isTraineeUserLogin = false.obs; //training logined or not
   RxBool isTrainingSection = false.obs;
-  RxBool isCaliberationSection = false.obs;
   RxBool isFromHome = false
       .obs; //for login condition if the user is navigate from home to login screen
   RxBool isFromPurchase = false.obs; //for
@@ -313,9 +312,13 @@ class HomeController extends GetxController {
 
   TextEditingController inspectionMessageController = TextEditingController();
   List<CustomerEquipmentList> customerEquipmentData = [];
+  List<CustomerEquipmentList> customerEquipmentDataCalliberation = [];
   List<CustomerEquipmentList> customerEquipmentExpiringData = [];
+  List<CustomerEquipmentList> customerEquipmentExpiringDataCalliberation = [];
   List getAllUsersList = [];
+  List getAllUsersListCalliberation = [];
   List getCurrentUsersList = [];
+  List getCurrentUsersListCalliberation = [];
   //methhod for getting device id
 
   //TODO===================
@@ -359,14 +362,17 @@ class HomeController extends GetxController {
 
   initfunction() async {
     print('efertgetr');
-    isHomeLoading.value = true;
+    try {
+      isHomeLoading.value = true;
+    } catch (e) {}
     await isUsersignedIn();
     //  await InAppUpdateInfo.checkForUpdate();
     //  if(InAppUpdateInfo.updateInfo?.immediateUpdateAllowed ==true){
     //   InAppUpdate.performImmediateUpdate();
     //  }
 
-    if (isuserLogin.value == true) {
+    if (isUserLoggedIn) {
+      print('frgertg3');
       await getCustomerPlace();
 
       await upcomingInspectionsController.getCustomerTask(isFromSplash: true);
@@ -381,8 +387,7 @@ class HomeController extends GetxController {
           context: Get.context, isfromSplashScreen: true);
       upcomingInspectionsController.update();
     }
-    await trainingController.fetchTrainingHomeData();
-    await trainingController.getItemCart();
+
     print('getItemCart8');
     isHomeLoading.value = false;
 
@@ -509,13 +514,18 @@ class HomeController extends GetxController {
     allUserDropDownValue.value = '';
     await HttpRequest.httpGetRequest(
       bodyData: {
-        'Task_Id_': upcomingInspectionsController.taskDetailsData[0]['Task_Id']
+        'Task_Id_': homeController.isCalliberationSection.value
+            ? upcomingInspectionsController.taskDetailsDataCalliberation[0]
+                ['Task_Id']
+            : upcomingInspectionsController.taskDetailsData[0]['Task_Id']
       },
-      endPoint: HttpUrls.getFullUsers,
+      endPoint: homeController.isCalliberationSection.value
+          ? HttpUrls.getFullUsersCalliberation
+          : HttpUrls.getFullUsers,
     ).then((value) {
       if (value.data != null) {
-        getAllUsersList = value.data[0];
-        getCurrentUsersList = value.data[1];
+        getAllUsersListCalliberation = value.data[0];
+        getCurrentUsersListCalliberation = value.data[1];
         Get.to(() => const UserListScreen());
       }
       update();
@@ -537,13 +547,25 @@ class HomeController extends GetxController {
   void changeTaskUser(BuildContext context) async {
     try {
       Map<String, dynamic> changtaskBodyData = {
-        'Task_Id_': upcomingInspectionsController.taskDetailsData[0]['Task_Id'],
-        'From_User_': getCurrentUsersList
+        'Task_Id_': homeController.isCalliberationSection.value
+            ? upcomingInspectionsController.taskDetailsDataCalliberation[0]
+                ['Task_Id']
+            : upcomingInspectionsController.taskDetailsData[0]['Task_Id'],
+        'From_User_':homeController.isCalliberationSection.value?
+        getCurrentUsersListCalliberation
+            .where((element) =>
+                element['User_Details_Name'].toString().toLowerCase() ==
+                currentUserDropDownValue.value.toLowerCase())
+        : getCurrentUsersList
             .where((element) =>
                 element['User_Details_Name'].toString().toLowerCase() ==
                 currentUserDropDownValue.value.toLowerCase())
             .toList()[0]['User_Details_Id'],
-        'To_User_': getAllUsersList
+        'To_User_':homeController.isCalliberationSection.value?getAllUsersListCalliberation
+            .where((element) =>
+                element['User_Details_Name'].toString().toLowerCase() ==
+                allUserDropDownValue.value.toLowerCase())
+            .toList()[0]['User_Details_Id']: getAllUsersList
             .where((element) =>
                 element['User_Details_Name'].toString().toLowerCase() ==
                 allUserDropDownValue.value.toLowerCase())
@@ -704,6 +726,7 @@ class HomeController extends GetxController {
     int customerId = int.parse(sharedPreferences.getString('darlsco_id') ?? '');
 
     customerEquipmentData.clear();
+    customerEquipmentDataCalliberation.clear();
     await HttpRequest.httpGetRequest(
       bodyData: {
         "Customer_Id_": customerId,
@@ -741,6 +764,49 @@ class HomeController extends GetxController {
       }
     });
 
+    /// ============== Calliberation Api ==================
+    await HttpRequest.httpGetRequest(
+      bodyData: {
+        "Customer_Id_": customerId,
+        "Location_Id_": locationId,
+      },
+      endPoint: HttpUrls.getCustomerEquipmentsCaliberation,
+    ).then((value) {
+      print('dfgwr4tiow4oi4wroi ${value.statusCode}');
+      if (value.statusCode == 200) {
+        if (isFromLocationScreen) {
+          Get.to(
+            () => const EquipmentListScreenMob(),
+          );
+        } else {
+          if (value.data[0].isEmpty && isFromLocationScreen == false) {
+            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                content: Text('No equipment found this location')));
+          } else {
+            Get.to(() => HomeEquipmentListScreen());
+          }
+        }
+
+        for (var element in value.data[0]) {
+          customerEquipmentDataCalliberation
+              .add(CustomerEquipmentList.fromJson(element));
+        }
+        print('dfgwr4tiow4oi4wroi $customerEquipmentDataCalliberation');
+
+        // final data=jsonDecode(value.data[0].toString());
+// ist<CustomerEquipmentList> result= value.data[0].map((e)=>CustomerEquipmentList.fromJson(e)).toList()as  List<CustomerEquipmentList> ;
+
+        if (equipmentCheckValue.isEmpty ||
+            equipmentCheckValue.length !=
+                customerEquipmentDataCalliberation.length) {
+          equipmentCheckValue = List.generate(
+              homeController.customerEquipmentDataCalliberation.length,
+              (index) => false);
+        }
+        // print(customerEquipmentData[0].equipmentName);
+      }
+    });
+
     update();
   }
 
@@ -748,12 +814,14 @@ class HomeController extends GetxController {
     // Loader.showLoader();
     customerLocations.clear();
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-
-    int customerId = int.parse(sharedPreferences.getString('darlsco_id') ?? '');
-
+    int? customerId;
+    try {
+      customerId = int.parse(sharedPreferences.getString('darlsco_id') ?? '');
+    } catch (e) {}
+    print('dsfasdfeasdqwerq ${HttpUrls.baseUrl}');
     await HttpRequest.httpGetRequest(
       bodyData: {
-        "Customer_Id_": customerId,
+        "Customer_Id_": customerId ?? '',
       },
       endPoint: HttpUrls.getCustomerPlace,
     ).then((value) {
@@ -789,6 +857,7 @@ class HomeController extends GetxController {
 
   searchExpiringInspections({context, isfromSplashScreen = false}) async {
     customerEquipmentExpiringData.clear();
+    customerEquipmentExpiringDataCalliberation.clear();
     equipmentCheckValue.clear();
 
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
@@ -827,6 +896,43 @@ class HomeController extends GetxController {
 
       homeController.numberTextList[2] =
           '${customerEquipmentExpiringData.length}';
+
+      // print('expiring value ${customerEquipmentExpiringData[0].equipmentId}');
+    });
+    // ======== CALLIBERATION API ======
+    await HttpRequest.httpGetRequest(
+            endPoint: HttpUrls.searchExpiringInspectionsCalliberation,
+            bodyData: postData)
+        .then((value) {
+      if (value.data['returnvalue']['Leads'].isEmpty &&
+          isfromSplashScreen == false) {
+        if (isfromSplashScreen == false) {
+          Get.to(() => const ExpiringEquipmentScreen());
+        }
+        // ScaffoldMessenger.of(context).showSnackBar(
+        //     const SnackBar(content: Text('No equipment found this location')));
+      } else {
+        if (isfromSplashScreen == false) {
+          Get.to(() => const ExpiringEquipmentScreen());
+        }
+      }
+
+      for (var element in value.data['returnvalue']['Leads']) {
+        customerEquipmentExpiringDataCalliberation
+            .add(CustomerEquipmentList.fromJson(element));
+      }
+
+      if (equipmentCheckValue.isEmpty ||
+          equipmentCheckValue.length !=
+              customerEquipmentExpiringDataCalliberation.length) {
+        equipmentCheckValue = List.generate(
+            homeController.customerEquipmentExpiringDataCalliberation.length,
+            (index) => false);
+      }
+      // print(customerEquipmentData[0].equipmentName);
+
+      homeController.numberTextList[2] =
+          '${customerEquipmentExpiringDataCalliberation.length}';
 
       // print('expiring value ${customerEquipmentExpiringData[0].equipmentId}');
     });
@@ -882,8 +988,12 @@ class HomeController extends GetxController {
 
     await HttpRequest.httpPostRequest(
             endPoint: ispostdataExpiring
-                ? HttpUrls.saveCustomerRequestExpiringEquipment
-                : HttpUrls.saveCustomerRequest,
+                ? homeController.isCalliberationSection.value
+                    ? HttpUrls.saveCustomerRequestExpiringEquipmentCaliberation
+                    : HttpUrls.saveCustomerRequestExpiringEquipment
+                : homeController.isCalliberationSection.value
+                    ? HttpUrls.saveCustomerRequestCaliberation
+                    : HttpUrls.saveCustomerRequest,
             bodyData: ispostdataExpiring ? postDataExpiring : postData)
         .then((value) async {
       if (value != null) {
@@ -945,18 +1055,22 @@ class HomeController extends GetxController {
 
     String token = preferences.getString('token') ?? '';
     String? userId = preferences.getString('darlsco_id');
+    String isCalliberationCustomer =
+        preferences.getString('calliberation_login') ?? '1';
     String isTraineeCustomer = preferences.getString('trainee_login') ?? '';
 
     String isInspectionCustomer =
         preferences.getString('inspection_login') ?? '';
-    String isCalliberationCustomer = '1';
-    isUserLoggedIn = token != '' || token != '';
+    if (token != '' || token != 'null' || token.isNotEmpty) {
+      print('tgtyuyu ${token != ''}');
+      print('tgtyuyu ${token != 'null'}');
+      print('tgtyuyu ${token.isNotEmpty}');
+    }
+    isUserLoggedIn = token != '';
     isInspectionEnabled = isInspectionCustomer == '1' || !isUserLoggedIn;
     isTrainingEnabled = isTraineeCustomer == '1' || !isUserLoggedIn;
     isCalliberationEnabled = isCalliberationCustomer == '1' || !isUserLoggedIn;
-    print('dfwerfwejiji ${isTraineeCustomer}');
-    print('dfwerfwejiji ${isTrainingEnabled}');
-    print('dfwerfwejiji ${isCalliberationEnabled}');
+    print('isCalliberationCustomer $isCalliberationEnabled');
     if (token == '' || token == 'null') {
       isuserLogin.value = false;
       isTraineeLogin.value = false;
@@ -983,13 +1097,6 @@ class HomeController extends GetxController {
       isuserLogin.value = false;
       isTraineeLogin.value = false;
     }
-    if (isCalliberationCustomer == '1' && token != '') {
-      print(
-          'tabIndex hi6 ${isCalliberationCustomer == '1' && token != 'null'}');
-
-      isCalliberationLogin.value = true;
-    }
-    
   }
 
   publicTextboxValidation() {
@@ -1057,7 +1164,9 @@ class HomeController extends GetxController {
             }).then((response) {
           if (response.statusCode == 200) {
             final data = response.data;
-print('jhdfbweyuisdfwer ${data[0][0]}');
+            print('jhdfbweyuisdfwer ${data[0][0]}');
+            prefs.setString(
+                'calliberation_login', data['0'][0]['Calibration_'].toString());
             prefs.setString(
                 'trainee_login', (data[0][0]['Training_'] ?? '0').toString());
             prefs.setString('inspection_login',

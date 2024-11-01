@@ -1,17 +1,11 @@
 import 'package:darlsco/view/home/bottom_navigation_screen.dart';
-import 'package:darlsco/view/login/login_screen.dart';
 import 'package:darlsco/view/sample/sample_login_screen.dart';
 import 'package:darlsco/view/sample/styles/app_colors.dart';
 import 'package:darlsco/view/sample/styles/app_styles.dart';
 import 'package:darlsco/view/sample/widgets/inspection_card_widget.dart';
 import 'package:darlsco/view/sample/widgets/sample_inspection_form.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 
 class SampleHomeScreen extends StatefulWidget {
   const SampleHomeScreen(

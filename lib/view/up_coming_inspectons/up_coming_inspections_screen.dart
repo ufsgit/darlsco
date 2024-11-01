@@ -23,13 +23,12 @@ class UpcomingInspectionsScreen extends StatelessWidget {
               childWidget: AppBar(
             leading: IconButton(
                 onPressed: () {
-
-                   homeController.inspectionDropdownValue.value = '';
-    homeController.equipmentListCustomer = {};
-    homeController.inspectionDateController.clear();
-    homeController.inspectionMessageController.clear();
-     homeController.isChooseEquipment.value=false;
-    homeController.update();
+                  homeController.inspectionDropdownValue.value = '';
+                  homeController.equipmentListCustomer = {};
+                  homeController.inspectionDateController.clear();
+                  homeController.inspectionMessageController.clear();
+                  homeController.isChooseEquipment.value = false;
+                  homeController.update();
                   Get.back();
                 },
                 icon: const Icon(Icons.arrow_back_ios)),
@@ -84,7 +83,8 @@ class UpcomingInspectionsScreen extends StatelessWidget {
                                         customerData
                                             .upcomingInspectionListData.length,
                                         (index) => Container(
-                                          width:Get.width>615?390.w: 360.w,
+                                          width:
+                                              Get.width > 615 ? 390.w : 360.w,
                                           // height: 217.h,
                                           margin: EdgeInsets.only(top: 15.h),
                                           padding: EdgeInsets.only(
@@ -164,8 +164,11 @@ class UpcomingInspectionsScreen extends StatelessWidget {
                                                               upcomingInspectionCommonItemWidget(
                                                                 icon: Icons
                                                                     .timer_outlined,
-                                                                valueText:customerData.upcomingInspectionListData[index]['Time'] ??
-                                                                            '',
+                                                                valueText: customerData
+                                                                            .upcomingInspectionListData[index]
+                                                                        [
+                                                                        'Time'] ??
+                                                                    '',
                                                               ),
                                                               upcomingInspectionCommonItemWidget(
                                                                 icon: Icons
@@ -320,7 +323,10 @@ class UpcomingInspectionsScreen extends StatelessWidget {
                                         SizedBox(
                                           height: 500.h,
                                           child: const Center(
-                                            child: Text('Currently, no inspection requests have been converted to inspection task!',textAlign: TextAlign.center,),
+                                            child: Text(
+                                              'Currently, no inspection requests have been converted to inspection task!',
+                                              textAlign: TextAlign.center,
+                                            ),
                                           ),
                                         )
                                       ],

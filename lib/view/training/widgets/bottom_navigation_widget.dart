@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:darlsco/view/training/certificate_page.dart';
 import 'package:darlsco/view/training/documentation_page.dart';
 import 'package:darlsco/view/training/profile_view.dart';
 import 'package:flutter/material.dart';
@@ -35,29 +34,22 @@ class BottomNavigationWidgetState extends State<BottomNavigationWidget> {
 
   @override
   void initState() {
-    if (homeController.isInspectionEnabled) {
-         homeController.isInspectionSection.value=true;
-    }else if(homeController.isTrainingEnabled){
-         homeController.isTrainingSectionnew.value=true;
-
-    }else{
-      homeController.isCalliberationSection.value=true;
-    }
    
-    print('kjbihjbh ${homeController.tabIndex.value}');
-    print('hiii 111 ${widget.selectedIndex}');
-
     if (homeController.isuserLogin.value == true || // inspection enabled
             homeController.isTraineeLogin.value == true // training enabled
+            ||homeController.isUserLoggedIn
         ) {
       try {
         Timer.periodic(const Duration(minutes: 1), (timer) {
-          homeController.checkUserTypeChanged(context);
+         try {
+            homeController.checkUserTypeChanged(context);
+         } catch (e) {
+           
+         }
         });
       } catch (e) {}
     }
-    print('getItemCart1');
-    trainingHomeController.getItemCart();
+    // trainingHomeController.getItemCart();
     super.initState();
   }
 // default pages training pages
@@ -101,7 +93,6 @@ class BottomNavigationWidgetState extends State<BottomNavigationWidget> {
 
   void _onItemTapped(int index) {
     setState(() {
-      print('HIII we1');
       if (index==4&&homeController.isUserLoggedIn) {
          _scaffoldKey.currentState?.openEndDrawer();
         return;
@@ -237,12 +228,20 @@ class BottomNavigationWidgetState extends State<BottomNavigationWidget> {
 
   @override
   Widget build(BuildContext context) {
-    // try {
-    //       homeController.tabIndex.value=homeController.pageIndex.value;
 
-    // } catch (e) {
+    try {
+ if (homeController.isInspectionEnabled) {
+         homeController.isInspectionSection.value=true;
+    }else if(homeController.isTrainingEnabled){
+         homeController.isTrainingSectionnew.value=true;
 
-    // }
+    }else{
+      homeController.isCalliberationSection.value=true;
+    }
+   
+    } catch (e) {
+
+    }
 
     return PopScope(
       canPop: false,
@@ -286,7 +285,7 @@ class BottomNavigationWidgetState extends State<BottomNavigationWidget> {
           //         !homeController.isCalliberationLogin
           //             .value // training disabled (when both are disabled which means there is a fresh user)
           //     ? homeController.isTrainingSection.value // selected training tab
-          //         ? homeController.isCaliberationSection.value
+          //         ? homeController.isCalliberationSection.value
           //             ? calliberationTabPages[widget.selectedIndex]
           //             : trainigPagesDefault[
           //                 widget.selectedIndex] // default training pages
@@ -502,7 +501,7 @@ class BottomNavigationWidgetState extends State<BottomNavigationWidget> {
                 //             ),
                 //           ]
                 //     : homeController.tabIndex.value == 2 &&
-                //             homeController.isCaliberationSection.value
+                //             homeController.isCalliberationSection.value
                 //         ? [
                 //             BottomNavigationBarItem(
                 //                 icon: homeController.pageIndex.value == 0
@@ -539,7 +538,7 @@ class BottomNavigationWidgetState extends State<BottomNavigationWidget> {
                 //           ]
                 //         : homeController.isTraineeLogin.value &&
                 //                 homeController.isTrainingSection.value &&
-                //                 !homeController.isCaliberationSection.value
+                //                 !homeController.isCalliberationSection.value
                 //             ? [
                 //                 BottomNavigationBarItem(
                 //                   icon: _getIcon(
@@ -579,7 +578,7 @@ class BottomNavigationWidgetState extends State<BottomNavigationWidget> {
                 //                 ),
                 //               ]
                 //             : homeController.isCalliberationLogin.value &&
-                //                     homeController.isCaliberationSection.value
+                //                     homeController.isCalliberationSection.value
                 //                 ? [
                 //                     BottomNavigationBarItem(
                 //                         icon: homeController.pageIndex.value ==
@@ -680,7 +679,7 @@ class BottomNavigationWidgetState extends State<BottomNavigationWidget> {
 // // TRAINING SECTION TRUE
 
 //         return trainigPagesDefault[widget.selectedIndex];
-//       } else if (homeController.isCaliberationSection.value) {
+//       } else if (homeController.isCalliberationSection.value) {
 //         return calliberationTabPages[homeController.pageIndex.value];
 //       } else {
 // // LOGGED IN USER WITH ONLY INSPECTION
@@ -693,7 +692,7 @@ class BottomNavigationWidgetState extends State<BottomNavigationWidget> {
 //       return inspectionTabPages[homeController.pageIndex.value];
 //     } else if (homeController.isuserLogin.value &&
 //         !homeController.isTraineeLogin.value &&
-//         homeController.isCaliberationSection.value) {
+//         homeController.isCalliberationSection.value) {
 //       return calliberationTabPages[homeController.pageIndex.value];
 //     } else {
 //       if (!homeController.isuserLogin.value &&
@@ -703,22 +702,22 @@ class BottomNavigationWidgetState extends State<BottomNavigationWidget> {
 
 //         if (homeController.isTraineeLogin.value &&
 //             !homeController.isTrainingSection.value &&
-//             homeController.isCaliberationSection.value) {
+//             homeController.isCalliberationSection.value) {
 //           return calliberationTabPages[widget.selectedIndex];
 //         }
 
-//         return homeController.isCaliberationSection.value
+//         return homeController.isCalliberationSection.value
 //             ? calliberationTabPages[widget.selectedIndex]
 //             : trainingTabPages[widget.selectedIndex];
 //       } else if (!homeController.isuserLogin.value &&
-//           homeController.isCaliberationSection.value) {
+//           homeController.isCalliberationSection.value) {
 //             print('dfwrfuigwhr ${homeController.isuserLogin.value}');
 //         return calliberationTabPages[homeController.pageIndex.value];
 //       } else if (homeController.isTrainingSection.value) {
 //         return homeController.isuserLogin.value
 //             ? trainingTabPages[widget.selectedIndex]
 //             : trainigPagesDefault[widget.selectedIndex];
-//       } else if (homeController.isCaliberationSection.value) {
+//       } else if (homeController.isCalliberationSection.value) {
 //         return calliberationTabPages[homeController.pageIndex.value];
 //       } else if (homeController.isTrainingSection.value) {
 //         return trainingTabPages[homeController.pageIndex.value];

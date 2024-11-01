@@ -167,14 +167,12 @@ class LoginController extends GetxController {
           preferences.setString('darlsco_id', data['0'][0]['Id'].toString());
           preferences.setString('type', data['0'][0]['tp'].toString());
           preferences.setString('phone_no', data['0'][0]["Mobile"].toString());
-          print('//////////tp${data['0'][0]["tp"].toString()}');
-          print('//////mobile${data['0'][0]["Mobile"].toString()}');
-          print('////////id${data['0'][0]["Id"].toString()}');
-          print('jhdfbweyui ${data['0'][0]['Training']}');
-          
+         
 
           // preferences.setString('name_user_', data['0'][0]['Name'].toString());
           //   preferences.setString('token', '${data['token']}');
+          preferences.setString(
+              'calliberation_login', data['0'][0]['Caliberation'].toString());
           preferences.setString(
               'trainee_login', data['0'][0]['Training'].toString());
           preferences.setString(
@@ -199,9 +197,9 @@ class LoginController extends GetxController {
           if (homeController.isuserLogin.value &&
               homeController.isTraineeLogin.value &&
               homeController.isTrainingSection.value &&
-              homeController.isCaliberationSection.value) {
+              homeController.isCalliberationSection.value) {
             homeController.isTrainingSection.value = false;
-            homeController.isCaliberationSection.value = false;
+            homeController.isCalliberationSection.value = false;
           }
           if (globalHomeController.tabIndex.value == 1) {
             globalHomeController.tabIndex.value = 0;
@@ -389,7 +387,7 @@ class LoginController extends GetxController {
     homeController.isFromPurchase.value = false;
     globalHomeController.isTraineeLogin.value == false;
     globalHomeController.isuserLogin.value = false;
-    globalHomeController.isCaliberationSection.value = false;
+    globalHomeController.isCalliberationSection.value = false;
     getcountry(context);
     homeController.isUsersignedIn();
 

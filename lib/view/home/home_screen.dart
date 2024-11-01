@@ -37,44 +37,33 @@ class HomePageState extends State<HomePage>
     //   homeController.isHomeLoading.value = true;
     // });
     bool areAnyTwoTrue = [
-          homeController.isTraineeLogin.value,
-          homeController.isuserLogin.value,
-          homeController.isCalliberationLogin.value
+          homeController.isTrainingEnabled,
+          homeController.isInspectionEnabled,
+          homeController.isCalliberationEnabled
         ].where((element) => element).length >=
         2;
-
-    if (homeController.isTraineeLogin.value == false &&
-            homeController.isuserLogin.value == false &&
-            homeController.isCalliberationLogin.value == false ||
-        homeController.isTraineeLogin.value == true &&
-            homeController.isuserLogin.value == true &&
-            homeController.isCalliberationLogin.value == true) {
-      print('tabIndex 3');
-    } else if (areAnyTwoTrue) {
-      print('tabIndex kbhj2');
-    } else {
-      print('tabIndexhjgvuhj ${homeController.isCalliberationLogin.value}');
-      print('tabIndex 1 ${widget.initialIndex}');
-    }
-    if (globalHomeController.isCalliberationLogin.value ||
-        !globalHomeController.isuserLogin.value &&
-            globalHomeController.isCalliberationLogin.value) {
-      print(
-          'tabIndex here ${!globalHomeController.isuserLogin.value && !globalHomeController.isCalliberationLogin.value}');
-    } else {
-      print('tabIndex here 2000');
-    }
+  
     _tabController = TabController(
-        length: homeController.isTraineeLogin.value == false &&
-                    homeController.isuserLogin.value == false &&
-                    homeController.isCalliberationLogin.value == false ||
-                homeController.isTraineeLogin.value == true &&
-                    homeController.isuserLogin.value == true &&
-                    homeController.isCalliberationLogin.value == true
+        length: homeController.isInspectionEnabled &&
+                    homeController.isTrainingEnabled &&
+                    homeController.isCalliberationEnabled ||
+                !homeController.isInspectionEnabled &&
+                    !homeController.isTrainingEnabled &&
+                    !homeController.isCalliberationEnabled
             ? 3
             : areAnyTwoTrue
                 ? 2
                 : 1,
+        // length: homeController.isTraineeLogin.value == false &&
+        //             homeController.isuserLogin.value == false &&
+        //             homeController.isCalliberationLogin.value == false ||
+        //         homeController.isTraineeLogin.value == true &&
+        //             homeController.isuserLogin.value == true &&
+        //             homeController.isCalliberationLogin.value == true
+        //     ? 3
+        //     : areAnyTwoTrue
+        //         ? 2
+        //         : 1,
         vsync: this);
 
     if ((homeController.isTraineeLogin.value == false &&
@@ -82,10 +71,6 @@ class HomePageState extends State<HomePage>
         (homeController.tabIndex.value == 1) ||
         homeController.isuserLogin.value == true) {
       if (widget.initialIndex == null) {
-        print('dfwsrfwrdfs${homeController.isuserLogin.value}');
-        print('dfwsrfwrdfs${homeController.isTraineeLogin.value}');
-        print('dfwsrfwrdfs${homeController.isCalliberationLogin.value}');
-
         _tabController.index = homeController.isuserLogin.value &&
                     homeController.isTraineeLogin.value &&
                     homeController.isCalliberationSection.value ||
@@ -95,7 +80,6 @@ class HomePageState extends State<HomePage>
             ? 2
             : 1;
       } else {
-        print('dffgdasf ${widget.initialIndex}');
         _tabController.index = widget.initialIndex ?? 0;
       }
       print('oiubib ${widget.initialIndex}');
@@ -154,7 +138,7 @@ class HomePageState extends State<HomePage>
       if (homeController.isuserLogin.value == false &&
           homeController.isCalliberationLogin.value) {
         print('erioioertniogtng');
-        homeController.isCaliberationSection.value = true;
+        homeController.isCalliberationSection.value = true;
       }
     } catch (e) {}
     return SafeArea(
@@ -284,9 +268,10 @@ class HomePageState extends State<HomePage>
                                                       .isTrainingSection
                                                       .value = false;
                                                   globalHomeController
-                                                      .isCaliberationSection
+                                                      .isCalliberationSection
                                                       .value = false;
-                                                  globalHomeController.isUserLoggedIn=false;
+                                                  globalHomeController
+                                                      .isUserLoggedIn = false;
 
                                                   _handleTabSelection();
                                                   Get.back();
@@ -345,28 +330,7 @@ class HomePageState extends State<HomePage>
                             loginController.logout(context);
                           }
                           print('dfgswrlkkkjkh $index');
-                          if (index == 0 &&
-                                  !homeController.isInspectionEnabled &&
-                                  !homeController.isTrainingEnabled ||
-                              index == 1 &&
-                                  homeController.isInspectionEnabled &&
-                                  !homeController.isTrainingEnabled ||
-                              index == 1 &&
-                                  !homeController.isInspectionEnabled &&
-                                  homeController.isTrainingEnabled ||
-                                  index == 2 &&
-                                  homeController.isInspectionEnabled &&
-                                  homeController.isTrainingEnabled &&
-                                  homeController.isCalliberationEnabled) {
-                            print('sdaed success');
-                          } else {
-                            print(
-                                'sdaed  v1 ${homeController.isTrainingEnabled}');
-                            print(
-                                'sdaed v2 ${homeController.isCalliberationEnabled}');
-                            print(
-                                'sdaed v3 ${homeController.isInspectionEnabled}');
-                          }
+                       
                           homeController.tabIndex.value = index;
                           homeController.isInspectionSection.value =
                               index == 0 && homeController.isInspectionEnabled;
@@ -378,26 +342,26 @@ class HomePageState extends State<HomePage>
                                       homeController.isInspectionEnabled;
 
                           homeController.isCalliberationSection.value =
-                            index == 0 &&
-                                  !homeController.isInspectionEnabled &&
-                                  !homeController.isTrainingEnabled ||
-                              index == 1 &&
-                                  homeController.isInspectionEnabled &&
-                                  !homeController.isTrainingEnabled ||
-                              index == 1 &&
-                                  !homeController.isInspectionEnabled &&
-                                  homeController.isTrainingEnabled ||
+                              index == 0 &&
+                                      !homeController.isInspectionEnabled &&
+                                      !homeController.isTrainingEnabled ||
+                                  index == 1 &&
+                                      homeController.isInspectionEnabled &&
+                                      !homeController.isTrainingEnabled ||
+                                  index == 1 &&
+                                      !homeController.isInspectionEnabled &&
+                                      homeController.isTrainingEnabled ||
                                   index == 2 &&
-                                  homeController.isInspectionEnabled &&
-                                  homeController.isTrainingEnabled &&
-                                  homeController.isCalliberationEnabled;
+                                      homeController.isInspectionEnabled &&
+                                      homeController.isTrainingEnabled &&
+                                      homeController.isCalliberationEnabled;
                           print(
                               'dfwerhbbhbgyg57 ${homeController.isCalliberationSection.value}');
                           homeController.update();
                           // if (index == 0) {
                           //   globalHomeController.isTrainingSection.value =
                           //       false;
-                          //   globalHomeController.isCaliberationSection.value =
+                          //   globalHomeController.isCalliberationSection.value =
                           //       false;
 
                           //   homeController.tabIndex.value = index;
@@ -406,19 +370,19 @@ class HomePageState extends State<HomePage>
 
                           //   globalHomeController.isTrainingSection.value =
                           //       false;
-                          //   globalHomeController.isCaliberationSection.value =
+                          //   globalHomeController.isCalliberationSection.value =
                           //       true;
                           //   homeController.tabIndex.value = index;
                           // } else if (index == 1) {
                           //   print('iiiihoioihi 1');
-                          //   globalHomeController.isCaliberationSection.value =
+                          //   globalHomeController.isCalliberationSection.value =
                           //       false;
                           //   if (!homeController.isuserLogin.value ||
                           //       !homeController.isTraineeLogin.value) {
                           //     print('iiiihoioihi 2');
                           //     globalHomeController.isTrainingSection.value =
                           //         false;
-                          //     globalHomeController.isCaliberationSection.value =
+                          //     globalHomeController.isCalliberationSection.value =
                           //         true;
                           //   } else {
                           //     print('iiiihoioihi 3');
@@ -432,7 +396,7 @@ class HomePageState extends State<HomePage>
 
                           //     globalHomeController.isTrainingSection.value =
                           //         false;
-                          //     globalHomeController.isCaliberationSection.value =
+                          //     globalHomeController.isCalliberationSection.value =
                           //         true;
                           //   } else if (!homeController
                           //           .isCalliberationLogin.value &&
@@ -441,7 +405,7 @@ class HomePageState extends State<HomePage>
 
                           //     globalHomeController.isTrainingSection.value =
                           //         true;
-                          //     globalHomeController.isCaliberationSection.value =
+                          //     globalHomeController.isCalliberationSection.value =
                           //         false;
                           //   }
 
@@ -450,7 +414,7 @@ class HomePageState extends State<HomePage>
                           //   print('dfsrgre 9');
 
                           //   globalHomeController.isTrainingSection.value = true;
-                          //   globalHomeController.isCaliberationSection.value =
+                          //   globalHomeController.isCalliberationSection.value =
                           //       false;
                           //   homeController.tabIndex.value = index;
                           // }
@@ -471,11 +435,12 @@ class HomePageState extends State<HomePage>
                         ),
 
                         tabs: [
-                          if (globalHomeController.isuserLogin.value == true ||
-                              (globalHomeController.isuserLogin.value ==
-                                      false &&
-                                  globalHomeController.isTraineeLogin.value ==
-                                      false))
+                          // if (globalHomeController.isuserLogin.value == true ||
+                          //     (globalHomeController.isuserLogin.value ==
+                          //             false &&
+                          //         globalHomeController.isTraineeLogin.value ==
+                          //             false))
+                          if (homeController.isInspectionEnabled)
                             const Tab(
                               iconMargin: EdgeInsets.all(0),
                               text: 'Inspection',
@@ -485,12 +450,14 @@ class HomePageState extends State<HomePage>
                                 size: 30,
                               ),
                             ),
-                          if (globalHomeController.isTraineeLogin.value ==
-                                  true ||
-                              (globalHomeController.isuserLogin.value ==
-                                      false &&
-                                  globalHomeController.isTraineeLogin.value ==
-                                      false))
+                          // if (globalHomeController.isTraineeLogin.value ==
+                          //         true ||
+                          //     (globalHomeController.isuserLogin.value ==
+                          //             false &&
+                          //         globalHomeController.isTraineeLogin.value ==
+                          //             false))
+
+                          if (homeController.isTrainingEnabled)
                             const Tab(
                               text: 'Training',
                               iconMargin: EdgeInsets.all(0),
@@ -500,13 +467,14 @@ class HomePageState extends State<HomePage>
                                 size: 30,
                               ),
                             ),
-                          if (globalHomeController.isCalliberationLogin.value ||
-                              !globalHomeController.isuserLogin.value &&
-                                  globalHomeController
-                                      .isCalliberationLogin.value ||
-                              !globalHomeController.isuserLogin.value &&
-                                  !globalHomeController
-                                      .isCalliberationLogin.value)
+                          // if (globalHomeController.isCalliberationLogin.value ||
+                          //     !globalHomeController.isuserLogin.value &&
+                          //         globalHomeController
+                          //             .isCalliberationLogin.value ||
+                          //     !globalHomeController.isuserLogin.value &&
+                          //         !globalHomeController
+                          //             .isCalliberationLogin.value)
+                          if (homeController.isCalliberationEnabled)
                             const Tab(
                               iconMargin: EdgeInsets.all(0),
                               text: 'Calliberation',
@@ -527,9 +495,10 @@ class HomePageState extends State<HomePage>
               controller: _tabController,
               physics: const NeverScrollableScrollPhysics(),
               children: [
-                if (globalHomeController.isuserLogin.value == true ||
-                    (globalHomeController.isuserLogin.value == false &&
-                        globalHomeController.isTraineeLogin.value == false))
+                // if (globalHomeController.isuserLogin.value == true ||
+                //     (globalHomeController.isuserLogin.value == false &&
+                //         globalHomeController.isTraineeLogin.value == false))
+                if (homeController.isInspectionEnabled)
                   Tab2(
                     btnText: 'Inspection',
                     imgurlList: const [
@@ -606,94 +575,98 @@ class HomePageState extends State<HomePage>
                       ),
                     ])),
                   ),
-                if (globalHomeController.isTraineeLogin.value == true ||
-                    (globalHomeController.isuserLogin.value == false &&
-                        globalHomeController.isTraineeLogin.value == false))
+                // if (globalHomeController.isTraineeLogin.value == true ||
+                //     (globalHomeController.isuserLogin.value == false &&
+                //         globalHomeController.isTraineeLogin.value == false))
+                if (homeController.isTrainingEnabled)
                   const TrainingHomeScreen(),
                 // CALLIBERATION
+                if (homeController.isCalliberationEnabled)
+                  // if (globalHomeController.isCalliberationLogin.value == true ||
+                  //     (globalHomeController.isuserLogin.value == false &&
+                  //         globalHomeController.isCalliberationLogin.value ==
+                  //             true) ||
+                  //     (globalHomeController.isuserLogin.value == false &&
+                  //         globalHomeController.isCalliberationLogin.value ==
+                  //             false))
+                    Tab2(
+                      btnText: 'Calliberation',
+                      imgurlList: const [
+                        'https://s3-alpha-sig.figma.com/img/641b/30d6/0527f4c4463314a0e51342ca65015b8a?Expires=1701648000&Signature=b3Vf84hA3SPBQdsIYadxD69GmrohKr3CvC~q1CD57dD4NSTWzQMisHJtTaQ~NMufu9IIN2KEsnM4wcyss~flnFXyvB1xWmHLWwXrqCgvyrKDQq0tIP76lrodeGfsiE4YUm4A0IBOoihQoml9jmYxufepXFh0DhaWY-qHczbDczDEHnzzaqjqalyrhhhzbJlQGZb5RDEQOqYhk5XZ96G02DYdXRsmz~bLqfN~gZSBb47X7eRpYICs5ARKnID~0MqIWokpkb34~ZlrynYc1TglNRUy3soJoe3VM3ptaR~kCf2AsN8vAr0e5BEV45Jyzwzl~mJjjO5TcIrsk8ExdSQPRg__&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4'
+                      ],
+                      cContainer: homeController.isUserLoggedIn
+                          ? Wrap(
+                              spacing: Get.width > 615 ? 30.w : 10.w,
+                              runSpacing: Get.width > 615 ? 30.w : 10.w,
+                              children: List.generate(
+                                  homeController.contentTextTrainingTab2.length,
+                                  (index) => IconButton(
+                                        padding: const EdgeInsets.all(2),
+                                        onPressed: () {
+                                          // ScaffoldMessenger.of(context)
+                                          // .showSnackBar(const SnackBar(
 
-                if (globalHomeController.isCalliberationLogin.value == true ||
-                    (globalHomeController.isuserLogin.value == false &&
-                        globalHomeController.isCalliberationLogin.value ==
-                            true) ||
-                    (globalHomeController.isuserLogin.value == false &&
-                        globalHomeController.isCalliberationLogin.value ==
-                            false))
-                  Tab2(
-                    btnText: 'Calliberation',
-                    imgurlList: const [
-                      'https://s3-alpha-sig.figma.com/img/641b/30d6/0527f4c4463314a0e51342ca65015b8a?Expires=1701648000&Signature=b3Vf84hA3SPBQdsIYadxD69GmrohKr3CvC~q1CD57dD4NSTWzQMisHJtTaQ~NMufu9IIN2KEsnM4wcyss~flnFXyvB1xWmHLWwXrqCgvyrKDQq0tIP76lrodeGfsiE4YUm4A0IBOoihQoml9jmYxufepXFh0DhaWY-qHczbDczDEHnzzaqjqalyrhhhzbJlQGZb5RDEQOqYhk5XZ96G02DYdXRsmz~bLqfN~gZSBb47X7eRpYICs5ARKnID~0MqIWokpkb34~ZlrynYc1TglNRUy3soJoe3VM3ptaR~kCf2AsN8vAr0e5BEV45Jyzwzl~mJjjO5TcIrsk8ExdSQPRg__&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4'
-                    ],
-                    cContainer: homeController.isUserLoggedIn                        ? Wrap(
-                            spacing: Get.width > 615 ? 30.w : 10.w,
-                            runSpacing: Get.width > 615 ? 30.w : 10.w,
-                            children: List.generate(
-                                homeController.contentTextTrainingTab2.length,
-                                (index) => IconButton(
-                                      padding: const EdgeInsets.all(2),
-                                      onPressed: () {
-                                        // ScaffoldMessenger.of(context)
-                                        // .showSnackBar(const SnackBar(
-
-                                        //   content: Text('server failure')));
-                                        homeController
-                                            .functionsTrainingTab2[index]();
-                                      },
-                                      icon: GetBuilder<HomeController>(
-                                          builder: (locationData) {
-                                        return homeColorContainer(
-                                            contentText: homeController
-                                                .contentTextTrainingTab2[index],
-                                            numberText: index == 0
-                                                ? homeController
-                                                    .customerLocations.length
-                                                    .toString()
-                                                : index == 1
-                                                    ? homeController
-                                                        .customerEquipmentData
-                                                        .length
-                                                        .toString()
-                                                    : index == 2
-                                                        ? homeController
-                                                            .customerEquipmentExpiringData
-                                                            .length
-                                                            .toString()
-                                                        : index == 3
-                                                            ? upcomingInspectionsController
-                                                                .upcomingInspectionListData
-                                                                .length
-                                                                .toString()
-                                                            : '0',
-                                            cBgColor: homeController
-                                                .cBgColorTrainingTab2[index],
-                                            numBgColor: homeController
-                                                .numBgColorTrainingTab2[index]);
-                                      }),
-                                    )),
-                          )
-                        : const SizedBox(),
-                    mainTitleWidget: RichText(
-                        text: TextSpan(children: [
-                      TextSpan(
-                        text: 'We\'re ready to',
-                        style: GoogleFonts.roboto(
-                            color: ColorResources.color294C73,
-                            fontSize: 40.sp,
-                            fontWeight: FontWeight.w700),
-                      ),
-                      TextSpan(
-                        text: ' inspect',
-                        style: GoogleFonts.roboto(
-                          fontSize: 40.sp,
-                          fontWeight: FontWeight.w700,
-                          foreground: Paint()
-                            ..style = PaintingStyle.stroke
-                            ..strokeWidth = 1
-                            ..color = ColorResources.color294C73,
+                                          //   content: Text('server failure')));
+                                          homeController
+                                              .functionsTrainingTab2[index]();
+                                        },
+                                        icon: GetBuilder<HomeController>(
+                                            builder: (locationData) {
+                                          return homeColorContainer(
+                                              contentText: homeController
+                                                      .contentTextTrainingTab2[
+                                                  index],
+                                              numberText: index == 0
+                                                  ? homeController
+                                                      .customerLocations.length
+                                                      .toString()
+                                                  : index == 1
+                                                      ? homeController
+                                                          .customerEquipmentDataCalliberation
+                                                          .length
+                                                          .toString()
+                                                      : index == 2
+                                                          ? homeController
+                                                              .customerEquipmentExpiringDataCalliberation
+                                                              .length
+                                                              .toString()
+                                                          : index == 3
+                                                              ? upcomingInspectionsController
+                                                                  .upcomingInspectionListDataCalliberation
+                                                                  .length
+                                                                  .toString()
+                                                              : '0',
+                                              cBgColor: homeController
+                                                  .cBgColorTrainingTab2[index],
+                                              numBgColor: homeController
+                                                      .numBgColorTrainingTab2[
+                                                  index]);
+                                        }),
+                                      )),
+                            )
+                          : const SizedBox(),
+                      mainTitleWidget: RichText(
+                          text: TextSpan(children: [
+                        TextSpan(
+                          text: 'We\'re ready to',
+                          style: GoogleFonts.roboto(
+                              color: ColorResources.color294C73,
+                              fontSize: 40.sp,
+                              fontWeight: FontWeight.w700),
                         ),
-                      ),
-                    ])),
-                  ),
+                        TextSpan(
+                          text: ' Calliberation',
+                          style: GoogleFonts.roboto(
+                            fontSize: 40.sp,
+                            fontWeight: FontWeight.w700,
+                            foreground: Paint()
+                              ..style = PaintingStyle.stroke
+                              ..strokeWidth = 1
+                              ..color = ColorResources.color294C73,
+                          ),
+                        ),
+                      ])),
+                    ),
               ],
             ),
           ),

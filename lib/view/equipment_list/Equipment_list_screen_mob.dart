@@ -67,8 +67,12 @@ class EquipmentListScreenMob extends StatelessWidget {
                       height: 44.h,
                     ),
                     GetBuilder<HomeController>(builder: (eqData) {
+                      List equipmentData =eqData.isCalliberationSection.value?eqData.customerEquipmentDataCalliberation:eqData.customerEquipmentData;
+                      print('dfgwr4tiow4oi4wroi kk${eqData.isCalliberationSection.value}');
+                      print('dfgwr4tiow4oi4wroi kk oop ${eqData.customerEquipmentDataCalliberation}');
+                      print('dfgwr4tiow4oi4wroi $equipmentData');
                       return Wrap(
-                        children: eqData.customerEquipmentData.isEmpty
+                        children:equipmentData.isEmpty
                             ? [
                                 SizedBox(
                                   height: 500.h,
@@ -81,7 +85,7 @@ class EquipmentListScreenMob extends StatelessWidget {
                                 ),
                               ]
                             : List.generate(
-                                eqData.customerEquipmentData.length,
+                               equipmentData.length,
                                 (index) => Container(
                                   width: Get.width > 615 ? 380.w : 367.w,
 
@@ -108,8 +112,8 @@ class EquipmentListScreenMob extends StatelessWidget {
                                         children: [
                                           SizedBox(
                                             child: Text(
-                                              eqData
-                                                  .customerEquipmentData[index]
+                                              
+                                                  equipmentData[index]
                                                   .equipmentName,
                                               overflow: TextOverflow.ellipsis,
                                               style: TextStyle(
@@ -135,49 +139,48 @@ class EquipmentListScreenMob extends StatelessWidget {
                                                   children: [
                                                     equipmentCommonItemWidget(
                                                         keyText: 'Location',
-                                                        valueText: eqData
-                                                            .customerEquipmentData[
+                                                        valueText: 
+                                                            equipmentData[
                                                                 index]
                                                             .location),
                                                     equipmentCommonItemWidget(
                                                       keyText: 'Equipment Type',
-                                                      valueText: eqData
-                                                          .customerEquipmentData[
+                                                      valueText: 
+                                                          equipmentData[
                                                               index]
                                                           .equipmentType,
                                                     ),
                                                     equipmentCommonItemWidget(
                                                       keyText: 'Expiring Date',
-                                                      valueText: eqData
-                                                          .customerEquipmentData[
+                                                      valueText: 
+                                                          equipmentData[
                                                               index]
                                                           .experingDate,
                                                     ),
                                                     equipmentCommonItemWidget(
                                                       keyText: 'Make',
-                                                      valueText: eqData
-                                                          .customerEquipmentData[
+                                                      valueText: 
+                                                          equipmentData[
                                                               index]
                                                           .equipmentMake,
                                                     ),
                                                     equipmentCommonItemWidget(
                                                       keyText: 'Model',
-                                                      valueText: eqData
-                                                          .customerEquipmentData[
+                                                      valueText: 
+                                                          equipmentData[
                                                               index]
                                                           .equipmentModel,
                                                     ),
                                                     equipmentCommonItemWidget(
                                                       keyText: 'Serial No',
-                                                      valueText: eqData
-                                                          .customerEquipmentData[
+                                                      valueText: 
+                                                          equipmentData[
                                                               index]
                                                           .serialNo,
                                                     ),
                                                     equipmentCommonItemWidget(
                                                       keyText: 'Description',
-                                                      valueText: eqData
-                                                          .customerEquipmentData[
+                                                      valueText:equipmentData[
                                                               index]
                                                           .description,
                                                     ),
@@ -185,20 +188,20 @@ class EquipmentListScreenMob extends StatelessWidget {
                                                     // equipmentCommonItemWidget(
                                                     //   keyText: 'status',
                                                     //   valueText: eqData
-                                                    //       .customerEquipmentData[
+                                                    //       .equipmentData[
                                                     //           index]
                                                     //       .statusName,
                                                     // ),
                                                     Text(
-                                                      homeController
-                                                                  .customerEquipmentData[
+                                                      
+                                                                  equipmentData[
                                                                       index]
                                                                   .statusId
                                                                   .toString() ==
                                                               '11'
                                                           ? 'Inspection Finished'
-                                                          : homeController
-                                                              .customerEquipmentData[
+                                                          : 
+                                                              equipmentData[
                                                                   index]
                                                               .statusName,
                                                       style: TextStyle(
@@ -216,8 +219,7 @@ class EquipmentListScreenMob extends StatelessWidget {
                                               child: const Text('View'),
                                               onPressed: () => Get.to(
                                                   () => EquipmentDetailScreen(
-                                                        equipmentId: eqData
-                                                            .customerEquipmentData[
+                                                        equipmentId: equipmentData[
                                                                 index]
                                                             .equipmentId
                                                             .toString(),

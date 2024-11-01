@@ -81,6 +81,7 @@ homecontroller.dispose();
   void initState() {
     homecontroller.numberTextList = ['0', '0', '0', '0'];
     // if (homecontroller.isuserLogin.value||homecontroller.isTraineeLogin.value) {
+  print('dfwaserfqe55555');
     homecontroller.initfunction();
     // trainingController.fetchTrainingHomeData();
     // }
@@ -98,6 +99,7 @@ homecontroller.dispose();
 
   @override
   Widget build(BuildContext context) {
+    print('dfwaserfqe55555 2333');
     return Obx(
       () => SafeArea(
         child: PopScope(

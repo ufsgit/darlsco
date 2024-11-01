@@ -1,8 +1,6 @@
 import 'package:darlsco/controller/home/home_controller.dart';
 import 'package:darlsco/core/constants/color_resources.dart';
-import 'package:darlsco/view/home/bottom_navigation_screen.dart';
 import 'package:darlsco/view/training/view_certificate_page.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';

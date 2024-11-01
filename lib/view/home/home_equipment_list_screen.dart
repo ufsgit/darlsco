@@ -15,7 +15,6 @@ class HomeEquipmentListScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-  
       appBar: PreferredSize(
           preferredSize: Size(70.w, 70.h),
           child: commonBackgroundLinearColor(
@@ -146,60 +145,47 @@ class HomeEquipmentListScreen extends StatelessWidget {
                                         ),
                                         GetBuilder<HomeController>(
                                             builder: (data) {
-                                          return data
-                                                      .customerEquipmentData[
-                                                          index]
-                                                      .statusId
-                                                      .toString() ==
-                                                  '11'||data
-                                                      .customerEquipmentData[
-                                                          index]
-                                                      .statusId
-                                                      .toString() ==
-                                                  '0'
-                                              ?  Checkbox(
-                                                  value:
-                                                      data.equipmentCheckValue[
-                                                          index],
+                                          List equipmentData = data
+                                                  .isCalliberationSection.value
+                                              ? data
+                                                  .customerEquipmentDataCalliberation
+                                              : data.customerEquipmentData;
+
+                                          return equipmentData[index]
+                                                          .statusId
+                                                          .toString() ==
+                                                      '11' ||
+                                                  equipmentData[index]
+                                                          .statusId
+                                                          .toString() ==
+                                                      '0'
+                                              ? Checkbox(
+                                                  value: equipmentData[index],
                                                   onChanged: (value) {
-                                                    data.equipmentCheckValue[
-                                                        index] = value!;
+                                                    equipmentData[index] =
+                                                        value!;
                                                     homeController
                                                         .selectingEquipment({
-                                                      'Equipment_Id': data
-                                                          .customerEquipmentData[
-                                                              index]
-                                                          .equipmentId,
-                                                      'Equipment_Name': data
-                                                          .customerEquipmentData[
-                                                              index]
-                                                          .equipmentName
+                                                      'Equipment_Id':
+                                                          equipmentData[index]
+                                                              .equipmentId,
+                                                      'Equipment_Name':
+                                                          equipmentData[index]
+                                                              .equipmentName
                                                     }, value);
-                                                  }):
-                                              
-                                              
-                                              
-                                              
-                                              
-                                              
-                                              
-                                              Text(
-
-                                                data
-                                                      .customerEquipmentData[
-                                                          index]
-                                                      .statusId
-                                                      .toString() ==
-                                                  '12'?'Requested':
-                                                  data
-                                                      .customerEquipmentData[
-                                                          index]
-                                                      .statusName,
+                                                  })
+                                              : Text(
+                                                  equipmentData[index]
+                                                              .statusId
+                                                              .toString() ==
+                                                          '12'
+                                                      ? 'Requested'
+                                                      : equipmentData[index]
+                                                          .statusName,
                                                   style: TextStyle(
                                                       color: Colors.red,
                                                       fontSize: 12.sp),
                                                 );
-                                              
                                         }),
                                       ],
                                     ),
@@ -215,39 +201,75 @@ class HomeEquipmentListScreen extends StatelessWidget {
                                       equipmentCommonItemWidget(
                                         keyText: 'Equipment Type',
                                         valueText: homeController
-                                            .customerEquipmentData[index]
-                                            .equipmentType,
+                                                .isCalliberationSection.value
+                                            ? homeController
+                                                .customerEquipmentDataCalliberation[
+                                                    index]
+                                                .equipmentType
+                                            : homeController
+                                                .customerEquipmentData[index]
+                                                .equipmentType,
                                       ),
 
                                       equipmentCommonItemWidget(
                                         keyText: 'Expiring Date',
                                         valueText: homeController
-                                            .customerEquipmentData[index]
-                                            .experingDate,
+                                                .isCalliberationSection.value
+                                            ? homeController
+                                                .customerEquipmentDataCalliberation[
+                                                    index]
+                                                .equipmentType
+                                            : homeController
+                                                .customerEquipmentData[index]
+                                                .experingDate,
                                       ),
                                       equipmentCommonItemWidget(
                                         keyText: 'Make',
                                         valueText: homeController
-                                            .customerEquipmentData[index]
-                                            .equipmentMake,
+                                                .isCalliberationSection.value
+                                            ? homeController
+                                                .customerEquipmentDataCalliberation[
+                                                    index]
+                                                .equipmentType
+                                            : homeController
+                                                .customerEquipmentData[index]
+                                                .equipmentMake,
                                       ),
                                       equipmentCommonItemWidget(
                                         keyText: 'Model',
                                         valueText: homeController
-                                            .customerEquipmentData[index]
-                                            .equipmentModel,
+                                                .isCalliberationSection.value
+                                            ? homeController
+                                                .customerEquipmentDataCalliberation[
+                                                    index]
+                                                .equipmentType
+                                            : homeController
+                                                .customerEquipmentData[index]
+                                                .equipmentModel,
                                       ),
                                       equipmentCommonItemWidget(
                                         keyText: 'Serial No',
                                         valueText: homeController
-                                            .customerEquipmentData[index]
-                                            .serialNo,
+                                                .isCalliberationSection.value
+                                            ? homeController
+                                                .customerEquipmentDataCalliberation[
+                                                    index]
+                                                .equipmentType
+                                            : homeController
+                                                .customerEquipmentData[index]
+                                                .serialNo,
                                       ),
                                       equipmentCommonItemWidget(
                                         keyText: 'Description',
                                         valueText: homeController
-                                            .customerEquipmentData[index]
-                                            .description,
+                                                .isCalliberationSection.value
+                                            ? homeController
+                                                .customerEquipmentDataCalliberation[
+                                                    index]
+                                                .equipmentType
+                                            : homeController
+                                                .customerEquipmentData[index]
+                                                .description,
                                       ),
                                     ]),
                                     SizedBox(

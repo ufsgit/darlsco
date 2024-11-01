@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:darlsco/controller/tainning/training_controller_home.dart';
 import 'package:darlsco/controller/tainning/trainnig_controller.dart';
@@ -9,10 +8,6 @@ import 'package:darlsco/view/training_phase2/ordered_successfully.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:xml/xml.dart';
-import 'package:flutter/material.dart';
-import 'package:webview_flutter/webview_flutter.dart';
-import 'package:webview_flutter_android/webview_flutter_android.dart';
-import 'package:webview_flutter_wkwebview/webview_flutter_wkwebview.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 import '../../core/constants/image_url.dart';

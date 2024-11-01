@@ -12,7 +12,7 @@ class HttpRequest {
       {Map<String, dynamic>? bodyData, String endPoint = ''}) async {
     // Loader.showLoader();
     if (kDebugMode) {
-      print('get request ====> $endPoint $bodyData ');
+      print('Adeeb get request ====> $endPoint $bodyData ');
     }
 
     final Dio dio = Dio();

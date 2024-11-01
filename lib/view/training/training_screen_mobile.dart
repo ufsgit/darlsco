@@ -104,6 +104,9 @@ class _TrainingScreenMobileState extends State<TrainingScreenMobile> {
             padding: EdgeInsets.symmetric(horizontal: 15.w),
             child: SingleChildScrollView(
               child: GetBuilder<UpcomingInspectionsController>(builder: (data) {
+                var eqData = homeController.isCalliberationSection.value
+                    ? upcomingInspectionsController.taskUserDetailsCalliberation
+                    : upcomingInspectionsController.taskUserDetails;
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -122,14 +125,13 @@ class _TrainingScreenMobileState extends State<TrainingScreenMobile> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          if (upcomingInspectionsController.taskUserDetails[0]
-                                          ['Role_Id']
-                                      .toString() ==
-                                  '38' &&
-                              upcomingInspectionsController.taskUserDetails[0]
-                                          ['Task_Status_Id']
-                                      .toString() ==
-                                  '1')
+                          if (!homeController.isCalliberationSection.value &&
+                                  eqData[0]['Role_Id'].toString() == '38' &&
+                                  eqData[0]['Task_Status_Id'].toString() ==
+                                      '1' ||
+                              homeController.isCalliberationSection.value &&
+                                  eqData[0]['Role_Id'].toString() == '38' &&
+                                  eqData[0]['Task_Status_Id'].toString() == '1')
                             tcontoller.isTaskStarted.value == false
                                 ? Align(
                                     alignment: Alignment.centerRight,
@@ -192,62 +194,68 @@ class _TrainingScreenMobileState extends State<TrainingScreenMobile> {
                           SizedBox(
                             height: 15.h,
                           ),
-                         
 
                           SizedBox(
                             width: 290.w,
                             child: Text(
-                              data.taskDetailsData[0]['Customer_Name'] ?? '',
+                              homeController.isCalliberationSection.value
+                                  ? data.taskDetailsDataCalliberation[0]
+                                          ['Customer_Name'] ??
+                                      ''
+                                  : data.taskDetailsData[0]['Customer_Name'] ??
+                                      '',
                               style: TextStyle(
                                 fontFamily: "DM Sans",
                                 fontSize: 14.sp,
                               ),
                             ),
                           ),
-                             SizedBox(
-                          height: 15.h,
-                        ),
-                           Row(
-                          children: [
-                            Icon(
-                              Icons.work,
-                              color: ColorResources.color294C73,
-                              size: 21.sp,
-                            ),
-                            SizedBox(
-                              width: 10.w,
-                            ),
-                            Text(
-                              'Job Order No',
+                          SizedBox(
+                            height: 15.h,
+                          ),
+                          Row(
+                            children: [
+                              Icon(
+                                Icons.work,
+                                color: ColorResources.color294C73,
+                                size: 21.sp,
+                              ),
+                              SizedBox(
+                                width: 10.w,
+                              ),
+                              Text(
+                                'Job Order No',
+                                style: TextStyle(
+                                  fontFamily: "Roboto",
+                                  fontSize: 14.sp,
+                                  fontWeight: FontWeight.w600,
+                                  color: ColorResources.color294C73,
+                                ),
+                              )
+                            ],
+                          ),
+
+                          Container(
+                            margin: EdgeInsets.only(top: 10.w),
+                            // margin: EdgeInsets.only(left:Get.width>615? 35.w:0),
+                            child: Text(
+                              homeController.isCalliberationSection.value
+                                  ? data.taskDetailsDataCalliberation[0]
+                                          ['Work_Code'] ??
+                                      ''
+                                  : data.taskDetailsData[0]['Work_Code'] ?? '',
                               style: TextStyle(
                                 fontFamily: "Roboto",
                                 fontSize: 14.sp,
-                                fontWeight: FontWeight.w600,
-                                color: ColorResources.color294C73,
+                                fontWeight: FontWeight.w400,
+                                color: ColorResources.color0d0d0d,
                               ),
-                            )
-                          ],
-                        ),
-
-                         Container(
-                          margin: EdgeInsets.only(top: 10.w),
-                          // margin: EdgeInsets.only(left:Get.width>615? 35.w:0),
-                          child: Text(
-                            data.taskDetailsData[0]['Work_Code'] ?? '',
-                            style: TextStyle(
-                              fontFamily: "Roboto",
-                              fontSize: 14.sp,
-                              fontWeight: FontWeight.w400,
-                              color: ColorResources.color0d0d0d,
                             ),
                           ),
-                        ),
 
-                         SizedBox(
-                          height: 15.h,
-                        ),
-
-                         
+                          SizedBox(
+                            height: 15.h,
+                          ),
 
                           Row(
                             children: [
@@ -278,7 +286,11 @@ class _TrainingScreenMobileState extends State<TrainingScreenMobile> {
                           Container(
                             margin: EdgeInsets.only(left: 3.w),
                             child: Text(
-                              data.taskDetailsData[0]['Task_Name'] ?? '',
+                              homeController.isCalliberationSection.value
+                                  ? data.taskDetailsDataCalliberation[0]
+                                          ['Task_Name'] ??
+                                      ''
+                                  : data.taskDetailsData[0]['Task_Name'] ?? '',
                               style: TextStyle(
                                 fontFamily: "Roboto",
                                 fontSize: 13.sp,
@@ -330,11 +342,11 @@ class _TrainingScreenMobileState extends State<TrainingScreenMobile> {
                           //                       .toList());
                           //
                           //
-                          if (data.taskUserDetails[0]['Start_Notes'] != null ||
-                              data.taskUserDetails[0]['Start_Notes'] != '')
-                            SizedBox(
-                              height: 15.h,
-                            ),
+                          // if (data.taskUserDetails[0]['Start_Notes'] != null ||
+                          //     data.taskUserDetails[0]['Start_Notes'] != '')
+                          //   SizedBox(
+                          //     height: 15.h,
+                          //   ),
                           // SizedBox(
                           //   height: 25.h,
                           // ),
@@ -404,7 +416,8 @@ class _TrainingScreenMobileState extends State<TrainingScreenMobile> {
                                       decoration: const InputDecoration(
                                           prefixIcon:
                                               Icon(Icons.chat_bubble_outline),
-                                          labelText: 'Additional Equipment Name',
+                                          labelText:
+                                              'Additional Equipment Name',
                                           border: OutlineInputBorder()),
                                     )
                                   : Container(),
@@ -441,14 +454,26 @@ class _TrainingScreenMobileState extends State<TrainingScreenMobile> {
                           ),
                           commonNoteWidget(
                               isReadOnly: true,
-                              data: upcomingInspectionsController
-                                      .taskDetailsData[0]['Task_Note'] ??
-                                  ''),
+                              data: homeController.isCalliberationSection.value
+                                  ? upcomingInspectionsController
+                                              .taskDetailsDataCalliberation[0]
+                                          ['Task_Note'] ??
+                                      ''
+                                  : upcomingInspectionsController
+                                          .taskDetailsData[0]['Task_Note'] ??
+                                      ''),
 
-                          if (upcomingInspectionsController.taskUserDetails[0]
-                                      ['Role_Id']
-                                  .toString() ==
-                              '38')
+                          if (!homeController.isCalliberationSection.value &&
+                                  upcomingInspectionsController
+                                          .taskUserDetails[0]['Role_Id']
+                                          .toString() ==
+                                      '38' ||
+                              homeController.isCalliberationSection.value &&
+                                  upcomingInspectionsController
+                                          .taskUserDetailsCalliberation[0]
+                                              ['Role_Id']
+                                          .toString() ==
+                                      '38')
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -488,8 +513,8 @@ class _TrainingScreenMobileState extends State<TrainingScreenMobile> {
                                                     value!;
                                                 // tcontoller.update();
                                               })),
-                                          Text('Visual',style
-                                        :TextStyle(fontSize: 12.sp))
+                                          Text('Visual',
+                                              style: TextStyle(fontSize: 12.sp))
                                         ],
                                       ),
                                     ),
@@ -515,8 +540,8 @@ class _TrainingScreenMobileState extends State<TrainingScreenMobile> {
                                                     'periodic value ${tcontoller.periodicCheck.value}');
                                                 //  tcontroller.update();
                                               })),
-                                          Text('Periodic',style
-                                        :TextStyle(fontSize: 12.sp))
+                                          Text('Periodic',
+                                              style: TextStyle(fontSize: 12.sp))
                                         ],
                                       ),
                                     ),
@@ -533,8 +558,8 @@ class _TrainingScreenMobileState extends State<TrainingScreenMobile> {
                                                     value!;
                                                 //  tcontroller.update();
                                               })),
-                                          Text('Major',style
-                                        :TextStyle(fontSize: 12.sp))
+                                          Text('Major',
+                                              style: TextStyle(fontSize: 12.sp))
                                         ],
                                       ),
                                     ),
@@ -554,34 +579,31 @@ class _TrainingScreenMobileState extends State<TrainingScreenMobile> {
 
                                                 //  tcontoller.update();
                                               })),
-                                          Text('In-Service',style
-                                        :TextStyle(fontSize: 12.sp))
+                                          Text('In-Service',
+                                              style: TextStyle(fontSize: 12.sp))
                                         ],
                                       ),
                                     ),
                                     SizedBox(
-                                    width: 130.w,
-                                    child: Row(
-                                      children: [
-                                        Obx(() => Checkbox(
-                                            value: tcontoller
-                                                .independentCheck.value,
-                                            onChanged: (value) {
-                                              tcontoller.independentCheck
-                                                  .value = value!;
-                                              homeController.isStartBtnClicked
-                                                  .value = false;
+                                      width: 130.w,
+                                      child: Row(
+                                        children: [
+                                          Obx(() => Checkbox(
+                                              value: tcontoller
+                                                  .independentCheck.value,
+                                              onChanged: (value) {
+                                                tcontoller.independentCheck
+                                                    .value = value!;
+                                                homeController.isStartBtnClicked
+                                                    .value = false;
 
-                                              //  tcontoller.update();
-                                            })),
-                                        Text('Independent',style
-                                        :TextStyle(fontSize: 12.sp))
-                                      ],
+                                                //  tcontoller.update();
+                                              })),
+                                          Text('Independent',
+                                              style: TextStyle(fontSize: 12.sp))
+                                        ],
+                                      ),
                                     ),
-                                  ),
-
-
-                                    
 
                                     // SizedBox(
                                     //   width: 105,
@@ -602,12 +624,12 @@ class _TrainingScreenMobileState extends State<TrainingScreenMobile> {
                                                     value!;
                                                 //  tcontoller.update();
                                               })),
-                                          Text('Thorough',style
-                                        :TextStyle(fontSize: 12.sp))
+                                          Text('Thorough',
+                                              style: TextStyle(fontSize: 12.sp))
                                         ],
                                       ),
                                     ),
-                                     
+
                                     SizedBox(
                                       width: 180.w,
                                       child: Row(
@@ -623,8 +645,8 @@ class _TrainingScreenMobileState extends State<TrainingScreenMobile> {
 
                                                 //  tcontoller.update();
                                               })),
-                                          Text('Initial Examination',style
-                                        :TextStyle(fontSize: 12.sp))
+                                          Text('Initial Examination',
+                                              style: TextStyle(fontSize: 12.sp))
                                         ],
                                       ),
                                     ),
