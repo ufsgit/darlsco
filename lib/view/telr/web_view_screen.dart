@@ -33,7 +33,8 @@ class WebViewScreenState extends State<WebViewScreen> {
   String _code = '';
   final bool _showLoader = false;
   bool _showedOnce = false;
-late WebViewController webController;
+  late WebViewController webController;
+
   @override
   void initState() {
     super.initState();
@@ -44,6 +45,48 @@ late WebViewController webController;
     // if (Platform.isAndroid) WebView.platform = SurfaceAndroidWebView();
     _url = widget.url;
     _code = widget.code;
+    webController = WebViewController()
+      ..setJavaScriptMode(JavaScriptMode.unrestricted)
+      ..setNavigationDelegate(
+         
+        NavigationDelegate(
+        
+          onProgress: (int progress) {
+            
+            print('WEB VIEW PROGRESS   $progress');
+          },
+          onPageStarted: (String url) {
+            print('Page started loading: $url');
+            _showedOnce = false;
+            
+            if (url.contains('close')) {
+              print('call the api');
+            }
+            if (url.contains('abort')) {
+              print('show fail and pop');
+            }
+          },
+          onPageFinished: (String url) {
+
+            print('Page finished loading: $url');
+            if (url.contains('close')) {
+              print('call the api');
+              createXml();
+            }
+            if (url.contains('abort')) {
+              print('show fail and pop');
+            }
+          },
+          onHttpError: (HttpResponseError error) {},
+          onWebResourceError: (WebResourceError error) {
+            print('web view error ${error.description}');
+          },
+          onNavigationRequest: (NavigationRequest request) {
+            return NavigationDecision.navigate;
+          },
+        ),
+      )
+      ..loadRequest(Uri.parse(_url));
     print('url in webview $_url, $_code');
   }
 
@@ -179,7 +222,8 @@ late WebViewController webController;
           child: Container(
             decoration: BoxDecoration(
                 image: DecorationImage(image: AssetImage(splashScreenLogo))),
-            // child: WebView(
+            child: WebViewWidget(controller: webController),
+            //  WebView(
             //   onProgress: (progress) {
             //     print('WEB VIEW PROGRESS   $progress');
             //   },

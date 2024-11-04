@@ -183,6 +183,7 @@ class MyApp extends StatelessWidget {
 
 getcountry(BuildContext context) async {
   try {
+     homeController.isFromPurchase.value = false;
     if (!kIsWeb) {
       PermissionStatus locationStatus = await Permission.location.status;
 
