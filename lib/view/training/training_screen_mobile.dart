@@ -63,6 +63,8 @@ class _TrainingScreenMobileState extends State<TrainingScreenMobile> {
                   onPressed: () async {
                     upcomingInspectionsController.selectDateTaskListData
                         .clear();
+                        upcomingInspectionsController.selectDateTaskListDataCalliberation
+                        .clear();
                     upcomingInspectionsController.taskInitFunction(context);
 
                     if (upcomingInspectionsController
@@ -130,8 +132,8 @@ class _TrainingScreenMobileState extends State<TrainingScreenMobile> {
                                   eqData[0]['Task_Status_Id'].toString() ==
                                       '1' ||
                               homeController.isCalliberationSection.value &&
-                                  eqData[0]['Role_Id'].toString() == '38' &&
-                                  eqData[0]['Task_Status_Id'].toString() == '1')
+                                  eqData[0]['Task_Status_Id'].toString() ==
+                                      '15')
                             tcontoller.isTaskStarted.value == false
                                 ? Align(
                                     alignment: Alignment.centerRight,
@@ -157,7 +159,9 @@ class _TrainingScreenMobileState extends State<TrainingScreenMobile> {
                                       ),
                                     ),
                                   )
-                                : Container(),
+                                : Container(
+                                    child: Text('Ivdonnullaa'),
+                                  ),
                           SizedBox(
                             height: 20.h,
                           ),
@@ -194,7 +198,6 @@ class _TrainingScreenMobileState extends State<TrainingScreenMobile> {
                           SizedBox(
                             height: 15.h,
                           ),
-
                           SizedBox(
                             width: 290.w,
                             child: Text(
@@ -234,7 +237,6 @@ class _TrainingScreenMobileState extends State<TrainingScreenMobile> {
                               )
                             ],
                           ),
-
                           Container(
                             margin: EdgeInsets.only(top: 10.w),
                             // margin: EdgeInsets.only(left:Get.width>615? 35.w:0),
@@ -252,11 +254,9 @@ class _TrainingScreenMobileState extends State<TrainingScreenMobile> {
                               ),
                             ),
                           ),
-
                           SizedBox(
                             height: 15.h,
                           ),
-
                           Row(
                             children: [
                               Icon(
@@ -278,11 +278,9 @@ class _TrainingScreenMobileState extends State<TrainingScreenMobile> {
                               )
                             ],
                           ),
-
                           SizedBox(
                             height: 10.h,
                           ),
-
                           Container(
                             margin: EdgeInsets.only(left: 3.w),
                             child: Text(
@@ -299,57 +297,6 @@ class _TrainingScreenMobileState extends State<TrainingScreenMobile> {
                               ),
                             ),
                           ),
-                          // if (data.taskUserDetails[0]['Start_Notes'] != null ||
-                          //     data.taskUserDetails[0]['Start_Notes'] != '')
-                          //   SizedBox(
-                          //     height: 15.h,
-                          //   ),
-                          // Text(
-                          //   data.taskUserDetails[0]['Start_Notes'] ?? '',
-                          //   style: TextStyle(
-                          //     fontFamily: "Roboto",
-                          //     fontSize: 13.sp,
-                          //     fontWeight: FontWeight.w400,
-                          //     color: const Color.fromARGB(255, 107, 36, 36),
-                          //   ),
-                          // ),
-                          //   if(upcomingInspectionsController.taskUserDetails[0]['Role_Id'].toString()=='38')     SizedBox(
-                          //         height: 25.h,
-                          //       ),
-                          // if(upcomingInspectionsController.taskUserDetails[0]['Role_Id'].toString()=='38')       GetBuilder<HomeController>(builder: (data) {
-
-                          //               return DropdownButtonFormField(
-                          //                   value: data.inspectionDropdownValue.value ==
-                          //                           ''
-                          //                       ? null
-                          //                       : data.inspectionDropdownValue.value,
-                          //                   decoration: const InputDecoration(
-                          //                       // hintText: data.inspectionDropdownValue.value
-                          //                       //     .isEmpty? 'Location':'',
-                          //                       border: OutlineInputBorder()),
-                          //                   onChanged: (value) {
-                          //                     data.getAllUsersList.clear();
-                          //                     data.equipmentCheckValue.clear();
-                          //                     data.inspectionDropdownValue.value =
-                          //                         value.toString();
-                          //                   },
-                          //                   hint: Text('Users'),
-                          //                   items: data.getAllUsersList
-                          //                       .map((e) => DropdownMenuItem(
-                          //                             value: e['User_Details_Name'].toString(),
-                          //                             child: Text( e['User_Details_Name'].toString()),
-                          //                           ))
-                          //                       .toList());
-                          //
-                          //
-                          // if (data.taskUserDetails[0]['Start_Notes'] != null ||
-                          //     data.taskUserDetails[0]['Start_Notes'] != '')
-                          //   SizedBox(
-                          //     height: 15.h,
-                          //   ),
-                          // SizedBox(
-                          //   height: 25.h,
-                          // ),
                           Column(
                             children: List.generate(
                               tcontoller.commonGridTexts.length,
@@ -367,44 +314,6 @@ class _TrainingScreenMobileState extends State<TrainingScreenMobile> {
                           SizedBox(
                             height: 20.h,
                           ),
-                          // Row(
-                          //   children: [
-                          //     Icon(
-                          //       Icons.message,
-                          //       color: ColorResources.color294C73,
-                          //       size: 21.sp,
-                          //     ),
-                          //     SizedBox(
-                          //       width: 10.w,
-                          //     ),
-                          //     Text(
-                          //       ' Notes',
-                          //       style: TextStyle(
-                          //         fontFamily: "DM Sans",
-                          //         fontSize: 16.sp,
-                          //         fontWeight: FontWeight.w700,
-                          //         color: ColorResources.color294C73,
-                          //       ),
-                          //     )
-                          //   ],
-                          // ),
-                          // SizedBox(
-                          //   height: 10.h,
-                          // ),
-                          // Text(
-                          //  ,
-                          //   style: TextStyle(
-                          //     fontFamily: "Roboto",
-                          //     fontSize: 13.sp,
-                          //     fontWeight: FontWeight.w400,
-                          //     color: ColorResources.color0d0d0d,
-                          //   ),
-                          //   textAlign: TextAlign.justify,
-                          // ),
-                          // SizedBox(
-                          //   height: 25.h,
-                          // ),
-
                           Obx(
                             () => Container(
                               child: tcontoller.othersChecked.value
@@ -423,7 +332,6 @@ class _TrainingScreenMobileState extends State<TrainingScreenMobile> {
                                   : Container(),
                             ),
                           ),
-
                           Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -462,212 +370,215 @@ class _TrainingScreenMobileState extends State<TrainingScreenMobile> {
                                   : upcomingInspectionsController
                                           .taskDetailsData[0]['Task_Note'] ??
                                       ''),
-
-                          if (!homeController.isCalliberationSection.value &&
-                                  upcomingInspectionsController
-                                          .taskUserDetails[0]['Role_Id']
-                                          .toString() ==
-                                      '38' ||
-                              homeController.isCalliberationSection.value &&
-                                  upcomingInspectionsController
-                                          .taskUserDetailsCalliberation[0]
-                                              ['Role_Id']
-                                          .toString() ==
-                                      '38')
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  children: [
-                                    Icon(
-                                      Icons.edit_document,
-                                      color: ColorResources.color294C73,
-                                      size: 21.sp,
-                                    ),
-                                    Text(
-                                      'Task Type',
-                                      style: TextStyle(
-                                        fontFamily: "Roboto",
-                                        fontSize: 13.sp,
-                                        fontWeight: FontWeight.w800,
+                          if (!homeController.isCalliberationSection.value&& upcomingInspectionsController.taskUserDetails[0]
+                                      ['Role_Id']
+                                  .toString() ==
+                              '38')
+                            if (!homeController.isCalliberationSection.value)
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    children: [
+                                      Icon(
+                                        Icons.edit_document,
                                         color: ColorResources.color294C73,
+                                        size: 21.sp,
                                       ),
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(
-                                  height: 15.h,
-                                ),
-                                Wrap(
-                                  children: [
-                                    SizedBox(
-                                      width: 105.w,
-                                      child: Row(
-                                        children: [
-                                          Obx(() => Checkbox(
-                                              value:
-                                                  tcontoller.visualCheck.value,
-                                              onChanged: (value) {
-                                                print(value);
-                                                tcontoller.visualCheck.value =
-                                                    value!;
-                                                // tcontoller.update();
-                                              })),
-                                          Text('Visual',
-                                              style: TextStyle(fontSize: 12.sp))
-                                        ],
+                                      Text(
+                                        'Task Type',
+                                        style: TextStyle(
+                                          fontFamily: "Roboto",
+                                          fontSize: 13.sp,
+                                          fontWeight: FontWeight.w800,
+                                          color: ColorResources.color294C73,
+                                        ),
                                       ),
-                                    ),
-
-                                    // SizedBox(
-                                    //   width: 105,
-                                    //   child: selectTaskTypeCheckBox(
-                                    //       checkBoxName: 'Visual',
-                                    //       checkValue: tcontoller.visualCheck),
-                                    // ),
-
-                                    SizedBox(
-                                      width: 112.w,
-                                      child: Row(
-                                        children: [
-                                          Obx(() => Checkbox(
-                                              value: tcontoller
-                                                  .periodicCheck.value,
-                                              onChanged: (value) {
-                                                tcontoller.periodicCheck.value =
-                                                    value!;
-                                                print(
-                                                    'periodic value ${tcontoller.periodicCheck.value}');
-                                                //  tcontroller.update();
-                                              })),
-                                          Text('Periodic',
-                                              style: TextStyle(fontSize: 12.sp))
-                                        ],
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 15.h,
+                                  ),
+                                  Wrap(
+                                    children: [
+                                      SizedBox(
+                                        width: 105.w,
+                                        child: Row(
+                                          children: [
+                                            Obx(() => Checkbox(
+                                                value: tcontoller
+                                                    .visualCheck.value,
+                                                onChanged: (value) {
+                                                  print(value);
+                                                  tcontoller.visualCheck.value =
+                                                      value!;
+                                                  // tcontoller.update();
+                                                })),
+                                            Text('Visual',
+                                                style:
+                                                    TextStyle(fontSize: 12.sp))
+                                          ],
+                                        ),
                                       ),
-                                    ),
 
-                                    SizedBox(
-                                      width: 105.w,
-                                      child: Row(
-                                        children: [
-                                          Obx(() => Checkbox(
-                                              value:
-                                                  tcontoller.majorCheck.value,
-                                              onChanged: (value) {
-                                                tcontoller.majorCheck.value =
-                                                    value!;
-                                                //  tcontroller.update();
-                                              })),
-                                          Text('Major',
-                                              style: TextStyle(fontSize: 12.sp))
-                                        ],
+                                      // SizedBox(
+                                      //   width: 105,
+                                      //   child: selectTaskTypeCheckBox(
+                                      //       checkBoxName: 'Visual',
+                                      //       checkValue: tcontoller.visualCheck),
+                                      // ),
+
+                                      SizedBox(
+                                        width: 112.w,
+                                        child: Row(
+                                          children: [
+                                            Obx(() => Checkbox(
+                                                value: tcontoller
+                                                    .periodicCheck.value,
+                                                onChanged: (value) {
+                                                  tcontoller.periodicCheck
+                                                      .value = value!;
+                                                  print(
+                                                      'periodic value ${tcontoller.periodicCheck.value}');
+                                                  //  tcontroller.update();
+                                                })),
+                                            Text('Periodic',
+                                                style:
+                                                    TextStyle(fontSize: 12.sp))
+                                          ],
+                                        ),
                                       ),
-                                    ),
 
-                                    SizedBox(
-                                      width: 120.w,
-                                      child: Row(
-                                        children: [
-                                          Obx(() => Checkbox(
-                                              value: tcontoller
-                                                  .inServiceCheck.value,
-                                              onChanged: (value) {
-                                                tcontoller.inServiceCheck
-                                                    .value = value!;
-                                                homeController.isStartBtnClicked
-                                                    .value = false;
-
-                                                //  tcontoller.update();
-                                              })),
-                                          Text('In-Service',
-                                              style: TextStyle(fontSize: 12.sp))
-                                        ],
+                                      SizedBox(
+                                        width: 105.w,
+                                        child: Row(
+                                          children: [
+                                            Obx(() => Checkbox(
+                                                value:
+                                                    tcontoller.majorCheck.value,
+                                                onChanged: (value) {
+                                                  tcontoller.majorCheck.value =
+                                                      value!;
+                                                  //  tcontroller.update();
+                                                })),
+                                            Text('Major',
+                                                style:
+                                                    TextStyle(fontSize: 12.sp))
+                                          ],
+                                        ),
                                       ),
-                                    ),
-                                    SizedBox(
-                                      width: 130.w,
-                                      child: Row(
-                                        children: [
-                                          Obx(() => Checkbox(
-                                              value: tcontoller
-                                                  .independentCheck.value,
-                                              onChanged: (value) {
-                                                tcontoller.independentCheck
-                                                    .value = value!;
-                                                homeController.isStartBtnClicked
-                                                    .value = false;
 
-                                                //  tcontoller.update();
-                                              })),
-                                          Text('Independent',
-                                              style: TextStyle(fontSize: 12.sp))
-                                        ],
+                                      SizedBox(
+                                        width: 120.w,
+                                        child: Row(
+                                          children: [
+                                            Obx(() => Checkbox(
+                                                value: tcontoller
+                                                    .inServiceCheck.value,
+                                                onChanged: (value) {
+                                                  tcontoller.inServiceCheck
+                                                      .value = value!;
+                                                  homeController
+                                                      .isStartBtnClicked
+                                                      .value = false;
+
+                                                  //  tcontoller.update();
+                                                })),
+                                            Text('In-Service',
+                                                style:
+                                                    TextStyle(fontSize: 12.sp))
+                                          ],
+                                        ),
                                       ),
-                                    ),
+                                      SizedBox(
+                                        width: 130.w,
+                                        child: Row(
+                                          children: [
+                                            Obx(() => Checkbox(
+                                                value: tcontoller
+                                                    .independentCheck.value,
+                                                onChanged: (value) {
+                                                  tcontoller.independentCheck
+                                                      .value = value!;
+                                                  homeController
+                                                      .isStartBtnClicked
+                                                      .value = false;
 
-                                    // SizedBox(
-                                    //   width: 105,
-                                    //   child: selectTaskTypeCheckBox(
-                                    //       checkBoxName: 'Periodic',
-                                    //       checkValue: tcontroller.periodicCheck),
-                                    // ),
-
-                                    SizedBox(
-                                      width: 130.w,
-                                      child: Row(
-                                        children: [
-                                          Obx(() => Checkbox(
-                                              value: tcontoller
-                                                  .thoroughCheck.value,
-                                              onChanged: (value) {
-                                                tcontoller.thoroughCheck.value =
-                                                    value!;
-                                                //  tcontoller.update();
-                                              })),
-                                          Text('Thorough',
-                                              style: TextStyle(fontSize: 12.sp))
-                                        ],
+                                                  //  tcontoller.update();
+                                                })),
+                                            Text('Independent',
+                                                style:
+                                                    TextStyle(fontSize: 12.sp))
+                                          ],
+                                        ),
                                       ),
-                                    ),
 
-                                    SizedBox(
-                                      width: 180.w,
-                                      child: Row(
-                                        children: [
-                                          Obx(() => Checkbox(
-                                              value: tcontoller
-                                                  .examinationCheck.value,
-                                              onChanged: (value) {
-                                                tcontoller.examinationCheck
-                                                    .value = value!;
-                                                homeController.isStartBtnClicked
-                                                    .value = false;
+                                      // SizedBox(
+                                      //   width: 105,
+                                      //   child: selectTaskTypeCheckBox(
+                                      //       checkBoxName: 'Periodic',
+                                      //       checkValue: tcontroller.periodicCheck),
+                                      // ),
 
-                                                //  tcontoller.update();
-                                              })),
-                                          Text('Initial Examination',
-                                              style: TextStyle(fontSize: 12.sp))
-                                        ],
+                                      SizedBox(
+                                        width: 130.w,
+                                        child: Row(
+                                          children: [
+                                            Obx(() => Checkbox(
+                                                value: tcontoller
+                                                    .thoroughCheck.value,
+                                                onChanged: (value) {
+                                                  tcontoller.thoroughCheck
+                                                      .value = value!;
+                                                  //  tcontoller.update();
+                                                })),
+                                            Text('Thorough',
+                                                style:
+                                                    TextStyle(fontSize: 12.sp))
+                                          ],
+                                        ),
                                       ),
-                                    ),
 
-                                    // SizedBox(
-                                    //   width: 105,
-                                    //   child: selectTaskTypeCheckBox(
-                                    //       checkBoxName: 'Thorough',
-                                    //       checkValue: tcontroller.thoroughCheck),
-                                    // ),
+                                      SizedBox(
+                                        width: 180.w,
+                                        child: Row(
+                                          children: [
+                                            Obx(() => Checkbox(
+                                                value: tcontoller
+                                                    .examinationCheck.value,
+                                                onChanged: (value) {
+                                                  tcontoller.examinationCheck
+                                                      .value = value!;
+                                                  homeController
+                                                      .isStartBtnClicked
+                                                      .value = false;
 
-                                    // SizedBox(
-                                    //   width: 105.w,
-                                    //   child: selectTaskTypeCheckBox(
-                                    //       checkBoxName: 'Major',
-                                    //       checkValue: tcontroller.majorCheck),
-                                    // )
-                                  ],
-                                ),
-                              ],
-                            )
+                                                  //  tcontoller.update();
+                                                })),
+                                            Text('Initial Examination',
+                                                style:
+                                                    TextStyle(fontSize: 12.sp))
+                                          ],
+                                        ),
+                                      ),
+
+                                      // SizedBox(
+                                      //   width: 105,
+                                      //   child: selectTaskTypeCheckBox(
+                                      //       checkBoxName: 'Thorough',
+                                      //       checkValue: tcontroller.thoroughCheck),
+                                      // ),
+
+                                      // SizedBox(
+                                      //   width: 105.w,
+                                      //   child: selectTaskTypeCheckBox(
+                                      //       checkBoxName: 'Major',
+                                      //       checkValue: tcontroller.majorCheck),
+                                      // )
+                                    ],
+                                  ),
+                                ],
+                              )
                         ],
                       ),
                     ),

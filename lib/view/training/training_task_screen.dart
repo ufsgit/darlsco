@@ -183,6 +183,8 @@ class _TrainingTaskScreenState extends State<TrainingTaskScreen> {
                         onTap: (index) async {
                           upcomingInspectionsController.selectDateTaskListData
                               .clear();
+                               upcomingInspectionsController.selectDateTaskListDataCalliberation
+                              .clear();
                           upcomingInspectionsController.update();
                           upcomingInspectionsController.startDatePickController
                               .clear();

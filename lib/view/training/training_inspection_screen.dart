@@ -16,8 +16,8 @@ import '../../controller/login/login_controller.dart';
 import '../../core/constants/color_resources.dart';
 
 class TrainingInspectionScreen extends StatefulWidget {
-  const TrainingInspectionScreen({super.key});
-
+  const TrainingInspectionScreen({super.key,this.selectedIndex=0});
+final int selectedIndex;
   @override
   State<TrainingInspectionScreen> createState() =>
       _TrainingInspectionScreenState();
@@ -49,9 +49,10 @@ class _TrainingInspectionScreenState extends State<TrainingInspectionScreen> {
 
   @override
   Widget build(BuildContext context) {
+    
     return GetBuilder<HomeController>(builder: (loginData) {
       return DefaultTabController(
-        // initialIndex: 1,
+        initialIndex: widget.selectedIndex,
 
         length: homeController.isInspectionEnabled &&
                     homeController.isTrainingEnabled &&
@@ -297,7 +298,7 @@ class _TrainingInspectionScreenState extends State<TrainingInspectionScreen> {
                                     .clear();
 
                                 upcomingInspectionsController
-                                    .update(['date_picker']);
+                                    .update(['date_picker_in']);
 
                                 await upcomingInspectionsController
                                     .taskInitFunction(context);
@@ -621,7 +622,7 @@ class _TrainingInspectionScreenState extends State<TrainingInspectionScreen> {
                                         height: 20.h,
                                       ),
                                       GetBuilder<UpcomingInspectionsController>(
-                                          id: 'date_picker',
+                                          id: 'date_picker_in',
                                           builder: (selectData) {
                                             return Container(
                                               child: selectData
@@ -644,7 +645,7 @@ class _TrainingInspectionScreenState extends State<TrainingInspectionScreen> {
                                                     )
                                                   : taskListTileData(
                                                       taskListData: selectData
-                                                          .selectDateTaskListDataCalliberation),
+                                                          .selectDateTaskListData),
                                             );
                                           }),
                                     ],
@@ -657,13 +658,6 @@ class _TrainingInspectionScreenState extends State<TrainingInspectionScreen> {
                   ),
                 // if (loginData.isTraineeLogin.value == true)
                 if (homeController.isTrainingEnabled) const TaskPage(),
-//  if (globalHomeController.isCalliberationLogin.value ||
-//                               !globalHomeController.isuserLogin.value &&
-//                                   globalHomeController
-//                                       .isCalliberationLogin.value ||
-//                               !globalHomeController.isuserLogin.value &&
-//                                   !globalHomeController
-//                                       .isCalliberationLogin.value)
                 if (homeController.isCalliberationEnabled)
                   commonBackgroundLinearColorHome(
                     childWidget: DefaultTabController(
@@ -692,6 +686,9 @@ class _TrainingInspectionScreenState extends State<TrainingInspectionScreen> {
                                 upcomingInspectionsController
                                     .selectDateTaskListData
                                     .clear();
+                                    upcomingInspectionsController
+                                    .selectDateTaskListDataCalliberation
+                                    .clear();
                                 upcomingInspectionsController.update();
                                 upcomingInspectionsController
                                     .startDatePickController
@@ -703,9 +700,12 @@ class _TrainingInspectionScreenState extends State<TrainingInspectionScreen> {
                                 upcomingInspectionsController
                                     .selectDateTaskListData
                                     .clear();
+                                     upcomingInspectionsController
+                                    .selectDateTaskListDataCalliberation
+                                    .clear();
 
                                 upcomingInspectionsController
-                                    .update(['date_picker']);
+                                    .update(['date_picker_ca']);
 
                                 await upcomingInspectionsController
                                     .taskInitFunction(context);
@@ -927,7 +927,7 @@ class _TrainingInspectionScreenState extends State<TrainingInspectionScreen> {
                                               alignment: Alignment.centerRight,
                                               child: IconButton(
                                                 onPressed: () async {
-                                                  if (upcomingInspectionsController
+                                                    if (upcomingInspectionsController
                                                           .startDatePickController
                                                           .text
                                                           .isNotEmpty &&
@@ -954,10 +954,13 @@ class _TrainingInspectionScreenState extends State<TrainingInspectionScreen> {
                                                       upcomingInspectionsController
                                                               .isDateSubmitBtnClicked =
                                                           true;
-                                                      upcomingInspectionsController
-                                                              .selectDateTaskListData =
+                                                      if (homeController
+                                                          .isCalliberationSection
+                                                          .value) {
+                                                               upcomingInspectionsController
+                                                              .selectDateTaskListDataCalliberation =
                                                           await upcomingInspectionsController
-                                                              .getuserTaskDateRange(
+                                                              .getCalliberationTasks(
                                                         isInitSate: false,
                                                         startDate: DateFormat(
                                                                 'dd-MM-yyyy')
@@ -970,6 +973,24 @@ class _TrainingInspectionScreenState extends State<TrainingInspectionScreen> {
                                                                 .endDatePickController
                                                                 .text),
                                                       );
+                                                      } else {
+                                                        upcomingInspectionsController
+                                                                .selectDateTaskListData =
+                                                            await upcomingInspectionsController
+                                                                .getuserTaskDateRange(
+                                                          isInitSate: false,
+                                                          startDate: DateFormat(
+                                                                  'dd-MM-yyyy')
+                                                              .parse(upcomingInspectionsController
+                                                                  .startDatePickController
+                                                                  .text),
+                                                          endDate: DateFormat(
+                                                                  'dd-MM-yyyy')
+                                                              .parse(upcomingInspectionsController
+                                                                  .endDatePickController
+                                                                  .text),
+                                                        );
+                                                      }
                                                     }
                                                   } else {
                                                     ScaffoldMessenger.of(
@@ -1012,11 +1033,11 @@ class _TrainingInspectionScreenState extends State<TrainingInspectionScreen> {
                                         height: 20.h,
                                       ),
                                       GetBuilder<UpcomingInspectionsController>(
-                                          id: 'date_picker',
+                                          id: 'date_picker_ca',
                                           builder: (selectData) {
                                             return Container(
                                               child: selectData
-                                                          .selectDateTaskListData
+                                                          .selectDateTaskListDataCalliberation
                                                           .isEmpty &&
                                                       upcomingInspectionsController
                                                           .endDatePickController
@@ -1035,7 +1056,7 @@ class _TrainingInspectionScreenState extends State<TrainingInspectionScreen> {
                                                     )
                                                   : taskListTileData(
                                                       taskListData: selectData
-                                                          .selectDateTaskListData),
+                                                          .selectDateTaskListDataCalliberation),
                                             );
                                           }),
                                     ],
@@ -1146,6 +1167,7 @@ class _TrainingInspectionScreenState extends State<TrainingInspectionScreen> {
               onLongPress: () {},
               onTap: () {
                 upcomingInspectionsController.getUserTaskDetails(
+                  status:taskListData[index]['Task_Status_Name'] ,
                     taskId: taskListData[index]['Task_Id']);
               },
               child: Container(

@@ -30,6 +30,7 @@ class HttpRequest {
       }),
       queryParameters: bodyData,
     );
+    
     if (kDebugMode) {
       print('get result ====> $response  ');
     }
@@ -130,7 +131,7 @@ class HttpRequest {
           "Content-Type": "application/json",
           "Authorization": "Bearer $token",
         }),
-        data: jsonEncode(bodyData),
+        data: bodyData,
       );
       Loader.stopLoader();
 

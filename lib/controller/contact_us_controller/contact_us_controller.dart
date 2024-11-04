@@ -31,7 +31,7 @@ class ContactUsController extends GetxController {
 
     await HttpRequest.httpPostRequest(
       bodyData: mapData,
-      endPoint: HttpUrls.saveEnquiries,
+      endPoint:homeController.isCalliberationSection.value? HttpUrls.saveEnquiriesCalliberation: HttpUrls.saveEnquiries,
     ).then((value) {
       if (value != null) {
         if (value.statusCode == 200) {

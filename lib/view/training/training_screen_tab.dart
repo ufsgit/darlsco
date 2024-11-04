@@ -32,6 +32,8 @@ class _TrainningScreenTabState extends State<TrainningScreenTab> {
             leading: IconButton(
                 onPressed: () {
                   upcomingInspectionsController.selectDateTaskListData.clear();
+                  upcomingInspectionsController.selectDateTaskListDataCalliberation
+                        .clear();
                   upcomingInspectionsController.taskInitFunction(context);
 
                   Get.back();
@@ -639,7 +641,7 @@ commonBottomButton() {
             upcomingInspectionsController.taskUserDetailsCalliberation[0]
                         ['Task_Status_Id']
                     .toString() ==
-                '1'
+                '15' 
         ?
 
         // return
@@ -650,15 +652,15 @@ commonBottomButton() {
             onLongPress: () {},
             onTap: () async {
               // await upcomingInspectionsController.saveTaskUserStart();
-
               final equipmentCheck = upcomingInspectionsController
                   .taskEquipmentListDataCalliberation
                   .where((element) => element['Checked'].toString() == '1')
                   .toList();
               print(
-                  'equipment list ${upcomingInspectionsController.taskEquipmentListDataCalliberation}');
+                  'equipmenkeoeioeiot list ${equipmentCheck}');
 
               if (equipmentCheck.isNotEmpty) {
+                print('I am here dude');
                 if (upcomingInspectionsController
                             .taskEquipmentListDataCalliberation.last['Checked']
                             .toString() ==
@@ -687,13 +689,14 @@ commonBottomButton() {
 
                     print(' majorCheck    ${tcontoller.majorCheck.value}');
 
-                    if (tcontoller.visualCheck.value == true ||
-                        tcontoller.periodicCheck.value == true ||
-                        tcontoller.thoroughCheck.value == true ||
-                        tcontoller.inServiceCheck.value == true ||
-                        tcontoller.examinationCheck.value == true ||
-                        tcontoller.independentCheck.value == true ||
-                        tcontoller.majorCheck.value == true) {
+                    // if (tcontoller.visualCheck.value == true ||
+                    //     tcontoller.periodicCheck.value == true ||
+                    //     tcontoller.thoroughCheck.value == true ||
+                    //     tcontoller.inServiceCheck.value == true ||
+                    //     tcontoller.examinationCheck.value == true ||
+                    //     tcontoller.independentCheck.value == true ||
+                    //     tcontoller.majorCheck.value == true) {
+                        
                       final userEnter = await tcontoller.geofenceLocation(
                         fenceLatitude: upcomingInspectionsController
                                 .taskDetailsDataCalliberation.isEmpty
@@ -711,35 +714,35 @@ commonBottomButton() {
 
                       if (userEnter == 'inside') {
                         if (tcontoller.isTaskStarted.value == true) {
-                          await upcomingInspectionsController.getTestEquipment(
-                            taskUserDetailsId: upcomingInspectionsController
-                                    .taskUserDetailsCalliberation[0]
-                                ['Task_User_Details_Id'],
-                            taskId: upcomingInspectionsController
-                                .taskDetailsDataCalliberation[0]['Task_Id'],
-                          );
-                          // await upcomingInspectionsController.getUserTaskDetails(taskId: upcomingInspectionsController
-                          //       .taskDetailsData[0]['Task_Id']); // need to change
-                          await upcomingInspectionsController.getTestppe(
-                            taskUserDetailsId: upcomingInspectionsController
-                                    .taskUserDetailsCalliberation[0]
-                                ['Task_User_Details_Id'],
-                            taskId: upcomingInspectionsController
-                                .taskDetailsDataCalliberation[0]['Task_Id'],
-                          );
-                          await upcomingInspectionsController.getTestDocument(
-                            taskUserDetailsId: upcomingInspectionsController
-                                    .taskUserDetailsCalliberation[0]
-                                ['Task_User_Details_Id'],
-                            taskId: upcomingInspectionsController
-                                .taskDetailsDataCalliberation[0]['Task_Id'],
-                          );
+                          // await upcomingInspectionsController.getTestEquipment(
+                          //   taskUserDetailsId: upcomingInspectionsController
+                          //           .taskUserDetailsCalliberation[0]
+                          //       ['Task_User_Details_Id'],
+                          //   taskId: upcomingInspectionsController
+                          //       .taskDetailsDataCalliberation[0]['Task_Id'],
+                          // );
+                          // // await upcomingInspectionsController.getUserTaskDetails(taskId: upcomingInspectionsController
+                          // //       .taskDetailsData[0]['Task_Id']); // need to change
+                          // await upcomingInspectionsController.getTestppe(
+                          //   taskUserDetailsId: upcomingInspectionsController
+                          //           .taskUserDetailsCalliberation[0]
+                          //       ['Task_User_Details_Id'],
+                          //   taskId: upcomingInspectionsController
+                          //       .taskDetailsDataCalliberation[0]['Task_Id'],
+                          // );
+                          // await upcomingInspectionsController.getTestDocument(
+                          //   taskUserDetailsId: upcomingInspectionsController
+                          //           .taskUserDetailsCalliberation[0]
+                          //       ['Task_User_Details_Id'],
+                          //   taskId: upcomingInspectionsController
+                          //       .taskDetailsDataCalliberation[0]['Task_Id'],
+                          // );
 
-                          Get.to(() => TrainingEquipmentScreen(
-                                taskId: int.parse(upcomingInspectionsController
-                                    .taskDetailsDataCalliberation[0]['Task_Id']
-                                    .toString()),
-                              ));
+                          // Get.to(() => TrainingEquipmentScreen(
+                          //       taskId: int.parse(upcomingInspectionsController
+                          //           .taskDetailsDataCalliberation[0]['Task_Id']
+                          //           .toString()),
+                          //     ));
                         } else {
                           showDialog(
                             barrierDismissible: false,
@@ -769,36 +772,36 @@ commonBottomButton() {
                                   child: const Text('Continue'),
                                   onPressed: () async {
                                     Get.back();
-                                    await upcomingInspectionsController
-                                        .getTestEquipment(
-                                      taskUserDetailsId:
-                                          upcomingInspectionsController
-                                                  .taskUserDetailsCalliberation[
-                                              0]['Task_User_Details_Id'],
-                                      taskId: upcomingInspectionsController
-                                              .taskDetailsDataCalliberation[0]
-                                          ['Task_Id'],
-                                    );
-                                    await upcomingInspectionsController
-                                        .getTestppe(
-                                      taskUserDetailsId:
-                                          upcomingInspectionsController
-                                                  .taskUserDetailsCalliberation[
-                                              0]['Task_User_Details_Id'],
-                                      taskId: upcomingInspectionsController
-                                              .taskDetailsDataCalliberation[0]
-                                          ['Task_Id'],
-                                    );
-                                    await upcomingInspectionsController
-                                        .getTestDocument(
-                                      taskUserDetailsId:
-                                          upcomingInspectionsController
-                                                  .taskUserDetailsCalliberation[
-                                              0]['Task_User_Details_Id'],
-                                      taskId: upcomingInspectionsController
-                                              .taskDetailsDataCalliberation[0]
-                                          ['Task_Id'],
-                                    );
+                                    // await upcomingInspectionsController
+                                    //     .getTestEquipment(
+                                    //   taskUserDetailsId:
+                                    //       upcomingInspectionsController
+                                    //               .taskUserDetailsCalliberation[
+                                    //           0]['Task_User_Details_Id'],
+                                    //   taskId: upcomingInspectionsController
+                                    //           .taskDetailsDataCalliberation[0]
+                                    //       ['Task_Id'],
+                                    // );
+                                    // await upcomingInspectionsController
+                                    //     .getTestppe(
+                                    //   taskUserDetailsId:
+                                    //       upcomingInspectionsController
+                                    //               .taskUserDetailsCalliberation[
+                                    //           0]['Task_User_Details_Id'],
+                                    //   taskId: upcomingInspectionsController
+                                    //           .taskDetailsDataCalliberation[0]
+                                    //       ['Task_Id'],
+                                    // );
+                                    // await upcomingInspectionsController
+                                    //     .getTestDocument(
+                                    //   taskUserDetailsId:
+                                    //       upcomingInspectionsController
+                                    //               .taskUserDetailsCalliberation[
+                                    //           0]['Task_User_Details_Id'],
+                                    //   taskId: upcomingInspectionsController
+                                    //           .taskDetailsDataCalliberation[0]
+                                    //       ['Task_Id'],
+                                    // );
                                     await upcomingInspectionsController
                                         .saveTaskUserStart();
                                   },
@@ -814,33 +817,20 @@ commonBottomButton() {
                                     "Your current location doesn't match the task location. You won't be able to start the task!")));
                       }
 
-                      // if (tcontoller.isTaskStarted.value == false) {
-                      //         tcontoller.geofenceService
-                      //       .addGeofenceStatusChangeListener(tcontoller.onGeofenceStatusChanged);
-                      //   tcontoller.geofenceService
-                      //       .addLocationChangeListener(tcontoller.onLocationChanged);
-                      //   tcontoller.geofenceService.addLocationServicesStatusChangeListener(
-                      //       tcontoller.onLocationServicesStatusChanged);
-                      //   tcontoller.geofenceService
-                      //       .addActivityChangeListener(tcontoller.onActivityChanged);
-                      //   tcontoller.geofenceService.addStreamErrorListener(tcontoller.onError);
-                      //   tcontoller.geofenceService
-                      //       .start(tcontoller.geofenceList)
-                      //       .catchError(tcontoller.onError);
-                      //   // await upcomingInspectionsController.saveTaskUserStart();
-                      // } else {
-                      //   Get.to(() => const TrainingEquipmentScreen());
-                      // }
-
-                      // await upcomingInspectionsController.saveTaskUserStart();
-                    } else {
-                      if (homeController.isStartBtnClicked.value == false) {
-                        ScaffoldMessenger.of(Get.context!).showSnackBar(
-                            const SnackBar(content: Text('Select Task Type')));
-                      }
-                      homeController.isStartBtnClicked.value = true;
-                    }
+                    //  } else {
+                    //   if (homeController.isStartBtnClicked.value == false) {
+                    //     ScaffoldMessenger.of(Get.context!).showSnackBar(
+                    //         const SnackBar(content: Text('Select Task Type')));
+                    //   }
+                    //   homeController.isStartBtnClicked.value = true;
+                    // }
                   } else {
+                    print( upcomingInspectionsController
+                              .taskDetailsDataCalliberation.isEmpty);
+                      print(upcomingInspectionsController
+                              .taskDetailsDataCalliberation[0]['Latitude']);
+                               print(upcomingInspectionsController
+                              .taskDetailsDataCalliberation[0]['Longitude']);
                     final userEnter = await tcontoller.geofenceLocation(
                       fenceLatitude: upcomingInspectionsController
                               .taskDetailsDataCalliberation.isEmpty
@@ -855,7 +845,7 @@ commonBottomButton() {
                               .taskDetailsDataCalliberation[0]['Longitude']
                               .toString()),
                     );
-
+                  
                     if (userEnter == 'inside') {
                       //  await upcomingInspectionsController.saveTaskUserStart();
                       // await upcomingInspectionsController.getTestEquipment(
@@ -1354,8 +1344,10 @@ Container trainningGridWidget(
                       spacing: Get.width > 615 ? 30.w : 10.w,
                       // crossAxisAlignment: CrossAxisAlignment.start,
                       children: List.generate(
-                          upcomingInspectionsController
+                         homeController.isCalliberationSection.value?upcomingInspectionsController
+                              .taskEquipmentListDataCalliberation.length: upcomingInspectionsController
                               .taskEquipmentListData.length, (index) {
+                                print('fiiurreoiu ${upcomingInspectionsController.taskEquipmentListDataCalliberation.length}');
                         return GetBuilder<UpcomingInspectionsController>(
                             builder: (eqpmentListData) {
                           return SizedBox(
@@ -1363,17 +1355,45 @@ Container trainningGridWidget(
                               child: Row(
                                 children: [
                                   Checkbox(
-                                    value: eqpmentListData
+                                    value:!homeController.isCalliberationSection.value&& eqpmentListData
                                                 .taskEquipmentListData[index]
                                                     ['Checked']
-                                                .toString() ==
-                                            '1'
+                                                .toString() == 
+                                            '1'||homeController.isCalliberationSection.value&& eqpmentListData
+                                                .taskEquipmentListDataCalliberation[index]
+                                                    ['Checked']
+                                                .toString() == '1'
                                         ? true
                                         : false,
                                     onChanged: (value) {
                                       print(value);
 
-                                      if (upcomingInspectionsController
+                                     if (homeController.isCalliberationSection.value) {
+                                       if (upcomingInspectionsController
+                                                  .taskEquipmentListDataCalliberation[index]
+                                              ['Equipment_Name'] !=
+                                          'Other') {
+                                        upcomingInspectionsController
+                                                .taskEquipmentListDataCalliberation[index]
+                                            ['Checked'] = value == true ? 1 : 0;
+                                      } else {
+                                        upcomingInspectionsController
+                                                .taskEquipmentListDataCalliberation[index]
+                                            ['Checked'] = value == true ? 1 : 0;
+                                        if (upcomingInspectionsController
+                                                .taskEquipmentListDataCalliberation[index]
+                                                    ['Checked']
+                                                .toString() ==
+                                            '1') {
+                                          tcontoller.othersChecked.value = true;
+                                        } else {
+                                          tcontoller.othersChecked.value =
+                                              false;
+                                        }
+                                      }
+                                       
+                                     } else {
+                                        if (upcomingInspectionsController
                                                   .taskEquipmentListData[index]
                                               ['Equipment_Name'] !=
                                           'Other') {
@@ -1395,6 +1415,7 @@ Container trainningGridWidget(
                                               false;
                                         }
                                       }
+                                     }
 
                                       upcomingInspectionsController.update();
                                     },
@@ -1406,7 +1427,7 @@ Container trainningGridWidget(
                                     child: Align(
                                       alignment: Alignment.topLeft,
                                       child: Text(
-                                        ' ${upcomingInspectionsController.taskEquipmentListData[index]['Equipment_Name']}',
+                                      homeController.isCalliberationSection.value? ' ${upcomingInspectionsController.taskEquipmentListDataCalliberation[index]['Equipment_Name']}':  ' ${upcomingInspectionsController.taskEquipmentListData[index]['Equipment_Name']}',
                                         style: TextStyle(
                                           fontFamily: "Roboto",
                                           fontSize: 13.sp,

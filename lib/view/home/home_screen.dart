@@ -42,7 +42,7 @@ class HomePageState extends State<HomePage>
           homeController.isCalliberationEnabled
         ].where((element) => element).length >=
         2;
-  
+
     _tabController = TabController(
         length: homeController.isInspectionEnabled &&
                     homeController.isTrainingEnabled &&
@@ -54,16 +54,7 @@ class HomePageState extends State<HomePage>
             : areAnyTwoTrue
                 ? 2
                 : 1,
-        // length: homeController.isTraineeLogin.value == false &&
-        //             homeController.isuserLogin.value == false &&
-        //             homeController.isCalliberationLogin.value == false ||
-        //         homeController.isTraineeLogin.value == true &&
-        //             homeController.isuserLogin.value == true &&
-        //             homeController.isCalliberationLogin.value == true
-        //     ? 3
-        //     : areAnyTwoTrue
-        //         ? 2
-        //         : 1,
+       
         vsync: this);
 
     if ((homeController.isTraineeLogin.value == false &&
@@ -71,6 +62,7 @@ class HomePageState extends State<HomePage>
         (homeController.tabIndex.value == 1) ||
         homeController.isuserLogin.value == true) {
       if (widget.initialIndex == null) {
+        print('hiiii');
         _tabController.index = homeController.isuserLogin.value &&
                     homeController.isTraineeLogin.value &&
                     homeController.isCalliberationSection.value ||
@@ -80,6 +72,9 @@ class HomePageState extends State<HomePage>
             ? 2
             : 1;
       } else {
+                print('hiiii 74 ${widget.initialIndex}');
+                
+
         _tabController.index = widget.initialIndex ?? 0;
       }
       print('oiubib ${widget.initialIndex}');
@@ -131,6 +126,7 @@ class HomePageState extends State<HomePage>
   @override
   Widget build(BuildContext context) {
     try {
+      
       if (homeController.isuserLogin.value == false &&
           homeController.isTraineeLogin.value) {
         homeController.isTrainingSection.value = true;
@@ -330,11 +326,20 @@ class HomePageState extends State<HomePage>
                             loginController.logout(context);
                           }
                           print('dfgswrlkkkjkh $index');
-                       
+
                           homeController.tabIndex.value = index;
+                          if (index == 0 &&
+                              homeController.isInspectionEnabled) {
+                            print('HIJACK SUCCESS');
+                          } else {
+                            print('HIJACK $index');
+                            print(
+                                'HIJACK ${homeController.isInspectionEnabled}');
+                          }
                           homeController.isInspectionSection.value =
                               index == 0 && homeController.isInspectionEnabled;
-                          homeController.isTrainingSectionnew.value =
+                      
+                         homeController.isTrainingSectionnew.value =
                               index == 0 &&
                                       !homeController.isInspectionEnabled ||
                                   index == 1 &&
@@ -589,84 +594,82 @@ class HomePageState extends State<HomePage>
                   //     (globalHomeController.isuserLogin.value == false &&
                   //         globalHomeController.isCalliberationLogin.value ==
                   //             false))
-                    Tab2(
-                      btnText: 'Calliberation',
-                      imgurlList: const [
-                        'https://s3-alpha-sig.figma.com/img/641b/30d6/0527f4c4463314a0e51342ca65015b8a?Expires=1701648000&Signature=b3Vf84hA3SPBQdsIYadxD69GmrohKr3CvC~q1CD57dD4NSTWzQMisHJtTaQ~NMufu9IIN2KEsnM4wcyss~flnFXyvB1xWmHLWwXrqCgvyrKDQq0tIP76lrodeGfsiE4YUm4A0IBOoihQoml9jmYxufepXFh0DhaWY-qHczbDczDEHnzzaqjqalyrhhhzbJlQGZb5RDEQOqYhk5XZ96G02DYdXRsmz~bLqfN~gZSBb47X7eRpYICs5ARKnID~0MqIWokpkb34~ZlrynYc1TglNRUy3soJoe3VM3ptaR~kCf2AsN8vAr0e5BEV45Jyzwzl~mJjjO5TcIrsk8ExdSQPRg__&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4'
-                      ],
-                      cContainer: homeController.isUserLoggedIn
-                          ? Wrap(
-                              spacing: Get.width > 615 ? 30.w : 10.w,
-                              runSpacing: Get.width > 615 ? 30.w : 10.w,
-                              children: List.generate(
-                                  homeController.contentTextTrainingTab2.length,
-                                  (index) => IconButton(
-                                        padding: const EdgeInsets.all(2),
-                                        onPressed: () {
-                                          // ScaffoldMessenger.of(context)
-                                          // .showSnackBar(const SnackBar(
+                  Tab2(
+                    btnText: 'Calliberation',
+                    imgurlList: const [
+                      'https://s3-alpha-sig.figma.com/img/641b/30d6/0527f4c4463314a0e51342ca65015b8a?Expires=1701648000&Signature=b3Vf84hA3SPBQdsIYadxD69GmrohKr3CvC~q1CD57dD4NSTWzQMisHJtTaQ~NMufu9IIN2KEsnM4wcyss~flnFXyvB1xWmHLWwXrqCgvyrKDQq0tIP76lrodeGfsiE4YUm4A0IBOoihQoml9jmYxufepXFh0DhaWY-qHczbDczDEHnzzaqjqalyrhhhzbJlQGZb5RDEQOqYhk5XZ96G02DYdXRsmz~bLqfN~gZSBb47X7eRpYICs5ARKnID~0MqIWokpkb34~ZlrynYc1TglNRUy3soJoe3VM3ptaR~kCf2AsN8vAr0e5BEV45Jyzwzl~mJjjO5TcIrsk8ExdSQPRg__&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4'
+                    ],
+                    cContainer: homeController.isUserLoggedIn
+                        ? Wrap(
+                            spacing: Get.width > 615 ? 30.w : 10.w,
+                            runSpacing: Get.width > 615 ? 30.w : 10.w,
+                            children: List.generate(
+                                homeController.contentTextTrainingTab2.length,
+                                (index) => IconButton(
+                                      padding: const EdgeInsets.all(2),
+                                      onPressed: () {
+                                        // ScaffoldMessenger.of(context)
+                                        // .showSnackBar(const SnackBar(
 
-                                          //   content: Text('server failure')));
-                                          homeController
-                                              .functionsTrainingTab2[index]();
-                                        },
-                                        icon: GetBuilder<HomeController>(
-                                            builder: (locationData) {
-                                          return homeColorContainer(
-                                              contentText: homeController
-                                                      .contentTextTrainingTab2[
-                                                  index],
-                                              numberText: index == 0
-                                                  ? homeController
-                                                      .customerLocations.length
-                                                      .toString()
-                                                  : index == 1
-                                                      ? homeController
-                                                          .customerEquipmentDataCalliberation
-                                                          .length
-                                                          .toString()
-                                                      : index == 2
-                                                          ? homeController
-                                                              .customerEquipmentExpiringDataCalliberation
-                                                              .length
-                                                              .toString()
-                                                          : index == 3
-                                                              ? upcomingInspectionsController
-                                                                  .upcomingInspectionListDataCalliberation
-                                                                  .length
-                                                                  .toString()
-                                                              : '0',
-                                              cBgColor: homeController
-                                                  .cBgColorTrainingTab2[index],
-                                              numBgColor: homeController
-                                                      .numBgColorTrainingTab2[
-                                                  index]);
-                                        }),
-                                      )),
-                            )
-                          : const SizedBox(),
-                      mainTitleWidget: RichText(
-                          text: TextSpan(children: [
-                        TextSpan(
-                          text: 'We\'re ready to',
-                          style: GoogleFonts.roboto(
-                              color: ColorResources.color294C73,
-                              fontSize: 40.sp,
-                              fontWeight: FontWeight.w700),
-                        ),
-                        TextSpan(
-                          text: ' Calliberation',
-                          style: GoogleFonts.roboto(
+                                        //   content: Text('server failure')));
+                                        homeController
+                                            .functionsTrainingTab2[index]();
+                                      },
+                                      icon: GetBuilder<HomeController>(
+                                          builder: (locationData) {
+                                        return homeColorContainer(
+                                            contentText: homeController
+                                                .contentTextTrainingTab2[index],
+                                            numberText: index == 0
+                                                ? homeController
+                                                    .customerLocations.length
+                                                    .toString()
+                                                : index == 1
+                                                    ? homeController
+                                                        .customerEquipmentDataCalliberation
+                                                        .length
+                                                        .toString()
+                                                    : index == 2
+                                                        ? homeController
+                                                            .customerEquipmentExpiringDataCalliberation
+                                                            .length
+                                                            .toString()
+                                                        : index == 3
+                                                            ? upcomingInspectionsController
+                                                                .upcomingInspectionListDataCalliberation
+                                                                .length
+                                                                .toString()
+                                                            : '0',
+                                            cBgColor: homeController
+                                                .cBgColorTrainingTab2[index],
+                                            numBgColor: homeController
+                                                .numBgColorTrainingTab2[index]);
+                                      }),
+                                    )),
+                          )
+                        : const SizedBox(),
+                    mainTitleWidget: RichText(
+                        text: TextSpan(children: [
+                      TextSpan(
+                        text: 'We\'re ready to',
+                        style: GoogleFonts.roboto(
+                            color: ColorResources.color294C73,
                             fontSize: 40.sp,
-                            fontWeight: FontWeight.w700,
-                            foreground: Paint()
-                              ..style = PaintingStyle.stroke
-                              ..strokeWidth = 1
-                              ..color = ColorResources.color294C73,
-                          ),
+                            fontWeight: FontWeight.w700),
+                      ),
+                      TextSpan(
+                        text: ' Calliberation',
+                        style: GoogleFonts.roboto(
+                          fontSize: 40.sp,
+                          fontWeight: FontWeight.w700,
+                          foreground: Paint()
+                            ..style = PaintingStyle.stroke
+                            ..strokeWidth = 1
+                            ..color = ColorResources.color294C73,
                         ),
-                      ])),
-                    ),
+                      ),
+                    ])),
+                  ),
               ],
             ),
           ),

@@ -1,7 +1,11 @@
 import 'package:darlsco/controller/upcoming_inspections/upcoming_inspection_controller.dart';
+import 'package:darlsco/view/home/bottom_navigation_screen.dart';
 import 'package:darlsco/view/widgets/loader.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:geocoding/geocoding.dart';
 
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
@@ -159,6 +163,9 @@ class TrainingController extends GetxController {
     int userId = int.parse(sharedPreferences.getString('darlsco_id') ?? '0');
 
     // Loader.showLoader();
+if (!homeController.isCalliberationSection.value) {
+  
+
 
     await HttpRequest.httpGetRequest(
       bodyData: {
@@ -189,15 +196,48 @@ class TrainingController extends GetxController {
             .showSnackBar(const SnackBar(content: Text('Server Error')));
       }
     });
+}
     upcomingInspectionsController.update();
 
     update();
   }
+      var dateAndTime = [];
 
   getAllUserTaskStatus() async {
+
+     if (homeController.isCalliberationSection.value) {
+      dateAndTime = [
+        {
+          "title": 'Task Date & Time',
+          'sub_title': upcomingInspectionsController
+                      .taskDetailsDataCalliberation[0]['Proposed_Date_Time1'] ==
+                  null
+              ? ''
+              : upcomingInspectionsController.taskDetailsDataCalliberation[0]
+                      ['Proposed_Date_Time1'] ??
+                  '',
+          "icon": Icons.calendar_month,
+        },
+        {
+          "title": 'Started Date & Time',
+          'sub_title': upcomingInspectionsController
+                  .taskUserDetailsCalliberation.isEmpty
+              ? ''
+              : upcomingInspectionsController.taskUserDetailsCalliberation[0]
+                          ['Actual_Start_Date_Time1'] ==
+                      null
+                  ? ''
+                  : upcomingInspectionsController.taskUserDetailsCalliberation[0]
+                          ['Actual_Start_Date_Time1']
+                      .toString()
+                      .toLowerCase(),
+          "icon": Icons.calendar_month,
+        },
+      ];
+    }
     await HttpRequest.httpGetRequest(
       endPoint:
-          '${HttpUrls.getAllUserTaskStatus}${int.parse(upcomingInspectionsController.taskDetailsData[0]['Task_Id'].toString())}',
+          '${homeController.isCalliberationSection.value? HttpUrls.getAllUserTaskStatusCalliberation: HttpUrls.getAllUserTaskStatus}${homeController.isCalliberationSection.value?int.parse(upcomingInspectionsController.taskDetailsDataCalliberation[0]['Task_Id'].toString()): int.parse(upcomingInspectionsController.taskDetailsData[0]['Task_Id'].toString())}',
     ).then((value) {
       print('all status $value');
       if (value.data != null) {
@@ -264,6 +304,8 @@ class TrainingController extends GetxController {
 
           double distance = Geolocator.distanceBetween(position.latitude,
               position.longitude, fenceLatitude, fenceLongitude);
+ 
+
 
           if (distance <= 500) {
             await Loader.stopLoader();

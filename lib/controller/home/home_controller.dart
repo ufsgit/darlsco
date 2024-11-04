@@ -41,7 +41,7 @@ import '../tainning/trainnig_controller.dart';
 final HomeController globalHomeController = Get.put(HomeController());
 
 class HomeController extends GetxController {
-  String testKey = '0'; // 1 for  test and 0 for live
+  String testKey = '1'; // 1 for  test and 0 for live
   RxBool isHomeLoading = false.obs;
   late TabController tabController;
   CarouselSliderController homeTab1CarouselController =
@@ -1070,7 +1070,7 @@ class HomeController extends GetxController {
     isInspectionEnabled = isInspectionCustomer == '1' || !isUserLoggedIn;
     isTrainingEnabled = isTraineeCustomer == '1' || !isUserLoggedIn;
     isCalliberationEnabled = isCalliberationCustomer == '1' || !isUserLoggedIn;
-    print('isCalliberationCustomer $isCalliberationEnabled');
+    print('isCalliberationCustomer $isInspectionEnabled');
     if (token == '' || token == 'null') {
       isuserLogin.value = false;
       isTraineeLogin.value = false;

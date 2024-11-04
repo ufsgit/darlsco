@@ -1,7 +1,9 @@
 import 'package:darlsco/controller/risk_assessment/risk_assessment_controller.dart';
 import 'package:darlsco/controller/tainning/trainnig_controller.dart';
 import 'package:darlsco/core/constants/color_resources.dart';
+import 'package:darlsco/view/home/bottom_navigation_screen.dart';
 import 'package:darlsco/view/training/training_inspection_screen.dart';
+import 'package:darlsco/view/training/training_screen_tab.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -9,8 +11,14 @@ import 'package:get/get.dart';
 import '../../controller/upcoming_inspections/upcoming_inspection_controller.dart';
 
 class RiskAssesmentStopScreen extends StatefulWidget {
-  const RiskAssesmentStopScreen({super.key});
-
+  const RiskAssesmentStopScreen(
+      {super.key,
+      this.taskId=0,
+      this.isFromHomeScreen = false,
+      this.taskStatusName=""});
+  final bool isFromHomeScreen;
+  final int taskId;
+  final String taskStatusName;
   @override
   State<RiskAssesmentStopScreen> createState() =>
       _RiskAssesmentStopScreenState();
@@ -60,16 +68,48 @@ class _RiskAssesmentStopScreenState extends State<RiskAssesmentStopScreen> {
 
   @override
   Widget build(BuildContext context) {
+    
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
         leading: IconButton(
             onPressed: () {
+              bool areAnyTwoTrue = [
+                    homeController.isTrainingEnabled,
+                    homeController.isInspectionEnabled,
+                    homeController.isCalliberationEnabled
+                  ].where((element) => element).length >=
+                  2;
               upcomingInspectionsController.getUserTaskDetails(
-                taskId: int.parse(upcomingInspectionsController
-                    .taskDetailsData[0]['Task_Id']
-                    .toString()),
+                taskId: homeController.isCalliberationSection.value
+                    ? int.parse(upcomingInspectionsController
+                        .taskDetailsDataCalliberation[0]['Task_Id']
+                        .toString())
+                    : int.parse(upcomingInspectionsController.taskDetailsData[0]
+                            ['Task_Id']
+                        .toString()),
                 isNotPageNavigation: true,
               );
+              if (homeController.isCalliberationSection.value) {
+                  Get.offAll(
+                    TrainingInspectionScreen(
+                      selectedIndex: homeController.isInspectionEnabled &&
+                                  homeController.isTrainingEnabled &&
+                                  homeController.isCalliberationEnabled ||
+                              !homeController.isInspectionEnabled &&
+                                  !homeController.isTrainingEnabled &&
+                                  !homeController.isCalliberationEnabled
+                          ? 2
+                          : areAnyTwoTrue
+                              ? 1
+                              : 0,
+                    ),
+                  );
+                  return;
+                
+              }
+
               Get.back();
             },
             icon: const Icon(Icons.arrow_back_ios_new_outlined)),
@@ -94,61 +134,78 @@ class _RiskAssesmentStopScreenState extends State<RiskAssesmentStopScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        GetBuilder<TrainingController>(
-                            init: TrainingController(),
-                            builder: (tData) {
-                              return DropdownButtonFormField(
-                                  value: tData.selectedStatusValue.value == ''
-                                      ? null
-                                      : tData.selectedStatusValue.value,
-                                  decoration: const InputDecoration(
+                        if (!homeController.isCalliberationSection.value)
+                          GetBuilder<TrainingController>(
+                              init: TrainingController(),
+                              builder: (tData) {
+                                return DropdownButtonFormField(
+                                    value: tData.selectedStatusValue.value == ''
+                                        ? null
+                                        : tData.selectedStatusValue.value,
+                                    decoration: const InputDecoration(
 
-                                      // hintText: data.inspectionDropdownValue.value
-                                      //     .isEmpty? 'Location':'',
-                                      border: OutlineInputBorder(
-                                          borderSide:
-                                              BorderSide(color: Colors.black))),
-                                  onChanged: (value) {
-                                    print(
-                                        "printed statyus  ${value.toString()}");
-                                    if (value != null) {
-                                      tcontoller.selectedStatusValue.value =
-                                          value.toString();
-                                    }
-                                    // if (value == 'Finished') {
-                                    //   customEquipmentDialogue(context);
-                                    // }
+                                        // hintText: data.inspectionDropdownValue.value
+                                        //     .isEmpty? 'Location':'',
+                                        border: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                                color: Colors.black))),
+                                    onChanged: (value) {
+                                      print(
+                                          "printed statyus  ${value.toString()}");
+                                      if (value != null) {
+                                        tcontoller.selectedStatusValue.value =
+                                            value.toString();
+                                      }
+                                      // if (value == 'Finished') {
+                                      //   customEquipmentDialogue(context);
+                                      // }
 
-                                    print(tData.selectedStatusValue.value);
-                                  },
-                                  hint: const Text(
-                                    'Task Status',
-                                    style: TextStyle(color: Colors.black),
-                                  ),
-                                  items: tData.taskStatusList
-                                      .map((e) => DropdownMenuItem(
-                                            value: e['Task_Status_Name'],
-                                            child: SizedBox(
-                                                width: Get.width > 615
-                                                    ? 600.w
-                                                    : 250.w,
-                                                child: Text(
-                                                  e['Task_Status_Name'],
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                  softWrap: true,
-                                                )),
-                                          ))
-                                      .toList());
-                            }),
+                                      print(tData.selectedStatusValue.value);
+                                    },
+                                    hint: const Text(
+                                      'Task Status',
+                                      style: TextStyle(color: Colors.black),
+                                    ),
+                                    items: tData.taskStatusList
+                                        .map((e) => DropdownMenuItem(
+                                              value: e['Task_Status_Name'],
+                                              child: SizedBox(
+                                                  width: Get.width > 615
+                                                      ? 600.w
+                                                      : 250.w,
+                                                  child: Text(
+                                                    e['Task_Status_Name'],
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                    softWrap: true,
+                                                  )),
+                                            ))
+                                        .toList());
+                              })
+                        else
+                          GetBuilder<TrainingController>(builder: (c) {
+                            return Column(
+                              children: List.generate(
+                                tcontoller.dateAndTime.length,
+                                (index) => trainningGridWidget(
+                                    cWidth: Get.width,
+                                    titleText: tcontoller.dateAndTime[index]
+                                        ['title'],
+                                    subTitle: tcontoller.dateAndTime[index]
+                                        ['sub_title'],
+                                    icon: tcontoller.dateAndTime[index]['icon'],
+                                    border: BorderSide.none),
+                              ),
+                            );
+                          }),
                         SizedBox(
                           height: 15.w,
                         ),
-
-                        upcomingInspectionsController.taskUserDetails[0]
-                                        ['Role_Id']
-                                    .toString() ==
-                                '38'
+                        !homeController.isCalliberationSection.value &&
+                                upcomingInspectionsController.taskUserDetails[0]
+                                            ['Role_Id']
+                                        .toString() ==
+                                    '38'
                             ? SizedBox(
                                 // height: 200.w,
                                 // width: 500.w,
@@ -317,187 +374,12 @@ class _RiskAssesmentStopScreenState extends State<RiskAssesmentStopScreen> {
                                 ),
                               )
                             : Container()
-
-                        // Obx(
-                        //   () => SizedBox(
-                        //     width: Get.width,
-                        //     child:
-                        //         tcontoller.selectedStatusValue.value == 'Finished'
-                        //             ? Column(
-                        //                 children: [
-                        //                   Text(
-                        //                     'Equipment List',
-                        //                     style: TextStyle(
-                        //                         color: ColorResources.color294C73),
-                        //                   ),
-                        //                   SizedBox(
-                        //                     height: 15.w,
-                        //                   ),
-                        //                   Wrap(
-                        //                     spacing: 15.w,
-                        //                     runSpacing: 15.w,
-
-                        //                     // crossAxisAlignment: CrossAxisAlignment.start,
-                        //                     children: List.generate(
-                        //                      eqList
-                        //                             .length, (index) {
-                        //                       return GetBuilder<
-                        //                               UpcomingInspectionsController>(
-                        //                           builder: (eqpmentListData) {
-                        //                         return SizedBox(
-                        //                           width: 150.w,
-                        //                           child: Row(
-                        //                             crossAxisAlignment: CrossAxisAlignment.start,
-                        //                             children: [
-                        //                               Checkbox(
-                        //                                   value: eqList[
-                        //                                                   index][
-                        //                                                   'Checked']
-                        //                                               .toString() ==
-                        //                                           '1'
-                        //                                       ? true
-                        //                                       : false,
-                        //                                   onChanged: (value) {
-                        //                                     print(value);
-
-                        //                                     if (eqList[
-                        //                                                 index][
-                        //                                             'Equipment_Name'] !=
-                        //                                         'Other') {
-                        //                                     eqList[
-                        //                                                   index]
-                        //                                               ['Checked'] =
-                        //                                           (value == true
-                        //                                               ? 1
-                        //                                               : 0);
-                        //                                     } else {
-                        //                                     eqList[
-                        //                                                   index]
-                        //                                               ['Checked'] =
-                        //                                           (value == true
-                        //                                               ? 1
-                        //                                               : 0);
-
-                        //                                       if (eqList[
-                        //                                                   index][
-                        //                                                   'Checked']
-                        //                                               .toString() ==
-                        //                                           '1') {
-                        //                                         tcontoller
-                        //                                             .othersChecked
-                        //                                             .value = true;
-                        //                                       } else {
-                        //                                         tcontoller
-                        //                                             .othersChecked
-                        //                                             .value = false;
-                        //                                       }
-                        //                                     }
-                        //                                     setState(() {
-
-                        //                                     });
-
-                        //                                     // upcomingInspectionsController
-                        //                                     //     .update();
-                        //                                     // tcontoller.update();
-
-                        //                                     //  upcomingInspectionsController.taskEquipmentListData=upcomingInspectionsController.taskEquipmentListData.map((e) => {
-
-                        //                                     //    "Task_Equipment_Id" :  e['Task_Equipment_Id'],
-                        //                                     //    "Equipment_Id": e['Equipment_Id'],
-                        //                                     //    "Equipment_Name":e['Equipment_Name'],
-                        //                                     //    "Checked":0
-
-                        //                                     //  }).toList();
-                        //                                   }),
-                        //                               SizedBox(
-                        //                                 width: 5.w,
-                        //                               ),
-                        //                               SizedBox(
-                        //                                 width: 100.w,
-                        //                                 child: Text(
-                        //                                   ' ${eqList[index]['Equipment_Name']}',
-                        //                                   style: TextStyle(
-                        //                                     fontFamily: "Roboto",
-                        //                                     fontSize: 13.sp,
-                        //                                     fontWeight:
-                        //                                         FontWeight.w400,
-                        //                                     color: ColorResources
-                        //                                         .color0d0d0d,
-                        //                                   ),
-                        //                                 ),
-                        //                               ),
-                        //                             ],
-                        //                           ),
-                        //                         );
-                        //                       });
-                        //                     }),
-                        //                   ),
-                        //                 ],
-                        //               )
-                        //             : Container(),
-                        //   ),
-                        // ),
                       ],
                     ),
                   ),
                   SizedBox(
                     height: 15.w,
                   ),
-
-                  //   Obx(
-                  //  ()=>  tcontoller.selectedStatusValue.value.toString()=='Completed'&&upcomingInspectionsController.taskUserDetails[0]
-                  //                             ['Role_Id']
-                  //                         .toString() ==
-                  //                     '38'?Container(
-
-                  //             decoration: BoxDecoration(
-
-                  //                color: Colors.green,
-                  //                borderRadius: BorderRadius.circular(15.w)
-
-                  //             ),
-                  //             child: IconButton(
-                  //               onPressed: () {
-
-                  //                  customEquipmentDialogue(context);
-
-                  //               },
-                  //               icon: SizedBox(
-                  //                 height: 35.h,
-                  //                 child: Center(
-                  //       child: Text("Finish",
-                  //           style: TextStyle(
-                  //             color: ColorResources.whiteColor,
-                  //             fontSize: 16.sp,
-                  //             fontWeight: FontWeight.w500,
-                  //           ))),
-                  //               ),
-                  //             ),
-                  //           ):Container(),
-                  //   ),
-                  //    SizedBox(
-                  //     height: 15.w,
-                  //   ),
-
-                  // Obx(() => upcomingInspectionsController
-                  //                 .isEquipmentSelected.value ==
-                  //             true
-                  //         ? InkWell(
-                  //             onTap: () {
-                  //               customEquipmentDialogue(context);
-                  //             },
-                  //             child: Container(
-                  //               padding: EdgeInsets.all(10.w),
-                  //               decoration: BoxDecoration(border: Border.all(),borderRadius: BorderRadius.circular(10.w)),
-                  //               height: 40.h,
-                  //               child: Center(
-                  //                   child: Text('View Selected Equipments')),
-                  //             ),
-                  //           )
-                  //         : Container()),
-                  // SizedBox(
-                  //           height: 15.w,
-                  //         ),
 
                   SizedBox(
                     child: Column(children: [
@@ -525,88 +407,10 @@ class _RiskAssesmentStopScreenState extends State<RiskAssesmentStopScreen> {
                         ),
                       ),
 
-                      // Obx(
-                      //   () {
-                      //     if (tcontoller.selectedStatusValue.value ==
-                      //             'Completed' &&
-                      //         upcomingInspectionsController.taskUserDetails[0]
-                      //                     ['Role_Id']
-                      //                 .toString() ==
-                      //             '38') {
-                      //       return Column(
-                      //         children: [
-                      //           SizedBox(
-                      //             height: 15.h,
-                      //           ),
-                      //           Container(
-                      //             color: Colors.green,
-                      //             child: IconButton(
-                      //               onPressed: () {
-                      //                 customEquipmentDialogue(context);
-                      //               },
-                      //               icon: SizedBox(
-                      //                 height: 50.h,
-                      //                 child: Center(
-                      //                     child: Text("Finish your job order",
-                      //                         style: TextStyle(
-                      //                           color:
-                      //                               ColorResources.whiteColor,
-                      //                           fontSize: 20.sp,
-                      //                           fontWeight: FontWeight.w500,
-                      //                         ))),
-                      //               ),
-                      //             ),
-                      //           ),
-                      //         ],
-                      //       );
-                      //     } else {
-                      //       return Container();
-                      //     }
-                      //   },
-                      // ),
-                      // InkWell(
-                      //     onTap: () {
-                      //       customEquipmentDialogue(context);
-                      //     },
-                      //     child: Container(
-                      //       color: Colors.green,
-                      //       child: Text(
-                      //         'Finish your job order',
-                      //         style: TextStyle(fontSize: 20.sp),
-                      //       ),
                       //     )),
                       SizedBox(
                         height: 15.h,
                       ),
-
-                      // if(isbtton)    Align(
-                      //       alignment: Alignment.bottomRight,
-                      //       child: IconButton(
-                      //         onPressed: () {
-                      //           //need to add  (add note function)
-                      //         },
-                      //         icon: Container(
-                      //           width: 103.w,
-                      //           height: 40.h,
-                      //           decoration: BoxDecoration(
-                      //               border: Border.all(color: Colors.grey),
-                      //               borderRadius: BorderRadius.circular(5.r),
-                      //               color: Colors.black.withOpacity(0.08)),
-                      //           child: Center(
-                      //             child: Text(
-                      //               "Add Note",
-                      //               style: TextStyle(
-                      //                 fontFamily: "Roboto",
-                      //                 fontSize: 14.sp,
-                      //                 fontWeight: FontWeight.w400,
-                      //                 color: Colors.black,
-                      //               ),
-                      //               textAlign: TextAlign.center,
-                      //             ),
-                      //           ),
-                      //         ),
-                      //       ),
-                      //     ),
                     ]),
                   ),
 
@@ -622,6 +426,24 @@ class _RiskAssesmentStopScreenState extends State<RiskAssesmentStopScreen> {
         color: Colors.red,
         child: IconButton(
           onPressed: () {
+            if (homeController.isCalliberationSection.value) {
+              tcontroller.getAllUserTaskStatus();
+              if (tcontoller.getAllStaffStatus.isNotEmpty) {
+                var data = tcontoller.getAllStaffStatus
+                    .where((e) => e['Task_Status_Name'] != 'Completed');
+                print('dfjreoihp $data');
+                if (data.isNotEmpty) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text("Members didn't completed task")));
+                  return;
+                }
+              }
+
+              riskAssessmentController.saveTaskStop(
+                  tcontoller.selectedStatusValue.value,
+                  riskAssessmentController.stopnoteController.text);
+              return;
+            }
             final equipmentCheck = upcomingInspectionsController.eqList
                 .where((element) => element['Checked'].toString() == '1')
                 .toList();
@@ -664,16 +486,20 @@ class _RiskAssesmentStopScreenState extends State<RiskAssesmentStopScreen> {
                   content: SingleChildScrollView(
                     child: Column(
                       children: [
-                        Text(tcontoller.getAllStaffStatus
-                    .where((element) =>
-                        element['Task_Status_Id'].toString() == '4'
-                       )
-                    .toList()
-                    .isNotEmpty &&
-                upcomingInspectionsController.taskUserDetails[0]['Role_Id']
-                        .toString() ==
-                    '38'?"You can't stop your task if any other team member's task status is 'In Progress'. The members' statuses are:":
-                          "Are you sure you want to stop your task while another team member's status is 'Not Started'?",
+                        Text(
+                          tcontoller.getAllStaffStatus
+                                      .where((element) =>
+                                          element['Task_Status_Id']
+                                              .toString() ==
+                                          '4')
+                                      .toList()
+                                      .isNotEmpty &&
+                                  upcomingInspectionsController
+                                          .taskUserDetails[0]['Role_Id']
+                                          .toString() ==
+                                      '38'
+                              ? "You can't stop your task if any other team member's task status is 'In Progress'. The members' statuses are:"
+                              : "Are you sure you want to stop your task while another team member's status is 'Not Started'?",
                           style: TextStyle(fontSize: 14.sp),
                         ),
                         SizedBox(
@@ -732,22 +558,26 @@ class _RiskAssesmentStopScreenState extends State<RiskAssesmentStopScreen> {
                             // Get.to(()=>TrainingInspectionScreen());
                           },
                         ),
-
-                     tcontoller.getAllStaffStatus
-                                      .where((element) =>
-                                          element['Task_Status_Id']
-                                              .toString() ==
-                                          '4')
-                                      .toList()
-                                      .isNotEmpty &&
-                                  upcomingInspectionsController
-                                          .taskUserDetails[0]['Role_Id']
-                                          .toString() ==
-                                      '38'?   Container():TextButton(onPressed: (){
-                                         Get.to(()=>const TrainingInspectionScreen());
-                          
-
-                        }, child: Text('Cancel',style: TextStyle(fontSize: 12.sp),))
+                        tcontoller.getAllStaffStatus
+                                    .where((element) =>
+                                        element['Task_Status_Id'].toString() ==
+                                        '4')
+                                    .toList()
+                                    .isNotEmpty &&
+                                upcomingInspectionsController.taskUserDetails[0]
+                                            ['Role_Id']
+                                        .toString() ==
+                                    '38'
+                            ? Container()
+                            : TextButton(
+                                onPressed: () {
+                                  Get.to(
+                                      () => const TrainingInspectionScreen());
+                                },
+                                child: Text(
+                                  'Cancel',
+                                  style: TextStyle(fontSize: 12.sp),
+                                ))
                       ],
                     ),
                   ),

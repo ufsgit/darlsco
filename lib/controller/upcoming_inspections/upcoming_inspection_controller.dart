@@ -381,6 +381,7 @@ class UpcomingInspectionsController extends GetxController {
         return result;
       }
     });
+    update(['date_picker_in']);
 
     return result;
   }
@@ -390,7 +391,6 @@ class UpcomingInspectionsController extends GetxController {
       required DateTime endDate,
       required bool isInitSate}) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-
     int customerId = int.parse(sharedPreferences.getString('darlsco_id') ?? '');
     Map<String, dynamic> apiData = {
       "User_Details_Id_": customerId,
@@ -416,6 +416,7 @@ class UpcomingInspectionsController extends GetxController {
         return result;
       }
     });
+    update(['date_picker_ca']);
 
     return result;
   }
@@ -435,7 +436,7 @@ class UpcomingInspectionsController extends GetxController {
         "Equiptment_Name_": '',
         "User_Details_Id": homeController.isCalliberationSection.value
             ? taskUserDetailsCalliberation[0]['Role_Id'].toString() == '38'
-                ? taskUserDetails[0]['User_Details_Id']
+                ? taskUserDetailsCalliberation[0]['User_Details_Id']
                 : 0
             : taskUserDetails[0]['Role_Id'].toString() == '38'
                 ? taskUserDetails[0]['User_Details_Id']
@@ -672,7 +673,10 @@ class UpcomingInspectionsController extends GetxController {
   // }
 
   getUserTaskDetails(
-      {required int taskId, bool isNotPageNavigation = false}) async {
+      {required int taskId,
+      bool isNotPageNavigation = false,
+      String? status = 'Not Started'}) async {
+        status??=homeController.isCalliberationSection.value?'Not Attended': 'Not Started';
     // tcontoller.periodicCheck.value = false;
     // tcontoller.visualCheck.value = false;
     // tcontoller.thoroughCheck.value = false;
@@ -700,13 +704,14 @@ class UpcomingInspectionsController extends GetxController {
           taskEquipmentListData = value.data[1];
 
           taskUserDetails = value.data[2];
-print('dfgerogthi ${value.data}');
           taskEquipmentListData.add({
             "Task_Equipment_Id": 0,
             "Equipment_Id": 0,
             "Equipment_Name": "Other",
             "Checked": taskUserDetails[0]['Others_Checked']
           });
+          print('dfgerogthi i amhere ${taskEquipmentListData}');
+
           tcontoller.periodicCheck.value =
               bool.parse(taskUserDetails[0]['Periodic'] ?? 'false');
           tcontoller.independentCheck.value =
@@ -732,41 +737,6 @@ print('dfgerogthi ${value.data}');
             tcontoller.othersChecked.value = false;
           }
 
-          //         tcontoller.  geofenceList=[
-          //   Geofence(
-          //     id: 'place_1',
-          //     latitude:
-
-          //     double.parse(upcomingInspectionsController.taskDetailsData[0]
-          //             ['Latitude']
-          //         .toString()),
-          //     longitude:
-
-          //      double.parse(upcomingInspectionsController.taskDetailsData[0]
-          //             ['Longitude']
-          //         .toString()),
-          //     radius: [
-          //       GeofenceRadius(id: 'radius_100m', length: 100),
-          //       GeofenceRadius(id: 'radius_25m', length: 25),
-          //       GeofenceRadius(id: 'radius_250m', length: 250),
-          //       GeofenceRadius(id: 'radius_200m', length: 200),
-          //     ],
-          //   )
-          // ];
-
-          // String dateString = taskDetailsData[0]['Proposed_Date_Time1'] ?? '';
-
-// Define the format of the input date string
-          DateFormat inputFormat = DateFormat('dd-MM-yyyy HH:mm');
-
-// Parse the date string using the defined format
-          // DateTime dateTime = inputFormat.parse(dateString);
-
-// Define the desired format for output
-          DateFormat outputFormat = DateFormat('dd-MM-yyyy HH:mm');
-
-// Format the parsed date with the desired output format
-          // String formattedDate = outputFormat.format(dateTime);
           tcontoller.commonGridTexts = [
             {
               "title": 'Task Date & Time',
@@ -872,14 +842,13 @@ print('dfgerogthi ${value.data}');
           taskEquipmentListDataCalliberation = value.data[1];
 
           taskUserDetailsCalliberation = value.data[2];
-print('dfgerogthi ${value.data}');
           taskEquipmentListDataCalliberation.add({
             "Task_Equipment_Id": 0,
             "Equipment_Id": 0,
             "Equipment_Name": "Other",
             "Checked": taskUserDetailsCalliberation[0]['Others_Checked']
           });
-print('dfgerogthi $taskDetailsDataCalliberation');
+          print('dfgerogthi i amhere ${taskEquipmentListDataCalliberation}');
 
           tcontoller.periodicCheck.value = bool.parse(
               taskUserDetailsCalliberation[0]['Periodic'] ?? 'false');
@@ -902,222 +871,113 @@ print('dfgerogthi $taskDetailsDataCalliberation');
             tcontoller.othersChecked.value = true;
 
             tcontoller.otherEqupmentNotecntrlr.text =
-                taskUserDetailsCalliberation[0]['Notes'];
+                taskUserDetails[0]['Notes'];
             tcontoller.update();
           } else {
             tcontoller.othersChecked.value = false;
           }
 
-          //         tcontoller.  geofenceList=[
-          //   Geofence(
-          //     id: 'place_1',
-          //     latitude:
+          tcontoller.commonGridTexts = [
+            {
+              "title": 'Task Date & Time',
+              'sub_title':
+                  taskDetailsDataCalliberation[0]['Proposed_Date_Time1'] == null
+                      ? ''
+                      : taskDetailsDataCalliberation[0]
+                              ['Proposed_Date_Time1'] ??
+                          '',
+              "icon": Icons.calendar_month,
+            },
+            {
+              "title": 'Started Date & Time',
+              'sub_title': taskUserDetailsCalliberation.isEmpty
+                  ? ''
+                  : taskUserDetailsCalliberation[0]
+                              ['Actual_Start_Date_Time1'] ==
+                          null
+                      ? ''
+                      : taskUserDetailsCalliberation[0]
+                              ['Actual_Start_Date_Time1']
+                          .toString()
+                          .toLowerCase(),
+              "icon": Icons.calendar_month,
+            },
+            {
+              "title": 'Ended Date & Time',
+              'sub_title': taskUserDetailsCalliberation[0]['Stop_Time1'] == null
+                  ? ''
+                  : taskUserDetailsCalliberation[0]['Stop_Time1']
+                      .toString()
+                      .toLowerCase(),
+              "icon": Icons.calendar_month,
+            },
 
-          //     double.parse(upcomingInspectionsController.taskDetailsData[0]
-          //             ['Latitude']
-          //         .toString()),
-          //     longitude:
+            {
+              "title": 'Task Owner',
+              'sub_title': taskUserDetailsCalliberation.isEmpty
+                  ? ''
+                  : taskUserDetailsCalliberation[0]['Lead_Name'] ?? '',
+              "icon": Icons.person_4_outlined,
+            },
 
-          //      double.parse(upcomingInspectionsController.taskDetailsData[0]
-          //             ['Longitude']
-          //         .toString()),
-          //     radius: [
-          //       GeofenceRadius(id: 'radius_100m', length: 100),
-          //       GeofenceRadius(id: 'radius_25m', length: 25),
-          //       GeofenceRadius(id: 'radius_250m', length: 250),
-          //       GeofenceRadius(id: 'radius_200m', length: 200),
-          //     ],
-          //   )
-          // ];
+            {
+              "title": 'Contact Person',
+              'sub_title':
+                  taskDetailsDataCalliberation[0]['Contact_person'] ?? '',
+              "icon": Icons.person_2_outlined,
+            },
+            {
+              "title": 'Contact No',
+              'sub_title':
+                  taskDetailsDataCalliberation[0]['contact_number'] ?? '',
+              "icon": Icons.phone,
+            },
+            {
+              "title": 'Location',
+              'sub_title':
+                  taskDetailsDataCalliberation[0]['Location_Name'] ?? '',
+              "icon": Icons.location_on,
+            },
 
-          // String dateString = taskDetailsData[0]['Proposed_Date_Time1'] ?? '';
-
-// Define the format of the input date string
-          DateFormat inputFormat = DateFormat('dd-MM-yyyy HH:mm');
-
-// Parse the date string using the defined format
-          // DateTime dateTime = inputFormat.parse(dateString);
-
-// Define the desired format for output
-          DateFormat outputFormat = DateFormat('dd-MM-yyyy HH:mm');
-
-// Format the parsed date with the desired output format
-          // String formattedDate = outputFormat.format(dateTime);
-          if (homeController.isCalliberationSection.value) {
-            tcontoller.commonGridTexts = [
-              {
-                "title": 'Task Date & Time',
-                'sub_title': taskDetailsDataCalliberation[0]
-                            ['Proposed_Date_Time1'] ==
-                        null
-                    ? ''
-                    : taskDetailsDataCalliberation[0]['Proposed_Date_Time1'] ??
-                        '',
-                "icon": Icons.calendar_month,
-              },
-              {
-                "title": 'Started Date & Time',
-                'sub_title': taskUserDetailsCalliberation.isEmpty
-                    ? ''
-                    : taskUserDetailsCalliberation[0]
-                                ['Actual_Start_Date_Time1'] ==
-                            null
-                        ? ''
-                        : taskUserDetailsCalliberation[0]
-                                ['Actual_Start_Date_Time1']
-                            .toString()
-                            .toLowerCase(),
-                "icon": Icons.calendar_month,
-              },
-              {
-                "title": 'Ended Date & Time',
-                'sub_title':
-                    taskUserDetailsCalliberation[0]['Stop_Time1'] == null
-                        ? ''
-                        : taskUserDetailsCalliberation[0]['Stop_Time1']
-                            .toString()
-                            .toLowerCase(),
-                "icon": Icons.calendar_month,
-              },
-
-              {
-                "title": 'Task Owner',
-                'sub_title': taskUserDetailsCalliberation.isEmpty
-                    ? ''
-                    : taskUserDetailsCalliberation[0]['Lead_Name'] ?? '',
-                "icon": Icons.person_4_outlined,
-              },
-
-              {
-                "title": 'Contact Person',
-                'sub_title':
-                    taskDetailsDataCalliberation[0]['Contact_person'] ?? '',
-                "icon": Icons.person_2_outlined,
-              },
-              {
-                "title": 'Contact No',
-                'sub_title':
-                    taskDetailsDataCalliberation[0]['contact_number'] ?? '',
-                "icon": Icons.phone,
-              },
-              {
-                "title": 'Location',
-                'sub_title':
-                    taskDetailsDataCalliberation[0]['Location_Name'] ?? '',
-                "icon": Icons.location_on,
-              },
-
-              {
-                "title": 'Equipment List',
-                'sub_title': jsonEncode(taskEquipmentListDataCalliberation
-                    .map((e) => e['Equipment_Name'].toString())
-                    .toList()),
-                "icon": Icons.settings_applications_outlined,
-              },
-              // {
-              //   "title": 'Checker phone number ',
-              //   'sub_title': taskUserDetails.isEmpty
-              //       ? ''
-              //       : taskUserDetails[0]['Mobile'] ?? '',
-              //   "icon": Icons.phone_enabled_outlined,
-              // },
-              // {
-              //   "title": 'Notes',
-              //   'sub_title': taskUserDetails[0]['End_Notes'] ?? '',
-              //   "icon": Icons.message,
-              // },
-            ];
-          } else {
-            tcontoller.commonGridTexts = [
-              {
-                "title": 'Task Date & Time',
-                'sub_title': taskDetailsData[0]['Proposed_Date_Time1'] == null
-                    ? ''
-                    : taskDetailsData[0]['Proposed_Date_Time1'] ?? '',
-                "icon": Icons.calendar_month,
-              },
-              {
-                "title": 'Started Date & Time',
-                'sub_title': taskUserDetails.isEmpty
-                    ? ''
-                    : taskUserDetails[0]['Actual_Start_Date_Time1'] == null
-                        ? ''
-                        : taskUserDetails[0]['Actual_Start_Date_Time1']
-                            .toString()
-                            .toLowerCase(),
-                "icon": Icons.calendar_month,
-              },
-              {
-                "title": 'Ended Date & Time',
-                'sub_title': taskUserDetails[0]['Stop_Time1'] == null
-                    ? ''
-                    : taskUserDetails[0]['Stop_Time1'].toString().toLowerCase(),
-                "icon": Icons.calendar_month,
-              },
-
-              {
-                "title": 'Task Owner',
-                'sub_title': taskUserDetails.isEmpty
-                    ? ''
-                    : taskUserDetails[0]['Lead_Name'] ?? '',
-                "icon": Icons.person_4_outlined,
-              },
-
-              {
-                "title": 'Contact Person',
-                'sub_title': taskDetailsData[0]['Contact_person'] ?? '',
-                "icon": Icons.person_2_outlined,
-              },
-              {
-                "title": 'Contact No',
-                'sub_title': taskDetailsData[0]['contact_number'] ?? '',
-                "icon": Icons.phone,
-              },
-              {
-                "title": 'Location',
-                'sub_title': taskDetailsData[0]['Location_Name'] ?? '',
-                "icon": Icons.location_on,
-              },
-
-              {
-                "title": 'Equipment List',
-                'sub_title': jsonEncode(taskEquipmentListData
-                    .map((e) => e['Equipment_Name'].toString())
-                    .toList()),
-                "icon": Icons.settings_applications_outlined,
-              },
-              // {
-              //   "title": 'Checker phone number ',
-              //   'sub_title': taskUserDetails.isEmpty
-              //       ? ''
-              //       : taskUserDetails[0]['Mobile'] ?? '',
-              //   "icon": Icons.phone_enabled_outlined,
-              // },
-              // {
-              //   "title": 'Notes',
-              //   'sub_title': taskUserDetails[0]['End_Notes'] ?? '',
-              //   "icon": Icons.message,
-              // },
-            ];
-          }
+            {
+              "title": 'Equipment List',
+              'sub_title': jsonEncode(taskEquipmentListData
+                  .map((e) => e['Equipment_Name'].toString())
+                  .toList()),
+              "icon": Icons.settings_applications_outlined,
+            },
+            // {
+            //   "title": 'Checker phone number ',
+            //   'sub_title': taskUserDetails.isEmpty
+            //       ? ''
+            //       : taskUserDetails[0]['Mobile'] ?? '',
+            //   "icon": Icons.phone_enabled_outlined,
+            // },
+            // {
+            //   "title": 'Notes',
+            //   'sub_title': taskUserDetails[0]['End_Notes'] ?? '',
+            //   "icon": Icons.message,
+            // },
+          ];
 
           if (tcontoller.commonGridTexts.isNotEmpty) {
-            if (homeController.isCalliberationSection.value) {
-              tcontoller.isTaskStarted.value = taskUserDetailsCalliberation[0]
-                              ['Task_Status_Id']
-                          .toString() ==
-                      '4'
-                  ? true
-                  : false;
-            } else {
-              tcontoller.isTaskStarted.value =
-                  taskUserDetails[0]['Task_Status_Id'].toString() == '4'
-                      ? true
-                      : false;
-            }
+            tcontoller.isTaskStarted.value =
+                taskUserDetailsCalliberation[0]['Task_Status_Id'].toString() ==
+                        '14'
+                    ? true
+                    : false;
 
             if (!isNotPageNavigation) {
-              Get.to(() => TrainningScreen());
+              print('rferetrver $status');
+
+              if (status == 'Not Attended'||status=='Attended'||status=='Completed') {
+                Get.to(() => TrainningScreen());
+              } else {
+                Get.to(() => RiskAssesmentStopScreen(
+                  taskId: taskId,
+                taskStatusName:status??''
+                ));
+              }
             }
           }
 
@@ -1163,10 +1023,10 @@ print('dfgerogthi $taskDetailsDataCalliberation');
     sendEqpListData.removeWhere(
         (element) => element['Task_Equipment_Id'].toString() == '0');
 
-    print('after $sendEqpListData');
+    print('sdfwekjhfiluwek ${dateTimeString.isEmpty}');
     //  await sendEqpListData.removeLast();
 
-    await HttpRequest.httpPostRequest(
+    await HttpRequest.httpPostBodyRequest(
       bodyData: {
         "Task_User_Details_Id_": int.parse(homeController
                 .isCalliberationSection.value
@@ -1183,9 +1043,9 @@ print('dfgerogthi $taskDetailsDataCalliberation');
         'Initial_Examination': tcontoller.examinationCheck.value.toString(),
         "In_Service": tcontoller.inServiceCheck.value.toString(),
         "Independent": tcontoller.independentCheck.value.toString(),
-        "Start_Date_Time": dateTimeString.isEmpty
-            ? DateTime.now()
-            : DateTime.parse(dateTimeString.split('.')[0]),
+        // "Start_Date_Time": dateTimeString.isEmpty
+        //     ? DateTime.now()
+        //     : DateTime.parse(dateTimeString.split('.')[0].toString()),
         "Notes": tcontoller.otherEqupmentNotecntrlr.text,
         "Others_Checked":
             tcontoller.otherEqupmentNotecntrlr.text.isEmpty ? 0 : 1,
@@ -1258,40 +1118,40 @@ print('dfgerogthi $taskDetailsDataCalliberation');
             // await Loader.stopLoader();
             Get.to(() => const RiskAssesmentStopScreen());
           }
-          if (homeController.isCalliberationSection.value &&
-              upcomingInspectionsController.taskUserDetailsCalliberation[0]
-                          ['Role_Id']
-                      .toString() ==
-                  '38') {
-            // await Loader.stopLoader();
+          // if (!homeController.isCalliberationSection.value &&
+          //     upcomingInspectionsController.taskUserDetails[0]
+          //                 ['Role_Id']
+          //             .toString() ==
+          //         '38') {
+          //   // await Loader.stopLoader();
 
-            await upcomingInspectionsController.getTestEquipment(
-              taskUserDetailsId: upcomingInspectionsController
-                  .taskUserDetailsCalliberation[0]['Task_User_Details_Id'],
-              taskId: upcomingInspectionsController
-                  .taskDetailsDataCalliberation[0]['Task_Id'],
-            );
-            await upcomingInspectionsController.getTestppe(
-              taskUserDetailsId: upcomingInspectionsController
-                  .taskDetailsDataCalliberation[0]['Task_User_Details_Id'],
-              taskId: upcomingInspectionsController
-                  .taskDetailsDataCalliberation[0]['Task_Id'],
-            );
-            await upcomingInspectionsController.getTestDocument(
-              taskUserDetailsId: upcomingInspectionsController
-                  .taskUserDetailsCalliberation[0]['Task_User_Details_Id'],
-              taskId: upcomingInspectionsController
-                  .taskDetailsDataCalliberation[0]['Task_Id'],
-            );
+          //   await upcomingInspectionsController.getTestEquipment(
+          //     taskUserDetailsId: upcomingInspectionsController
+          //         .taskUserDetailsCalliberation[0]['Task_User_Details_Id'],
+          //     taskId: upcomingInspectionsController
+          //         .taskDetailsDataCalliberation[0]['Task_Id'],
+          //   );
+          //   await upcomingInspectionsController.getTestppe(
+          //     taskUserDetailsId: upcomingInspectionsController
+          //         .taskDetailsDataCalliberation[0]['Task_User_Details_Id'],
+          //     taskId: upcomingInspectionsController
+          //         .taskDetailsDataCalliberation[0]['Task_Id'],
+          //   );
+          //   await upcomingInspectionsController.getTestDocument(
+          //     taskUserDetailsId: upcomingInspectionsController
+          //         .taskUserDetailsCalliberation[0]['Task_User_Details_Id'],
+          //     taskId: upcomingInspectionsController
+          //         .taskDetailsDataCalliberation[0]['Task_Id'],
+          //   );
 
-            Get.to(() => TrainingEquipmentScreen(
-                  taskId: int.parse(
-                      taskDetailsDataCalliberation[0]['Task_Id'].toString()),
-                ));
-          } else {
-            // await Loader.stopLoader();
-            Get.to(() => const RiskAssesmentStopScreen());
-          }
+          //   Get.to(() => TrainingEquipmentScreen(
+          //         taskId: int.parse(
+          //             taskDetailsDataCalliberation[0]['Task_Id'].toString()),
+          //       ));
+          // } else {
+          //   // await Loader.stopLoader();
+          //   Get.to(() => const RiskAssesmentStopScreen());
+          // }
 
           // Get.to(()=>TrainningScreen());
           // Get.to(() => RiskAssessmentScreen());

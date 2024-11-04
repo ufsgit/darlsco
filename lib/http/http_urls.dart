@@ -1,10 +1,9 @@
 class HttpUrls {
-//    static String baseUrl = 'http://3.89.129.51:3514';
+   static String baseUrl = 'http://3.89.129.51:3514';
 
 // static String baseUrl = 'http://34.228.212.237:3514'; //  new live
 
-  // static String baseUrl = 'https://8223-103-141-56-75.ngrok-free.app';
-  static String baseUrl = 'https://242e-103-141-56-75.ngrok-free.app';
+  // static String baseUrl = 'https://f733-103-141-56-75.ngrok-free.app';
   // static String baseUrl = 'https://m6lzn5b5-3514.inc1.devtunnels.ms';
 
   static String agentLogin = '/Login/Agent_Login/';
@@ -13,7 +12,6 @@ class HttpUrls {
   static String getOtp = '/public_Data/Get_OTP/';
 
   static String checkOtp = '/public_Data/Check_OTP/';
-
   static String notificationUrl = '/Customer_Request_Notification';
 
   static String notificationUrlReschedule =
@@ -37,8 +35,8 @@ class HttpUrls {
       '/Customer/Get_Customer_Location_Equipments_Calibration/';
 
   static String getCustomerPlace = '/Customer/get_Customer_Place/';
-
   static String saveEnquiries = '/public_Data/Save_Enquiries/';
+  static String saveEnquiriesCalliberation = '/public_Data/Save_Enquiries_Calibration/';
 
   static String getCustomerTask = '/Customer/Get_Customer_Task/';
   static String getCustomerTaskCalliberation =
@@ -102,7 +100,7 @@ class HttpUrls {
   static String saveCustomerReschedule = '/Customer/Save_Customer_Reschedule/';
 
   static String getFullUsers = '/Customer/Get_Full_Users/';
-  static String getFullUsersCalliberation = '/Customer/Get_Full_Users/';
+  static String getFullUsersCalliberation = '/Customer/Get_Full_Users_Calibration/';
 
   static String changeTaskUser = '/Customer/Change_Task_User/';
 
@@ -183,6 +181,8 @@ class HttpUrls {
   static String searchEmiratesId =
       '/training_Order_Request_Master/fetchTraineeDetailsByEmiratesId';
   static String getAllUserTaskStatus = '/Customer/Get_All_Users_Task_Status/';
+    static String getAllUserTaskStatusCalliberation = '/Customer/Get_All_Users_Task_Status_Calibration/';
+
   static String updateItemCartQuatity =
       '/Public_Data/Update_Itemcart_Quantity/';
   static String verifyCustomerProfile = '/Customer_Training/Verify_Profile/';

@@ -129,6 +129,7 @@ class _PhoneVerificationPageState extends State<PhoneVerificationPage> {
               leading: IconButton(
                   onPressed: () {
                     Get.back();
+                    homeController.isFromPurchase.value = false;
                   },
                   icon: const Icon(Icons.arrow_back_ios_new_outlined)),
               backgroundColor: ColorResources.colorTransparent,
