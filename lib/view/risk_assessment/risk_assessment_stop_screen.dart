@@ -13,9 +13,9 @@ import '../../controller/upcoming_inspections/upcoming_inspection_controller.dar
 class RiskAssesmentStopScreen extends StatefulWidget {
   const RiskAssesmentStopScreen(
       {super.key,
-      this.taskId=0,
+      this.taskId = 0,
       this.isFromHomeScreen = false,
-      this.taskStatusName=""});
+      this.taskStatusName = ""});
   final bool isFromHomeScreen;
   final int taskId;
   final String taskStatusName;
@@ -42,7 +42,9 @@ class _RiskAssesmentStopScreenState extends State<RiskAssesmentStopScreen> {
     upcomingInspectionsController.isEquipmentSelected.value = false;
 
     upcomingInspectionsController.eqList =
-        upcomingInspectionsController.taskEquipmentListData;
+        homeController.isCalliberationSection.value
+            ? upcomingInspectionsController.taskEquipmentListDataCalliberation
+            : upcomingInspectionsController.taskEquipmentListData;
 
     upcomingInspectionsController.eqList
         .removeWhere((element) => element['Equipment_Id'] == 0);
@@ -68,7 +70,6 @@ class _RiskAssesmentStopScreenState extends State<RiskAssesmentStopScreen> {
 
   @override
   Widget build(BuildContext context) {
-    
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
@@ -92,22 +93,21 @@ class _RiskAssesmentStopScreenState extends State<RiskAssesmentStopScreen> {
                 isNotPageNavigation: true,
               );
               if (homeController.isCalliberationSection.value) {
-                  Get.offAll(
-                    TrainingInspectionScreen(
-                      selectedIndex: homeController.isInspectionEnabled &&
-                                  homeController.isTrainingEnabled &&
-                                  homeController.isCalliberationEnabled ||
-                              !homeController.isInspectionEnabled &&
-                                  !homeController.isTrainingEnabled &&
-                                  !homeController.isCalliberationEnabled
-                          ? 2
-                          : areAnyTwoTrue
-                              ? 1
-                              : 0,
-                    ),
-                  );
-                  return;
-                
+                Get.offAll(
+                  TrainingInspectionScreen(
+                    selectedIndex: homeController.isInspectionEnabled &&
+                                homeController.isTrainingEnabled &&
+                                homeController.isCalliberationEnabled ||
+                            !homeController.isInspectionEnabled &&
+                                !homeController.isTrainingEnabled &&
+                                !homeController.isCalliberationEnabled
+                        ? 2
+                        : areAnyTwoTrue
+                            ? 1
+                            : 0,
+                  ),
+                );
+                return;
               }
 
               Get.back();
@@ -427,15 +427,13 @@ class _RiskAssesmentStopScreenState extends State<RiskAssesmentStopScreen> {
         child: IconButton(
           onPressed: () {
             if (homeController.isCalliberationSection.value) {
-              tcontroller.getAllUserTaskStatus();
-              if (tcontoller.getAllStaffStatus.isNotEmpty) {
-                var data = tcontoller.getAllStaffStatus
-                    .where((e) => e['Task_Status_Name'] != 'Completed');
-                print('dfjreoihp $data');
-                if (data.isNotEmpty) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text("Members didn't completed task")));
-                  return;
+              // if (condition) {
+              if (upcomingInspectionController.isOwner) {
+                tcontroller.getAllUserTaskStatus();
+
+                if (tcontoller.getAllStaffStatus.isNotEmpty) {
+                  var data = tcontoller.getAllStaffStatus
+                      .where((e) => e['Task_Status_Name'] != 'Completed');
                 }
               }
 

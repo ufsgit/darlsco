@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:darlsco/controller/upcoming_inspections/upcoming_inspection_controller.dart';
 import 'package:darlsco/view/home/bottom_navigation_screen.dart';
 import 'package:darlsco/view/widgets/loader.dart';
@@ -163,49 +165,46 @@ class TrainingController extends GetxController {
     int userId = int.parse(sharedPreferences.getString('darlsco_id') ?? '0');
 
     // Loader.showLoader();
-if (!homeController.isCalliberationSection.value) {
-  
+    if (!homeController.isCalliberationSection.value) {
+      await HttpRequest.httpGetRequest(
+        bodyData: {
+          "Role_Id": int.parse(upcomingInspectionsController.taskUserDetails[0]
+                  ['Role_Id']
+              .toString()),
+          "Task_Id": int.parse(upcomingInspectionsController.taskDetailsData[0]
+                  ['Task_Id']
+              .toString()),
+          "User_Id": userId,
+        },
+        endPoint: HttpUrls.loadTaskStatusApp,
+      ).then((value) {
+        if (value.data != null) {
+          print(value);
 
+          taskStatusList = value.data[0];
+          upcomingInspectionsController.equipmentStatusLIst = value.data[1];
 
-    await HttpRequest.httpGetRequest(
-      bodyData: {
-        "Role_Id": int.parse(upcomingInspectionsController.taskUserDetails[0]
-                ['Role_Id']
-            .toString()),
-        "Task_Id": int.parse(upcomingInspectionsController.taskDetailsData[0]
-                ['Task_Id']
-            .toString()),
-        "User_Id": userId,
-      },
-      endPoint: HttpUrls.loadTaskStatusApp,
-    ).then((value) {
-      if (value.data != null) {
-        print(value);
+          // tcontoller.equipmentList = usedTestEquipmentData
+          //     .map((e) => e.equipmentName.toString())
+          //     .toList();
+          // Get.to(() => const TrainingEquipmentScreen());
 
-        taskStatusList = value.data[0];
-        upcomingInspectionsController.equipmentStatusLIst = value.data[1];
-
-        // tcontoller.equipmentList = usedTestEquipmentData
-        //     .map((e) => e.equipmentName.toString())
-        //     .toList();
-        // Get.to(() => const TrainingEquipmentScreen());
-
-        // Get.to(()=>const UpcomingInspectionsScreen());
-      } else {
-        ScaffoldMessenger.of(Get.context!)
-            .showSnackBar(const SnackBar(content: Text('Server Error')));
-      }
-    });
-}
+          // Get.to(()=>const UpcomingInspectionsScreen());
+        } else {
+          ScaffoldMessenger.of(Get.context!)
+              .showSnackBar(const SnackBar(content: Text('Server Error')));
+        }
+      });
+    }
     upcomingInspectionsController.update();
 
     update();
   }
-      var dateAndTime = [];
+
+  var dateAndTime = [];
 
   getAllUserTaskStatus() async {
-
-     if (homeController.isCalliberationSection.value) {
+    if (homeController.isCalliberationSection.value) {
       dateAndTime = [
         {
           "title": 'Task Date & Time',
@@ -227,7 +226,8 @@ if (!homeController.isCalliberationSection.value) {
                           ['Actual_Start_Date_Time1'] ==
                       null
                   ? ''
-                  : upcomingInspectionsController.taskUserDetailsCalliberation[0]
+                  : upcomingInspectionsController
+                      .taskUserDetailsCalliberation[0]
                           ['Actual_Start_Date_Time1']
                       .toString()
                       .toLowerCase(),
@@ -237,7 +237,7 @@ if (!homeController.isCalliberationSection.value) {
     }
     await HttpRequest.httpGetRequest(
       endPoint:
-          '${homeController.isCalliberationSection.value? HttpUrls.getAllUserTaskStatusCalliberation: HttpUrls.getAllUserTaskStatus}${homeController.isCalliberationSection.value?int.parse(upcomingInspectionsController.taskDetailsDataCalliberation[0]['Task_Id'].toString()): int.parse(upcomingInspectionsController.taskDetailsData[0]['Task_Id'].toString())}',
+          '${homeController.isCalliberationSection.value ? HttpUrls.getAllUserTaskStatusCalliberation : HttpUrls.getAllUserTaskStatus}${homeController.isCalliberationSection.value ? int.parse(upcomingInspectionsController.taskDetailsDataCalliberation[0]['Task_Id'].toString()) : int.parse(upcomingInspectionsController.taskDetailsData[0]['Task_Id'].toString())}',
     ).then((value) {
       print('all status $value');
       if (value.data != null) {
@@ -304,10 +304,14 @@ if (!homeController.isCalliberationSection.value) {
 
           double distance = Geolocator.distanceBetween(position.latitude,
               position.longitude, fenceLatitude, fenceLongitude);
- 
+          var d = acos(sin(position.latitude) * sin(fenceLatitude) +
+                  cos(position.latitude) *
+                      cos(fenceLatitude) *
+                      cos(fenceLongitude - position.longitude)) *
+              6371;
 
-
-          if (distance <= 500) {
+          print('DISTANCE ${d}');
+          if (d <= 500) {
             await Loader.stopLoader();
             return 'inside';
           } else {

@@ -2223,17 +2223,8 @@ class RiskAssessmentController extends GetxController {
   }
 
   saveTaskStop(statusName, stopNote) async {
-    print(" sssss  $statusName");
     Loader.showLoader();
-    // Map bodyData = {
-    //   "Task_Id_": int.parse(upcomingInspectionsController.taskDetailsData[0]
-    //           ['Task_Id']
-    //       .toString()),
-    //   "Task_User_Details_Id_": int.parse(upcomingInspectionsController
-    //       .taskUserDetails[0]['User_Details_Id']
-    //       .toString()),
-    //   'Stop_Notes_': tcontoller.addNoteController.text,
-    // };
+   
 
     String dateTimeString = '';
     final dio = Dio();
@@ -2260,11 +2251,7 @@ class RiskAssessmentController extends GetxController {
         .where((element) => element['Checked'].toString() == '1')
         .toList();
 
-    print(tcontoller.selectedStatusValue.value);
-    if (homeController.isCalliberationSection.value) {
-      print('bvuyuuiy ${dateTimeString.split('.')[0]}');
 
-      print('bvuyuuiy ${dateTimeString.split('.')[0].isEmpty}');
       await HttpRequest.httpPostBodyRequest(
         bodyData: {
           "Task_Id_": int.parse(homeController.isCalliberationSection.value
@@ -2351,73 +2338,6 @@ class RiskAssessmentController extends GetxController {
           }
         }
       });
-    } else {
-      await HttpRequest.httpPostRequest(
-        bodyData: {
-          "Task_Id_": int.parse(homeController.isCalliberationSection.value
-              ? upcomingInspectionsController.taskDetailsDataCalliberation[0]
-                      ['Task_Id']
-                  .toString()
-              : upcomingInspectionsController.taskDetailsData[0]['Task_Id']
-                  .toString()),
-          "User_Details_Id_": int.parse(
-              homeController.isCalliberationSection.value
-                  ? upcomingInspectionsController
-                      .taskUserDetailsCalliberation[0]['User_Details_Id']
-                      .toString()
-                  : upcomingInspectionsController.taskUserDetails[0]
-                          ['User_Details_Id']
-                      .toString()),
-          'Stop_Notes_': stopNote,
-          "Task_User_Details_Id_": int.parse(
-              homeController.isCalliberationSection.value
-                  ? upcomingInspectionsController
-                      .taskUserDetailsCalliberation[0]['Task_User_Details_Id']
-                      .toString()
-                  : upcomingInspectionsController.taskUserDetails[0]
-                          ['Task_User_Details_Id']
-                      .toString()),
-          "Stop_Date_Time_": dateTimeString.split('.')[0],
-          "Equipments": upcomingInspectionsController.eqList,
-          "Status_Id": homeController.isCalliberationSection.value
-              ? '0'
-              : upcomingInspectionsController.isEquipmentSelected.value == false
-                  ? tcontoller.taskStatusList
-                      .where((element) =>
-                          element['Task_Status_Name'].toString() == statusName)
-                      .toList()[0]['Task_Status_Id']
-                  : 11,
-          "Status_Name":
-              upcomingInspectionsController.isEquipmentSelected.value == false
-                  ? statusName
-                  : 'Finished',
-          "Finish_Notes": tcontoller.stopScreenFinishTextController.text,
-        },
-        // bodyData: {"testing": "123"},
-
-        endPoint: homeController.isCalliberationSection.value
-            ? HttpUrls.saveTaskStopCalliberation
-            : HttpUrls.saveTaskStop,
-      ).then((value) {
-        if (value != null) {
-          if (value.statusCode == 200) {
-            if (value.data[0].isNotEmpty) {
-              // upcomingInspectionsController.todayTaskListData.clear();
-              // upcomingInspectionsController.yesterdayTaskListData.clear();
-              // upcomingInspectionsController.tommorowTaskListData.clear();
-              tcontoller.stopScreenFinishTextController.clear();
-              // Loader.stopLoader();
-              tcontoller.selectedStatusValue.value = '';
-              tcontoller.stopScreenTextController.clear();
-
-              Get.offAll(() => const TrainingInspectionScreen());
-
-              // Get.offAll( const TrainingInspectionScreen());
-            }
-            // Get.to(() => RiskAssessmentScreen());
-          }
-        }
-      });
-    }
+    
   }
 }

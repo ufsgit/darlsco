@@ -62,7 +62,7 @@ class UpcomingInspectionsController extends GetxController {
   List eqList = [];
   List equipmentStatusLIst = [];
   RxBool isEquipmentSelected = false.obs;
-
+  bool isOwner = false;
   List<Map<String, dynamic>> usedEquipmentData = [];
   List<Map<String, dynamic>> usedEquipmentDataCalliberation = [];
   List<Map<String, dynamic>> usedTestppeData = [];
@@ -676,7 +676,10 @@ class UpcomingInspectionsController extends GetxController {
       {required int taskId,
       bool isNotPageNavigation = false,
       String? status = 'Not Started'}) async {
-        status??=homeController.isCalliberationSection.value?'Not Attended': 'Not Started';
+    print('hiiihudeif 123');
+    status ??= homeController.isCalliberationSection.value
+        ? 'Not Attended'
+        : 'Not Started';
     // tcontoller.periodicCheck.value = false;
     // tcontoller.visualCheck.value = false;
     // tcontoller.thoroughCheck.value = false;
@@ -690,7 +693,9 @@ class UpcomingInspectionsController extends GetxController {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
 
     int userId = int.parse(sharedPreferences.getString('darlsco_id') ?? '');
+    print('adeeb ${homeController.isCalliberationSection.value}');
     if (!homeController.isCalliberationSection.value) {
+      print('hiiihudeif 1234 ${homeController.isCalliberationSection.value}');
       await HttpRequest.httpGetRequest(
         bodyData: {
           "Task_Id_": taskId,
@@ -827,8 +832,7 @@ class UpcomingInspectionsController extends GetxController {
         }
       });
     } else {
-      // ============== Calliberation Api ====================
-
+      print('hiiihudeif dfwriopf');
       await HttpRequest.httpGetRequest(
         bodyData: {
           "Task_Id_": taskId,
@@ -840,7 +844,7 @@ class UpcomingInspectionsController extends GetxController {
           // Loader.stopLoader();
           taskDetailsDataCalliberation = value.data[0];
           taskEquipmentListDataCalliberation = value.data[1];
-
+          isOwner = value.data[2][0]['Is_Check_Owner'].toString() == "1";
           taskUserDetailsCalliberation = value.data[2];
           taskEquipmentListDataCalliberation.add({
             "Task_Equipment_Id": 0,
@@ -970,13 +974,13 @@ class UpcomingInspectionsController extends GetxController {
             if (!isNotPageNavigation) {
               print('rferetrver $status');
 
-              if (status == 'Not Attended'||status=='Attended'||status=='Completed') {
+              if (status == 'Not Attended' ||
+                  status == 'Attended' ||
+                  status == 'Completed') {
                 Get.to(() => TrainningScreen());
               } else {
                 Get.to(() => RiskAssesmentStopScreen(
-                  taskId: taskId,
-                taskStatusName:status??''
-                ));
+                    taskId: taskId, taskStatusName: status ?? ''));
               }
             }
           }

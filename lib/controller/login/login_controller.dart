@@ -167,7 +167,6 @@ class LoginController extends GetxController {
           preferences.setString('darlsco_id', data['0'][0]['Id'].toString());
           preferences.setString('type', data['0'][0]['tp'].toString());
           preferences.setString('phone_no', data['0'][0]["Mobile"].toString());
-         
 
           // preferences.setString('name_user_', data['0'][0]['Name'].toString());
           //   preferences.setString('token', '${data['token']}');

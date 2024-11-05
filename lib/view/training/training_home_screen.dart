@@ -30,11 +30,12 @@ class _TrainingHomeScreenState extends State<TrainingHomeScreen> {
     await trainingController.fetchTrainingHomeData();
     await trainingController.getItemCart();
   }
-@override
+
+  @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     return PopScope(
