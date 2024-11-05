@@ -128,6 +128,8 @@ class LoginController extends GetxController {
   }) async {
     // Loader.showLoader();
     isLoading.value = true;
+    homeController.isInspectionSection.value = false;
+
     SharedPreferences preferences = await SharedPreferences.getInstance();
     String firebaseToken = '';
     try {
@@ -180,6 +182,10 @@ class LoginController extends GetxController {
           homeController.isInspection.value =
               data['0'][0]['Inspection'].toString();
           homeController.isTraineee.value = data['0'][0]['Training'].toString();
+          homeController.isInspectionSection.value =
+              data['0'][0]['Inspection'] == '1';
+              // homeController.isTrainingSectionnew.value=
+          // homeController.is
           homeController.isUsersignedIn();
           mobileNumberController.clear();
           pinPutOtpController.clear();

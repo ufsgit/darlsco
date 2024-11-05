@@ -1061,11 +1061,7 @@ class HomeController extends GetxController {
 
     String isInspectionCustomer =
         preferences.getString('inspection_login') ?? '';
-    if (token != '' || token != 'null' || token.isNotEmpty) {
-      print('tgtyuyu ${token != ''}');
-      print('tgtyuyu ${token != 'null'}');
-      print('tgtyuyu ${token.isNotEmpty}');
-    }
+  
     isUserLoggedIn = token != '';
     isInspectionEnabled = isInspectionCustomer == '1' || !isUserLoggedIn;
     isTrainingEnabled = isTraineeCustomer == '1' || !isUserLoggedIn;

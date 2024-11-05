@@ -160,7 +160,7 @@ class _TrainingScreenMobileState extends State<TrainingScreenMobile> {
                                     ),
                                   )
                                 : Container(
-                                    child: Text('Ivdonnullaa'),
+                                    child: Text(''),
                                   ),
                           SizedBox(
                             height: 20.h,

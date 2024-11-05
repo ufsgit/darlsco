@@ -768,6 +768,8 @@ class _TrainingInspectionScreenState extends State<TrainingInspectionScreen> {
                                 onRefresh: () async {
                                   await upcomingInspectionsController
                                       .taskInitFunction(context);
+                                      print('jj213483jjj ${upcomingInspectionsController
+                                                  .yesterdayTaskListDataCalliberation}');
                                 },
                                 child: SingleChildScrollView(
                                   physics:

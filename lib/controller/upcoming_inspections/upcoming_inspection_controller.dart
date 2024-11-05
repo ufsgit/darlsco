@@ -316,7 +316,7 @@ class UpcomingInspectionsController extends GetxController {
 
   getTommorrowTaskDetails(isInitState) async {
     if (homeController.isCalliberationSection.value) {
-      tommorowTaskListDataCalliberation = await getuserTaskDateRange(
+      tommorowTaskListDataCalliberation = await getCalliberationTasks(
           isInitSate: isInitState,
           startDate: DateTime.now().add(const Duration(days: 1)),
           endDate: DateTime.now().add(const Duration(days: 1)));
@@ -332,7 +332,8 @@ class UpcomingInspectionsController extends GetxController {
 
   getYesterdayTaskDetails(isInitState) async {
     if (homeController.isCalliberationSection.value) {
-      yesterdayTaskListDataCalliberation = await getuserTaskDateRange(
+      print('XHECKINFGGG ${yesterdayTaskListDataCalliberation}');
+      yesterdayTaskListDataCalliberation = await getCalliberationTasks(
           isInitSate: isInitState,
           startDate: DateTime.now().subtract(const Duration(days: 1)),
           endDate: DateTime.now().subtract(const Duration(days: 1)));
@@ -375,6 +376,7 @@ class UpcomingInspectionsController extends GetxController {
         if ((value.data[0] != null) && (!value.data[0].isEmpty)) {
           result = value.data[0].reversed.toList();
         }
+          print('XHECKINFGGG 12${result}');
 
         return result;
       } else {
@@ -1029,16 +1031,17 @@ class UpcomingInspectionsController extends GetxController {
 
     print('sdfwekjhfiluwek ${dateTimeString.isEmpty}');
     //  await sendEqpListData.removeLast();
-
+if (homeController.isCalliberationSection.value) {
     await HttpRequest.httpPostBodyRequest(
       bodyData: {
         "Task_User_Details_Id_": int.parse(homeController
                 .isCalliberationSection.value
             ? taskUserDetailsCalliberation[0]['Task_User_Details_Id'].toString()
             : taskUserDetails[0]['Task_User_Details_Id'].toString()),
-        "Task_Id_": int.parse(homeController.isCalliberationSection.value
-            ? taskDetailsDataCalliberation[0]['Task_Id'].toString()
-            : taskDetailsData[0]['Task_Id'].toString()),
+       "Task_Id_":35,
+        // "Task_Id_": int.parse(homeController.isCalliberationSection.value
+        //     ? taskDetailsDataCalliberation[0]['Task_Id'].toString()
+        //     : taskDetailsData[0]['Task_Id'].toString()),
         'Start_Notes_': tcontoller.addNoteController.text,
         'Periodic': tcontoller.periodicCheck.value.toString(),
         'Visual': tcontoller.visualCheck.value.toString(),
@@ -1060,6 +1063,7 @@ class UpcomingInspectionsController extends GetxController {
           ? HttpUrls.saveTaskDetailsCalliberation
           : HttpUrls.saveTaskDetails,
     ).then((value) async {
+      print('adeeb 12334 $value');
       if (value != null) {
         if (value.statusCode == 200) {
           // tcontoller.addNoteController.clear();
@@ -1114,11 +1118,14 @@ class UpcomingInspectionsController extends GetxController {
               taskId: upcomingInspectionsController.taskDetailsData[0]
                   ['Task_Id'],
             );
+        Loader.stopLoader();
 
             Get.to(() => TrainingEquipmentScreen(
                   taskId: int.parse(taskDetailsData[0]['Task_Id'].toString()),
                 ));
           } else {
+                    Loader.stopLoader();
+
             // await Loader.stopLoader();
             Get.to(() => const RiskAssesmentStopScreen());
           }
@@ -1159,15 +1166,164 @@ class UpcomingInspectionsController extends GetxController {
 
           // Get.to(()=>TrainningScreen());
           // Get.to(() => RiskAssessmentScreen());
-        } else {
+        } else {        Loader.stopLoader();
+
           // ScaffoldMessenger.of(Get.context!)
           //     .showSnackBar(const SnackBar(content: Text('Server Error')));
         }
-      } else {
+      } else {        Loader.stopLoader();
+
         ScaffoldMessenger.of(Get.context!)
             .showSnackBar(const SnackBar(content: Text('Server Error')));
       }
     });
+}else{
+    await HttpRequest.httpPostRequest(
+      bodyData: {
+        "Task_User_Details_Id_": int.parse(homeController
+                .isCalliberationSection.value
+            ? taskUserDetailsCalliberation[0]['Task_User_Details_Id'].toString()
+            : taskUserDetails[0]['Task_User_Details_Id'].toString()),
+        "Task_Id_": int.parse(homeController.isCalliberationSection.value
+            ? taskDetailsDataCalliberation[0]['Task_Id'].toString()
+            : taskDetailsData[0]['Task_Id'].toString()),
+        'Start_Notes_': tcontoller.addNoteController.text,
+        'Periodic': tcontoller.periodicCheck.value.toString(),
+        'Visual': tcontoller.visualCheck.value.toString(),
+        'Thorough': tcontoller.thoroughCheck.value.toString(),
+        'Major': tcontoller.majorCheck.value.toString(),
+        'Initial_Examination': tcontoller.examinationCheck.value.toString(),
+        "In_Service": tcontoller.inServiceCheck.value.toString(),
+        "Independent": tcontoller.independentCheck.value.toString(),
+        // "Start_Date_Time": dateTimeString.isEmpty
+        //     ? DateTime.now()
+        //     : DateTime.parse(dateTimeString.split('.')[0].toString()),
+        "Notes": tcontoller.otherEqupmentNotecntrlr.text,
+        "Others_Checked":
+            tcontoller.otherEqupmentNotecntrlr.text.isEmpty ? 0 : 1,
+        "Equipments": sendEqpListData,
+        "User_Id": userId,
+      },
+      endPoint: homeController.isCalliberationSection.value
+          ? HttpUrls.saveTaskDetailsCalliberation
+          : HttpUrls.saveTaskDetails,
+    ).then((value) async {
+      print('adeeb 12334 $value');
+      if (value != null) {
+        if (value.statusCode == 200) {
+          // tcontoller.addNoteController.clear();
+          // tcontoller.otherEqupmentNotecntrlr.clear();
+
+          print(
+              'equipment list ${upcomingInspectionsController.taskEquipmentListData}');
+
+          tcontoller.isTaskStarted.value =
+              value.data[0][0]['Task_Status_Id_'].toString() == '4'
+                  ? true
+                  : false;
+          // await getTestEquipment(
+          //   taskUserDetailsId: upcomingInspectionsController.taskUserDetails[0]
+          //       ['Task_User_Details_Id'],
+          //   taskId: upcomingInspectionsController.taskDetailsData[0]['Task_Id'],
+          // );
+          // await upcomingInspectionsController.getTestppe(
+          //   taskUserDetailsId: upcomingInspectionsController.taskUserDetails[0]
+          //       ['Task_User_Details_Id'],
+          //   taskId: upcomingInspectionsController.taskDetailsData[0]['Task_Id'],
+          // );
+          // await upcomingInspectionsController.getTestDocument(
+          //   taskUserDetailsId: upcomingInspectionsController.taskUserDetails[0]
+          //       ['Task_User_Details_Id'],
+          //   taskId: upcomingInspectionsController.taskDetailsData[0]['Task_Id'],
+          // );
+
+          tcontoller.loadTaskStatus();
+
+          if (!homeController.isCalliberationSection.value &&
+              upcomingInspectionsController.taskUserDetails[0]['Role_Id']
+                      .toString() ==
+                  '38') {
+            // await Loader.stopLoader();
+
+            await upcomingInspectionsController.getTestEquipment(
+              taskUserDetailsId: upcomingInspectionsController
+                  .taskUserDetails[0]['Task_User_Details_Id'],
+              taskId: upcomingInspectionsController.taskDetailsData[0]
+                  ['Task_Id'],
+            );
+            await upcomingInspectionsController.getTestppe(
+              taskUserDetailsId: upcomingInspectionsController
+                  .taskUserDetails[0]['Task_User_Details_Id'],
+              taskId: upcomingInspectionsController.taskDetailsData[0]
+                  ['Task_Id'],
+            );
+            await upcomingInspectionsController.getTestDocument(
+              taskUserDetailsId: upcomingInspectionsController
+                  .taskUserDetails[0]['Task_User_Details_Id'],
+              taskId: upcomingInspectionsController.taskDetailsData[0]
+                  ['Task_Id'],
+            );
+        Loader.stopLoader();
+
+            Get.to(() => TrainingEquipmentScreen(
+                  taskId: int.parse(taskDetailsData[0]['Task_Id'].toString()),
+                ));
+          } else {
+                    Loader.stopLoader();
+
+            // await Loader.stopLoader();
+            Get.to(() => const RiskAssesmentStopScreen());
+          }
+          // if (!homeController.isCalliberationSection.value &&
+          //     upcomingInspectionsController.taskUserDetails[0]
+          //                 ['Role_Id']
+          //             .toString() ==
+          //         '38') {
+          //   // await Loader.stopLoader();
+
+          //   await upcomingInspectionsController.getTestEquipment(
+          //     taskUserDetailsId: upcomingInspectionsController
+          //         .taskUserDetailsCalliberation[0]['Task_User_Details_Id'],
+          //     taskId: upcomingInspectionsController
+          //         .taskDetailsDataCalliberation[0]['Task_Id'],
+          //   );
+          //   await upcomingInspectionsController.getTestppe(
+          //     taskUserDetailsId: upcomingInspectionsController
+          //         .taskDetailsDataCalliberation[0]['Task_User_Details_Id'],
+          //     taskId: upcomingInspectionsController
+          //         .taskDetailsDataCalliberation[0]['Task_Id'],
+          //   );
+          //   await upcomingInspectionsController.getTestDocument(
+          //     taskUserDetailsId: upcomingInspectionsController
+          //         .taskUserDetailsCalliberation[0]['Task_User_Details_Id'],
+          //     taskId: upcomingInspectionsController
+          //         .taskDetailsDataCalliberation[0]['Task_Id'],
+          //   );
+
+          //   Get.to(() => TrainingEquipmentScreen(
+          //         taskId: int.parse(
+          //             taskDetailsDataCalliberation[0]['Task_Id'].toString()),
+          //       ));
+          // } else {
+          //   // await Loader.stopLoader();
+          //   Get.to(() => const RiskAssesmentStopScreen());
+          // }
+
+          // Get.to(()=>TrainningScreen());
+          // Get.to(() => RiskAssessmentScreen());
+        } else {        Loader.stopLoader();
+
+          // ScaffoldMessenger.of(Get.context!)
+          //     .showSnackBar(const SnackBar(content: Text('Server Error')));
+        }
+      } else {        Loader.stopLoader();
+
+        ScaffoldMessenger.of(Get.context!)
+            .showSnackBar(const SnackBar(content: Text('Server Error')));
+      }
+    });
+}
+  
     // update();
   }
 
