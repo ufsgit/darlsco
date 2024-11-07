@@ -2,7 +2,7 @@
   "project_info": {
     "project_number": "917044543784",
     "project_id": "darlsco",
-    "storage_bucket": "darlsco.appspot.com"
+    "storage_bucket": "darlsco.firebasestorage.app"
   },
   "client": [
     {
@@ -10,25 +10,6 @@
         "mobilesdk_app_id": "1:917044543784:android:bde67dfa1c32ce0b9a501d",
         "android_client_info": {
           "package_name": "com.darlsco_solutions.darlsco"
-        }
-      },
-      "oauth_client": [],
-      "api_key": [
-        {
-          "current_key": "AIzaSyB16xImBAsMAp3lROKoWfYmd7grtoxhwWc"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": []
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:917044543784:android:ac062583466829a29a501d",
-        "android_client_info": {
-          "package_name": "com.inspection.darlsco"
         }
       },
       "oauth_client": [],

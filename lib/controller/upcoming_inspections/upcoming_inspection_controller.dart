@@ -337,8 +337,7 @@ class UpcomingInspectionsController extends GetxController {
           isInitSate: isInitState,
           startDate: DateTime.now().subtract(const Duration(days: 1)),
           endDate: DateTime.now().subtract(const Duration(days: 1)));
-                print('XHECKINFGGG ${yesterdayTaskListDataCaliberation}');
-
+      print('XHECKINFGGG ${yesterdayTaskListDataCaliberation}');
     } else {
       yesterdayTaskListData = await getuserTaskDateRange(
           isInitSate: isInitState,
@@ -378,7 +377,7 @@ class UpcomingInspectionsController extends GetxController {
         if ((value.data[0] != null) && (!value.data[0].isEmpty)) {
           result = value.data[0].reversed.toList();
         }
-          print('XHECKINFGGG 12${result}');
+        print('XHECKINFGGG 12${result}');
 
         return result;
       } else {
@@ -849,12 +848,10 @@ class UpcomingInspectionsController extends GetxController {
           // Loader.stopLoader();
           taskDetailsDataCaliberation = value.data[0];
           taskEquipmentListDataCaliberation = value.data[1];
-        try {
+          try {
             isOwner = value.data[2][0]['Is_Check_Owner'].toString() == "1";
-        
-        } catch (e) {
-          
-        }  taskUserDetailsCaliberation = value.data[2];
+          } catch (e) {}
+          taskUserDetailsCaliberation = value.data[2];
           taskEquipmentListDataCaliberation.add({
             "Task_Equipment_Id": 0,
             "Equipment_Id": 0,
@@ -863,19 +860,18 @@ class UpcomingInspectionsController extends GetxController {
           });
           print('dfgerogthi i amhere ${taskEquipmentListDataCaliberation}');
 
-          tcontoller.periodicCheck.value = bool.parse(
-              taskUserDetailsCaliberation[0]['Periodic'] ?? 'false');
+          tcontoller.periodicCheck.value =
+              bool.parse(taskUserDetailsCaliberation[0]['Periodic'] ?? 'false');
           tcontoller.independentCheck.value = bool.parse(
               taskUserDetailsCaliberation[0]['Independent'] ?? 'false');
           tcontoller.visualCheck.value =
               bool.parse(taskUserDetailsCaliberation[0]['Visual'] ?? 'false');
-          tcontoller.thoroughCheck.value = bool.parse(
-              taskUserDetailsCaliberation[0]['Thorough'] ?? 'false');
+          tcontoller.thoroughCheck.value =
+              bool.parse(taskUserDetailsCaliberation[0]['Thorough'] ?? 'false');
           tcontoller.majorCheck.value =
               bool.parse(taskUserDetailsCaliberation[0]['Major'] ?? 'false');
           tcontoller.examinationCheck.value = bool.parse(
-              taskUserDetailsCaliberation[0]['Initial_Examination'] ??
-                  'false');
+              taskUserDetailsCaliberation[0]['Initial_Examination'] ?? 'false');
           tcontoller.inServiceCheck.value = bool.parse(
               taskUserDetailsCaliberation[0]['In_Service'] ?? 'false');
 
@@ -893,20 +889,18 @@ class UpcomingInspectionsController extends GetxController {
           tcontoller.commonGridTexts = [
             {
               "title": 'Task Date & Time',
-              'sub_title':
-                  taskDetailsDataCaliberation[0]['Proposed_Date_Time1'] == null
-                      ? ''
-                      : taskDetailsDataCaliberation[0]
-                              ['Proposed_Date_Time1'] ??
-                          '',
+              'sub_title': taskDetailsDataCaliberation[0]
+                          ['Proposed_Date_Time1'] ==
+                      null
+                  ? ''
+                  : taskDetailsDataCaliberation[0]['Proposed_Date_Time1'] ?? '',
               "icon": Icons.calendar_month,
             },
             {
               "title": 'Started Date & Time',
               'sub_title': taskUserDetailsCaliberation.isEmpty
                   ? ''
-                  : taskUserDetailsCaliberation[0]
-                              ['Actual_Start_Date_Time1'] ==
+                  : taskUserDetailsCaliberation[0]['Actual_Start_Date_Time1'] ==
                           null
                       ? ''
                       : taskUserDetailsCaliberation[0]
@@ -983,13 +977,11 @@ class UpcomingInspectionsController extends GetxController {
             if (!isNotPageNavigation) {
               print('rferetrver $status');
 
-              if (status == 'Not Attended' ||
-                  status == 'Attended' ||
-                  status == 'Completed') {
-                Get.to(() => TrainningScreen());
-              } else {
+              if (status == 'In Progress') {
                 Get.to(() => RiskAssesmentStopScreen(
                     taskId: taskId, taskStatusName: status ?? ''));
+              } else {
+                Get.to(() => TrainningScreen());
               }
             }
           }
@@ -1038,298 +1030,303 @@ class UpcomingInspectionsController extends GetxController {
 
     print('sdfwekjhfiluwek ${dateTimeString.isEmpty}');
     //  await sendEqpListData.removeLast();
-if (homeController.isCaliberationSection.value) {
-    await HttpRequest.httpPostBodyRequest(
-      bodyData: {
-        "Task_User_Details_Id_": int.parse(homeController
-                .isCaliberationSection.value
-            ? taskUserDetailsCaliberation[0]['Task_User_Details_Id'].toString()
-            : taskUserDetails[0]['Task_User_Details_Id'].toString()),
-      
-        "Task_Id_": int.parse(homeController.isCaliberationSection.value
-            ? taskDetailsDataCaliberation[0]['Task_Id'].toString()
-            : taskDetailsData[0]['Task_Id'].toString()),
-        'Start_Notes_': tcontoller.addNoteController.text,
-        'Periodic': tcontoller.periodicCheck.value.toString(),
-        'Visual': tcontoller.visualCheck.value.toString(),
-        'Thorough': tcontoller.thoroughCheck.value.toString(),
-        'Major': tcontoller.majorCheck.value.toString(),
-        'Initial_Examination': tcontoller.examinationCheck.value.toString(),
-        "In_Service": tcontoller.inServiceCheck.value.toString(),
-        "Independent": tcontoller.independentCheck.value.toString(),
-        // "Start_Date_Time": dateTimeString.isEmpty
-        //     ? DateTime.now()
-        //     : DateTime.parse(dateTimeString.split('.')[0].toString()),
-        "Notes": tcontoller.otherEqupmentNotecntrlr.text,
-        "Others_Checked":
-            tcontoller.otherEqupmentNotecntrlr.text.isEmpty ? 0 : 1,
-        "Equipments": sendEqpListData,
-        "User_Id": userId,
-      },
-      endPoint: homeController.isCaliberationSection.value
-          ? HttpUrls.saveTaskDetailsCaliberation
-          : HttpUrls.saveTaskDetails,
-    ).then((value) async {
-      print('adeeb 12334 $value');
-      if (value != null) {
-        if (value.statusCode == 200) {
-          // tcontoller.addNoteController.clear();
-          // tcontoller.otherEqupmentNotecntrlr.clear();
+    if (homeController.isCaliberationSection.value) {
+      await HttpRequest.httpPostBodyRequest(
+        bodyData: {
+          "Task_User_Details_Id_": int.parse(
+              homeController.isCaliberationSection.value
+                  ? taskUserDetailsCaliberation[0]['Task_User_Details_Id']
+                      .toString()
+                  : taskUserDetails[0]['Task_User_Details_Id'].toString()),
 
-         
-          tcontoller.isTaskStarted.value =
-              value.data[0][0]['Task_Status_Id_'].toString() == '4'
-                  ? true
-                  : false;
-                  // riskAssessmentController.startedDateTime=value.data[0][0]['Actual_Start_Date_Time_'];
-          // await getTestEquipment(
-          //   taskUserDetailsId: upcomingInspectionsController.taskUserDetails[0]
-          //       ['Task_User_Details_Id'],
-          //   taskId: upcomingInspectionsController.taskDetailsData[0]['Task_Id'],
-          // );
-          // await upcomingInspectionsController.getTestppe(
-          //   taskUserDetailsId: upcomingInspectionsController.taskUserDetails[0]
-          //       ['Task_User_Details_Id'],
-          //   taskId: upcomingInspectionsController.taskDetailsData[0]['Task_Id'],
-          // );
-          // await upcomingInspectionsController.getTestDocument(
-          //   taskUserDetailsId: upcomingInspectionsController.taskUserDetails[0]
-          //       ['Task_User_Details_Id'],
-          //   taskId: upcomingInspectionsController.taskDetailsData[0]['Task_Id'],
-          // );
+          "Task_Id_": int.parse(homeController.isCaliberationSection.value
+              ? taskDetailsDataCaliberation[0]['Task_Id'].toString()
+              : taskDetailsData[0]['Task_Id'].toString()),
+          'Start_Notes_': tcontoller.addNoteController.text,
+          'Periodic': tcontoller.periodicCheck.value.toString(),
+          'Visual': tcontoller.visualCheck.value.toString(),
+          'Thorough': tcontoller.thoroughCheck.value.toString(),
+          'Major': tcontoller.majorCheck.value.toString(),
+          'Initial_Examination': tcontoller.examinationCheck.value.toString(),
+          "In_Service": tcontoller.inServiceCheck.value.toString(),
+          "Independent": tcontoller.independentCheck.value.toString(),
+          // "Start_Date_Time": dateTimeString.isEmpty
+          //     ? DateTime.now()
+          //     : DateTime.parse(dateTimeString.split('.')[0].toString()),
+          "Notes": tcontoller.otherEqupmentNotecntrlr.text,
+          "Others_Checked":
+              tcontoller.otherEqupmentNotecntrlr.text.isEmpty ? 0 : 1,
+          "Equipments": sendEqpListData,
+          "User_Id": userId,
+        },
+        endPoint: homeController.isCaliberationSection.value
+            ? HttpUrls.saveTaskDetailsCaliberation
+            : HttpUrls.saveTaskDetails,
+      ).then((value) async {
+        print('adeeb 12334 $value');
+        if (value != null) {
+          if (value.statusCode == 200) {
+            // tcontoller.addNoteController.clear();
+            // tcontoller.otherEqupmentNotecntrlr.clear();
 
-          tcontoller.loadTaskStatus();
+            tcontoller.isTaskStarted.value =
+                value.data[0][0]['Task_Status_Id_'].toString() == '4'
+                    ? true
+                    : false;
+            // riskAssessmentController.startedDateTime=value.data[0][0]['Actual_Start_Date_Time_'];
+            // await getTestEquipment(
+            //   taskUserDetailsId: upcomingInspectionsController.taskUserDetails[0]
+            //       ['Task_User_Details_Id'],
+            //   taskId: upcomingInspectionsController.taskDetailsData[0]['Task_Id'],
+            // );
+            // await upcomingInspectionsController.getTestppe(
+            //   taskUserDetailsId: upcomingInspectionsController.taskUserDetails[0]
+            //       ['Task_User_Details_Id'],
+            //   taskId: upcomingInspectionsController.taskDetailsData[0]['Task_Id'],
+            // );
+            // await upcomingInspectionsController.getTestDocument(
+            //   taskUserDetailsId: upcomingInspectionsController.taskUserDetails[0]
+            //       ['Task_User_Details_Id'],
+            //   taskId: upcomingInspectionsController.taskDetailsData[0]['Task_Id'],
+            // );
 
-          if (!homeController.isCaliberationSection.value &&
-              upcomingInspectionsController.taskUserDetails[0]['Role_Id']
-                      .toString() ==
-                  '38') {
-            // await Loader.stopLoader();
+            tcontoller.loadTaskStatus();
 
-            await upcomingInspectionsController.getTestEquipment(
-              taskUserDetailsId: upcomingInspectionsController
-                  .taskUserDetails[0]['Task_User_Details_Id'],
-              taskId: upcomingInspectionsController.taskDetailsData[0]
-                  ['Task_Id'],
-            );
-            await upcomingInspectionsController.getTestppe(
-              taskUserDetailsId: upcomingInspectionsController
-                  .taskUserDetails[0]['Task_User_Details_Id'],
-              taskId: upcomingInspectionsController.taskDetailsData[0]
-                  ['Task_Id'],
-            );
-            await upcomingInspectionsController.getTestDocument(
-              taskUserDetailsId: upcomingInspectionsController
-                  .taskUserDetails[0]['Task_User_Details_Id'],
-              taskId: upcomingInspectionsController.taskDetailsData[0]
-                  ['Task_Id'],
-            );
-        Loader.stopLoader();
+            if (!homeController.isCaliberationSection.value &&
+                upcomingInspectionsController.taskUserDetails[0]['Role_Id']
+                        .toString() ==
+                    '38') {
+              // await Loader.stopLoader();
 
-            Get.to(() => TrainingEquipmentScreen(
-                  taskId: int.parse(taskDetailsData[0]['Task_Id'].toString()),
-                ));
+              await upcomingInspectionsController.getTestEquipment(
+                taskUserDetailsId: upcomingInspectionsController
+                    .taskUserDetails[0]['Task_User_Details_Id'],
+                taskId: upcomingInspectionsController.taskDetailsData[0]
+                    ['Task_Id'],
+              );
+              await upcomingInspectionsController.getTestppe(
+                taskUserDetailsId: upcomingInspectionsController
+                    .taskUserDetails[0]['Task_User_Details_Id'],
+                taskId: upcomingInspectionsController.taskDetailsData[0]
+                    ['Task_Id'],
+              );
+              await upcomingInspectionsController.getTestDocument(
+                taskUserDetailsId: upcomingInspectionsController
+                    .taskUserDetails[0]['Task_User_Details_Id'],
+                taskId: upcomingInspectionsController.taskDetailsData[0]
+                    ['Task_Id'],
+              );
+              Loader.stopLoader();
+
+              Get.to(() => TrainingEquipmentScreen(
+                    taskId: int.parse(taskDetailsData[0]['Task_Id'].toString()),
+                  ));
+            } else {
+              Loader.stopLoader();
+
+              // await Loader.stopLoader();
+              Get.to(() => const RiskAssesmentStopScreen());
+            }
+            // if (!homeController.isCaliberationSection.value &&
+            //     upcomingInspectionsController.taskUserDetails[0]
+            //                 ['Role_Id']
+            //             .toString() ==
+            //         '38') {
+            //   // await Loader.stopLoader();
+
+            //   await upcomingInspectionsController.getTestEquipment(
+            //     taskUserDetailsId: upcomingInspectionsController
+            //         .taskUserDetailsCaliberation[0]['Task_User_Details_Id'],
+            //     taskId: upcomingInspectionsController
+            //         .taskDetailsDataCaliberation[0]['Task_Id'],
+            //   );
+            //   await upcomingInspectionsController.getTestppe(
+            //     taskUserDetailsId: upcomingInspectionsController
+            //         .taskDetailsDataCaliberation[0]['Task_User_Details_Id'],
+            //     taskId: upcomingInspectionsController
+            //         .taskDetailsDataCaliberation[0]['Task_Id'],
+            //   );
+            //   await upcomingInspectionsController.getTestDocument(
+            //     taskUserDetailsId: upcomingInspectionsController
+            //         .taskUserDetailsCaliberation[0]['Task_User_Details_Id'],
+            //     taskId: upcomingInspectionsController
+            //         .taskDetailsDataCaliberation[0]['Task_Id'],
+            //   );
+
+            //   Get.to(() => TrainingEquipmentScreen(
+            //         taskId: int.parse(
+            //             taskDetailsDataCaliberation[0]['Task_Id'].toString()),
+            //       ));
+            // } else {
+            //   // await Loader.stopLoader();
+            //   Get.to(() => const RiskAssesmentStopScreen());
+            // }
+
+            // Get.to(()=>TrainningScreen());
+            // Get.to(() => RiskAssessmentScreen());
           } else {
-                    Loader.stopLoader();
+            Loader.stopLoader();
 
-            // await Loader.stopLoader();
-            Get.to(() => const RiskAssesmentStopScreen());
+            // ScaffoldMessenger.of(Get.context!)
+            //     .showSnackBar(const SnackBar(content: Text('Server Error')));
           }
-          // if (!homeController.isCaliberationSection.value &&
-          //     upcomingInspectionsController.taskUserDetails[0]
-          //                 ['Role_Id']
-          //             .toString() ==
-          //         '38') {
-          //   // await Loader.stopLoader();
+        } else {
+          Loader.stopLoader();
 
-          //   await upcomingInspectionsController.getTestEquipment(
-          //     taskUserDetailsId: upcomingInspectionsController
-          //         .taskUserDetailsCaliberation[0]['Task_User_Details_Id'],
-          //     taskId: upcomingInspectionsController
-          //         .taskDetailsDataCaliberation[0]['Task_Id'],
-          //   );
-          //   await upcomingInspectionsController.getTestppe(
-          //     taskUserDetailsId: upcomingInspectionsController
-          //         .taskDetailsDataCaliberation[0]['Task_User_Details_Id'],
-          //     taskId: upcomingInspectionsController
-          //         .taskDetailsDataCaliberation[0]['Task_Id'],
-          //   );
-          //   await upcomingInspectionsController.getTestDocument(
-          //     taskUserDetailsId: upcomingInspectionsController
-          //         .taskUserDetailsCaliberation[0]['Task_User_Details_Id'],
-          //     taskId: upcomingInspectionsController
-          //         .taskDetailsDataCaliberation[0]['Task_Id'],
-          //   );
-
-          //   Get.to(() => TrainingEquipmentScreen(
-          //         taskId: int.parse(
-          //             taskDetailsDataCaliberation[0]['Task_Id'].toString()),
-          //       ));
-          // } else {
-          //   // await Loader.stopLoader();
-          //   Get.to(() => const RiskAssesmentStopScreen());
-          // }
-
-          // Get.to(()=>TrainningScreen());
-          // Get.to(() => RiskAssessmentScreen());
-        } else {        Loader.stopLoader();
-
-          // ScaffoldMessenger.of(Get.context!)
-          //     .showSnackBar(const SnackBar(content: Text('Server Error')));
+          ScaffoldMessenger.of(Get.context!)
+              .showSnackBar(const SnackBar(content: Text('Server Error')));
         }
-      } else {        Loader.stopLoader();
+      });
+    } else {
+      await HttpRequest.httpPostRequest(
+        bodyData: {
+          "Task_User_Details_Id_": int.parse(
+              homeController.isCaliberationSection.value
+                  ? taskUserDetailsCaliberation[0]['Task_User_Details_Id']
+                      .toString()
+                  : taskUserDetails[0]['Task_User_Details_Id'].toString()),
+          "Task_Id_": int.parse(homeController.isCaliberationSection.value
+              ? taskDetailsDataCaliberation[0]['Task_Id'].toString()
+              : taskDetailsData[0]['Task_Id'].toString()),
+          'Start_Notes_': tcontoller.addNoteController.text,
+          'Periodic': tcontoller.periodicCheck.value.toString(),
+          'Visual': tcontoller.visualCheck.value.toString(),
+          'Thorough': tcontoller.thoroughCheck.value.toString(),
+          'Major': tcontoller.majorCheck.value.toString(),
+          'Initial_Examination': tcontoller.examinationCheck.value.toString(),
+          "In_Service": tcontoller.inServiceCheck.value.toString(),
+          "Independent": tcontoller.independentCheck.value.toString(),
+          // "Start_Date_Time": dateTimeString.isEmpty
+          //     ? DateTime.now()
+          //     : DateTime.parse(dateTimeString.split('.')[0].toString()),
+          "Notes": tcontoller.otherEqupmentNotecntrlr.text,
+          "Others_Checked":
+              tcontoller.otherEqupmentNotecntrlr.text.isEmpty ? 0 : 1,
+          "Equipments": sendEqpListData,
+          "User_Id": userId,
+        },
+        endPoint: homeController.isCaliberationSection.value
+            ? HttpUrls.saveTaskDetailsCaliberation
+            : HttpUrls.saveTaskDetails,
+      ).then((value) async {
+        print('adeeb 12334 $value');
+        if (value != null) {
+          if (value.statusCode == 200) {
+            // tcontoller.addNoteController.clear();
+            // tcontoller.otherEqupmentNotecntrlr.clear();
 
-        ScaffoldMessenger.of(Get.context!)
-            .showSnackBar(const SnackBar(content: Text('Server Error')));
-      }
-    });
-}else{
-    await HttpRequest.httpPostRequest(
-      bodyData: {
-        "Task_User_Details_Id_": int.parse(homeController
-                .isCaliberationSection.value
-            ? taskUserDetailsCaliberation[0]['Task_User_Details_Id'].toString()
-            : taskUserDetails[0]['Task_User_Details_Id'].toString()),
-        "Task_Id_": int.parse(homeController.isCaliberationSection.value
-            ? taskDetailsDataCaliberation[0]['Task_Id'].toString()
-            : taskDetailsData[0]['Task_Id'].toString()),
-        'Start_Notes_': tcontoller.addNoteController.text,
-        'Periodic': tcontoller.periodicCheck.value.toString(),
-        'Visual': tcontoller.visualCheck.value.toString(),
-        'Thorough': tcontoller.thoroughCheck.value.toString(),
-        'Major': tcontoller.majorCheck.value.toString(),
-        'Initial_Examination': tcontoller.examinationCheck.value.toString(),
-        "In_Service": tcontoller.inServiceCheck.value.toString(),
-        "Independent": tcontoller.independentCheck.value.toString(),
-        // "Start_Date_Time": dateTimeString.isEmpty
-        //     ? DateTime.now()
-        //     : DateTime.parse(dateTimeString.split('.')[0].toString()),
-        "Notes": tcontoller.otherEqupmentNotecntrlr.text,
-        "Others_Checked":
-            tcontoller.otherEqupmentNotecntrlr.text.isEmpty ? 0 : 1,
-        "Equipments": sendEqpListData,
-        "User_Id": userId,
-      },
-      endPoint: homeController.isCaliberationSection.value
-          ? HttpUrls.saveTaskDetailsCaliberation
-          : HttpUrls.saveTaskDetails,
-    ).then((value) async {
-      print('adeeb 12334 $value');
-      if (value != null) {
-        if (value.statusCode == 200) {
-          // tcontoller.addNoteController.clear();
-          // tcontoller.otherEqupmentNotecntrlr.clear();
+            print(
+                'equipment list ${upcomingInspectionsController.taskEquipmentListData}');
 
-          print(
-              'equipment list ${upcomingInspectionsController.taskEquipmentListData}');
+            tcontoller.isTaskStarted.value =
+                value.data[0][0]['Task_Status_Id_'].toString() == '4'
+                    ? true
+                    : false;
+            // await getTestEquipment(
+            //   taskUserDetailsId: upcomingInspectionsController.taskUserDetails[0]
+            //       ['Task_User_Details_Id'],
+            //   taskId: upcomingInspectionsController.taskDetailsData[0]['Task_Id'],
+            // );
+            // await upcomingInspectionsController.getTestppe(
+            //   taskUserDetailsId: upcomingInspectionsController.taskUserDetails[0]
+            //       ['Task_User_Details_Id'],
+            //   taskId: upcomingInspectionsController.taskDetailsData[0]['Task_Id'],
+            // );
+            // await upcomingInspectionsController.getTestDocument(
+            //   taskUserDetailsId: upcomingInspectionsController.taskUserDetails[0]
+            //       ['Task_User_Details_Id'],
+            //   taskId: upcomingInspectionsController.taskDetailsData[0]['Task_Id'],
+            // );
 
-          tcontoller.isTaskStarted.value =
-              value.data[0][0]['Task_Status_Id_'].toString() == '4'
-                  ? true
-                  : false;
-          // await getTestEquipment(
-          //   taskUserDetailsId: upcomingInspectionsController.taskUserDetails[0]
-          //       ['Task_User_Details_Id'],
-          //   taskId: upcomingInspectionsController.taskDetailsData[0]['Task_Id'],
-          // );
-          // await upcomingInspectionsController.getTestppe(
-          //   taskUserDetailsId: upcomingInspectionsController.taskUserDetails[0]
-          //       ['Task_User_Details_Id'],
-          //   taskId: upcomingInspectionsController.taskDetailsData[0]['Task_Id'],
-          // );
-          // await upcomingInspectionsController.getTestDocument(
-          //   taskUserDetailsId: upcomingInspectionsController.taskUserDetails[0]
-          //       ['Task_User_Details_Id'],
-          //   taskId: upcomingInspectionsController.taskDetailsData[0]['Task_Id'],
-          // );
+            tcontoller.loadTaskStatus();
 
-          tcontoller.loadTaskStatus();
+            if (!homeController.isCaliberationSection.value &&
+                upcomingInspectionsController.taskUserDetails[0]['Role_Id']
+                        .toString() ==
+                    '38') {
+              // await Loader.stopLoader();
 
-          if (!homeController.isCaliberationSection.value &&
-              upcomingInspectionsController.taskUserDetails[0]['Role_Id']
-                      .toString() ==
-                  '38') {
-            // await Loader.stopLoader();
+              await upcomingInspectionsController.getTestEquipment(
+                taskUserDetailsId: upcomingInspectionsController
+                    .taskUserDetails[0]['Task_User_Details_Id'],
+                taskId: upcomingInspectionsController.taskDetailsData[0]
+                    ['Task_Id'],
+              );
+              await upcomingInspectionsController.getTestppe(
+                taskUserDetailsId: upcomingInspectionsController
+                    .taskUserDetails[0]['Task_User_Details_Id'],
+                taskId: upcomingInspectionsController.taskDetailsData[0]
+                    ['Task_Id'],
+              );
+              await upcomingInspectionsController.getTestDocument(
+                taskUserDetailsId: upcomingInspectionsController
+                    .taskUserDetails[0]['Task_User_Details_Id'],
+                taskId: upcomingInspectionsController.taskDetailsData[0]
+                    ['Task_Id'],
+              );
+              Loader.stopLoader();
 
-            await upcomingInspectionsController.getTestEquipment(
-              taskUserDetailsId: upcomingInspectionsController
-                  .taskUserDetails[0]['Task_User_Details_Id'],
-              taskId: upcomingInspectionsController.taskDetailsData[0]
-                  ['Task_Id'],
-            );
-            await upcomingInspectionsController.getTestppe(
-              taskUserDetailsId: upcomingInspectionsController
-                  .taskUserDetails[0]['Task_User_Details_Id'],
-              taskId: upcomingInspectionsController.taskDetailsData[0]
-                  ['Task_Id'],
-            );
-            await upcomingInspectionsController.getTestDocument(
-              taskUserDetailsId: upcomingInspectionsController
-                  .taskUserDetails[0]['Task_User_Details_Id'],
-              taskId: upcomingInspectionsController.taskDetailsData[0]
-                  ['Task_Id'],
-            );
-        Loader.stopLoader();
+              Get.to(() => TrainingEquipmentScreen(
+                    taskId: int.parse(taskDetailsData[0]['Task_Id'].toString()),
+                  ));
+            } else {
+              Loader.stopLoader();
 
-            Get.to(() => TrainingEquipmentScreen(
-                  taskId: int.parse(taskDetailsData[0]['Task_Id'].toString()),
-                ));
+              // await Loader.stopLoader();
+              Get.to(() => const RiskAssesmentStopScreen());
+            }
+            // if (!homeController.isCaliberationSection.value &&
+            //     upcomingInspectionsController.taskUserDetails[0]
+            //                 ['Role_Id']
+            //             .toString() ==
+            //         '38') {
+            //   // await Loader.stopLoader();
+
+            //   await upcomingInspectionsController.getTestEquipment(
+            //     taskUserDetailsId: upcomingInspectionsController
+            //         .taskUserDetailsCaliberation[0]['Task_User_Details_Id'],
+            //     taskId: upcomingInspectionsController
+            //         .taskDetailsDataCaliberation[0]['Task_Id'],
+            //   );
+            //   await upcomingInspectionsController.getTestppe(
+            //     taskUserDetailsId: upcomingInspectionsController
+            //         .taskDetailsDataCaliberation[0]['Task_User_Details_Id'],
+            //     taskId: upcomingInspectionsController
+            //         .taskDetailsDataCaliberation[0]['Task_Id'],
+            //   );
+            //   await upcomingInspectionsController.getTestDocument(
+            //     taskUserDetailsId: upcomingInspectionsController
+            //         .taskUserDetailsCaliberation[0]['Task_User_Details_Id'],
+            //     taskId: upcomingInspectionsController
+            //         .taskDetailsDataCaliberation[0]['Task_Id'],
+            //   );
+
+            //   Get.to(() => TrainingEquipmentScreen(
+            //         taskId: int.parse(
+            //             taskDetailsDataCaliberation[0]['Task_Id'].toString()),
+            //       ));
+            // } else {
+            //   // await Loader.stopLoader();
+            //   Get.to(() => const RiskAssesmentStopScreen());
+            // }
+
+            // Get.to(()=>TrainningScreen());
+            // Get.to(() => RiskAssessmentScreen());
           } else {
-                    Loader.stopLoader();
+            Loader.stopLoader();
 
-            // await Loader.stopLoader();
-            Get.to(() => const RiskAssesmentStopScreen());
+            // ScaffoldMessenger.of(Get.context!)
+            //     .showSnackBar(const SnackBar(content: Text('Server Error')));
           }
-          // if (!homeController.isCaliberationSection.value &&
-          //     upcomingInspectionsController.taskUserDetails[0]
-          //                 ['Role_Id']
-          //             .toString() ==
-          //         '38') {
-          //   // await Loader.stopLoader();
+        } else {
+          Loader.stopLoader();
 
-          //   await upcomingInspectionsController.getTestEquipment(
-          //     taskUserDetailsId: upcomingInspectionsController
-          //         .taskUserDetailsCaliberation[0]['Task_User_Details_Id'],
-          //     taskId: upcomingInspectionsController
-          //         .taskDetailsDataCaliberation[0]['Task_Id'],
-          //   );
-          //   await upcomingInspectionsController.getTestppe(
-          //     taskUserDetailsId: upcomingInspectionsController
-          //         .taskDetailsDataCaliberation[0]['Task_User_Details_Id'],
-          //     taskId: upcomingInspectionsController
-          //         .taskDetailsDataCaliberation[0]['Task_Id'],
-          //   );
-          //   await upcomingInspectionsController.getTestDocument(
-          //     taskUserDetailsId: upcomingInspectionsController
-          //         .taskUserDetailsCaliberation[0]['Task_User_Details_Id'],
-          //     taskId: upcomingInspectionsController
-          //         .taskDetailsDataCaliberation[0]['Task_Id'],
-          //   );
-
-          //   Get.to(() => TrainingEquipmentScreen(
-          //         taskId: int.parse(
-          //             taskDetailsDataCaliberation[0]['Task_Id'].toString()),
-          //       ));
-          // } else {
-          //   // await Loader.stopLoader();
-          //   Get.to(() => const RiskAssesmentStopScreen());
-          // }
-
-          // Get.to(()=>TrainningScreen());
-          // Get.to(() => RiskAssessmentScreen());
-        } else {        Loader.stopLoader();
-
-          // ScaffoldMessenger.of(Get.context!)
-          //     .showSnackBar(const SnackBar(content: Text('Server Error')));
+          ScaffoldMessenger.of(Get.context!)
+              .showSnackBar(const SnackBar(content: Text('Server Error')));
         }
-      } else {        Loader.stopLoader();
+      });
+    }
 
-        ScaffoldMessenger.of(Get.context!)
-            .showSnackBar(const SnackBar(content: Text('Server Error')));
-      }
-    });
-}
-  
     // update();
   }
 

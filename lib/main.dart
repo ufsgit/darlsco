@@ -6,6 +6,7 @@ import 'package:darlsco/app_%20config/all_countries.dart';
 import 'package:darlsco/controller/home/home_controller.dart';
 import 'package:darlsco/controller/login/login_controller.dart';
 import 'package:darlsco/view/home/bottom_navigation_screen.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:location/location.dart' as loc;
 
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -21,6 +22,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import 'package:permission_handler/permission_handler.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:url_strategy/url_strategy.dart';
 
 import 'view/splash_screen/splash_screen.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -35,15 +37,15 @@ SendPort? uiSendPort;
 final callbackPort = ReceivePort();
 
 Future<void> main() async {
-  // FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-  //     FlutterLocalNotificationsPlugin();
+  WidgetsFlutterBinding.ensureInitialized();
+  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+      FlutterLocalNotificationsPlugin();
   // setPathUrlStrategy();
   // await Firebase.initializeApp();
 // final channel =  IOWebSocketChannel.connect( Uri.parse('wss://192.168.1.94:4510')    );
 
 //      channel.sink.add('Hello from ufs!');
 
-  WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
 }
 
