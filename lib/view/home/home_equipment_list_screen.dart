@@ -146,9 +146,9 @@ class HomeEquipmentListScreen extends StatelessWidget {
                                         GetBuilder<HomeController>(
                                             builder: (data) {
                                           List equipmentData = data
-                                                  .isCalliberationSection.value
+                                                  .isCaliberationSection.value
                                               ? data
-                                                  .customerEquipmentDataCalliberation
+                                                  .customerEquipmentDataCaliberation
                                               : data.customerEquipmentData;
 
                                           return equipmentData[index]
@@ -201,9 +201,9 @@ class HomeEquipmentListScreen extends StatelessWidget {
                                       equipmentCommonItemWidget(
                                         keyText: 'Equipment Type',
                                         valueText: homeController
-                                                .isCalliberationSection.value
+                                                .isCaliberationSection.value
                                             ? homeController
-                                                .customerEquipmentDataCalliberation[
+                                                .customerEquipmentDataCaliberation[
                                                     index]
                                                 .equipmentType
                                             : homeController
@@ -214,9 +214,9 @@ class HomeEquipmentListScreen extends StatelessWidget {
                                       equipmentCommonItemWidget(
                                         keyText: 'Expiring Date',
                                         valueText: homeController
-                                                .isCalliberationSection.value
+                                                .isCaliberationSection.value
                                             ? homeController
-                                                .customerEquipmentDataCalliberation[
+                                                .customerEquipmentDataCaliberation[
                                                     index]
                                                 .equipmentType
                                             : homeController
@@ -226,9 +226,9 @@ class HomeEquipmentListScreen extends StatelessWidget {
                                       equipmentCommonItemWidget(
                                         keyText: 'Make',
                                         valueText: homeController
-                                                .isCalliberationSection.value
+                                                .isCaliberationSection.value
                                             ? homeController
-                                                .customerEquipmentDataCalliberation[
+                                                .customerEquipmentDataCaliberation[
                                                     index]
                                                 .equipmentType
                                             : homeController
@@ -238,9 +238,9 @@ class HomeEquipmentListScreen extends StatelessWidget {
                                       equipmentCommonItemWidget(
                                         keyText: 'Model',
                                         valueText: homeController
-                                                .isCalliberationSection.value
+                                                .isCaliberationSection.value
                                             ? homeController
-                                                .customerEquipmentDataCalliberation[
+                                                .customerEquipmentDataCaliberation[
                                                     index]
                                                 .equipmentType
                                             : homeController
@@ -250,9 +250,9 @@ class HomeEquipmentListScreen extends StatelessWidget {
                                       equipmentCommonItemWidget(
                                         keyText: 'Serial No',
                                         valueText: homeController
-                                                .isCalliberationSection.value
+                                                .isCaliberationSection.value
                                             ? homeController
-                                                .customerEquipmentDataCalliberation[
+                                                .customerEquipmentDataCaliberation[
                                                     index]
                                                 .equipmentType
                                             : homeController
@@ -262,9 +262,9 @@ class HomeEquipmentListScreen extends StatelessWidget {
                                       equipmentCommonItemWidget(
                                         keyText: 'Description',
                                         valueText: homeController
-                                                .isCalliberationSection.value
+                                                .isCaliberationSection.value
                                             ? homeController
-                                                .customerEquipmentDataCalliberation[
+                                                .customerEquipmentDataCaliberation[
                                                     index]
                                                 .equipmentType
                                             : homeController

@@ -63,7 +63,7 @@ class _TrainingScreenMobileState extends State<TrainingScreenMobile> {
                   onPressed: () async {
                     upcomingInspectionsController.selectDateTaskListData
                         .clear();
-                        upcomingInspectionsController.selectDateTaskListDataCalliberation
+                        upcomingInspectionsController.selectDateTaskListDataCaliberation
                         .clear();
                     upcomingInspectionsController.taskInitFunction(context);
 
@@ -106,8 +106,8 @@ class _TrainingScreenMobileState extends State<TrainingScreenMobile> {
             padding: EdgeInsets.symmetric(horizontal: 15.w),
             child: SingleChildScrollView(
               child: GetBuilder<UpcomingInspectionsController>(builder: (data) {
-                var eqData = homeController.isCalliberationSection.value
-                    ? upcomingInspectionsController.taskUserDetailsCalliberation
+                var eqData = homeController.isCaliberationSection.value
+                    ? upcomingInspectionsController.taskUserDetailsCaliberation
                     : upcomingInspectionsController.taskUserDetails;
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -127,11 +127,11 @@ class _TrainingScreenMobileState extends State<TrainingScreenMobile> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          if (!homeController.isCalliberationSection.value &&
+                          if (!homeController.isCaliberationSection.value &&
                                   eqData[0]['Role_Id'].toString() == '38' &&
                                   eqData[0]['Task_Status_Id'].toString() ==
                                       '1' ||
-                              homeController.isCalliberationSection.value &&
+                              homeController.isCaliberationSection.value &&
                                   eqData[0]['Task_Status_Id'].toString() ==
                                       '15')
                             tcontoller.isTaskStarted.value == false
@@ -201,8 +201,8 @@ class _TrainingScreenMobileState extends State<TrainingScreenMobile> {
                           SizedBox(
                             width: 290.w,
                             child: Text(
-                              homeController.isCalliberationSection.value
-                                  ? data.taskDetailsDataCalliberation[0]
+                              homeController.isCaliberationSection.value
+                                  ? data.taskDetailsDataCaliberation[0]
                                           ['Customer_Name'] ??
                                       ''
                                   : data.taskDetailsData[0]['Customer_Name'] ??
@@ -241,8 +241,8 @@ class _TrainingScreenMobileState extends State<TrainingScreenMobile> {
                             margin: EdgeInsets.only(top: 10.w),
                             // margin: EdgeInsets.only(left:Get.width>615? 35.w:0),
                             child: Text(
-                              homeController.isCalliberationSection.value
-                                  ? data.taskDetailsDataCalliberation[0]
+                              homeController.isCaliberationSection.value
+                                  ? data.taskDetailsDataCaliberation[0]
                                           ['Work_Code'] ??
                                       ''
                                   : data.taskDetailsData[0]['Work_Code'] ?? '',
@@ -284,8 +284,8 @@ class _TrainingScreenMobileState extends State<TrainingScreenMobile> {
                           Container(
                             margin: EdgeInsets.only(left: 3.w),
                             child: Text(
-                              homeController.isCalliberationSection.value
-                                  ? data.taskDetailsDataCalliberation[0]
+                              homeController.isCaliberationSection.value
+                                  ? data.taskDetailsDataCaliberation[0]
                                           ['Task_Name'] ??
                                       ''
                                   : data.taskDetailsData[0]['Task_Name'] ?? '',
@@ -362,19 +362,19 @@ class _TrainingScreenMobileState extends State<TrainingScreenMobile> {
                           ),
                           commonNoteWidget(
                               isReadOnly: true,
-                              data: homeController.isCalliberationSection.value
+                              data: homeController.isCaliberationSection.value
                                   ? upcomingInspectionsController
-                                              .taskDetailsDataCalliberation[0]
+                                              .taskDetailsDataCaliberation[0]
                                           ['Task_Note'] ??
                                       ''
                                   : upcomingInspectionsController
                                           .taskDetailsData[0]['Task_Note'] ??
                                       ''),
-                          if (!homeController.isCalliberationSection.value&& upcomingInspectionsController.taskUserDetails[0]
+                          if (!homeController.isCaliberationSection.value&& upcomingInspectionsController.taskUserDetails[0]
                                       ['Role_Id']
                                   .toString() ==
                               '38')
-                            if (!homeController.isCalliberationSection.value)
+                            if (!homeController.isCaliberationSection.value)
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [

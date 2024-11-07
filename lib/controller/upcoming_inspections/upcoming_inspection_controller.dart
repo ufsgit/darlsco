@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:darlsco/controller/risk_assessment/risk_assessment_controller.dart';
 import 'package:darlsco/controller/tainning/training_controller_home.dart';
 import 'package:darlsco/http/http_request.dart';
 import 'package:darlsco/http/http_urls.dart';
@@ -34,27 +35,27 @@ class UpcomingInspectionsController extends GetxController {
   TextEditingController endDatePickController = TextEditingController();
   List totalEquipments = [];
   List upcomingInspectionListData = [];
-  List upcomingInspectionListDataCalliberation = [];
+  List upcomingInspectionListDataCaliberation = [];
   List todayTaskListData = [];
-  List todayTaskListDataCalliberation = [];
+  List todayTaskListDataCaliberation = [];
   List tommorowTaskListData = [];
-  List tommorowTaskListDataCalliberation = [];
+  List tommorowTaskListDataCaliberation = [];
   List yesterdayTaskListData = [];
-  List yesterdayTaskListDataCalliberation = [];
+  List yesterdayTaskListDataCaliberation = [];
   List selectDateTaskListData = [];
-  List selectDateTaskListDataCalliberation = [];
+  List selectDateTaskListDataCaliberation = [];
   List taskDetailsData = [].obs;
-  List taskDetailsDataCalliberation = [].obs;
+  List taskDetailsDataCaliberation = [].obs;
   List taskEquipmentListData = [];
-  List taskEquipmentListDataCalliberation = [];
+  List taskEquipmentListDataCaliberation = [];
   List taskUserDetails = [];
-  List taskUserDetailsCalliberation = [];
+  List taskUserDetailsCaliberation = [];
   List usedTestEquipments = [];
-  List usedTestEquipmentsCalliberation = [];
+  List usedTestEquipmentsCaliberation = [];
   List usedTestPpes = [];
-  List usedTestPpesCalliberation = [];
+  List usedTestPpesCaliberation = [];
   List usedTestDocuments = [];
-  List usedTestDocumentsCalliberation = [];
+  List usedTestDocumentsCaliberation = [];
   bool isDateSubmitBtnClicked = false;
   List testEquipmentSearchResult = [];
   List testPpeSearchResult = [];
@@ -64,11 +65,11 @@ class UpcomingInspectionsController extends GetxController {
   RxBool isEquipmentSelected = false.obs;
   bool isOwner = false;
   List<Map<String, dynamic>> usedEquipmentData = [];
-  List<Map<String, dynamic>> usedEquipmentDataCalliberation = [];
+  List<Map<String, dynamic>> usedEquipmentDataCaliberation = [];
   List<Map<String, dynamic>> usedTestppeData = [];
-  List<Map<String, dynamic>> usedTestppeDataCalliberation = [];
+  List<Map<String, dynamic>> usedTestppeDataCaliberation = [];
   List<Map<String, dynamic>> usedTestDocumentData = [];
-  List<Map<String, dynamic>> usedTestDocumentDataCalliberation = [];
+  List<Map<String, dynamic>> usedTestDocumentDataCaliberation = [];
   TextEditingController searchControllerTestEquipment = TextEditingController();
   TextEditingController searchControllerTestPpe = TextEditingController();
   TextEditingController searchControllerTestDocument = TextEditingController();
@@ -96,7 +97,7 @@ class UpcomingInspectionsController extends GetxController {
   getCustomerTask({required isFromSplash}) async {
     // Loader.showLoader();
     upcomingInspectionListData.clear();
-    upcomingInspectionListDataCalliberation.clear();
+    upcomingInspectionListDataCaliberation.clear();
 
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
 
@@ -132,7 +133,7 @@ class UpcomingInspectionsController extends GetxController {
       bodyData: {
         "Customer_Id_": customerId,
       },
-      endPoint: HttpUrls.getCustomerTaskCalliberation,
+      endPoint: HttpUrls.getCustomerTaskCaliberation,
     ).then((value) {
       print(value.data);
       if (value.statusCode == 200) {
@@ -142,9 +143,9 @@ class UpcomingInspectionsController extends GetxController {
         // print('customer data $customerTaskModel');
         // Loader.stopLoader();
 
-        upcomingInspectionListDataCalliberation = value.data[0];
+        upcomingInspectionListDataCaliberation = value.data[0];
         homeController.numberTextList[3] =
-            '${upcomingInspectionListDataCalliberation.length}';
+            '${upcomingInspectionListDataCaliberation.length}';
         homeController.update();
         if (isFromSplash == false) {
           Get.to(() => UpcomingInspectionsScreen());
@@ -165,7 +166,7 @@ class UpcomingInspectionsController extends GetxController {
     int customerId = int.parse(sharedPreferences.getString('darlsco_id') ?? '');
 
     homeController.customerEquipmentData.clear();
-    homeController.customerEquipmentDataCalliberation.clear();
+    homeController.customerEquipmentDataCaliberation.clear();
 
     await HttpRequest.httpGetRequest(
       bodyData: {
@@ -223,7 +224,7 @@ class UpcomingInspectionsController extends GetxController {
       bodyData: {
         "Customer_Id_": customerId,
       },
-      endPoint: HttpUrls.getTotalEquipmentsCalliberation,
+      endPoint: HttpUrls.getTotalEquipmentsCaliberation,
     ).then((value) {
       if (value.statusCode == 200) {
         // Loader.stopLoader();
@@ -243,12 +244,12 @@ class UpcomingInspectionsController extends GetxController {
           }
         } else {
           for (var element in value.data[0]) {
-            homeController.customerEquipmentDataCalliberation
+            homeController.customerEquipmentDataCaliberation
                 .add(CustomerEquipmentList.fromJson(element));
           }
 
           homeController.numberTextList[1] =
-              '${homeController.customerEquipmentDataCalliberation.length}';
+              '${homeController.customerEquipmentDataCaliberation.length}';
           homeController.update();
           if (homeController.equipmentCheckValue.isEmpty ||
               homeController.equipmentCheckValue.length !=
@@ -297,8 +298,8 @@ class UpcomingInspectionsController extends GetxController {
   }
 
   getTodayTaskDetails(isInitState) async {
-    if (homeController.isCalliberationSection.value) {
-      todayTaskListDataCalliberation = await getCalliberationTasks(
+    if (homeController.isCaliberationSection.value) {
+      todayTaskListDataCaliberation = await getCaliberationTasks(
           isInitSate: isInitState,
           startDate: DateTime.now(),
           endDate: DateTime.now());
@@ -315,8 +316,8 @@ class UpcomingInspectionsController extends GetxController {
   }
 
   getTommorrowTaskDetails(isInitState) async {
-    if (homeController.isCalliberationSection.value) {
-      tommorowTaskListDataCalliberation = await getCalliberationTasks(
+    if (homeController.isCaliberationSection.value) {
+      tommorowTaskListDataCaliberation = await getCaliberationTasks(
           isInitSate: isInitState,
           startDate: DateTime.now().add(const Duration(days: 1)),
           endDate: DateTime.now().add(const Duration(days: 1)));
@@ -331,12 +332,13 @@ class UpcomingInspectionsController extends GetxController {
   }
 
   getYesterdayTaskDetails(isInitState) async {
-    if (homeController.isCalliberationSection.value) {
-      print('XHECKINFGGG ${yesterdayTaskListDataCalliberation}');
-      yesterdayTaskListDataCalliberation = await getCalliberationTasks(
+    if (homeController.isCaliberationSection.value) {
+      yesterdayTaskListDataCaliberation = await getCaliberationTasks(
           isInitSate: isInitState,
           startDate: DateTime.now().subtract(const Duration(days: 1)),
           endDate: DateTime.now().subtract(const Duration(days: 1)));
+                print('XHECKINFGGG ${yesterdayTaskListDataCaliberation}');
+
     } else {
       yesterdayTaskListData = await getuserTaskDateRange(
           isInitSate: isInitState,
@@ -388,7 +390,7 @@ class UpcomingInspectionsController extends GetxController {
     return result;
   }
 
-  getCalliberationTasks(
+  getCaliberationTasks(
       {required DateTime startDate,
       required DateTime endDate,
       required bool isInitSate}) async {
@@ -403,7 +405,7 @@ class UpcomingInspectionsController extends GetxController {
 
     await HttpRequest.httpGetRequest(
       bodyData: apiData,
-      endPoint: HttpUrls.getUserTaskDateRangeCalliberation,
+      endPoint: HttpUrls.getUserTaskDateRangeCaliberation,
     ).then((value) {
       if (value.statusCode == 200) {
         if (isDateSubmitBtnClicked == true) {
@@ -412,6 +414,7 @@ class UpcomingInspectionsController extends GetxController {
         if ((value.data[0] != null) && (!value.data[0].isEmpty)) {
           result = value.data[0].reversed.toList();
         }
+        print('djjnwrjjio $result');
 
         return result;
       } else {
@@ -428,7 +431,7 @@ class UpcomingInspectionsController extends GetxController {
     required int taskUserDetailsId,
   }) async {
     usedEquipmentData.clear();
-    usedEquipmentDataCalliberation.clear();
+    usedEquipmentDataCaliberation.clear();
 
     // Loader.showLoader();
 
@@ -436,36 +439,36 @@ class UpcomingInspectionsController extends GetxController {
       bodyData: {
         "Task_Id_": taskId,
         "Equiptment_Name_": '',
-        "User_Details_Id": homeController.isCalliberationSection.value
-            ? taskUserDetailsCalliberation[0]['Role_Id'].toString() == '38'
-                ? taskUserDetailsCalliberation[0]['User_Details_Id']
+        "User_Details_Id": homeController.isCaliberationSection.value
+            ? taskUserDetailsCaliberation[0]['Role_Id'].toString() == '38'
+                ? taskUserDetailsCaliberation[0]['User_Details_Id']
                 : 0
             : taskUserDetails[0]['Role_Id'].toString() == '38'
                 ? taskUserDetails[0]['User_Details_Id']
                 : 0
       },
-      endPoint: homeController.isCalliberationSection.value
-          ? HttpUrls.getTestEquipmentCalliberation
+      endPoint: homeController.isCaliberationSection.value
+          ? HttpUrls.getTestEquipmentCaliberation
           : HttpUrls.getTestEquipment,
     ).then((value) {
       if (value.statusCode == 200) {
         // Loader.stopLoader();
 
         final data = value.data[0];
-        if (homeController.isCalliberationSection.value) {
-          usedTestEquipmentsCalliberation =
+        if (homeController.isCaliberationSection.value) {
+          usedTestEquipmentsCaliberation =
               data.map((e) => UsedEquipmentList.fromJson(e)).toList();
 
-          for (int i = 0; i < usedTestEquipmentsCalliberation.length; i++) {
-            usedEquipmentDataCalliberation.add({
-              'Is_Checkbox': usedTestEquipmentsCalliberation[i].isCheckBox,
+          for (int i = 0; i < usedTestEquipmentsCaliberation.length; i++) {
+            usedEquipmentDataCaliberation.add({
+              'Is_Checkbox': usedTestEquipmentsCaliberation[i].isCheckBox,
               "Test_Equiptment_Id":
-                  usedTestEquipmentsCalliberation[i].equipmentId,
+                  usedTestEquipmentsCaliberation[i].equipmentId,
               "Test_Equiptment_Name":
-                  usedTestEquipmentsCalliberation[i].equipmentName
+                  usedTestEquipmentsCaliberation[i].equipmentName
             });
           }
-          testEquipmentSearchResult = usedEquipmentDataCalliberation;
+          testEquipmentSearchResult = usedEquipmentDataCaliberation;
         } else {
           usedTestEquipments =
               data.map((e) => UsedEquipmentList.fromJson(e)).toList();
@@ -500,39 +503,39 @@ class UpcomingInspectionsController extends GetxController {
     required int taskUserDetailsId,
   }) async {
     usedTestppeData.clear();
-    usedTestppeDataCalliberation.clear();
+    usedTestppeDataCaliberation.clear();
     // Loader.showLoader();
 
     await HttpRequest.httpGetRequest(
       bodyData: {
         "Task_Id_": taskId,
         "Equiptment_Name_": '',
-        "User_Details_Id": homeController.isCalliberationSection.value
-            ? taskUserDetailsCalliberation[0]['Role_Id'].toString() == '38'
-                ? taskUserDetailsCalliberation[0]['User_Details_Id']
+        "User_Details_Id": homeController.isCaliberationSection.value
+            ? taskUserDetailsCaliberation[0]['Role_Id'].toString() == '38'
+                ? taskUserDetailsCaliberation[0]['User_Details_Id']
                 : 0
             : taskUserDetails[0]['Role_Id'].toString() == '38'
                 ? taskUserDetails[0]['User_Details_Id']
                 : 0
       },
-      endPoint: homeController.isCalliberationSection.value
-          ? HttpUrls.getTestppeCalliberation
+      endPoint: homeController.isCaliberationSection.value
+          ? HttpUrls.getTestppeCaliberation
           : HttpUrls.getTestppe,
     ).then((value) {
       if (value.statusCode == 200) {
         final data = value.data[0];
-        if (homeController.isCalliberationSection.value) {
-          usedTestPpesCalliberation =
+        if (homeController.isCaliberationSection.value) {
+          usedTestPpesCaliberation =
               data.map((e) => UsedPpeListModel.fromJson(e)).toList();
 
-          for (int i = 0; i < usedTestPpesCalliberation.length; i++) {
-            usedTestppeDataCalliberation.add({
-              'Is_Checkbox': usedTestPpesCalliberation[i].isCheckBox,
-              "Test_PPE_Id": usedTestPpesCalliberation[i].equipmentId,
-              "Test_PPE_Name": usedTestPpesCalliberation[i].equipmentName
+          for (int i = 0; i < usedTestPpesCaliberation.length; i++) {
+            usedTestppeDataCaliberation.add({
+              'Is_Checkbox': usedTestPpesCaliberation[i].isCheckBox,
+              "Test_PPE_Id": usedTestPpesCaliberation[i].equipmentId,
+              "Test_PPE_Name": usedTestPpesCaliberation[i].equipmentName
             });
           }
-          testPpeSearchResult = usedTestppeDataCalliberation;
+          testPpeSearchResult = usedTestppeDataCaliberation;
         } else {
           usedTestPpes = data.map((e) => UsedPpeListModel.fromJson(e)).toList();
 
@@ -564,23 +567,23 @@ class UpcomingInspectionsController extends GetxController {
     required int taskUserDetailsId,
   }) async {
     usedTestDocumentData.clear();
-    usedTestDocumentDataCalliberation.clear();
+    usedTestDocumentDataCaliberation.clear();
     // Loader.showLoader();
 
     await HttpRequest.httpGetRequest(
       bodyData: {
         "Task_Id_": taskId,
         "Equiptment_Name_": '',
-        "User_Details_Id": homeController.isCalliberationSection.value
-            ? taskUserDetailsCalliberation[0]['Role_Id'].toString() == '38'
-                ? taskUserDetailsCalliberation[0]['User_Details_Id']
+        "User_Details_Id": homeController.isCaliberationSection.value
+            ? taskUserDetailsCaliberation[0]['Role_Id'].toString() == '38'
+                ? taskUserDetailsCaliberation[0]['User_Details_Id']
                 : 0
             : taskUserDetails[0]['Role_Id'].toString() == '38'
                 ? taskUserDetails[0]['User_Details_Id']
                 : 0
       },
-      endPoint: homeController.isCalliberationSection.value
-          ? HttpUrls.getTestDocumentCalliberation
+      endPoint: homeController.isCaliberationSection.value
+          ? HttpUrls.getTestDocumentCaliberation
           : HttpUrls.getTestDocument,
     ).then((value) {
       if (value.statusCode == 200) {
@@ -591,20 +594,20 @@ class UpcomingInspectionsController extends GetxController {
         // }
 
         final data = value.data[0];
-        if (homeController.isCalliberationSection.value) {
-          usedTestDocumentDataCalliberation =
+        if (homeController.isCaliberationSection.value) {
+          usedTestDocumentDataCaliberation =
               data.map((e) => UsedDocumentListModel.fromJson(e)).toList();
 
-          for (int i = 0; i < usedTestDocumentsCalliberation.length; i++) {
-            usedTestDocumentDataCalliberation.add({
-              'Is_Checkbox': usedTestDocumentsCalliberation[i].isCheckBox,
-              "Test_Document_Id": usedTestDocumentsCalliberation[i].equipmentId,
+          for (int i = 0; i < usedTestDocumentsCaliberation.length; i++) {
+            usedTestDocumentDataCaliberation.add({
+              'Is_Checkbox': usedTestDocumentsCaliberation[i].isCheckBox,
+              "Test_Document_Id": usedTestDocumentsCaliberation[i].equipmentId,
               "Test_Document_Name":
-                  usedTestDocumentsCalliberation[i].equipmentName
+                  usedTestDocumentsCaliberation[i].equipmentName
             });
           }
 
-          testDocumentSearchResult = usedTestDocumentDataCalliberation;
+          testDocumentSearchResult = usedTestDocumentDataCaliberation;
         } else {
           usedTestDocuments =
               data.map((e) => UsedDocumentListModel.fromJson(e)).toList();
@@ -679,7 +682,7 @@ class UpcomingInspectionsController extends GetxController {
       bool isNotPageNavigation = false,
       String? status = 'Not Started'}) async {
     print('hiiihudeif 123');
-    status ??= homeController.isCalliberationSection.value
+    status ??= homeController.isCaliberationSection.value
         ? 'Not Attended'
         : 'Not Started';
     // tcontoller.periodicCheck.value = false;
@@ -695,9 +698,9 @@ class UpcomingInspectionsController extends GetxController {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
 
     int userId = int.parse(sharedPreferences.getString('darlsco_id') ?? '');
-    print('adeeb ${homeController.isCalliberationSection.value}');
-    if (!homeController.isCalliberationSection.value) {
-      print('hiiihudeif 1234 ${homeController.isCalliberationSection.value}');
+    print('adeeb ${homeController.isCaliberationSection.value}');
+    if (!homeController.isCaliberationSection.value) {
+      print('hiiihudeif 1234 ${homeController.isCaliberationSection.value}');
       await HttpRequest.httpGetRequest(
         bodyData: {
           "Task_Id_": taskId,
@@ -840,44 +843,48 @@ class UpcomingInspectionsController extends GetxController {
           "Task_Id_": taskId,
           'User_Id_': userId,
         },
-        endPoint: HttpUrls.getTaskDetailsCalliberation,
+        endPoint: HttpUrls.getTaskDetailsCaliberation,
       ).then((value) {
         if (value.statusCode == 200) {
           // Loader.stopLoader();
-          taskDetailsDataCalliberation = value.data[0];
-          taskEquipmentListDataCalliberation = value.data[1];
-          isOwner = value.data[2][0]['Is_Check_Owner'].toString() == "1";
-          taskUserDetailsCalliberation = value.data[2];
-          taskEquipmentListDataCalliberation.add({
+          taskDetailsDataCaliberation = value.data[0];
+          taskEquipmentListDataCaliberation = value.data[1];
+        try {
+            isOwner = value.data[2][0]['Is_Check_Owner'].toString() == "1";
+        
+        } catch (e) {
+          
+        }  taskUserDetailsCaliberation = value.data[2];
+          taskEquipmentListDataCaliberation.add({
             "Task_Equipment_Id": 0,
             "Equipment_Id": 0,
             "Equipment_Name": "Other",
-            "Checked": taskUserDetailsCalliberation[0]['Others_Checked']
+            "Checked": taskUserDetailsCaliberation[0]['Others_Checked']
           });
-          print('dfgerogthi i amhere ${taskEquipmentListDataCalliberation}');
+          print('dfgerogthi i amhere ${taskEquipmentListDataCaliberation}');
 
           tcontoller.periodicCheck.value = bool.parse(
-              taskUserDetailsCalliberation[0]['Periodic'] ?? 'false');
+              taskUserDetailsCaliberation[0]['Periodic'] ?? 'false');
           tcontoller.independentCheck.value = bool.parse(
-              taskUserDetailsCalliberation[0]['Independent'] ?? 'false');
+              taskUserDetailsCaliberation[0]['Independent'] ?? 'false');
           tcontoller.visualCheck.value =
-              bool.parse(taskUserDetailsCalliberation[0]['Visual'] ?? 'false');
+              bool.parse(taskUserDetailsCaliberation[0]['Visual'] ?? 'false');
           tcontoller.thoroughCheck.value = bool.parse(
-              taskUserDetailsCalliberation[0]['Thorough'] ?? 'false');
+              taskUserDetailsCaliberation[0]['Thorough'] ?? 'false');
           tcontoller.majorCheck.value =
-              bool.parse(taskUserDetailsCalliberation[0]['Major'] ?? 'false');
+              bool.parse(taskUserDetailsCaliberation[0]['Major'] ?? 'false');
           tcontoller.examinationCheck.value = bool.parse(
-              taskUserDetailsCalliberation[0]['Initial_Examination'] ??
+              taskUserDetailsCaliberation[0]['Initial_Examination'] ??
                   'false');
           tcontoller.inServiceCheck.value = bool.parse(
-              taskUserDetailsCalliberation[0]['In_Service'] ?? 'false');
+              taskUserDetailsCaliberation[0]['In_Service'] ?? 'false');
 
-          if (taskEquipmentListDataCalliberation.last['Checked'].toString() ==
+          if (taskEquipmentListDataCaliberation.last['Checked'].toString() ==
               '1') {
             tcontoller.othersChecked.value = true;
 
             tcontoller.otherEqupmentNotecntrlr.text =
-                taskUserDetails[0]['Notes'];
+                taskUserDetailsCaliberation[0]['Notes'];
             tcontoller.update();
           } else {
             tcontoller.othersChecked.value = false;
@@ -887,22 +894,22 @@ class UpcomingInspectionsController extends GetxController {
             {
               "title": 'Task Date & Time',
               'sub_title':
-                  taskDetailsDataCalliberation[0]['Proposed_Date_Time1'] == null
+                  taskDetailsDataCaliberation[0]['Proposed_Date_Time1'] == null
                       ? ''
-                      : taskDetailsDataCalliberation[0]
+                      : taskDetailsDataCaliberation[0]
                               ['Proposed_Date_Time1'] ??
                           '',
               "icon": Icons.calendar_month,
             },
             {
               "title": 'Started Date & Time',
-              'sub_title': taskUserDetailsCalliberation.isEmpty
+              'sub_title': taskUserDetailsCaliberation.isEmpty
                   ? ''
-                  : taskUserDetailsCalliberation[0]
+                  : taskUserDetailsCaliberation[0]
                               ['Actual_Start_Date_Time1'] ==
                           null
                       ? ''
-                      : taskUserDetailsCalliberation[0]
+                      : taskUserDetailsCaliberation[0]
                               ['Actual_Start_Date_Time1']
                           .toString()
                           .toLowerCase(),
@@ -910,9 +917,9 @@ class UpcomingInspectionsController extends GetxController {
             },
             {
               "title": 'Ended Date & Time',
-              'sub_title': taskUserDetailsCalliberation[0]['Stop_Time1'] == null
+              'sub_title': taskUserDetailsCaliberation[0]['Stop_Time1'] == null
                   ? ''
-                  : taskUserDetailsCalliberation[0]['Stop_Time1']
+                  : taskUserDetailsCaliberation[0]['Stop_Time1']
                       .toString()
                       .toLowerCase(),
               "icon": Icons.calendar_month,
@@ -920,28 +927,28 @@ class UpcomingInspectionsController extends GetxController {
 
             {
               "title": 'Task Owner',
-              'sub_title': taskUserDetailsCalliberation.isEmpty
+              'sub_title': taskUserDetailsCaliberation.isEmpty
                   ? ''
-                  : taskUserDetailsCalliberation[0]['Lead_Name'] ?? '',
+                  : taskUserDetailsCaliberation[0]['Lead_Name'] ?? '',
               "icon": Icons.person_4_outlined,
             },
 
             {
               "title": 'Contact Person',
               'sub_title':
-                  taskDetailsDataCalliberation[0]['Contact_person'] ?? '',
+                  taskDetailsDataCaliberation[0]['Contact_person'] ?? '',
               "icon": Icons.person_2_outlined,
             },
             {
               "title": 'Contact No',
               'sub_title':
-                  taskDetailsDataCalliberation[0]['contact_number'] ?? '',
+                  taskDetailsDataCaliberation[0]['contact_number'] ?? '',
               "icon": Icons.phone,
             },
             {
               "title": 'Location',
               'sub_title':
-                  taskDetailsDataCalliberation[0]['Location_Name'] ?? '',
+                  taskDetailsDataCaliberation[0]['Location_Name'] ?? '',
               "icon": Icons.location_on,
             },
 
@@ -968,7 +975,7 @@ class UpcomingInspectionsController extends GetxController {
 
           if (tcontoller.commonGridTexts.isNotEmpty) {
             tcontoller.isTaskStarted.value =
-                taskUserDetailsCalliberation[0]['Task_Status_Id'].toString() ==
+                taskUserDetailsCaliberation[0]['Task_Status_Id'].toString() ==
                         '14'
                     ? true
                     : false;
@@ -1002,8 +1009,8 @@ class UpcomingInspectionsController extends GetxController {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
 
     int userId = int.parse(sharedPreferences.getString('darlsco_id') ?? '');
-    final sendEqpListData = homeController.isCalliberationSection.value
-        ? upcomingInspectionsController.taskEquipmentListDataCalliberation
+    final sendEqpListData = homeController.isCaliberationSection.value
+        ? upcomingInspectionsController.taskEquipmentListDataCaliberation
         : upcomingInspectionsController.taskEquipmentListData;
 
     Loader.showLoader();
@@ -1031,17 +1038,17 @@ class UpcomingInspectionsController extends GetxController {
 
     print('sdfwekjhfiluwek ${dateTimeString.isEmpty}');
     //  await sendEqpListData.removeLast();
-if (homeController.isCalliberationSection.value) {
+if (homeController.isCaliberationSection.value) {
     await HttpRequest.httpPostBodyRequest(
       bodyData: {
         "Task_User_Details_Id_": int.parse(homeController
-                .isCalliberationSection.value
-            ? taskUserDetailsCalliberation[0]['Task_User_Details_Id'].toString()
+                .isCaliberationSection.value
+            ? taskUserDetailsCaliberation[0]['Task_User_Details_Id'].toString()
             : taskUserDetails[0]['Task_User_Details_Id'].toString()),
-       "Task_Id_":35,
-        // "Task_Id_": int.parse(homeController.isCalliberationSection.value
-        //     ? taskDetailsDataCalliberation[0]['Task_Id'].toString()
-        //     : taskDetailsData[0]['Task_Id'].toString()),
+      
+        "Task_Id_": int.parse(homeController.isCaliberationSection.value
+            ? taskDetailsDataCaliberation[0]['Task_Id'].toString()
+            : taskDetailsData[0]['Task_Id'].toString()),
         'Start_Notes_': tcontoller.addNoteController.text,
         'Periodic': tcontoller.periodicCheck.value.toString(),
         'Visual': tcontoller.visualCheck.value.toString(),
@@ -1059,8 +1066,8 @@ if (homeController.isCalliberationSection.value) {
         "Equipments": sendEqpListData,
         "User_Id": userId,
       },
-      endPoint: homeController.isCalliberationSection.value
-          ? HttpUrls.saveTaskDetailsCalliberation
+      endPoint: homeController.isCaliberationSection.value
+          ? HttpUrls.saveTaskDetailsCaliberation
           : HttpUrls.saveTaskDetails,
     ).then((value) async {
       print('adeeb 12334 $value');
@@ -1069,13 +1076,12 @@ if (homeController.isCalliberationSection.value) {
           // tcontoller.addNoteController.clear();
           // tcontoller.otherEqupmentNotecntrlr.clear();
 
-          print(
-              'equipment list ${upcomingInspectionsController.taskEquipmentListData}');
-
+         
           tcontoller.isTaskStarted.value =
               value.data[0][0]['Task_Status_Id_'].toString() == '4'
                   ? true
                   : false;
+                  // riskAssessmentController.startedDateTime=value.data[0][0]['Actual_Start_Date_Time_'];
           // await getTestEquipment(
           //   taskUserDetailsId: upcomingInspectionsController.taskUserDetails[0]
           //       ['Task_User_Details_Id'],
@@ -1094,7 +1100,7 @@ if (homeController.isCalliberationSection.value) {
 
           tcontoller.loadTaskStatus();
 
-          if (!homeController.isCalliberationSection.value &&
+          if (!homeController.isCaliberationSection.value &&
               upcomingInspectionsController.taskUserDetails[0]['Role_Id']
                       .toString() ==
                   '38') {
@@ -1129,7 +1135,7 @@ if (homeController.isCalliberationSection.value) {
             // await Loader.stopLoader();
             Get.to(() => const RiskAssesmentStopScreen());
           }
-          // if (!homeController.isCalliberationSection.value &&
+          // if (!homeController.isCaliberationSection.value &&
           //     upcomingInspectionsController.taskUserDetails[0]
           //                 ['Role_Id']
           //             .toString() ==
@@ -1138,26 +1144,26 @@ if (homeController.isCalliberationSection.value) {
 
           //   await upcomingInspectionsController.getTestEquipment(
           //     taskUserDetailsId: upcomingInspectionsController
-          //         .taskUserDetailsCalliberation[0]['Task_User_Details_Id'],
+          //         .taskUserDetailsCaliberation[0]['Task_User_Details_Id'],
           //     taskId: upcomingInspectionsController
-          //         .taskDetailsDataCalliberation[0]['Task_Id'],
+          //         .taskDetailsDataCaliberation[0]['Task_Id'],
           //   );
           //   await upcomingInspectionsController.getTestppe(
           //     taskUserDetailsId: upcomingInspectionsController
-          //         .taskDetailsDataCalliberation[0]['Task_User_Details_Id'],
+          //         .taskDetailsDataCaliberation[0]['Task_User_Details_Id'],
           //     taskId: upcomingInspectionsController
-          //         .taskDetailsDataCalliberation[0]['Task_Id'],
+          //         .taskDetailsDataCaliberation[0]['Task_Id'],
           //   );
           //   await upcomingInspectionsController.getTestDocument(
           //     taskUserDetailsId: upcomingInspectionsController
-          //         .taskUserDetailsCalliberation[0]['Task_User_Details_Id'],
+          //         .taskUserDetailsCaliberation[0]['Task_User_Details_Id'],
           //     taskId: upcomingInspectionsController
-          //         .taskDetailsDataCalliberation[0]['Task_Id'],
+          //         .taskDetailsDataCaliberation[0]['Task_Id'],
           //   );
 
           //   Get.to(() => TrainingEquipmentScreen(
           //         taskId: int.parse(
-          //             taskDetailsDataCalliberation[0]['Task_Id'].toString()),
+          //             taskDetailsDataCaliberation[0]['Task_Id'].toString()),
           //       ));
           // } else {
           //   // await Loader.stopLoader();
@@ -1181,11 +1187,11 @@ if (homeController.isCalliberationSection.value) {
     await HttpRequest.httpPostRequest(
       bodyData: {
         "Task_User_Details_Id_": int.parse(homeController
-                .isCalliberationSection.value
-            ? taskUserDetailsCalliberation[0]['Task_User_Details_Id'].toString()
+                .isCaliberationSection.value
+            ? taskUserDetailsCaliberation[0]['Task_User_Details_Id'].toString()
             : taskUserDetails[0]['Task_User_Details_Id'].toString()),
-        "Task_Id_": int.parse(homeController.isCalliberationSection.value
-            ? taskDetailsDataCalliberation[0]['Task_Id'].toString()
+        "Task_Id_": int.parse(homeController.isCaliberationSection.value
+            ? taskDetailsDataCaliberation[0]['Task_Id'].toString()
             : taskDetailsData[0]['Task_Id'].toString()),
         'Start_Notes_': tcontoller.addNoteController.text,
         'Periodic': tcontoller.periodicCheck.value.toString(),
@@ -1204,8 +1210,8 @@ if (homeController.isCalliberationSection.value) {
         "Equipments": sendEqpListData,
         "User_Id": userId,
       },
-      endPoint: homeController.isCalliberationSection.value
-          ? HttpUrls.saveTaskDetailsCalliberation
+      endPoint: homeController.isCaliberationSection.value
+          ? HttpUrls.saveTaskDetailsCaliberation
           : HttpUrls.saveTaskDetails,
     ).then((value) async {
       print('adeeb 12334 $value');
@@ -1239,7 +1245,7 @@ if (homeController.isCalliberationSection.value) {
 
           tcontoller.loadTaskStatus();
 
-          if (!homeController.isCalliberationSection.value &&
+          if (!homeController.isCaliberationSection.value &&
               upcomingInspectionsController.taskUserDetails[0]['Role_Id']
                       .toString() ==
                   '38') {
@@ -1274,7 +1280,7 @@ if (homeController.isCalliberationSection.value) {
             // await Loader.stopLoader();
             Get.to(() => const RiskAssesmentStopScreen());
           }
-          // if (!homeController.isCalliberationSection.value &&
+          // if (!homeController.isCaliberationSection.value &&
           //     upcomingInspectionsController.taskUserDetails[0]
           //                 ['Role_Id']
           //             .toString() ==
@@ -1283,26 +1289,26 @@ if (homeController.isCalliberationSection.value) {
 
           //   await upcomingInspectionsController.getTestEquipment(
           //     taskUserDetailsId: upcomingInspectionsController
-          //         .taskUserDetailsCalliberation[0]['Task_User_Details_Id'],
+          //         .taskUserDetailsCaliberation[0]['Task_User_Details_Id'],
           //     taskId: upcomingInspectionsController
-          //         .taskDetailsDataCalliberation[0]['Task_Id'],
+          //         .taskDetailsDataCaliberation[0]['Task_Id'],
           //   );
           //   await upcomingInspectionsController.getTestppe(
           //     taskUserDetailsId: upcomingInspectionsController
-          //         .taskDetailsDataCalliberation[0]['Task_User_Details_Id'],
+          //         .taskDetailsDataCaliberation[0]['Task_User_Details_Id'],
           //     taskId: upcomingInspectionsController
-          //         .taskDetailsDataCalliberation[0]['Task_Id'],
+          //         .taskDetailsDataCaliberation[0]['Task_Id'],
           //   );
           //   await upcomingInspectionsController.getTestDocument(
           //     taskUserDetailsId: upcomingInspectionsController
-          //         .taskUserDetailsCalliberation[0]['Task_User_Details_Id'],
+          //         .taskUserDetailsCaliberation[0]['Task_User_Details_Id'],
           //     taskId: upcomingInspectionsController
-          //         .taskDetailsDataCalliberation[0]['Task_Id'],
+          //         .taskDetailsDataCaliberation[0]['Task_Id'],
           //   );
 
           //   Get.to(() => TrainingEquipmentScreen(
           //         taskId: int.parse(
-          //             taskDetailsDataCalliberation[0]['Task_Id'].toString()),
+          //             taskDetailsDataCaliberation[0]['Task_Id'].toString()),
           //       ));
           // } else {
           //   // await Loader.stopLoader();

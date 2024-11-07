@@ -176,7 +176,7 @@ class _Tab2State extends State<Tab2> {
                           //   height: 11.h,
                           // ),
 
-                          if (homeController.isuserLogin.value == true)
+                          if (homeController.isUserLoggedIn == true)
                             GetBuilder<HomeController>(builder: (data) {
                               return DropdownButtonFormField(
                                   value:
@@ -239,7 +239,7 @@ class _Tab2State extends State<Tab2> {
                           SizedBox(
                             height: 11.h,
                           ),
-                          if (homeController.isuserLogin.value == true)
+                          if (homeController.isUserLoggedIn == true)
                             commonHmeButtonWidget(
                                 ontap: () {
 // ScaffoldMessenger.of(context)
@@ -281,7 +281,7 @@ class _Tab2State extends State<Tab2> {
 
                           Obx(() =>
                               homeController.isChooseEquipment.value == true &&
-                                      homeController.isuserLogin.value == true
+                                      homeController.isUserLoggedIn == true
                                   ? Text(
                                       'Select Location First!',
                                       style: TextStyle(
@@ -292,7 +292,7 @@ class _Tab2State extends State<Tab2> {
                             height: 5.h,
                           ),
                           GetBuilder<HomeController>(builder: (selectData) {
-                            return selectData.isuserLogin.value == true &&
+                            return homeController.isUserLoggedIn == true &&
                                     selectData.equipmentListCustomer.isNotEmpty
                                 ? Theme(
                                     data: Theme.of(context).copyWith(
@@ -354,7 +354,7 @@ class _Tab2State extends State<Tab2> {
                             // Align(
                             //   alignment: Alignment.centerLeft,
                             //   child: Container(
-                            //                  child:       selectData.isuserLogin.value == true&&selectData.equipmentListCustomer.isNotEmpty?     Column(
+                            //                  child:       homeController.isUserLoggedIn == true&&selectData.equipmentListCustomer.isNotEmpty?     Column(
 
                             //                   crossAxisAlignment: CrossAxisAlignment.start,
                             //      children: [
@@ -374,7 +374,7 @@ class _Tab2State extends State<Tab2> {
                             // );
                           }),
                           //for equipment list
-                          // homeController.isuserLogin.value == true
+                          // homeController.isUserLoggedIn == true
                           //     ? GetBuilder<HomeController>(
 
                           //       builder: (data) {
@@ -411,7 +411,7 @@ class _Tab2State extends State<Tab2> {
                           //             border: OutlineInputBorder()),
                           //       ),
 
-                          if (homeController.isuserLogin.value == true)
+                          if (homeController.isUserLoggedIn == true)
                             datepickerWidget(
                                 titleSpacing: 0,
                                 initialDate: DateTime.now(),
@@ -421,7 +421,7 @@ class _Tab2State extends State<Tab2> {
                                     homeController.inspectionDateController,
                                 labelText: 'Inspection Date',
                                 titleText: ''),
-                          if (homeController.isuserLogin.value == true)
+                          if (homeController.isUserLoggedIn == true)
                             SizedBox(
                               height: 11.h,
                             ),
@@ -435,7 +435,7 @@ class _Tab2State extends State<Tab2> {
                           // SizedBox(
                           //   height: 11.h,
                           // ),
-                          if (homeController.isuserLogin.value == true)
+                          if (homeController.isUserLoggedIn == true)
                             TextFormField(
                               controller:
                                   homeController.inspectionMessageController,
@@ -452,11 +452,11 @@ class _Tab2State extends State<Tab2> {
                             )
                         ],
                       )),
-                      if (homeController.isuserLogin.value == true)
+                      if (homeController.isUserLoggedIn == true)
                         SizedBox(
                           height: 26.h,
                         ),
-                      if (homeController.isuserLogin.value == false)
+                      if (!homeController.isUserLoggedIn)
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
@@ -471,7 +471,7 @@ class _Tab2State extends State<Tab2> {
                               height: 10.h,
                             ),
                             Text(
-                              'Our services are lasting, tangible benefits that address Quality, Financial, Health & Safety concerns. DARLSCO has Independent Inspections to cater to the requirements of clients/customers.',
+                              homeController.isCaliberationSection.value?'DARLSCO offers certified, high-precision calibration services for dimensional, pressure, flow, temperature, electrical, torque, force, and mass instruments. Accredited by the Dubai Accreditation Center (DAC) and compliant with ISO 9001, ISO 14001, OHSAS 18001, and ISO/IEC 17025 standards, we serve critical sectors, including fabrication, marine, and oil & gas.': 'Our services are lasting, tangible benefits that address Quality, Financial, Health & Safety concerns. DARLSCO has Independent Inspections to cater to the requirements of clients/customers.',
                               textAlign: Get.width > 615
                                   ? TextAlign.center
                                   : TextAlign.start,
@@ -490,7 +490,7 @@ class _Tab2State extends State<Tab2> {
                         child: commonHmeButtonWidget(
                           ontap: () {
                             print('fdere');
-                            if (homeController.isuserLogin.value == true) {
+                            if (homeController.isUserLoggedIn == true) {
                               //  Get.to(()=> DashBoardScreen());
                               // homeController.getCustomerPlace();
 
@@ -540,25 +540,24 @@ class _Tab2State extends State<Tab2> {
 
                             // Get.to(()=>const  ExpiringEquipmentScreen(),);
                           },
-                          buttonTxt: homeController.isuserLogin.value == true
+                          buttonTxt: homeController.isUserLoggedIn == true
                               ? "${widget.btnText} Request"
                               : 'Enquiry  Now',
                         ),
                       ),
-                      if (homeController.isuserLogin.value == false)
+                      if (homeController.isUserLoggedIn == false)
                         SizedBox(
                           height: 10.h,
                         ),
                     ],
                   ),
                 ),
-                if (homeController.isuserLogin.value == true)
+                if (homeController.isUserLoggedIn == true)
                   SizedBox(
                     height: 10.h,
                   ),
-                Obx(
-                  () => Visibility(
-                    visible: homeController.isuserLogin.value == false
+                Visibility(
+                    visible: homeController.isUserLoggedIn == false
                         ? true
                         : false,
                     child: Container(
@@ -567,7 +566,7 @@ class _Tab2State extends State<Tab2> {
                             ? commonBottomWidgetTab()
                             : commonBottomWidget()),
                   ),
-                ),
+                
               ],
             ),
           ),

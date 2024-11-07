@@ -7,6 +7,7 @@ import 'package:darlsco/view/training/training_screen_tab.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 import '../../controller/upcoming_inspections/upcoming_inspection_controller.dart';
 
@@ -42,8 +43,8 @@ class _RiskAssesmentStopScreenState extends State<RiskAssesmentStopScreen> {
     upcomingInspectionsController.isEquipmentSelected.value = false;
 
     upcomingInspectionsController.eqList =
-        homeController.isCalliberationSection.value
-            ? upcomingInspectionsController.taskEquipmentListDataCalliberation
+        homeController.isCaliberationSection.value
+            ? upcomingInspectionsController.taskEquipmentListDataCaliberation
             : upcomingInspectionsController.taskEquipmentListData;
 
     upcomingInspectionsController.eqList
@@ -79,28 +80,28 @@ class _RiskAssesmentStopScreenState extends State<RiskAssesmentStopScreen> {
               bool areAnyTwoTrue = [
                     homeController.isTrainingEnabled,
                     homeController.isInspectionEnabled,
-                    homeController.isCalliberationEnabled
+                    homeController.isCaliberationEnabled
                   ].where((element) => element).length >=
                   2;
               upcomingInspectionsController.getUserTaskDetails(
-                taskId: homeController.isCalliberationSection.value
+                taskId: homeController.isCaliberationSection.value
                     ? int.parse(upcomingInspectionsController
-                        .taskDetailsDataCalliberation[0]['Task_Id']
+                        .taskDetailsDataCaliberation[0]['Task_Id']
                         .toString())
                     : int.parse(upcomingInspectionsController.taskDetailsData[0]
                             ['Task_Id']
                         .toString()),
                 isNotPageNavigation: true,
               );
-              if (homeController.isCalliberationSection.value) {
+              if (homeController.isCaliberationSection.value) {
                 Get.offAll(
                   TrainingInspectionScreen(
                     selectedIndex: homeController.isInspectionEnabled &&
                                 homeController.isTrainingEnabled &&
-                                homeController.isCalliberationEnabled ||
+                                homeController.isCaliberationEnabled ||
                             !homeController.isInspectionEnabled &&
                                 !homeController.isTrainingEnabled &&
-                                !homeController.isCalliberationEnabled
+                                !homeController.isCaliberationEnabled
                         ? 2
                         : areAnyTwoTrue
                             ? 1
@@ -134,78 +135,91 @@ class _RiskAssesmentStopScreenState extends State<RiskAssesmentStopScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        if (!homeController.isCalliberationSection.value)
-                          GetBuilder<TrainingController>(
-                              init: TrainingController(),
-                              builder: (tData) {
-                                return DropdownButtonFormField(
-                                    value: tData.selectedStatusValue.value == ''
-                                        ? null
-                                        : tData.selectedStatusValue.value,
-                                    decoration: const InputDecoration(
+                        // if (!homeController.isCaliberationSection.value)
+                        GetBuilder<TrainingController>(
+                            init: TrainingController(),
+                            builder: (tData) {
+                              return DropdownButtonFormField(
+                                  value: tData.selectedStatusValue.value == ''
+                                      ? null
+                                      : tData.selectedStatusValue.value,
+                                  decoration: const InputDecoration(
 
-                                        // hintText: data.inspectionDropdownValue.value
-                                        //     .isEmpty? 'Location':'',
-                                        border: OutlineInputBorder(
-                                            borderSide: BorderSide(
-                                                color: Colors.black))),
-                                    onChanged: (value) {
-                                      print(
-                                          "printed statyus  ${value.toString()}");
-                                      if (value != null) {
-                                        tcontoller.selectedStatusValue.value =
-                                            value.toString();
-                                      }
-                                      // if (value == 'Finished') {
-                                      //   customEquipmentDialogue(context);
-                                      // }
+                                      // hintText: data.inspectionDropdownValue.value
+                                      //     .isEmpty? 'Location':'',
+                                      border: OutlineInputBorder(
+                                          borderSide:
+                                              BorderSide(color: Colors.black))),
+                                  onChanged: (value) {
+                                    print(
+                                        "printed statyus  ${value.toString()}");
+                                    if (value != null) {
+                                      tcontoller.selectedStatusValue.value =
+                                          value.toString();
+                                    }
+                                    // if (value == 'Finished') {
+                                    //   customEquipmentDialogue(context);
+                                    // }
 
-                                      print(tData.selectedStatusValue.value);
-                                    },
-                                    hint: const Text(
-                                      'Task Status',
-                                      style: TextStyle(color: Colors.black),
-                                    ),
-                                    items: tData.taskStatusList
-                                        .map((e) => DropdownMenuItem(
-                                              value: e['Task_Status_Name'],
-                                              child: SizedBox(
-                                                  width: Get.width > 615
-                                                      ? 600.w
-                                                      : 250.w,
-                                                  child: Text(
-                                                    e['Task_Status_Name'],
-                                                    overflow:
-                                                        TextOverflow.ellipsis,
-                                                    softWrap: true,
-                                                  )),
-                                            ))
-                                        .toList());
-                              })
-                        else
-                          GetBuilder<TrainingController>(builder: (c) {
-                            return Column(
-                              children: List.generate(
-                                tcontoller.dateAndTime.length,
-                                (index) => trainningGridWidget(
-                                    cWidth: Get.width,
-                                    titleText: tcontoller.dateAndTime[index]
-                                        ['title'],
-                                    subTitle: tcontoller.dateAndTime[index]
-                                        ['sub_title'],
-                                    icon: tcontoller.dateAndTime[index]['icon'],
-                                    border: BorderSide.none),
-                              ),
-                            );
-                          }),
+                                    print(tData.selectedStatusValue.value);
+                                  },
+                                  hint: const Text(
+                                    'Task Status',
+                                    style: TextStyle(color: Colors.black),
+                                  ),
+                                  items: tData.taskStatusList
+                                      .map((e) => DropdownMenuItem(
+                                            value: e['Task_Status_Name'],
+                                            child: SizedBox(
+                                                width: Get.width > 615
+                                                    ? 600.w
+                                                    : 250.w,
+                                                child: Text(
+                                                  e['Task_Status_Name'],
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  softWrap: true,
+                                                )),
+                                          ))
+                                      .toList());
+                            }),
+                        // else
+                        GetBuilder<TrainingController>(builder: (c) {
+                          final dateTime = new DateFormat('yyyy-MM-dd hh:mm');
+                        
+                          return Column(
+                            children: List.generate(
+                              tcontoller.dateAndTime.length,
+                              (index) => trainningGridWidget(
+                                  cWidth: Get.width,
+                                  titleText: tcontoller.dateAndTime[index]
+                                      ['title'],
+                                  subTitle: tcontoller
+                                          .dateAndTime[index]['sub_title']
+                                          .isEmpty
+                                      ? 
+                                    dateTime .format(DateTime.now()).toString()
+                                      : tcontoller.dateAndTime[index]
+                                          ['sub_title'],
+                                  icon: tcontoller.dateAndTime[index]['icon'],
+                                  border: BorderSide.none),
+                            ),
+                          );
+                        }),
                         SizedBox(
                           height: 15.w,
                         ),
-                        !homeController.isCalliberationSection.value &&
-                                upcomingInspectionsController.taskUserDetails[0]
-                                            ['Role_Id']
-                                        .toString() ==
-                                    '38'
+                        homeController.isCaliberationSection.value &&
+                                    upcomingInspectionsController
+                                            .taskUserDetailsCaliberation[0]
+                                                ['Role_Id']
+                                            .toString() ==
+                                        '38' ||
+                                !homeController.isCaliberationSection.value &&
+                                    upcomingInspectionsController
+                                            .taskUserDetails[0]['Role_Id']
+                                            .toString() ==
+                                        '38'
                             ? SizedBox(
                                 // height: 200.w,
                                 // width: 500.w,
@@ -426,21 +440,28 @@ class _RiskAssesmentStopScreenState extends State<RiskAssesmentStopScreen> {
         color: Colors.red,
         child: IconButton(
           onPressed: () {
-            if (homeController.isCalliberationSection.value) {
+            if (homeController.isCaliberationSection.value) {
               // if (condition) {
               if (upcomingInspectionController.isOwner) {
                 tcontroller.getAllUserTaskStatus();
 
                 if (tcontoller.getAllStaffStatus.isNotEmpty) {
-                  var data = tcontoller.getAllStaffStatus
-                      .where((e) => e['Task_Status_Name'] != 'Completed');
+                  List data = tcontoller.getAllStaffStatus
+                      .where((e) => e['Task_Status_Name'] != 'Attended')
+                      .toList();
+                  print('iygiyuibuyui $data');
+                  if (data.isNotEmpty) {
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content: Text("Members didn't completed task")));
+                    return;
+                  }
                 }
               }
 
-              riskAssessmentController.saveTaskStop(
-                  tcontoller.selectedStatusValue.value,
-                  riskAssessmentController.stopnoteController.text);
-              return;
+              // riskAssessmentController.saveTaskStop(
+              //     tcontoller.selectedStatusValue.value,
+              //     riskAssessmentController.stopnoteController.text);
+              // return;
             }
             final equipmentCheck = upcomingInspectionsController.eqList
                 .where((element) => element['Checked'].toString() == '1')
@@ -449,28 +470,45 @@ class _RiskAssesmentStopScreenState extends State<RiskAssesmentStopScreen> {
             if (tcontoller.selectedStatusValue.value == '') {
               ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(content: Text('Choose Task Status!')));
-            } else if (upcomingInspectionsController.eqList
-                    .where((element) => element['Task_Status_Name'] == '')
-                    .toList()
-                    .isNotEmpty &&
-                upcomingInspectionsController.taskUserDetails[0]['Role_Id']
-                        .toString() ==
-                    '38') {
+            } else if (homeController.isCaliberationSection.value &&
+                    upcomingInspectionsController.eqList
+                        .where((element) => element['Task_Status_Name'] == '')
+                        .toList()
+                        .isNotEmpty &&
+                    upcomingInspectionsController.taskUserDetailsCaliberation[0]['Role_Id']
+                            .toString() ==
+                        '38' ||
+                !homeController.isCaliberationSection.value &&
+                    upcomingInspectionsController.eqList
+                        .where((element) => element['Task_Status_Name'] == '')
+                        .toList()
+                        .isNotEmpty &&
+                    upcomingInspectionsController.taskUserDetails[0]['Role_Id'].toString() ==
+                        '38') {
               ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                   content: Text('All equipment statuses should be selected!')));
             } else if (riskAssessmentController
                 .stopnoteController.text.isEmpty) {
               ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(content: Text('Please Enter Comments!')));
-            } else if (tcontoller.getAllStaffStatus
-                    .where((element) =>
-                        element['Task_Status_Id'].toString() == '4' ||
-                        element['Task_Status_Id'].toString() == '1')
-                    .toList()
-                    .isNotEmpty &&
-                upcomingInspectionsController.taskUserDetails[0]['Role_Id']
-                        .toString() ==
-                    '38') {
+            } else if (homeController.isCaliberationSection.value &&
+                    tcontoller.getAllStaffStatus
+                        .where((element) =>
+                            element['Task_Status_Id'].toString() == '4' ||
+                            element['Task_Status_Id'].toString() == '1')
+                        .toList()
+                        .isNotEmpty &&
+                    upcomingInspectionsController.taskUserDetailsCaliberation[0]['Role_Id']
+                            .toString() ==
+                        '38' ||
+                !homeController.isCaliberationSection.value &&
+                    tcontoller.getAllStaffStatus
+                        .where((element) =>
+                            element['Task_Status_Id'].toString() == '4' ||
+                            element['Task_Status_Id'].toString() == '1')
+                        .toList()
+                        .isNotEmpty &&
+                    upcomingInspectionsController.taskUserDetails[0]['Role_Id'].toString() == '38') {
               //  print(tcontoller.getAllStaffStatus.where((element) => element['Task_Status_Id'].toString() == '4'||element['Task_Status_Id'].toString() == '1').toList());
 
               showDialog(
@@ -485,17 +523,32 @@ class _RiskAssesmentStopScreenState extends State<RiskAssesmentStopScreen> {
                     child: Column(
                       children: [
                         Text(
-                          tcontoller.getAllStaffStatus
-                                      .where((element) =>
-                                          element['Task_Status_Id']
+                          homeController.isCaliberationSection.value &&
+                                      tcontoller.getAllStaffStatus
+                                          .where((element) =>
+                                              element['Task_Status_Id']
+                                                  .toString() ==
+                                              '4')
+                                          .toList()
+                                          .isNotEmpty &&
+                                      upcomingInspectionsController
+                                              .taskUserDetailsCaliberation[0]
+                                                  ['Role_Id']
                                               .toString() ==
-                                          '4')
-                                      .toList()
-                                      .isNotEmpty &&
-                                  upcomingInspectionsController
-                                          .taskUserDetails[0]['Role_Id']
-                                          .toString() ==
-                                      '38'
+                                          '38' ||
+                                  !homeController
+                                          .isCaliberationSection.value &&
+                                      tcontoller.getAllStaffStatus
+                                          .where((element) =>
+                                              element['Task_Status_Id']
+                                                  .toString() ==
+                                              '4')
+                                          .toList()
+                                          .isNotEmpty &&
+                                      upcomingInspectionsController
+                                              .taskUserDetails[0]['Role_Id']
+                                              .toString() ==
+                                          '38'
                               ? "You can't stop your task if any other team member's task status is 'In Progress'. The members' statuses are:"
                               : "Are you sure you want to stop your task while another team member's status is 'Not Started'?",
                           style: TextStyle(fontSize: 14.sp),

@@ -41,16 +41,16 @@ class UserListScreen extends StatelessWidget {
                         context: context,
                         title: 'Current Team Members',
                         dropDownValue: data.currentUserDropDownValue,
-                        userList: homeController.isCalliberationSection.value
-                            ? data.getCurrentUsersListCalliberation
+                        userList: homeController.isCaliberationSection.value
+                            ? data.getCurrentUsersListCaliberation
                             : data.getCurrentUsersList,
                       )
                     : commonUserListDropdown(
                         context: context,
                         title: 'Current Team Members',
                         dropDownValue: data.currentUserDropDownValue,
-                        userList: homeController.isCalliberationSection.value
-                            ? data.getCurrentUsersListCalliberation
+                        userList: homeController.isCaliberationSection.value
+                            ? data.getCurrentUsersListCaliberation
                             : data.getCurrentUsersList,
                       );
               }),
@@ -65,8 +65,8 @@ class UserListScreen extends StatelessWidget {
                       context: context,
                       title: 'Other Team Members',
                       dropDownValue: homeController.allUserDropDownValue,
-                      userList: homeController.isCalliberationSection.value
-                          ? homeController.getAllUsersListCalliberation
+                      userList: homeController.isCaliberationSection.value
+                          ? homeController.getAllUsersListCaliberation
                           : homeController.getAllUsersList,
                     )
                   : commonUserListDropdown(
@@ -74,8 +74,8 @@ class UserListScreen extends StatelessWidget {
                       context: context,
                       title: 'Other Team Members',
                       dropDownValue: homeController.allUserDropDownValue,
-                      userList: homeController.isCalliberationSection.value
-                          ? homeController.getAllUsersListCalliberation
+                      userList: homeController.isCaliberationSection.value
+                          ? homeController.getAllUsersListCaliberation
                           : homeController.getAllUsersList,
                     ),
               SizedBox(

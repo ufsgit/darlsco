@@ -28,7 +28,7 @@ class LoginController extends GetxController {
   TextEditingController pinPutOtpController = TextEditingController();
   RxBool isLoading = false.obs;
   LoginOtpModel? userData;
-
+  bool isFromSplashOrLogin = false;
   List<String> companyLocationList = [
     'Dubai',
     'Abu Dhabi',
@@ -73,8 +73,8 @@ class LoginController extends GetxController {
           dashboardController.dashboardRole = loginData?.customerType;
 
           if (loginData != null) {
-            // ScaffoldMessenger.of(context).showSnackBar(
-            //     SnackBar(content: Text('Otp: ${loginData!.customerOtp}')));
+            ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text('Otp: ${loginData!.customerOtp}')));
           }
 
           Get.to(() => const OtpScreen());
@@ -127,6 +127,7 @@ class LoginController extends GetxController {
     required String phNo,
   }) async {
     // Loader.showLoader();
+    isFromSplashOrLogin = true;
     isLoading.value = true;
     homeController.isInspectionSection.value = false;
 
@@ -145,15 +146,19 @@ class LoginController extends GetxController {
     }
 
     // print('firbase login token $firebaseToken');
-
-    await HttpRequest.httpGetRequest(endPoint: HttpUrls.agentLogin, bodyData: {
-      "phone": phNo,
-      "otp": otp,
-      "Device_Id": firebaseToken,
-      "Country_Code": loginController.countryCode.isEmpty
-          ? homeController.currentCountryCode.value
-          : loginController.countryCode.value
-    }).then((value) async {
+print('kbhhubhu ${homeController.isFromPurchase.value}');
+    await HttpRequest.httpGetRequest(
+        endPoint: homeController.isFromPurchase.value
+            ? HttpUrls.agentLoginTraining
+            : HttpUrls.agentLogin,
+        bodyData: {
+          "phone": phNo,
+          "otp": otp,
+          "Device_Id": firebaseToken,
+          "Country_Code": loginController.countryCode.isEmpty
+              ? homeController.currentCountryCode.value
+              : loginController.countryCode.value
+        }).then((value) async {
       if (value.statusCode == 200) {
         // Loader.stopLoader();
         final data = jsonDecode(value.toString());
@@ -173,7 +178,7 @@ class LoginController extends GetxController {
           // preferences.setString('name_user_', data['0'][0]['Name'].toString());
           //   preferences.setString('token', '${data['token']}');
           preferences.setString(
-              'calliberation_login', data['0'][0]['Caliberation'].toString());
+              'caliberation_login', data['0'][0]['Caliberation'].toString());
           preferences.setString(
               'trainee_login', data['0'][0]['Training'].toString());
           preferences.setString(
@@ -184,7 +189,30 @@ class LoginController extends GetxController {
           homeController.isTraineee.value = data['0'][0]['Training'].toString();
           homeController.isInspectionSection.value =
               data['0'][0]['Inspection'] == '1';
-              // homeController.isTrainingSectionnew.value=
+
+          //     if (isFromSplashOrLogin) {
+          //         homeController.isInspectionSection.value =
+          //     homeController.isInspectionEnabled;
+
+          // homeController.isTrainingSectionnew.value =
+          //     !homeController.isInspectionEnabled ||
+          //         homeController.isTrainingEnabled &&
+          //             homeController.isInspectionEnabled;
+
+          // homeController.isCaliberationSection.value =
+          //     !homeController.isInspectionEnabled &&
+          //             !homeController.isTrainingEnabled ||
+          //         homeController.isInspectionEnabled &&
+          //             !homeController.isTrainingEnabled ||
+          //         !homeController.isInspectionEnabled &&
+          //             homeController.isTrainingEnabled ||
+          //         homeController.isInspectionEnabled &&
+          //             homeController.isTrainingEnabled &&
+          //             homeController.isCaliberationEnabled;
+          //       isFromSplashOrLogin = false;
+          //     }
+
+          // homeController.isTrainingSectionnew.value=
           // homeController.is
           homeController.isUsersignedIn();
           mobileNumberController.clear();
@@ -202,9 +230,9 @@ class LoginController extends GetxController {
           if (homeController.isuserLogin.value &&
               homeController.isTraineeLogin.value &&
               homeController.isTrainingSection.value &&
-              homeController.isCalliberationSection.value) {
+              homeController.isCaliberationSection.value) {
             homeController.isTrainingSection.value = false;
-            homeController.isCalliberationSection.value = false;
+            homeController.isCaliberationSection.value = false;
           }
           if (globalHomeController.tabIndex.value == 1) {
             globalHomeController.tabIndex.value = 0;
@@ -380,7 +408,7 @@ class LoginController extends GetxController {
   logout(BuildContext context) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
 
-    sharedPreferences.clear();
+    await sharedPreferences.clear();
     // loginController.dispose();
     // tcontoller.refresh();
     // upcomingInspectionsController.refresh();
@@ -392,7 +420,7 @@ class LoginController extends GetxController {
     homeController.isFromPurchase.value = false;
     globalHomeController.isTraineeLogin.value == false;
     globalHomeController.isuserLogin.value = false;
-    globalHomeController.isCalliberationSection.value = false;
+    globalHomeController.isCaliberationSection.value = false;
     getcountry(context);
     homeController.isUsersignedIn();
 

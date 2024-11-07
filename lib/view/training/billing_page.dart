@@ -625,7 +625,7 @@ class _BillingDetailsPageState extends State<BillingDetailsPage> {
                                   //         ));
                                 } else {
                                   homeController.isFromPurchase.value = true;
-
+                                  print(homeController.isFromPurchase.value);
                                   Get.to(() => const PhoneVerificationPage());
                                 }
                               },

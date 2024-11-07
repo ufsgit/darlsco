@@ -115,6 +115,7 @@ class _PhoneVerificationPageState extends State<PhoneVerificationPage> {
   @override
   void initState() {
     getcountry(context);
+     homeController.isFromPurchase.value =true;
     super.initState();
   }
 
@@ -128,8 +129,9 @@ class _PhoneVerificationPageState extends State<PhoneVerificationPage> {
                 childWidget: AppBar(
               leading: IconButton(
                   onPressed: () {
+                                        homeController.isFromPurchase.value = false;
+
                     Get.back();
-                    homeController.isFromPurchase.value = false;
                   },
                   icon: const Icon(Icons.arrow_back_ios_new_outlined)),
               backgroundColor: ColorResources.colorTransparent,

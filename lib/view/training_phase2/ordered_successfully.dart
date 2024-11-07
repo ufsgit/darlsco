@@ -319,7 +319,7 @@ class _OrderedSuccessfullyState extends State<OrderedSuccessfully> {
                             context,
                             MaterialPageRoute(
                               builder: (context) {
-                                return BottomNavigationWidget(selectedIndex: 2);
+                                return BottomNavigationWidget(selectedIndex: 0);
                               },
                             ),
                             (route) {

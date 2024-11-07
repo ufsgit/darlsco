@@ -24,10 +24,12 @@ class GetTodayTaskModel {
   String traineeId;
   String startTime;
   String endTime;
+  String eligibilityMarked;
 
   // String eligibility;
 
   GetTodayTaskModel({
+    required this.eligibilityMarked,
     required this.customerId,
     required this.orderDetailsId,
     required this.orderLocationId,
@@ -63,6 +65,7 @@ class GetTodayTaskModel {
 
   factory GetTodayTaskModel.fromJson(Map<String, dynamic> json) =>
       GetTodayTaskModel(
+        eligibilityMarked: json["Eligibility_Marked"],
         customerId: json["Customer_Id"] ?? 0,
         orderDetailsId: json["Order_Details_Id"] ?? 0,
         orderMasterId: json["Order_Master_Id"] ?? 0,

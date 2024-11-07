@@ -23,12 +23,19 @@ class _TrainingHomeScreenState extends State<TrainingHomeScreen> {
     });
     super.initState();
   }
+  bool isLoading=false;
 
   Future<void> getData() async {
+    setState(() {
+      isLoading=true;
+    });
     trainingController.priceList.value = 0;
     print('getItemCart2');
     await trainingController.fetchTrainingHomeData();
     await trainingController.getItemCart();
+   setState(() {
+      isLoading=false;
+    });
   }
 
   @override
@@ -49,7 +56,7 @@ class _TrainingHomeScreenState extends State<TrainingHomeScreen> {
                 onRefresh: () async {
                   trainingController.fetchTrainingHomeData();
                 },
-                child: SingleChildScrollView(
+                child:isLoading?Center(child: CircularProgressIndicator(),): SingleChildScrollView(
                   child: Padding(
                     padding:
                         EdgeInsets.symmetric(horizontal: 16.w, vertical: 32.w),

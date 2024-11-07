@@ -3,6 +3,7 @@ import 'dart:isolate';
 // import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:darlsco/app_%20config/all_countries.dart';
+import 'package:darlsco/controller/home/home_controller.dart';
 import 'package:darlsco/controller/login/login_controller.dart';
 import 'package:darlsco/view/home/bottom_navigation_screen.dart';
 import 'package:location/location.dart' as loc;
@@ -183,6 +184,8 @@ class MyApp extends StatelessWidget {
 
 getcountry(BuildContext context) async {
   try {
+   
+
      homeController.isFromPurchase.value = false;
     if (!kIsWeb) {
       PermissionStatus locationStatus = await Permission.location.status;

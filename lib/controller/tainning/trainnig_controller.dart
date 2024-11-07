@@ -165,37 +165,46 @@ class TrainingController extends GetxController {
     int userId = int.parse(sharedPreferences.getString('darlsco_id') ?? '0');
 
     // Loader.showLoader();
-    if (!homeController.isCalliberationSection.value) {
-      await HttpRequest.httpGetRequest(
-        bodyData: {
-          "Role_Id": int.parse(upcomingInspectionsController.taskUserDetails[0]
-                  ['Role_Id']
-              .toString()),
-          "Task_Id": int.parse(upcomingInspectionsController.taskDetailsData[0]
-                  ['Task_Id']
-              .toString()),
-          "User_Id": userId,
-        },
-        endPoint: HttpUrls.loadTaskStatusApp,
-      ).then((value) {
-        if (value.data != null) {
-          print(value);
+    await HttpRequest.httpGetRequest(
+      bodyData: {
+        "Role_Id": homeController.isCaliberationSection.value
+            ? int.parse(upcomingInspectionsController
+                .taskUserDetailsCaliberation[0]['Role_Id']
+                .toString())
+            : int.parse(upcomingInspectionsController.taskUserDetails[0]
+                    ['Role_Id']
+                .toString()),
+        "Task_Id": homeController.isCaliberationSection.value
+            ? int.parse(upcomingInspectionsController
+                .taskDetailsDataCaliberation[0]['Task_Id']
+                .toString())
+            : int.parse(upcomingInspectionsController.taskDetailsData[0]
+                    ['Task_Id']
+                .toString()),
+        "User_Id": userId,
+      },
+      endPoint: HttpUrls.loadTaskStatusApp,
+    ).then((value) {
+      if (value.data != null) {
+        print(value);
 
-          taskStatusList = value.data[0];
-          upcomingInspectionsController.equipmentStatusLIst = value.data[1];
+        taskStatusList = !homeController.isCaliberationSection.value
+            ? value.data[0]
+            : value.data[3];
+        upcomingInspectionsController.equipmentStatusLIst = value.data[1];
 
-          // tcontoller.equipmentList = usedTestEquipmentData
-          //     .map((e) => e.equipmentName.toString())
-          //     .toList();
-          // Get.to(() => const TrainingEquipmentScreen());
+        // tcontoller.equipmentList = usedTestEquipmentData
+        //     .map((e) => e.equipmentName.toString())
+        //     .toList();
+        // Get.to(() => const TrainingEquipmentScreen());
 
-          // Get.to(()=>const UpcomingInspectionsScreen());
-        } else {
-          ScaffoldMessenger.of(Get.context!)
-              .showSnackBar(const SnackBar(content: Text('Server Error')));
-        }
-      });
-    }
+        // Get.to(()=>const UpcomingInspectionsScreen());
+      } else {
+        ScaffoldMessenger.of(Get.context!)
+            .showSnackBar(const SnackBar(content: Text('Server Error')));
+      }
+    });
+
     upcomingInspectionsController.update();
 
     update();
@@ -204,15 +213,15 @@ class TrainingController extends GetxController {
   var dateAndTime = [];
 
   getAllUserTaskStatus() async {
-    if (homeController.isCalliberationSection.value) {
+    if (homeController.isCaliberationSection.value) {
       dateAndTime = [
         {
           "title": 'Task Date & Time',
           'sub_title': upcomingInspectionsController
-                      .taskDetailsDataCalliberation[0]['Proposed_Date_Time1'] ==
+                      .taskDetailsDataCaliberation[0]['Proposed_Date_Time1'] ==
                   null
               ? ''
-              : upcomingInspectionsController.taskDetailsDataCalliberation[0]
+              : upcomingInspectionsController.taskDetailsDataCaliberation[0]
                       ['Proposed_Date_Time1'] ??
                   '',
           "icon": Icons.calendar_month,
@@ -220,14 +229,14 @@ class TrainingController extends GetxController {
         {
           "title": 'Started Date & Time',
           'sub_title': upcomingInspectionsController
-                  .taskUserDetailsCalliberation.isEmpty
+                  .taskUserDetailsCaliberation.isEmpty
               ? ''
-              : upcomingInspectionsController.taskUserDetailsCalliberation[0]
+              : upcomingInspectionsController.taskUserDetailsCaliberation[0]
                           ['Actual_Start_Date_Time1'] ==
                       null
                   ? ''
                   : upcomingInspectionsController
-                      .taskUserDetailsCalliberation[0]
+                      .taskUserDetailsCaliberation[0]
                           ['Actual_Start_Date_Time1']
                       .toString()
                       .toLowerCase(),
@@ -237,7 +246,7 @@ class TrainingController extends GetxController {
     }
     await HttpRequest.httpGetRequest(
       endPoint:
-          '${homeController.isCalliberationSection.value ? HttpUrls.getAllUserTaskStatusCalliberation : HttpUrls.getAllUserTaskStatus}${homeController.isCalliberationSection.value ? int.parse(upcomingInspectionsController.taskDetailsDataCalliberation[0]['Task_Id'].toString()) : int.parse(upcomingInspectionsController.taskDetailsData[0]['Task_Id'].toString())}',
+          '${homeController.isCaliberationSection.value ? HttpUrls.getAllUserTaskStatusCaliberation : HttpUrls.getAllUserTaskStatus}${homeController.isCaliberationSection.value ? int.parse(upcomingInspectionsController.taskDetailsDataCaliberation[0]['Task_Id'].toString()) : int.parse(upcomingInspectionsController.taskDetailsData[0]['Task_Id'].toString())}',
     ).then((value) {
       print('all status $value');
       if (value.data != null) {

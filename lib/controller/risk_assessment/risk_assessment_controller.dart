@@ -16,6 +16,11 @@ final RiskAssessmentController riskAssessmentController =
     Get.put(RiskAssessmentController());
 
 class RiskAssessmentController extends GetxController {
+
+    DateTime ?startedDateTime;
+
+
+
   RxBool isExpanded = false.obs;
   RxBool pending = false.obs;
   RxBool completed = false.obs;
@@ -2251,29 +2256,30 @@ class RiskAssessmentController extends GetxController {
         .where((element) => element['Checked'].toString() == '1')
         .toList();
 
-if (homeController.isCalliberationSection.value) {
+if (homeController.isCaliberationSection.value) {
   
+     
       await HttpRequest.httpPostBodyRequest(
         bodyData: {
-          "Task_Id_": int.parse(homeController.isCalliberationSection.value
-              ? upcomingInspectionsController.taskDetailsDataCalliberation[0]
+          "Task_Id_": int.parse(homeController.isCaliberationSection.value
+              ? upcomingInspectionsController.taskDetailsDataCaliberation[0]
                       ['Task_Id']
                   .toString()
               : upcomingInspectionsController.taskDetailsData[0]['Task_Id']
                   .toString()),
           "User_Details_Id_": int.parse(
-              homeController.isCalliberationSection.value
+              homeController.isCaliberationSection.value
                   ? upcomingInspectionsController
-                      .taskUserDetailsCalliberation[0]['User_Details_Id']
+                      .taskUserDetailsCaliberation[0]['User_Details_Id']
                       .toString()
                   : upcomingInspectionsController.taskUserDetails[0]
                           ['User_Details_Id']
                       .toString()),
           'Stop_Notes_': stopNote,
           "Task_User_Details_Id_": int.parse(
-              homeController.isCalliberationSection.value
+              homeController.isCaliberationSection.value
                   ? upcomingInspectionsController
-                      .taskUserDetailsCalliberation[0]['Task_User_Details_Id']
+                      .taskUserDetailsCaliberation[0]['Task_User_Details_Id']
                       .toString()
                   : upcomingInspectionsController.taskUserDetails[0]
                           ['Task_User_Details_Id']
@@ -2282,8 +2288,13 @@ if (homeController.isCalliberationSection.value) {
               ? DateTime.now().toIso8601String()
               : dateTimeString.split('.')[0],
           "Equipments": upcomingInspectionsController.eqList,
-          "Status_Id": homeController.isCalliberationSection.value
-              ? '0'
+          "Status_Id": homeController.isCaliberationSection.value
+              ? upcomingInspectionsController.isEquipmentSelected.value == false
+                  ? tcontoller.taskStatusList
+                      .where((element) =>
+                          element['Task_Status_Name'].toString() == statusName)
+                      .toList()[0]['Task_Status_Id']
+                  : 11
               : upcomingInspectionsController.isEquipmentSelected.value == false
                   ? tcontoller.taskStatusList
                       .where((element) =>
@@ -2298,8 +2309,8 @@ if (homeController.isCalliberationSection.value) {
         },
         // bodyData: {"testing": "123"},
 
-        endPoint: homeController.isCalliberationSection.value
-            ? HttpUrls.saveTaskStopCalliberation
+        endPoint: homeController.isCaliberationSection.value
+            ? HttpUrls.saveTaskStopCaliberation
             : HttpUrls.saveTaskStop,
       ).then((value) {
         print(value);
@@ -2317,16 +2328,16 @@ if (homeController.isCalliberationSection.value) {
               bool areAnyTwoTrue = [
                     homeController.isTrainingEnabled,
                     homeController.isInspectionEnabled,
-                    homeController.isCalliberationEnabled
+                    homeController.isCaliberationEnabled
                   ].where((element) => element).length >=
                   2;
               Get.offAll(() => TrainingInspectionScreen(
                     selectedIndex: homeController.isInspectionEnabled &&
                                 homeController.isTrainingEnabled &&
-                                homeController.isCalliberationEnabled ||
+                                homeController.isCaliberationEnabled ||
                             !homeController.isInspectionEnabled &&
                                 !homeController.isTrainingEnabled &&
-                                !homeController.isCalliberationEnabled
+                                !homeController.isCaliberationEnabled
                         ? 2
                         : areAnyTwoTrue
                             ? 1
@@ -2343,25 +2354,25 @@ if (homeController.isCalliberationSection.value) {
   
       await HttpRequest.httpPostRequest(
         bodyData: {
-          "Task_Id_": int.parse(homeController.isCalliberationSection.value
-              ? upcomingInspectionsController.taskDetailsDataCalliberation[0]
+          "Task_Id_": int.parse(homeController.isCaliberationSection.value
+              ? upcomingInspectionsController.taskDetailsDataCaliberation[0]
                       ['Task_Id']
                   .toString()
               : upcomingInspectionsController.taskDetailsData[0]['Task_Id']
                   .toString()),
           "User_Details_Id_": int.parse(
-              homeController.isCalliberationSection.value
+              homeController.isCaliberationSection.value
                   ? upcomingInspectionsController
-                      .taskUserDetailsCalliberation[0]['User_Details_Id']
+                      .taskUserDetailsCaliberation[0]['User_Details_Id']
                       .toString()
                   : upcomingInspectionsController.taskUserDetails[0]
                           ['User_Details_Id']
                       .toString()),
           'Stop_Notes_': stopNote,
           "Task_User_Details_Id_": int.parse(
-              homeController.isCalliberationSection.value
+              homeController.isCaliberationSection.value
                   ? upcomingInspectionsController
-                      .taskUserDetailsCalliberation[0]['Task_User_Details_Id']
+                      .taskUserDetailsCaliberation[0]['Task_User_Details_Id']
                       .toString()
                   : upcomingInspectionsController.taskUserDetails[0]
                           ['Task_User_Details_Id']
@@ -2370,7 +2381,7 @@ if (homeController.isCalliberationSection.value) {
               ? DateTime.now().toIso8601String()
               : dateTimeString.split('.')[0],
           "Equipments": upcomingInspectionsController.eqList,
-          "Status_Id": homeController.isCalliberationSection.value
+          "Status_Id": homeController.isCaliberationSection.value
               ? '0'
               : upcomingInspectionsController.isEquipmentSelected.value == false
                   ? tcontoller.taskStatusList
@@ -2386,8 +2397,8 @@ if (homeController.isCalliberationSection.value) {
         },
         // bodyData: {"testing": "123"},
 
-        endPoint: homeController.isCalliberationSection.value
-            ? HttpUrls.saveTaskStopCalliberation
+        endPoint: homeController.isCaliberationSection.value
+            ? HttpUrls.saveTaskStopCaliberation
             : HttpUrls.saveTaskStop,
       ).then((value) {
         print(value);
@@ -2405,16 +2416,16 @@ if (homeController.isCalliberationSection.value) {
               bool areAnyTwoTrue = [
                     homeController.isTrainingEnabled,
                     homeController.isInspectionEnabled,
-                    homeController.isCalliberationEnabled
+                    homeController.isCaliberationEnabled
                   ].where((element) => element).length >=
                   2;
               Get.offAll(() => TrainingInspectionScreen(
                     selectedIndex: homeController.isInspectionEnabled &&
                                 homeController.isTrainingEnabled &&
-                                homeController.isCalliberationEnabled ||
+                                homeController.isCaliberationEnabled ||
                             !homeController.isInspectionEnabled &&
                                 !homeController.isTrainingEnabled &&
-                                !homeController.isCalliberationEnabled
+                                !homeController.isCaliberationEnabled
                         ? 2
                         : areAnyTwoTrue
                             ? 1

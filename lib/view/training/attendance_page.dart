@@ -75,20 +75,22 @@ class _AttendancePageState extends State<AttendancePage> {
         body: commonBackgroundLinearColorCart(
           childWidget: Padding(
             padding: EdgeInsets.symmetric(horizontal: 8.h, vertical: 16.h),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+            child: ListView(
               children: [
-                InkWell(
-                  onTap: () => Get.back(),
-                  child: CircleAvatar(
-                    radius: 18.h,
-                    backgroundColor: Colors.transparent,
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 8),
-                      child: Icon(
-                        Icons.arrow_back_ios,
-                        size: 30.h,
-                        color: ColorResources.color294C73,
+                Align(
+                  alignment: Alignment.topLeft,
+                  child: InkWell(
+                    onTap: () => Get.back(),
+                    child: CircleAvatar(
+                      radius: 18.h,
+                      backgroundColor: Colors.transparent,
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 8),
+                        child: Icon(
+                          Icons.arrow_back_ios,
+                          size: 30.h,
+                          color: ColorResources.color294C73,
+                        ),
                       ),
                     ),
                   ),
@@ -172,7 +174,7 @@ class _AttendancePageState extends State<AttendancePage> {
                   txtColor: ColorResources.colorBlack,
                   onPressed: () {
                     print('dfwefdw $dropdownValues');
-                    if (dropdownValues.any((v) => v != 'Select')) {
+                    if (!dropdownValues.contains('Select')) {
                       showDialog(
                         context: context,
                         builder: (context) {
@@ -318,8 +320,9 @@ class _AttendancePageState extends State<AttendancePage> {
                           );
                         },
                       );
-                    }else{
-                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Please check the value selected')));
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                          content: Text('Please check the value selected')));
                     }
                   }),
             );

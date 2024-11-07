@@ -3,6 +3,7 @@ import 'package:darlsco/controller/tody_task_controller.dart';
 import 'package:darlsco/core/constants/color_resources.dart';
 import 'package:darlsco/core/constants/common_widgets.dart';
 import 'package:darlsco/view/training/attendance_page.dart';
+import 'package:darlsco/view/training/eligible_exam_page.dart';
 import 'package:darlsco/view/training/exam_attendance_stop_page.dart';
 import 'package:darlsco/view/training/trainee_view_page.dart';
 import 'package:darlsco/view/training_phase2/todaytask_view.dart';
@@ -245,7 +246,8 @@ class _TodayTaskState extends State<TodayTask> {
                                                                   height: 16.h,
                                                                 ),
                                                                 Table(
-                                                                  border:    const TableBorder.symmetric(
+                                                                  border: const TableBorder
+                                                                      .symmetric(
                                                                       outside: BorderSide(
                                                                           width:
                                                                               0,
@@ -637,13 +639,29 @@ class _TodayTaskState extends State<TodayTask> {
                                                                                     model: todaysdata.todayTasksLst[index],
                                                                                     index: index,
                                                                                   ));
-                                                                            } else {
-                                                                              await todaysdata.startExamOrTrainging(examMasterId: todaysdata.todayTasksLst[index].examMasterId.toString(), orderDetailsSubId: todaysdata.todayTasksLst[index].orderDetailsSubId.toString());
-
+                                                                            } else if (todaysdata.todayTasksLst[index].statusId ==
+                                                                                '1') {
+                                                                              await todaysdata.startExamOrTrainging(
+                                                                                examMasterId: todaysdata.todayTasksLst[index].examMasterId.toString(),
+                                                                                orderDetailsSubId: todaysdata.todayTasksLst[index].orderDetailsSubId.toString(),
+                                                                              );
                                                                               Get.to(() => AttendancePage(
                                                                                     data: todaysdata.todayTasksLst[index],
                                                                                     index: index,
                                                                                   ));
+                                                                            } else if (todaysdata.todayTasksLst[index].statusId ==
+                                                                                '3') {
+                                                                              print('kjbilu ${todaysdata.todayTasksLst[index].eligibilityMarked}');
+
+                                                                              if (todaysdata.todayTasksLst[index].eligibilityMarked == '0') {
+                                                                                // print('lknjiji ${}');
+                                                                                trainingController.getTraineeDetails(
+                                                                                  todaysdata.todayTasksLst[index].orderDetailsId.toString(),
+                                                                                  todaysdata.todayTasksLst[index].orderLocationId.toString(),
+                                                                                  todaysdata.todayTasksLst[index].examMasterId.toString(),
+                                                                                );
+                                                                                Get.to(() => EligibleExamPage(model: todaysdata.todayTasksLst[index]));
+                                                                              }
                                                                             }
                                                                           },
                                                                           child: Text(
@@ -1610,7 +1628,8 @@ class _TodayTaskState extends State<TodayTask> {
                                                             height: 16.h,
                                                           ),
                                                           Table(
-                                                            border:    const TableBorder.symmetric(
+                                                            border: const TableBorder
+                                                                .symmetric(
                                                                 outside: BorderSide(
                                                                     width: 0,
                                                                     color: Colors

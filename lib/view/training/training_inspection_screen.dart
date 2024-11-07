@@ -36,6 +36,10 @@ class _TrainingInspectionScreenState extends State<TrainingInspectionScreen> {
     upcomingInspectionsController.taskInitFunction(context);
 
     //  homeController.getAllusers();
+print('dfnojwenfoiw ${homeController.isInspectionSection.value}');
+print('dfnojwenfoiw ${homeController.isTrainingSectionnew.value}');
+print('dfnojwenfoiw ${homeController.isCaliberationSection.value}');
+
 
     super.initState();
   }
@@ -43,12 +47,13 @@ class _TrainingInspectionScreenState extends State<TrainingInspectionScreen> {
   bool areAnyTwoTrue = [
         homeController.isTrainingEnabled,
         homeController.isInspectionEnabled,
-        homeController.isCalliberationEnabled
+        homeController.isCaliberationEnabled
       ].where((element) => element).length >=
       2;
 
   @override
   Widget build(BuildContext context) {
+    print('homeC ${homeController.isCaliberationSection.value}');
     
     return GetBuilder<HomeController>(builder: (loginData) {
       return DefaultTabController(
@@ -56,10 +61,10 @@ class _TrainingInspectionScreenState extends State<TrainingInspectionScreen> {
 
         length: homeController.isInspectionEnabled &&
                     homeController.isTrainingEnabled &&
-                    homeController.isCalliberationEnabled ||
+                    homeController.isCaliberationEnabled ||
                 !homeController.isInspectionEnabled &&
                     !homeController.isTrainingEnabled &&
-                    !homeController.isCalliberationEnabled
+                    !homeController.isCaliberationEnabled
             ? 3
             : areAnyTwoTrue
                 ? 2
@@ -149,7 +154,7 @@ class _TrainingInspectionScreenState extends State<TrainingInspectionScreen> {
                                   homeController.isTrainingEnabled &&
                                   homeController.isInspectionEnabled;
 
-                      homeController.isCalliberationSection.value =
+                      homeController.isCaliberationSection.value =
                           index == 0 &&
                                   !homeController.isInspectionEnabled &&
                                   !homeController.isTrainingEnabled ||
@@ -162,7 +167,7 @@ class _TrainingInspectionScreenState extends State<TrainingInspectionScreen> {
                               index == 2 &&
                                   homeController.isInspectionEnabled &&
                                   homeController.isTrainingEnabled &&
-                                  homeController.isCalliberationEnabled;
+                                  homeController.isCaliberationEnabled;
                       homeController.isInspectionSection.value =
                           index == 0 && homeController.isInspectionEnabled;
                       homeController.isTrainingSectionnew.value =
@@ -171,7 +176,7 @@ class _TrainingInspectionScreenState extends State<TrainingInspectionScreen> {
                                   homeController.isTrainingEnabled &&
                                   homeController.isInspectionEnabled;
 
-                      homeController.isCalliberationSection.value =
+                      homeController.isCaliberationSection.value =
                           index == 0 &&
                                   !homeController.isInspectionEnabled &&
                                   !homeController.isTrainingEnabled ||
@@ -184,7 +189,7 @@ class _TrainingInspectionScreenState extends State<TrainingInspectionScreen> {
                               index == 2 &&
                                   homeController.isInspectionEnabled &&
                                   homeController.isTrainingEnabled &&
-                                  homeController.isCalliberationEnabled;
+                                  homeController.isCaliberationEnabled;
                       upcomingInspectionsController.taskInitFunction(context);
                     },
                     tabAlignment: TabAlignment.fill,
@@ -220,16 +225,16 @@ class _TrainingInspectionScreenState extends State<TrainingInspectionScreen> {
                               color: ColorResources.color294C73,
                               size: 30,
                             )),
-                      // if (globalHomeController.isCalliberationLogin.value ||
+                      // if (globalHomeController.isCaliberationLogin.value ||
                       //         !globalHomeController.isuserLogin.value &&
                       //             globalHomeController
-                      //                 .isCalliberationLogin.value ||
+                      //                 .isCaliberationLogin.value ||
                       //         !globalHomeController.isuserLogin.value &&
                       //             !globalHomeController
-                      //                 .isCalliberationLogin.value)
-                      if (homeController.isCalliberationEnabled)
+                      //                 .isCaliberationLogin.value)
+                      if (homeController.isCaliberationEnabled)
                         const Tab(
-                            text: 'Calliberation',
+                            text: 'Caliberation',
                             iconMargin: EdgeInsets.all(0),
                             icon: Icon(
                               Icons.settings,
@@ -280,7 +285,7 @@ class _TrainingInspectionScreenState extends State<TrainingInspectionScreen> {
                                     .selectDateTaskListData
                                     .clear();
                                 upcomingInspectionsController
-                                    .selectDateTaskListDataCalliberation
+                                    .selectDateTaskListDataCaliberation
                                     .clear();
                                 upcomingInspectionsController.update();
                                 upcomingInspectionsController
@@ -294,7 +299,7 @@ class _TrainingInspectionScreenState extends State<TrainingInspectionScreen> {
                                     .selectDateTaskListData
                                     .clear();
                                 upcomingInspectionsController
-                                    .selectDateTaskListDataCalliberation
+                                    .selectDateTaskListDataCaliberation
                                     .clear();
 
                                 upcomingInspectionsController
@@ -544,10 +549,10 @@ class _TrainingInspectionScreenState extends State<TrainingInspectionScreen> {
                                                               .isDateSubmitBtnClicked =
                                                           true;
                                                       if (homeController
-                                                          .isCalliberationSection
+                                                          .isCaliberationSection
                                                           .value) {
                                                                upcomingInspectionsController
-                                                              .selectDateTaskListDataCalliberation =
+                                                              .selectDateTaskListDataCaliberation =
                                                           await upcomingInspectionsController
                                                               .getuserTaskDateRange(
                                                         isInitSate: false,
@@ -658,7 +663,7 @@ class _TrainingInspectionScreenState extends State<TrainingInspectionScreen> {
                   ),
                 // if (loginData.isTraineeLogin.value == true)
                 if (homeController.isTrainingEnabled) const TaskPage(),
-                if (homeController.isCalliberationEnabled)
+                if (homeController.isCaliberationEnabled)
                   commonBackgroundLinearColorHome(
                     childWidget: DefaultTabController(
                       initialIndex: 1,
@@ -687,7 +692,7 @@ class _TrainingInspectionScreenState extends State<TrainingInspectionScreen> {
                                     .selectDateTaskListData
                                     .clear();
                                     upcomingInspectionsController
-                                    .selectDateTaskListDataCalliberation
+                                    .selectDateTaskListDataCaliberation
                                     .clear();
                                 upcomingInspectionsController.update();
                                 upcomingInspectionsController
@@ -701,7 +706,7 @@ class _TrainingInspectionScreenState extends State<TrainingInspectionScreen> {
                                     .selectDateTaskListData
                                     .clear();
                                      upcomingInspectionsController
-                                    .selectDateTaskListDataCalliberation
+                                    .selectDateTaskListDataCaliberation
                                     .clear();
 
                                 upcomingInspectionsController
@@ -769,7 +774,7 @@ class _TrainingInspectionScreenState extends State<TrainingInspectionScreen> {
                                   await upcomingInspectionsController
                                       .taskInitFunction(context);
                                       print('jj213483jjj ${upcomingInspectionsController
-                                                  .yesterdayTaskListDataCalliberation}');
+                                                  .yesterdayTaskListDataCaliberation}');
                                 },
                                 child: SingleChildScrollView(
                                   physics:
@@ -788,7 +793,7 @@ class _TrainingInspectionScreenState extends State<TrainingInspectionScreen> {
                                               ),
                                             )
                                           : yesterdayData
-                                                  .yesterdayTaskListDataCalliberation
+                                                  .yesterdayTaskListDataCaliberation
                                                   .isEmpty
                                               ? SizedBox(
                                                   height: 500.h,
@@ -799,7 +804,7 @@ class _TrainingInspectionScreenState extends State<TrainingInspectionScreen> {
                                                 )
                                               : taskListTileData(
                                                   taskListData: yesterdayData
-                                                      .yesterdayTaskListDataCalliberation),
+                                                      .yesterdayTaskListDataCaliberation),
                                     );
                                   }),
                                 ),
@@ -826,7 +831,7 @@ class _TrainingInspectionScreenState extends State<TrainingInspectionScreen> {
                                               ),
                                             )
                                           : todayData
-                                                  .todayTaskListDataCalliberation
+                                                  .todayTaskListDataCaliberation
                                                   .isEmpty
                                               ? SizedBox(
                                                   height: 500.h,
@@ -837,7 +842,7 @@ class _TrainingInspectionScreenState extends State<TrainingInspectionScreen> {
                                                 )
                                               : taskListTileData(
                                                   taskListData: todayData
-                                                      .todayTaskListDataCalliberation),
+                                                      .todayTaskListDataCaliberation),
                                     );
                                   }),
                                 ),
@@ -862,7 +867,7 @@ class _TrainingInspectionScreenState extends State<TrainingInspectionScreen> {
                                               ),
                                             )
                                           : tommorowData
-                                                  .tommorowTaskListDataCalliberation
+                                                  .tommorowTaskListDataCaliberation
                                                   .isEmpty
                                               ? SizedBox(
                                                   height: 500.h,
@@ -873,7 +878,7 @@ class _TrainingInspectionScreenState extends State<TrainingInspectionScreen> {
                                                 )
                                               : taskListTileData(
                                                   taskListData: tommorowData
-                                                      .tommorowTaskListDataCalliberation),
+                                                      .tommorowTaskListDataCaliberation),
                                     );
                                   }),
                                 ),
@@ -957,12 +962,12 @@ class _TrainingInspectionScreenState extends State<TrainingInspectionScreen> {
                                                               .isDateSubmitBtnClicked =
                                                           true;
                                                       if (homeController
-                                                          .isCalliberationSection
+                                                          .isCaliberationSection
                                                           .value) {
                                                                upcomingInspectionsController
-                                                              .selectDateTaskListDataCalliberation =
+                                                              .selectDateTaskListDataCaliberation =
                                                           await upcomingInspectionsController
-                                                              .getCalliberationTasks(
+                                                              .getCaliberationTasks(
                                                         isInitSate: false,
                                                         startDate: DateFormat(
                                                                 'dd-MM-yyyy')
@@ -1039,7 +1044,7 @@ class _TrainingInspectionScreenState extends State<TrainingInspectionScreen> {
                                           builder: (selectData) {
                                             return Container(
                                               child: selectData
-                                                          .selectDateTaskListDataCalliberation
+                                                          .selectDateTaskListDataCaliberation
                                                           .isEmpty &&
                                                       upcomingInspectionsController
                                                           .endDatePickController
@@ -1058,7 +1063,7 @@ class _TrainingInspectionScreenState extends State<TrainingInspectionScreen> {
                                                     )
                                                   : taskListTileData(
                                                       taskListData: selectData
-                                                          .selectDateTaskListDataCalliberation),
+                                                          .selectDateTaskListDataCaliberation),
                                             );
                                           }),
                                     ],

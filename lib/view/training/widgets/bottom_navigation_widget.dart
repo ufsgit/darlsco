@@ -80,10 +80,10 @@ class BottomNavigationWidgetState extends State<BottomNavigationWidget> {
     const AboutUsScreen(),
   ];
 
-  // calliberation tab
+  // caliberation tab
 
-  final calliberationTabPages = [
-    const HomePage(initialIndex: null), // select calliberation tab
+  final caliberationTabPages = [
+    const HomePage(initialIndex: null), // select caliberation tab
     const ContactUs(),
     const AboutUsScreen(),
   ];
@@ -128,7 +128,15 @@ class BottomNavigationWidgetState extends State<BottomNavigationWidget> {
   @override
   Widget build(BuildContext context) {
    
+try {
+  print('kkikikii ${homeController.isInspectionSection.value}');
+    print('kkikikii ${homeController.isCaliberationSection.value}');
+      print('kkikikii ${homeController.isTrainingSectionnew.value}');
 
+
+} catch (e) {
+  
+}
     return PopScope(
       canPop: false,
       child: Obx(
@@ -187,34 +195,7 @@ class BottomNavigationWidgetState extends State<BottomNavigationWidget> {
                                 : const Icon(Icons.groups_2_outlined),
                             label: 'About Us'),
                       ]
-                    : homeController.isCalliberationSection.value
-                        ? [
-                            BottomNavigationBarItem(
-                                icon: homeController.pageIndex.value == 0
-                                    ? const Icon(
-                                        Icons.home,
-                                        color: ColorResources.color294C73,
-                                      )
-                                    : const Icon(Icons.home_outlined),
-                                label: 'Home'),
-                            BottomNavigationBarItem(
-                                icon: homeController.pageIndex.value == 1
-                                    ? const Icon(
-                                        Icons.mail,
-                                        color: ColorResources.color294C73,
-                                      )
-                                    : const Icon(Icons.mail_outline),
-                                label: 'Contact'),
-                            BottomNavigationBarItem(
-                                icon: globalHomeController.pageIndex.value == 2
-                                    ? const Icon(
-                                        Icons.groups_2,
-                                        color: ColorResources.color294C73,
-                                      )
-                                    : const Icon(Icons.groups_2_outlined),
-                                label: 'About Us'),
-                          ]
-                        : homeController.isTrainingSectionnew.value
+                    :homeController.isTrainingSectionnew.value
                             ? homeController.isUserLoggedIn
                                 ? [
                                     BottomNavigationBarItem(
@@ -272,7 +253,7 @@ class BottomNavigationWidgetState extends State<BottomNavigationWidget> {
                                       label: 'Documentation',
                                     ),
                                   ]
-                            :[
+                            : homeController.isCaliberationSection.value?[
                             BottomNavigationBarItem(
                                 icon: homeController.pageIndex.value == 0
                                     ? const Icon(
@@ -297,7 +278,35 @@ class BottomNavigationWidgetState extends State<BottomNavigationWidget> {
                                       )
                                     : const Icon(Icons.groups_2_outlined),
                                 label: 'About Us'),
-                          ]),
+                          ]:
+                    
+                        [
+                            BottomNavigationBarItem(
+                                icon: homeController.pageIndex.value == 0
+                                    ? const Icon(
+                                        Icons.home,
+                                        color: ColorResources.color294C73,
+                                      )
+                                    : const Icon(Icons.home_outlined),
+                                label: 'Home'),
+                            BottomNavigationBarItem(
+                                icon: homeController.pageIndex.value == 1
+                                    ? const Icon(
+                                        Icons.mail,
+                                        color: ColorResources.color294C73,
+                                      )
+                                    : const Icon(Icons.mail_outline),
+                                label: 'Contact'),
+                            BottomNavigationBarItem(
+                                icon: globalHomeController.pageIndex.value == 2
+                                    ? const Icon(
+                                        Icons.groups_2,
+                                        color: ColorResources.color294C73,
+                                      )
+                                    : const Icon(Icons.groups_2_outlined),
+                                label: 'About Us'),
+                          ]
+                        ),
           ),
         ),
       ),
@@ -313,9 +322,9 @@ class BottomNavigationWidgetState extends State<BottomNavigationWidget> {
       return homeController.isUserLoggedIn
           ? trainingTabPages[homeController.pageIndex.value]
           : trainigPagesDefault[homeController.pageIndex.value];
-    } else if (homeController.isCalliberationSection.value) {
+    } else if (homeController.isCaliberationSection.value) {
       print('JBFUIR 3');
-      return calliberationTabPages[homeController.pageIndex.value];
+      return caliberationTabPages[homeController.pageIndex.value];
     } else {
       print('JBFUIR 4');
       return inspectionTabPages[widget.selectedIndex];

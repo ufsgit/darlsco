@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:darlsco/controller/home/dummy.dart';
 import 'package:darlsco/controller/home/home_controller.dart';
+import 'package:darlsco/controller/tainning/training_home_controller.dart';
 import 'package:darlsco/controller/tainning/trainnig_controller.dart';
 import 'package:darlsco/controller/tody_task_controller.dart';
 import 'package:darlsco/http/http_request.dart';
@@ -67,10 +68,11 @@ class TrainingControllerHomee extends GetxController {
 
   //   super.onInit();
   // }
+  RxList dropdownValues = [].obs;
   RxBool isCartscreenLoading = false.obs;
-    RxBool isOrderscreenLoading = false.obs;
-    RxBool isDocumentationscreenLoading = false.obs;
-RxBool editProfileLoading=false.obs;
+  RxBool isOrderscreenLoading = false.obs;
+  RxBool isDocumentationscreenLoading = false.obs;
+  RxBool editProfileLoading = false.obs;
 
   List<CategorySelectModelElement> priceDetailsList = [];
 
@@ -345,7 +347,7 @@ RxBool editProfileLoading=false.obs;
                   applicationFee + examinationFee + certificateFee + quantPrice;
 
               subtotal += itemSubtotal;
-          isCartscreenLoading.value = false;
+              isCartscreenLoading.value = false;
 
               return CartPriceModel(
                   trainingCourseName: cartData[index].trainingCourseName,
@@ -399,8 +401,7 @@ RxBool editProfileLoading=false.obs;
 
         throw Exception('Failed to load items in cart: ${response.statusCode}');
       }
-              isCartscreenLoading.value = false;
-
+      isCartscreenLoading.value = false;
     });
 
     update();
@@ -450,7 +451,7 @@ RxBool editProfileLoading=false.obs;
   Future<void> getOrdersItems() async {
     final prefs = await SharedPreferences.getInstance();
     final String customerId = prefs.getString('darlsco_id') ?? "6";
-   isOrderscreenLoading.value=true;
+    isOrderscreenLoading.value = true;
     await HttpRequest.httpGetRequest(
             endPoint: HttpUrls.getOrderItems + customerId)
         .then((response) {
@@ -463,14 +464,14 @@ RxBool editProfileLoading=false.obs;
           orderData.value = orderDataList
               .map((result) => GetOrderItemModelElement.fromJson(result))
               .toList();
-          isOrderscreenLoading.value=false;
-
+          isOrderscreenLoading.value = false;
         } else {
-                    isOrderscreenLoading.value=false;
+          isOrderscreenLoading.value = false;
 
           throw Exception('Empty response data');
         }
-      } else {          isOrderscreenLoading.value=false;
+      } else {
+        isOrderscreenLoading.value = false;
 
         throw Exception('Failed to load orders: ${response.statusCode}');
       }
@@ -914,23 +915,27 @@ RxBool editProfileLoading=false.obs;
     });
     update();
   }
-String formatText(String input) {
+
+  String formatText(String input) {
     List<String> words = input.split(' ');
 
     List<String> chunks = [];
     for (int i = 0; i < words.length; i += 6) {
-      String chunk = words.sublist(i, i + 6 > words.length ? words.length : i + 6).join(' ');
+      String chunk = words
+          .sublist(i, i + 6 > words.length ? words.length : i + 6)
+          .join(' ');
       chunks.add(chunk);
     }
 
     // Join chunks with line breaks
     return chunks.join('\n');
   }
+
 //function for reschedule course
   rescheduleCourse(RescheduleUser user, BuildContext context) async {
     final prefs = await SharedPreferences.getInstance();
     final String userId = prefs.getString('darlsco_id') ?? "";
-    final formattedReason=formatText(user.notes);
+    final formattedReason = formatText(user.notes);
     Map<String, dynamic> mapData = {
       "Order_Details_Id": user.orderDetailsId,
       "Training_Course_Id": user.trainingCourseId,
@@ -1002,6 +1007,10 @@ String formatText(String input) {
           traineeDetails.value = traineeDetailsData
               .map((result) => GetTraineeDetailModel.fromJson(result))
               .toList();
+          print('dfwrnfjer ${traineeDetails}');
+          dropdownValues.value = List.generate(
+              trainingController.traineeDetails.length,
+              (index) => eligibleList.first);
         } else {
           throw Exception('Empty response data');
         }
@@ -1016,14 +1025,14 @@ String formatText(String input) {
   Future<void> getCategoryDocumentation() async {
     // final prefs = await SharedPreferences.getInstance();
     // final String customerId = prefs.getString('darlsco_id') ?? "";
-   isDocumentationscreenLoading.value=true;
+    isDocumentationscreenLoading.value = true;
     await HttpRequest.httpGetRequest(
       endPoint: HttpUrls.getCategoryEligibility,
     ).then((response) {
       if (response.statusCode == 200) {
         final responseData = response.data as List<dynamic>;
         if (responseData.isNotEmpty) {
-             isDocumentationscreenLoading.value=false;
+          isDocumentationscreenLoading.value = false;
 
           categoryEligibilityDetails.clear();
           final categoryEligibilityDetailsData =
@@ -1032,11 +1041,12 @@ String formatText(String input) {
               .map((result) => CategoryEligibleModelElement.fromJson(result))
               .toList();
         } else {
-                       isDocumentationscreenLoading.value=false;
+          isDocumentationscreenLoading.value = false;
 
           throw Exception('Empty response data');
         }
-      } else {             isDocumentationscreenLoading.value=false;
+      } else {
+        isDocumentationscreenLoading.value = false;
 
         throw Exception('Failed to load training data: ${response.statusCode}');
       }

@@ -4,6 +4,7 @@ import 'dart:math';
 
 import 'package:carousel_slider/carousel_controller.dart';
 import 'package:darlsco/controller/contact_us_controller/contact_us_controller.dart';
+import 'package:darlsco/controller/login/login_controller.dart';
 
 import 'package:darlsco/controller/upcoming_inspections/upcoming_inspection_controller.dart';
 import 'package:darlsco/main.dart';
@@ -67,7 +68,7 @@ class HomeController extends GetxController {
   List<bool> equipmentCheckValue = [];
   RxBool isuserLogin = false.obs;
   RxBool isTraineeLogin = false.obs;
-  RxBool isCalliberationLogin = false.obs;
+  RxBool isCaliberationLogin = false.obs;
   List<CustomerLocations> customerLocations = [];
   RxBool isLoadingEquipmentDetailsscreen = false.obs;
   EquipmentDetailModel equipmentDetailModel = EquipmentDetailModel();
@@ -312,24 +313,24 @@ class HomeController extends GetxController {
 
   TextEditingController inspectionMessageController = TextEditingController();
   List<CustomerEquipmentList> customerEquipmentData = [];
-  List<CustomerEquipmentList> customerEquipmentDataCalliberation = [];
+  List<CustomerEquipmentList> customerEquipmentDataCaliberation = [];
   List<CustomerEquipmentList> customerEquipmentExpiringData = [];
-  List<CustomerEquipmentList> customerEquipmentExpiringDataCalliberation = [];
+  List<CustomerEquipmentList> customerEquipmentExpiringDataCaliberation = [];
   List getAllUsersList = [];
-  List getAllUsersListCalliberation = [];
+  List getAllUsersListCaliberation = [];
   List getCurrentUsersList = [];
-  List getCurrentUsersListCalliberation = [];
+  List getCurrentUsersListCaliberation = [];
   //methhod for getting device id
 
   //TODO===================
   bool isUserLoggedIn = false;
   bool isInspectionEnabled = true;
   bool isTrainingEnabled = true;
-  bool isCalliberationEnabled = true;
+  bool isCaliberationEnabled = true;
 
   RxBool isInspectionSection = false.obs;
   RxBool isTrainingSectionnew = false.obs;
-  RxBool isCalliberationSection = false.obs;
+  RxBool isCaliberationSection = false.obs;
   //TODO===================
 
   Future<String?> _getId() async {
@@ -514,18 +515,18 @@ class HomeController extends GetxController {
     allUserDropDownValue.value = '';
     await HttpRequest.httpGetRequest(
       bodyData: {
-        'Task_Id_': homeController.isCalliberationSection.value
-            ? upcomingInspectionsController.taskDetailsDataCalliberation[0]
+        'Task_Id_': homeController.isCaliberationSection.value
+            ? upcomingInspectionsController.taskDetailsDataCaliberation[0]
                 ['Task_Id']
             : upcomingInspectionsController.taskDetailsData[0]['Task_Id']
       },
-      endPoint: homeController.isCalliberationSection.value
-          ? HttpUrls.getFullUsersCalliberation
+      endPoint: homeController.isCaliberationSection.value
+          ? HttpUrls.getFullUsersCaliberation
           : HttpUrls.getFullUsers,
     ).then((value) {
       if (value.data != null) {
-        getAllUsersListCalliberation = value.data[0];
-        getCurrentUsersListCalliberation = value.data[1];
+        getAllUsersListCaliberation = value.data[0];
+        getCurrentUsersListCaliberation = value.data[1];
         Get.to(() => const UserListScreen());
       }
       update();
@@ -547,29 +548,30 @@ class HomeController extends GetxController {
   void changeTaskUser(BuildContext context) async {
     try {
       Map<String, dynamic> changtaskBodyData = {
-        'Task_Id_': homeController.isCalliberationSection.value
-            ? upcomingInspectionsController.taskDetailsDataCalliberation[0]
+        'Task_Id_': homeController.isCaliberationSection.value
+            ? upcomingInspectionsController.taskDetailsDataCaliberation[0]
                 ['Task_Id']
             : upcomingInspectionsController.taskDetailsData[0]['Task_Id'],
-        'From_User_':homeController.isCalliberationSection.value?
-        getCurrentUsersListCalliberation
-            .where((element) =>
+        'From_User_': homeController.isCaliberationSection.value
+            ? getCurrentUsersListCaliberation.where((element) =>
                 element['User_Details_Name'].toString().toLowerCase() ==
                 currentUserDropDownValue.value.toLowerCase())
-        : getCurrentUsersList
-            .where((element) =>
-                element['User_Details_Name'].toString().toLowerCase() ==
-                currentUserDropDownValue.value.toLowerCase())
-            .toList()[0]['User_Details_Id'],
-        'To_User_':homeController.isCalliberationSection.value?getAllUsersListCalliberation
-            .where((element) =>
-                element['User_Details_Name'].toString().toLowerCase() ==
-                allUserDropDownValue.value.toLowerCase())
-            .toList()[0]['User_Details_Id']: getAllUsersList
-            .where((element) =>
-                element['User_Details_Name'].toString().toLowerCase() ==
-                allUserDropDownValue.value.toLowerCase())
-            .toList()[0]['User_Details_Id'],
+            : getCurrentUsersList
+                .where((element) =>
+                    element['User_Details_Name'].toString().toLowerCase() ==
+                    currentUserDropDownValue.value.toLowerCase())
+                .toList()[0]['User_Details_Id'],
+        'To_User_': homeController.isCaliberationSection.value
+            ? getAllUsersListCaliberation
+                .where((element) =>
+                    element['User_Details_Name'].toString().toLowerCase() ==
+                    allUserDropDownValue.value.toLowerCase())
+                .toList()[0]['User_Details_Id']
+            : getAllUsersList
+                .where((element) =>
+                    element['User_Details_Name'].toString().toLowerCase() ==
+                    allUserDropDownValue.value.toLowerCase())
+                .toList()[0]['User_Details_Id'],
 
         // upcomingInspectionsController.taskDetailsData[0]['Task_Id']
       };
@@ -726,7 +728,7 @@ class HomeController extends GetxController {
     int customerId = int.parse(sharedPreferences.getString('darlsco_id') ?? '');
 
     customerEquipmentData.clear();
-    customerEquipmentDataCalliberation.clear();
+    customerEquipmentDataCaliberation.clear();
     await HttpRequest.httpGetRequest(
       bodyData: {
         "Customer_Id_": customerId,
@@ -764,7 +766,7 @@ class HomeController extends GetxController {
       }
     });
 
-    /// ============== Calliberation Api ==================
+    /// ============== Caliberation Api ==================
     await HttpRequest.httpGetRequest(
       bodyData: {
         "Customer_Id_": customerId,
@@ -788,19 +790,19 @@ class HomeController extends GetxController {
         }
 
         for (var element in value.data[0]) {
-          customerEquipmentDataCalliberation
+          customerEquipmentDataCaliberation
               .add(CustomerEquipmentList.fromJson(element));
         }
-        print('dfgwr4tiow4oi4wroi $customerEquipmentDataCalliberation');
+        print('dfgwr4tiow4oi4wroi $customerEquipmentDataCaliberation');
 
         // final data=jsonDecode(value.data[0].toString());
 // ist<CustomerEquipmentList> result= value.data[0].map((e)=>CustomerEquipmentList.fromJson(e)).toList()as  List<CustomerEquipmentList> ;
 
         if (equipmentCheckValue.isEmpty ||
             equipmentCheckValue.length !=
-                customerEquipmentDataCalliberation.length) {
+                customerEquipmentDataCaliberation.length) {
           equipmentCheckValue = List.generate(
-              homeController.customerEquipmentDataCalliberation.length,
+              homeController.customerEquipmentDataCaliberation.length,
               (index) => false);
         }
         // print(customerEquipmentData[0].equipmentName);
@@ -857,7 +859,7 @@ class HomeController extends GetxController {
 
   searchExpiringInspections({context, isfromSplashScreen = false}) async {
     customerEquipmentExpiringData.clear();
-    customerEquipmentExpiringDataCalliberation.clear();
+    customerEquipmentExpiringDataCaliberation.clear();
     equipmentCheckValue.clear();
 
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
@@ -901,7 +903,7 @@ class HomeController extends GetxController {
     });
     // ======== CALLIBERATION API ======
     await HttpRequest.httpGetRequest(
-            endPoint: HttpUrls.searchExpiringInspectionsCalliberation,
+            endPoint: HttpUrls.searchExpiringInspectionsCaliberation,
             bodyData: postData)
         .then((value) {
       if (value.data['returnvalue']['Leads'].isEmpty &&
@@ -918,21 +920,21 @@ class HomeController extends GetxController {
       }
 
       for (var element in value.data['returnvalue']['Leads']) {
-        customerEquipmentExpiringDataCalliberation
+        customerEquipmentExpiringDataCaliberation
             .add(CustomerEquipmentList.fromJson(element));
       }
 
       if (equipmentCheckValue.isEmpty ||
           equipmentCheckValue.length !=
-              customerEquipmentExpiringDataCalliberation.length) {
+              customerEquipmentExpiringDataCaliberation.length) {
         equipmentCheckValue = List.generate(
-            homeController.customerEquipmentExpiringDataCalliberation.length,
+            homeController.customerEquipmentExpiringDataCaliberation.length,
             (index) => false);
       }
       // print(customerEquipmentData[0].equipmentName);
 
       homeController.numberTextList[2] =
-          '${customerEquipmentExpiringDataCalliberation.length}';
+          '${customerEquipmentExpiringDataCaliberation.length}';
 
       // print('expiring value ${customerEquipmentExpiringData[0].equipmentId}');
     });
@@ -988,10 +990,10 @@ class HomeController extends GetxController {
 
     await HttpRequest.httpPostRequest(
             endPoint: ispostdataExpiring
-                ? homeController.isCalliberationSection.value
+                ? homeController.isCaliberationSection.value
                     ? HttpUrls.saveCustomerRequestExpiringEquipmentCaliberation
                     : HttpUrls.saveCustomerRequestExpiringEquipment
-                : homeController.isCalliberationSection.value
+                : homeController.isCaliberationSection.value
                     ? HttpUrls.saveCustomerRequestCaliberation
                     : HttpUrls.saveCustomerRequest,
             bodyData: ispostdataExpiring ? postDataExpiring : postData)
@@ -1055,22 +1057,82 @@ class HomeController extends GetxController {
 
     String token = preferences.getString('token') ?? '';
     String? userId = preferences.getString('darlsco_id');
-    String isCalliberationCustomer =
-        preferences.getString('calliberation_login') ?? '1';
+    String isCaliberationCustomer =
+        preferences.getString('caliberation_login') ?? '1';
     String isTraineeCustomer = preferences.getString('trainee_login') ?? '';
 
     String isInspectionCustomer =
         preferences.getString('inspection_login') ?? '';
-  
+
     isUserLoggedIn = token != '';
+    print('dfwref ${isTraineeCustomer}');
     isInspectionEnabled = isInspectionCustomer == '1' || !isUserLoggedIn;
     isTrainingEnabled = isTraineeCustomer == '1' || !isUserLoggedIn;
-    isCalliberationEnabled = isCalliberationCustomer == '1' || !isUserLoggedIn;
-    print('isCalliberationCustomer $isInspectionEnabled');
+    isCaliberationEnabled = isCaliberationCustomer == '1' || !isUserLoggedIn;
+    print('isCaliberationCustomer ${loginController.isFromSplashOrLogin}');
+
+    if (loginController.isFromSplashOrLogin) {
+      // INSPECTION
+      homeController.isInspectionSection.value =
+          homeController.isInspectionEnabled;
+      // TRAINING
+      homeController.isTrainingSectionnew.value =
+          !homeController.isInspectionEnabled &&
+                  homeController.isTrainingEnabled &&
+                  !homeController.isInspectionSection.value ||
+              homeController.isTrainingEnabled &&
+                  homeController.isInspectionEnabled &&
+                  !homeController.isInspectionSection.value;
+      // CALIBERATION
+
+      homeController.isCaliberationSection.value =
+          !homeController.isInspectionEnabled &&
+                  !homeController.isTrainingEnabled &&
+                  homeController.isCaliberationEnabled &&
+                  !homeController.isTrainingSectionnew.value &&
+                  !homeController.isInspectionSection.value ||
+              homeController.isInspectionEnabled &&
+                  !homeController.isTrainingEnabled &&
+                  homeController.isCaliberationEnabled &&
+                  !homeController.isTrainingSectionnew.value &&
+                  !homeController.isInspectionSection.value ||
+              !homeController.isInspectionEnabled &&
+                  homeController.isTrainingEnabled &&
+                  homeController.isCaliberationEnabled &&
+                  !homeController.isTrainingSectionnew.value &&
+                  !homeController.isInspectionSection.value ||
+              homeController.isInspectionEnabled &&
+                  homeController.isTrainingEnabled &&
+                  homeController.isCaliberationEnabled &&
+                  !homeController.isTrainingSectionnew.value &&
+                  !homeController.isInspectionSection.value;
+
+                  
+      print(homeController.isTrainingSectionnew.value);
+      print(homeController.isTrainingEnabled);
+      if (!homeController.isInspectionEnabled ||
+          homeController.isTrainingEnabled &&
+              homeController.isInspectionEnabled) {
+        print('CHECKING ${homeController.isInspectionEnabled}');
+        print('CHECKING ${homeController.isTrainingEnabled}');
+
+        print('CHECKING... SUCCESS');
+      } else {
+        print('CHECKING ${homeController.isInspectionEnabled}');
+        print('CHECKING ${homeController.isTrainingEnabled}');
+        print('CHECKING... FAILED');
+      }
+
+      print(homeController.isInspectionEnabled);
+
+      loginController.isFromSplashOrLogin = false;
+      print(homeController.isTrainingSectionnew.value);
+    }
+
     if (token == '' || token == 'null') {
       isuserLogin.value = false;
       isTraineeLogin.value = false;
-      isCalliberationLogin.value = false;
+      isCaliberationLogin.value = false;
       print('tabIndex hi1');
     } else if (isTraineeCustomer == '1' && isInspectionCustomer == '0') {
       print('tabIndex hi2');
@@ -1160,9 +1222,10 @@ class HomeController extends GetxController {
             }).then((response) {
           if (response.statusCode == 200) {
             final data = response.data;
+
             print('jhdfbweyuisdfwer ${data[0][0]}');
             prefs.setString(
-                'calliberation_login', data['0'][0]['Calibration_'].toString());
+                'caliberation_login', data['0'][0]['Calibration_'].toString());
             prefs.setString(
                 'trainee_login', (data[0][0]['Training_'] ?? '0').toString());
             prefs.setString('inspection_login',
@@ -1171,7 +1234,6 @@ class HomeController extends GetxController {
                 (data[0][0]['Inspection_'] ?? '0').toString();
             homeController.isTraineee.value =
                 (data[0][0]['Training_'] ?? '0').toString();
-
             homeController.isUsersignedIn();
             if (homeController.isuserLogin.value == true) {
               //  {
