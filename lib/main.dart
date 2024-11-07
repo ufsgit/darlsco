@@ -5,6 +5,7 @@ import 'package:country_code_picker/country_code_picker.dart';
 import 'package:darlsco/app_%20config/all_countries.dart';
 import 'package:darlsco/controller/home/home_controller.dart';
 import 'package:darlsco/controller/login/login_controller.dart';
+import 'package:darlsco/firebase_options.dart';
 import 'package:darlsco/view/home/bottom_navigation_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:location/location.dart' as loc;
@@ -41,7 +42,8 @@ Future<void> main() async {
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
   // setPathUrlStrategy();
-  // await Firebase.initializeApp();
+  await Firebase.initializeApp();
+
 // final channel =  IOWebSocketChannel.connect( Uri.parse('wss://192.168.1.94:4510')    );
 
 //      channel.sink.add('Hello from ufs!');
@@ -76,7 +78,7 @@ class MyApp extends StatelessWidget {
         return GetMaterialApp(
           // scaffoldMessengerKey: scaffoldMessengerKey,
           title: 'Darlsco',
-        
+
           debugShowCheckedModeBanner: false,
           // routes: {
           //   '/cart': (context) => const CartScreen(),
@@ -88,12 +90,11 @@ class MyApp extends StatelessWidget {
                 style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.blue.shade700,
                     foregroundColor: Colors.white)),
-
             dialogTheme: const DialogTheme(
-                backgroundColor: Colors.white,
-                surfaceTintColor: Colors.white,
-                shadowColor: Colors.black26,
-               ),
+              backgroundColor: Colors.white,
+              surfaceTintColor: Colors.white,
+              shadowColor: Colors.black26,
+            ),
             fontFamily: GoogleFonts.roboto().fontFamily,
             colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
             useMaterial3: true,
@@ -184,23 +185,40 @@ class MyApp extends StatelessWidget {
   }
 }
 
+getNotificationToken() async {
+  try {
+    FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;
+    PermissionStatus notificationStatus = await Permission.notification.status;
+    print('FCM status $notificationStatus');
+    if (!notificationStatus.isDenied) {
+      print('FCM status requesting permission.....');
+
+      NotificationSettings notificationSettings =
+          await firebaseMessaging.requestPermission();
+      print('FCM NOT SETT ${notificationSettings.alert}');
+    } else if (!notificationStatus.isGranted) {
+      String? token = await firebaseMessaging.getToken();
+      print('FCM TOKEN $token');
+    }
+  } catch (e) {
+    print('FCM ERROR $e');
+  }
+}
+
 getcountry(BuildContext context) async {
   try {
-   
-
-     homeController.isFromPurchase.value = false;
+    homeController.isFromPurchase.value = false;
     if (!kIsWeb) {
       PermissionStatus locationStatus = await Permission.location.status;
 
       if (locationStatus.isDenied) {
         locationStatus = await Permission.location.request();
       }
-   PermissionStatus storageStatus = await Permission.storage.status;
+      PermissionStatus storageStatus = await Permission.storage.status;
       print('hiii permission asked $storageStatus');
 
-      if (storageStatus.isDenied) {
-      }
-        storageStatus = await Permission.storage.request();
+      if (storageStatus.isDenied) {}
+      storageStatus = await Permission.storage.request();
       // print(locationStatus);
       // if (locationStatus.isPermanentlyDenied) {
       //   await openAppSettings();

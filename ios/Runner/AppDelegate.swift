@@ -8,13 +8,17 @@ import FirebaseCore
     _ application: UIApplication,
     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
   ) -> Bool {
-      // FirebaseApp.configure()
+    // Initialize Firebase
+    FirebaseApp.configure()
+
+    // Register plugins
     GeneratedPluginRegistrant.register(with: self)
-     if #available(iOS 10.0, *) {
+
+    // Set up notification delegate for iOS 10.0+
+    if #available(iOS 10.0, *) {
       UNUserNotificationCenter.current().delegate = self as? UNUserNotificationCenterDelegate
     }
-   
-    
+
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
   }
 }

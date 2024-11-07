@@ -44,7 +44,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   mainInitFunction() async {
     try {
-      loginController.isFromSplashOrLogin=true;
+      loginController.isFromSplashOrLogin = true;
       PackageInfo packageInfo = await PackageInfo.fromPlatform();
       const String version = '1.0.11';
       await homeController.versionCheck(version, context);
@@ -69,7 +69,7 @@ class _SplashScreenState extends State<SplashScreen> {
       }
 
       await homeController.isUsersignedIn();
-
+      await getNotificationToken();
       getcountry(context);
       // Future.delayed(const Duration(seconds: 2), () async {
       await checkUserType();

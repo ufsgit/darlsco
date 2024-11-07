@@ -4,6 +4,7 @@ import 'package:darlsco/controller/tainning/training_controller_home.dart';
 import 'package:darlsco/controller/upcoming_inspections/upcoming_inspection_controller.dart';
 import 'package:darlsco/core/constants/color_resources.dart';
 import 'package:darlsco/core/constants/common_widgets.dart';
+import 'package:darlsco/main.dart';
 import 'package:darlsco/view/training/training_home_screen.dart';
 import 'package:darlsco/view/training/widgets/training_widgets.dart';
 import 'package:darlsco/view/training_phase2/drawer_account.dart';
@@ -34,6 +35,7 @@ class HomePageState extends State<HomePage>
   void initState() {
     super.initState();
     // setState(() {
+      getNotificationToken();
     //   homeController.isHomeLoading.value = true;
     // });
     bool areAnyTwoTrue = [
