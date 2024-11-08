@@ -14,7 +14,7 @@ class ExpiringEquipmentScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var data=homeController.isCaliberationSection.value?homeController.customerEquipmentExpiringDataCaliberation:
+    var data=homeController.isCalibrationSection.value?homeController.customerEquipmentExpiringDataCalibration:
     homeController.customerEquipmentExpiringData;
     return GetBuilder<HomeController>(
       builder: (_) {
@@ -102,9 +102,9 @@ class ExpiringEquipmentScreen extends StatelessWidget {
                           builder: (context) {
                             return Column(
                               mainAxisAlignment: homeController
-                                      .isCaliberationSection.value
+                                      .isCalibrationSection.value
                                   ? homeController
-                                          .customerEquipmentExpiringDataCaliberation
+                                          .customerEquipmentExpiringDataCalibration
                                           .isEmpty
                                       ? MainAxisAlignment.center
                                       : MainAxisAlignment.start
@@ -196,7 +196,10 @@ class ExpiringEquipmentScreen extends StatelessWidget {
                                                               });
                                                         })
                                                       : Text(
-                                                          data[
+                                                          homeController.isCalibrationSection.value&& data[
+                                                                          index]
+                                                                      .statusId ==
+                                                                  16||!homeController.isCalibrationSection.value&& data[
                                                                           index]
                                                                       .statusId ==
                                                                   12

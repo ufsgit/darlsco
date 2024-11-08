@@ -41,26 +41,26 @@ class HomePageState extends State<HomePage>
     bool areAnyTwoTrue = [
           homeController.isTrainingEnabled,
           homeController.isInspectionEnabled,
-          homeController.isCaliberationEnabled
+          homeController.isCalibrationEnabled
         ].where((element) => element).length >=
         2;
     if (homeController.isInspectionEnabled &&
         homeController.isTrainingEnabled &&
-        homeController.isCaliberationEnabled) {
+        homeController.isCalibrationEnabled) {
       print('dfwref n12');
     } else {
       print('dfwref n1255 ${homeController.isInspectionEnabled}');
       print('dfwref n1255 ${homeController.isTrainingEnabled}');
-      print('dfwref n1255 ${homeController.isCaliberationEnabled}');
+      print('dfwref n1255 ${homeController.isCalibrationEnabled}');
     }
 
     _tabController = TabController(
         length: homeController.isInspectionEnabled &&
                     homeController.isTrainingEnabled &&
-                    homeController.isCaliberationEnabled ||
+                    homeController.isCalibrationEnabled ||
                 !homeController.isInspectionEnabled &&
                     !homeController.isTrainingEnabled &&
-                    !homeController.isCaliberationEnabled
+                    !homeController.isCalibrationEnabled
             ? 3
             : areAnyTwoTrue
                 ? 2
@@ -84,15 +84,15 @@ class HomePageState extends State<HomePage>
                     ? 1
                     : homeController.isInspectionEnabled &&
                             homeController.isTrainingEnabled &&
-                            homeController.isCaliberationEnabled
+                            homeController.isCalibrationEnabled
                         ? 2
                         : 0;
         // homeController.isuserLogin.value &&
         //             homeController.isTraineeLogin.value &&
-        //             homeController.isCaliberationSection.value ||
+        //             homeController.isCalibrationSection.value ||
         //         !homeController.isuserLogin.value &&
         //             !homeController.isTraineeLogin.value &&
-        //             homeController.isCaliberationSection.value
+        //             homeController.isCalibrationSection.value
         //     ? 2
         //     : 1;
       } else {
@@ -106,9 +106,9 @@ class HomePageState extends State<HomePage>
 
       _tabController.index = 0;
     }
-    if (globalHomeController.isCaliberationLogin.value ||
+    if (globalHomeController.isCalibrationLogin.value ||
         !globalHomeController.isuserLogin.value &&
-            globalHomeController.isCaliberationLogin.value) {
+            globalHomeController.isCalibrationLogin.value) {
       print('dfsrfgdfweer');
     } else {
       print('dfsrfgdfweer2000 ${globalHomeController.isuserLogin.value}');
@@ -154,9 +154,9 @@ class HomePageState extends State<HomePage>
         homeController.isTrainingSection.value = true;
       }
       if (homeController.isuserLogin.value == false &&
-          homeController.isCaliberationLogin.value) {
+          homeController.isCalibrationLogin.value) {
         print('erioioertniogtng');
-        homeController.isCaliberationSection.value = true;
+        homeController.isCalibrationSection.value = true;
       }
     } catch (e) {}
     return SafeArea(
@@ -284,7 +284,7 @@ class HomePageState extends State<HomePage>
                                                       .isTrainingSection
                                                       .value = false;
                                                   globalHomeController
-                                                      .isCaliberationSection
+                                                      .isCalibrationSection
                                                       .value = false;
                                                   globalHomeController
                                                       .isUserLoggedIn = false;
@@ -366,7 +366,7 @@ class HomePageState extends State<HomePage>
                                       homeController.isTrainingEnabled &&
                                       homeController.isInspectionEnabled;
 
-                          homeController.isCaliberationSection.value =
+                          homeController.isCalibrationSection.value =
                               index == 0 &&
                                       !homeController.isInspectionEnabled &&
                                       !homeController.isTrainingEnabled ||
@@ -379,14 +379,14 @@ class HomePageState extends State<HomePage>
                                   index == 2 &&
                                       homeController.isInspectionEnabled &&
                                       homeController.isTrainingEnabled &&
-                                      homeController.isCaliberationEnabled;
+                                      homeController.isCalibrationEnabled;
                           print(
-                              'dfwerhbbhbgyg57 ${homeController.isCaliberationSection.value}');
+                              'dfwerhbbhbgyg57 ${homeController.isCalibrationSection.value}');
                           homeController.update();
                           // if (index == 0) {
                           //   globalHomeController.isTrainingSection.value =
                           //       false;
-                          //   globalHomeController.isCaliberationSection.value =
+                          //   globalHomeController.isCalibrationSection.value =
                           //       false;
 
                           //   homeController.tabIndex.value = index;
@@ -395,19 +395,19 @@ class HomePageState extends State<HomePage>
 
                           //   globalHomeController.isTrainingSection.value =
                           //       false;
-                          //   globalHomeController.isCaliberationSection.value =
+                          //   globalHomeController.isCalibrationSection.value =
                           //       true;
                           //   homeController.tabIndex.value = index;
                           // } else if (index == 1) {
                           //   print('iiiihoioihi 1');
-                          //   globalHomeController.isCaliberationSection.value =
+                          //   globalHomeController.isCalibrationSection.value =
                           //       false;
                           //   if (!homeController.isuserLogin.value ||
                           //       !homeController.isTraineeLogin.value) {
                           //     print('iiiihoioihi 2');
                           //     globalHomeController.isTrainingSection.value =
                           //         false;
-                          //     globalHomeController.isCaliberationSection.value =
+                          //     globalHomeController.isCalibrationSection.value =
                           //         true;
                           //   } else {
                           //     print('iiiihoioihi 3');
@@ -415,22 +415,22 @@ class HomePageState extends State<HomePage>
                           //         true;
                           //   }
                           //   /////////
-                          //   if (homeController.isCaliberationLogin.value &&
+                          //   if (homeController.isCalibrationLogin.value &&
                           //       !homeController.isTraineeLogin.value) {
                           //     print('dfsrgre 10');
 
                           //     globalHomeController.isTrainingSection.value =
                           //         false;
-                          //     globalHomeController.isCaliberationSection.value =
+                          //     globalHomeController.isCalibrationSection.value =
                           //         true;
                           //   } else if (!homeController
-                          //           .isCaliberationLogin.value &&
+                          //           .isCalibrationLogin.value &&
                           //       homeController.isTraineeLogin.value) {
                           //     print('dfsrgre 11');
 
                           //     globalHomeController.isTrainingSection.value =
                           //         true;
-                          //     globalHomeController.isCaliberationSection.value =
+                          //     globalHomeController.isCalibrationSection.value =
                           //         false;
                           //   }
 
@@ -439,7 +439,7 @@ class HomePageState extends State<HomePage>
                           //   print('dfsrgre 9');
 
                           //   globalHomeController.isTrainingSection.value = true;
-                          //   globalHomeController.isCaliberationSection.value =
+                          //   globalHomeController.isCalibrationSection.value =
                           //       false;
                           //   homeController.tabIndex.value = index;
                           // }
@@ -492,17 +492,17 @@ class HomePageState extends State<HomePage>
                                 size: 30,
                               ),
                             ),
-                          // if (globalHomeController.isCaliberationLogin.value ||
+                          // if (globalHomeController.isCalibrationLogin.value ||
                           //     !globalHomeController.isuserLogin.value &&
                           //         globalHomeController
-                          //             .isCaliberationLogin.value ||
+                          //             .isCalibrationLogin.value ||
                           //     !globalHomeController.isuserLogin.value &&
                           //         !globalHomeController
-                          //             .isCaliberationLogin.value)
-                          if (homeController.isCaliberationEnabled)
+                          //             .isCalibrationLogin.value)
+                          if (homeController.isCalibrationEnabled)
                             const Tab(
                               iconMargin: EdgeInsets.all(0),
-                              text: 'Caliberation',
+                              text: 'Calibration',
                               icon: Icon(
                                 Icons.settings,
                                 color: ColorResources.color294C73,
@@ -605,17 +605,17 @@ class HomePageState extends State<HomePage>
                 //         globalHomeController.isTraineeLogin.value == false))
                 if (homeController.isTrainingEnabled)
                   const TrainingHomeScreen(),
-                // CALLIBERATION
-                if (homeController.isCaliberationEnabled)
-                  // if (globalHomeController.isCaliberationLogin.value == true ||
+                // calibration
+                if (homeController.isCalibrationEnabled)
+                  // if (globalHomeController.isCalibrationLogin.value == true ||
                   //     (globalHomeController.isuserLogin.value == false &&
-                  //         globalHomeController.isCaliberationLogin.value ==
+                  //         globalHomeController.isCalibrationLogin.value ==
                   //             true) ||
                   //     (globalHomeController.isuserLogin.value == false &&
-                  //         globalHomeController.isCaliberationLogin.value ==
+                  //         globalHomeController.isCalibrationLogin.value ==
                   //             false))
                   Tab2(
-                    btnText: 'Caliberation',
+                    btnText: 'Calibration',
                     imgurlList: const [
                       'https://s3-alpha-sig.figma.com/img/641b/30d6/0527f4c4463314a0e51342ca65015b8a?Expires=1701648000&Signature=b3Vf84hA3SPBQdsIYadxD69GmrohKr3CvC~q1CD57dD4NSTWzQMisHJtTaQ~NMufu9IIN2KEsnM4wcyss~flnFXyvB1xWmHLWwXrqCgvyrKDQq0tIP76lrodeGfsiE4YUm4A0IBOoihQoml9jmYxufepXFh0DhaWY-qHczbDczDEHnzzaqjqalyrhhhzbJlQGZb5RDEQOqYhk5XZ96G02DYdXRsmz~bLqfN~gZSBb47X7eRpYICs5ARKnID~0MqIWokpkb34~ZlrynYc1TglNRUy3soJoe3VM3ptaR~kCf2AsN8vAr0e5BEV45Jyzwzl~mJjjO5TcIrsk8ExdSQPRg__&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4'
                     ],
@@ -646,17 +646,17 @@ class HomePageState extends State<HomePage>
                                                     .toString()
                                                 : index == 1
                                                     ? homeController
-                                                        .customerEquipmentDataCaliberation
+                                                        .customerEquipmentDataCalibration
                                                         .length
                                                         .toString()
                                                     : index == 2
                                                         ? homeController
-                                                            .customerEquipmentExpiringDataCaliberation
+                                                            .customerEquipmentExpiringDataCalibration
                                                             .length
                                                             .toString()
                                                         : index == 3
                                                             ? upcomingInspectionsController
-                                                                .upcomingInspectionListDataCaliberation
+                                                                .upcomingInspectionListDataCalibration
                                                                 .length
                                                                 .toString()
                                                             : '0',
@@ -678,7 +678,7 @@ class HomePageState extends State<HomePage>
                             fontWeight: FontWeight.w700),
                       ),
                       TextSpan(
-                        text: ' Caliberation',
+                        text: ' Calibration',
                         style: GoogleFonts.roboto(
                           fontSize: 40.sp,
                           fontWeight: FontWeight.w700,

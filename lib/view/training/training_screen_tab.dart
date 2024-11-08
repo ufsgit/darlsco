@@ -33,7 +33,7 @@ class _TrainningScreenTabState extends State<TrainningScreenTab> {
                 onPressed: () {
                   upcomingInspectionsController.selectDateTaskListData.clear();
                   upcomingInspectionsController
-                      .selectDateTaskListDataCaliberation
+                      .selectDateTaskListDataCalibration
                       .clear();
                   upcomingInspectionsController.taskInitFunction(context);
 
@@ -634,12 +634,12 @@ class _TrainningScreenTabState extends State<TrainningScreenTab> {
 
 commonBottomButton() {
   print('periodic value ${tcontoller.periodicCheck.value}');
-  if (homeController.isCaliberationSection.value) {
-    return upcomingInspectionsController.taskUserDetailsCaliberation[0]
+  if (homeController.isCalibrationSection.value) {
+    return upcomingInspectionsController.taskUserDetailsCalibration[0]
                         ['Task_Status_Id']
                     .toString() ==
                 '4' ||
-            upcomingInspectionsController.taskUserDetailsCaliberation[0]
+            upcomingInspectionsController.taskUserDetailsCalibration[0]
                         ['Task_Status_Id']
                     .toString() ==
                 '15'
@@ -654,18 +654,18 @@ commonBottomButton() {
             onTap: () async {
               // await upcomingInspectionsController.saveTaskUserStart();
               final equipmentCheck = upcomingInspectionsController
-                  .taskEquipmentListDataCaliberation
+                  .taskEquipmentListDataCalibration
                   .where((element) => element['Checked'].toString() == '1')
                   .toList();
               print('equipmenkeoeioeiot list $equipmentCheck');
 
               if (equipmentCheck.isNotEmpty) {
                 if (upcomingInspectionsController
-                            .taskEquipmentListDataCaliberation.last['Checked']
+                            .taskEquipmentListDataCalibration.last['Checked']
                             .toString() ==
                         '1' &&
                     upcomingInspectionsController
-                            .taskEquipmentListDataCaliberation
+                            .taskEquipmentListDataCalibration
                             .last['Equipment_Name']
                             .toString() ==
                         'Other' &&
@@ -676,7 +676,7 @@ commonBottomButton() {
                               'Enter Additional Equipment Name Recieved!')));
                 } else {
                   if (upcomingInspectionsController
-                          .taskUserDetailsCaliberation[0]['Role_Id']
+                          .taskUserDetailsCalibration[0]['Role_Id']
                           .toString() ==
                       '38') {
                             // if (tcontoller.visualCheck.value == true ||
@@ -689,16 +689,16 @@ commonBottomButton() {
 
                     final userEnter = await tcontoller.geofenceLocation(
                       fenceLatitude: upcomingInspectionsController
-                              .taskDetailsDataCaliberation.isEmpty
+                              .taskDetailsDataCalibration.isEmpty
                           ? 10.005548201562277
                           : double.parse(upcomingInspectionsController
-                              .taskDetailsDataCaliberation[0]['Latitude']
+                              .taskDetailsDataCalibration[0]['Latitude']
                               .toString()),
                       fenceLongitude: upcomingInspectionsController
-                              .taskDetailsDataCaliberation.isEmpty
+                              .taskDetailsDataCalibration.isEmpty
                           ? 76.37540812327876
                           : double.parse(upcomingInspectionsController
-                              .taskDetailsDataCaliberation[0]['Longitude']
+                              .taskDetailsDataCalibration[0]['Longitude']
                               .toString()),
                     );
 
@@ -706,31 +706,31 @@ commonBottomButton() {
                       if (tcontoller.isTaskStarted.value == true) {
                         // await upcomingInspectionsController.getTestEquipment(
                         //   taskUserDetailsId: upcomingInspectionsController
-                        //           .taskUserDetailsCaliberation[0]
+                        //           .taskUserDetailsCalibration[0]
                         //       ['Task_User_Details_Id'],
                         //   taskId: upcomingInspectionsController
-                        //       .taskDetailsDataCaliberation[0]['Task_Id'],
+                        //       .taskDetailsDataCalibration[0]['Task_Id'],
                         // );
                         // // await upcomingInspectionsController.getUserTaskDetails(taskId: upcomingInspectionsController
                         // //       .taskDetailsData[0]['Task_Id']); // need to change
                         // await upcomingInspectionsController.getTestppe(
                         //   taskUserDetailsId: upcomingInspectionsController
-                        //           .taskUserDetailsCaliberation[0]
+                        //           .taskUserDetailsCalibration[0]
                         //       ['Task_User_Details_Id'],
                         //   taskId: upcomingInspectionsController
-                        //       .taskDetailsDataCaliberation[0]['Task_Id'],
+                        //       .taskDetailsDataCalibration[0]['Task_Id'],
                         // );
                         // await upcomingInspectionsController.getTestDocument(
                         //   taskUserDetailsId: upcomingInspectionsController
-                        //           .taskUserDetailsCaliberation[0]
+                        //           .taskUserDetailsCalibration[0]
                         //       ['Task_User_Details_Id'],
                         //   taskId: upcomingInspectionsController
-                        //       .taskDetailsDataCaliberation[0]['Task_Id'],
+                        //       .taskDetailsDataCalibration[0]['Task_Id'],
                         // );
 
                         // Get.to(() => TrainingEquipmentScreen(
                         //       taskId: int.parse(upcomingInspectionsController
-                        //           .taskDetailsDataCaliberation[0]['Task_Id']
+                        //           .taskDetailsDataCalibration[0]['Task_Id']
                         //           .toString()),
                         //     ));
                       } else {
@@ -765,30 +765,30 @@ commonBottomButton() {
                                   //     .getTestEquipment(
                                   //   taskUserDetailsId:
                                   //       upcomingInspectionsController
-                                  //               .taskUserDetailsCaliberation[
+                                  //               .taskUserDetailsCalibration[
                                   //           0]['Task_User_Details_Id'],
                                   //   taskId: upcomingInspectionsController
-                                  //           .taskDetailsDataCaliberation[0]
+                                  //           .taskDetailsDataCalibration[0]
                                   //       ['Task_Id'],
                                   // );
                                   // await upcomingInspectionsController
                                   //     .getTestppe(
                                   //   taskUserDetailsId:
                                   //       upcomingInspectionsController
-                                  //               .taskUserDetailsCaliberation[
+                                  //               .taskUserDetailsCalibration[
                                   //           0]['Task_User_Details_Id'],
                                   //   taskId: upcomingInspectionsController
-                                  //           .taskDetailsDataCaliberation[0]
+                                  //           .taskDetailsDataCalibration[0]
                                   //       ['Task_Id'],
                                   // );
                                   // await upcomingInspectionsController
                                   //     .getTestDocument(
                                   //   taskUserDetailsId:
                                   //       upcomingInspectionsController
-                                  //               .taskUserDetailsCaliberation[
+                                  //               .taskUserDetailsCalibration[
                                   //           0]['Task_User_Details_Id'],
                                   //   taskId: upcomingInspectionsController
-                                  //           .taskDetailsDataCaliberation[0]
+                                  //           .taskDetailsDataCalibration[0]
                                   //       ['Task_Id'],
                                   // );
                                   await upcomingInspectionsController
@@ -815,23 +815,23 @@ commonBottomButton() {
                     // }
                   } else {
                     print(upcomingInspectionsController
-                        .taskDetailsDataCaliberation.isEmpty);
+                        .taskDetailsDataCalibration.isEmpty);
                     print(upcomingInspectionsController
-                        .taskDetailsDataCaliberation[0]['Latitude']);
+                        .taskDetailsDataCalibration[0]['Latitude']);
                     print(upcomingInspectionsController
-                        .taskDetailsDataCaliberation[0]['Longitude']);
+                        .taskDetailsDataCalibration[0]['Longitude']);
                     final userEnter = await tcontoller.geofenceLocation(
                       fenceLatitude: upcomingInspectionsController
-                              .taskDetailsDataCaliberation.isEmpty
+                              .taskDetailsDataCalibration.isEmpty
                           ? 10.005548201562277
                           : double.parse(upcomingInspectionsController
-                              .taskDetailsDataCaliberation[0]['Latitude']
+                              .taskDetailsDataCalibration[0]['Latitude']
                               .toString()),
                       fenceLongitude: upcomingInspectionsController
-                              .taskDetailsDataCaliberation.isEmpty
+                              .taskDetailsDataCalibration.isEmpty
                           ? 76.37540812327876
                           : double.parse(upcomingInspectionsController
-                              .taskDetailsDataCaliberation[0]['Longitude']
+                              .taskDetailsDataCalibration[0]['Longitude']
                               .toString()),
                     );
 
@@ -1333,13 +1333,13 @@ Container trainningGridWidget(
                       spacing: Get.width > 615 ? 30.w : 10.w,
                       // crossAxisAlignment: CrossAxisAlignment.start,
                       children: List.generate(
-                          homeController.isCaliberationSection.value
+                          homeController.isCalibrationSection.value
                               ? upcomingInspectionsController
-                                  .taskEquipmentListDataCaliberation.length
+                                  .taskEquipmentListDataCalibration.length
                               : upcomingInspectionsController
                                   .taskEquipmentListData.length, (index) {
                         print(
-                            'fiiurreoiu ${upcomingInspectionsController.taskEquipmentListDataCaliberation.length}');
+                            'fiiurreoiu ${upcomingInspectionsController.taskEquipmentListDataCalibration.length}');
                         return GetBuilder<UpcomingInspectionsController>(
                             builder: (eqpmentListData) {
                           return SizedBox(
@@ -1348,7 +1348,7 @@ Container trainningGridWidget(
                                 children: [
                                   Checkbox(
                                     value: !homeController
-                                                    .isCaliberationSection
+                                                    .isCalibrationSection
                                                     .value &&
                                                 eqpmentListData
                                                         .taskEquipmentListData[
@@ -1356,10 +1356,10 @@ Container trainningGridWidget(
                                                         .toString() ==
                                                     '1' ||
                                             homeController
-                                                    .isCaliberationSection
+                                                    .isCalibrationSection
                                                     .value &&
                                                 eqpmentListData
-                                                        .taskEquipmentListDataCaliberation[
+                                                        .taskEquipmentListDataCalibration[
                                                             index]['Checked']
                                                         .toString() ==
                                                     '1'
@@ -1369,26 +1369,26 @@ Container trainningGridWidget(
                                       print(value);
 
                                       if (homeController
-                                          .isCaliberationSection.value) {
+                                          .isCalibrationSection.value) {
                                         if (upcomingInspectionsController
-                                                    .taskEquipmentListDataCaliberation[
+                                                    .taskEquipmentListDataCalibration[
                                                 index]['Equipment_Name'] !=
                                             'Other') {
                                           upcomingInspectionsController
-                                                  .taskEquipmentListDataCaliberation[
+                                                  .taskEquipmentListDataCalibration[
                                               index]['Checked'] = value ==
                                                   true
                                               ? 1
                                               : 0;
                                         } else {
                                           upcomingInspectionsController
-                                                  .taskEquipmentListDataCaliberation[
+                                                  .taskEquipmentListDataCalibration[
                                               index]['Checked'] = value ==
                                                   true
                                               ? 1
                                               : 0;
                                           if (upcomingInspectionsController
-                                                  .taskEquipmentListDataCaliberation[
+                                                  .taskEquipmentListDataCalibration[
                                                       index]['Checked']
                                                   .toString() ==
                                               '1') {
@@ -1442,8 +1442,8 @@ Container trainningGridWidget(
                                       alignment: Alignment.topLeft,
                                       child: Text(
                                         homeController
-                                                .isCaliberationSection.value
-                                            ? ' ${upcomingInspectionsController.taskEquipmentListDataCaliberation[index]['Equipment_Name']}'
+                                                .isCalibrationSection.value
+                                            ? ' ${upcomingInspectionsController.taskEquipmentListDataCalibration[index]['Equipment_Name']}'
                                             : ' ${upcomingInspectionsController.taskEquipmentListData[index]['Equipment_Name']}',
                                         style: TextStyle(
                                           fontFamily: "Roboto",

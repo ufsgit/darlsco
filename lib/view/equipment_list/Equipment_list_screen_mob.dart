@@ -67,9 +67,9 @@ class EquipmentListScreenMob extends StatelessWidget {
                       height: 44.h,
                     ),
                     GetBuilder<HomeController>(builder: (eqData) {
-                      List equipmentData =eqData.isCaliberationSection.value?eqData.customerEquipmentDataCaliberation:eqData.customerEquipmentData;
-                      print('dfgwr4tiow4oi4wroi kk${eqData.isCaliberationSection.value}');
-                      print('dfgwr4tiow4oi4wroi kk oop ${eqData.customerEquipmentDataCaliberation}');
+                      List equipmentData =eqData.isCalibrationSection.value?eqData.customerEquipmentDataCalibration:eqData.customerEquipmentData;
+                      print('dfgwr4tiow4oi4wroi kk${eqData.isCalibrationSection.value}');
+                      print('dfgwr4tiow4oi4wroi kk oop ${eqData.customerEquipmentDataCalibration}');
                       print('dfgwr4tiow4oi4wroi $equipmentData');
                       return Wrap(
                         children:equipmentData.isEmpty

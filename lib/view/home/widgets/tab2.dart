@@ -471,7 +471,7 @@ class _Tab2State extends State<Tab2> {
                               height: 10.h,
                             ),
                             Text(
-                              homeController.isCaliberationSection.value?'DARLSCO offers certified, high-precision calibration services for dimensional, pressure, flow, temperature, electrical, torque, force, and mass instruments. Accredited by the Dubai Accreditation Center (DAC) and compliant with ISO 9001, ISO 14001, OHSAS 18001, and ISO/IEC 17025 standards, we serve critical sectors, including fabrication, marine, and oil & gas.': 'Our services are lasting, tangible benefits that address Quality, Financial, Health & Safety concerns. DARLSCO has Independent Inspections to cater to the requirements of clients/customers.',
+                              homeController.isCalibrationSection.value?'DARLSCO offers certified, high-precision calibration services for dimensional, pressure, flow, temperature, electrical, torque, force, and mass instruments. Accredited by the Dubai Accreditation Center (DAC) and compliant with ISO 9001, ISO 14001, OHSAS 18001, and ISO/IEC 17025 standards, we serve critical sectors, including fabrication, marine, and oil & gas.': 'Our services are lasting, tangible benefits that address Quality, Financial, Health & Safety concerns. DARLSCO has Independent Inspections to cater to the requirements of clients/customers.',
                               textAlign: Get.width > 615
                                   ? TextAlign.center
                                   : TextAlign.start,

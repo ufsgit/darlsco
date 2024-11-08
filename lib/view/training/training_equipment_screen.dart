@@ -180,7 +180,7 @@ class _TrainingEquipmentScreenState extends State<TrainingEquipmentScreen>
               searchResultText:
                   upcomingInspectionsController.testEquipmentSearchResult,
               cWidth: 250.w,
-              mainList:homeController.isCaliberationSection.value? upcomingInspectionsController.usedEquipmentDataCaliberation: upcomingInspectionsController.usedEquipmentData,
+              mainList:homeController.isCalibrationSection.value? upcomingInspectionsController.usedEquipmentDataCalibration: upcomingInspectionsController.usedEquipmentData,
               searchController:
                   upcomingInspectionsController.searchControllerTestEquipment,
             ),
@@ -188,7 +188,7 @@ class _TrainingEquipmentScreenState extends State<TrainingEquipmentScreen>
               equipmentKeyId: 'Test_PPE_Id',
               equipmentKeyName: 'Test_PPE_Name',
               searchText: 'Search PPE....',
-              mainList:homeController.isCaliberationSection.value? upcomingInspectionsController.usedTestppeDataCaliberation: upcomingInspectionsController.usedTestppeData,
+              mainList:homeController.isCalibrationSection.value? upcomingInspectionsController.usedTestppeDataCalibration: upcomingInspectionsController.usedTestppeData,
               searchController:
                   upcomingInspectionsController.searchControllerTestPpe,
               searchResultText:
@@ -202,7 +202,7 @@ class _TrainingEquipmentScreenState extends State<TrainingEquipmentScreen>
                 searchResultText:
                     upcomingInspectionsController.testDocumentSearchResult,
                 cWidth: 250.w,
-                mainList:homeController.isCaliberationSection.value? upcomingInspectionsController.usedTestDocumentDataCaliberation: upcomingInspectionsController.usedTestDocumentData,
+                mainList:homeController.isCalibrationSection.value? upcomingInspectionsController.usedTestDocumentDataCalibration: upcomingInspectionsController.usedTestDocumentData,
                 searchController:
                     upcomingInspectionsController.searchControllerTestDocument,
                 expandFlex: 10),
@@ -271,9 +271,9 @@ class _TrainingEquipmentScreenState extends State<TrainingEquipmentScreen>
 
                       break;
                     case 1:
-                      List emptyListCheck =homeController.isCaliberationSection.value?
+                      List emptyListCheck =homeController.isCalibrationSection.value?
                        upcomingInspectionsController
-                          .usedTestppeDataCaliberation
+                          .usedTestppeDataCalibration
                           .where((e) => e['Is_Checkbox'] == true)
                           .toList()
                       : upcomingInspectionsController
@@ -290,8 +290,8 @@ class _TrainingEquipmentScreenState extends State<TrainingEquipmentScreen>
 
                       break;
                     case 2:
-                      List emptyListCheck =homeController.isCaliberationSection.value?upcomingInspectionsController
-                          .usedTestDocumentDataCaliberation
+                      List emptyListCheck =homeController.isCalibrationSection.value?upcomingInspectionsController
+                          .usedTestDocumentDataCalibration
                           .where((e) => e['Is_Checkbox'] == true)
                           .toList(): upcomingInspectionsController
                           .usedTestDocumentData

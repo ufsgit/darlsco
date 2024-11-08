@@ -43,8 +43,8 @@ class _RiskAssesmentStopScreenState extends State<RiskAssesmentStopScreen> {
     upcomingInspectionsController.isEquipmentSelected.value = false;
 
     upcomingInspectionsController.eqList =
-        homeController.isCaliberationSection.value
-            ? upcomingInspectionsController.taskEquipmentListDataCaliberation
+        homeController.isCalibrationSection.value
+            ? upcomingInspectionsController.taskEquipmentListDataCalibration
             : upcomingInspectionsController.taskEquipmentListData;
 
     upcomingInspectionsController.eqList
@@ -80,28 +80,28 @@ class _RiskAssesmentStopScreenState extends State<RiskAssesmentStopScreen> {
               bool areAnyTwoTrue = [
                     homeController.isTrainingEnabled,
                     homeController.isInspectionEnabled,
-                    homeController.isCaliberationEnabled
+                    homeController.isCalibrationEnabled
                   ].where((element) => element).length >=
                   2;
               upcomingInspectionsController.getUserTaskDetails(
-                taskId: homeController.isCaliberationSection.value
+                taskId: homeController.isCalibrationSection.value
                     ? int.parse(upcomingInspectionsController
-                        .taskDetailsDataCaliberation[0]['Task_Id']
+                        .taskDetailsDataCalibration[0]['Task_Id']
                         .toString())
                     : int.parse(upcomingInspectionsController.taskDetailsData[0]
                             ['Task_Id']
                         .toString()),
                 isNotPageNavigation: true,
               );
-              if (homeController.isCaliberationSection.value) {
+              if (homeController.isCalibrationSection.value) {
                 Get.offAll(
                   TrainingInspectionScreen(
                     selectedIndex: homeController.isInspectionEnabled &&
                                 homeController.isTrainingEnabled &&
-                                homeController.isCaliberationEnabled ||
+                                homeController.isCalibrationEnabled ||
                             !homeController.isInspectionEnabled &&
                                 !homeController.isTrainingEnabled &&
-                                !homeController.isCaliberationEnabled
+                                !homeController.isCalibrationEnabled
                         ? 2
                         : areAnyTwoTrue
                             ? 1
@@ -135,7 +135,7 @@ class _RiskAssesmentStopScreenState extends State<RiskAssesmentStopScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        // if (!homeController.isCaliberationSection.value)
+                        // if (!homeController.isCalibrationSection.value)
                         GetBuilder<TrainingController>(
                             init: TrainingController(),
                             builder: (tData) {
@@ -209,13 +209,13 @@ class _RiskAssesmentStopScreenState extends State<RiskAssesmentStopScreen> {
                         SizedBox(
                           height: 15.w,
                         ),
-                        homeController.isCaliberationSection.value &&
+                        homeController.isCalibrationSection.value &&
                                     upcomingInspectionsController
-                                            .taskUserDetailsCaliberation[0]
+                                            .taskUserDetailsCalibration[0]
                                                 ['Role_Id']
                                             .toString() ==
                                         '38' ||
-                                !homeController.isCaliberationSection.value &&
+                                !homeController.isCalibrationSection.value &&
                                     upcomingInspectionsController
                                             .taskUserDetails[0]['Role_Id']
                                             .toString() ==
@@ -440,7 +440,7 @@ class _RiskAssesmentStopScreenState extends State<RiskAssesmentStopScreen> {
         color: Colors.red,
         child: IconButton(
           onPressed: () {
-            if (homeController.isCaliberationSection.value) {
+            if (homeController.isCalibrationSection.value) {
               // if (condition) {
               if (upcomingInspectionController.isOwner) {
                 tcontroller.getAllUserTaskStatus();
@@ -470,15 +470,15 @@ class _RiskAssesmentStopScreenState extends State<RiskAssesmentStopScreen> {
             if (tcontoller.selectedStatusValue.value == '') {
               ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(content: Text('Choose Task Status!')));
-            } else if (homeController.isCaliberationSection.value &&
+            } else if (homeController.isCalibrationSection.value &&
                     upcomingInspectionsController.eqList
                         .where((element) => element['Task_Status_Name'] == '')
                         .toList()
                         .isNotEmpty &&
-                    upcomingInspectionsController.taskUserDetailsCaliberation[0]['Role_Id']
+                    upcomingInspectionsController.taskUserDetailsCalibration[0]['Role_Id']
                             .toString() ==
                         '38' ||
-                !homeController.isCaliberationSection.value &&
+                !homeController.isCalibrationSection.value &&
                     upcomingInspectionsController.eqList
                         .where((element) => element['Task_Status_Name'] == '')
                         .toList()
@@ -491,17 +491,17 @@ class _RiskAssesmentStopScreenState extends State<RiskAssesmentStopScreen> {
                 .stopnoteController.text.isEmpty) {
               ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(content: Text('Please Enter Comments!')));
-            } else if (homeController.isCaliberationSection.value &&
+            } else if (homeController.isCalibrationSection.value &&
                     tcontoller.getAllStaffStatus
                         .where((element) =>
                             element['Task_Status_Id'].toString() == '4' ||
                             element['Task_Status_Id'].toString() == '1')
                         .toList()
                         .isNotEmpty &&
-                    upcomingInspectionsController.taskUserDetailsCaliberation[0]['Role_Id']
+                    upcomingInspectionsController.taskUserDetailsCalibration[0]['Role_Id']
                             .toString() ==
                         '38' ||
-                !homeController.isCaliberationSection.value &&
+                !homeController.isCalibrationSection.value &&
                     tcontoller.getAllStaffStatus
                         .where((element) =>
                             element['Task_Status_Id'].toString() == '4' ||
@@ -523,7 +523,7 @@ class _RiskAssesmentStopScreenState extends State<RiskAssesmentStopScreen> {
                     child: Column(
                       children: [
                         Text(
-                          homeController.isCaliberationSection.value &&
+                          homeController.isCalibrationSection.value &&
                                       tcontoller.getAllStaffStatus
                                           .where((element) =>
                                               element['Task_Status_Id']
@@ -532,12 +532,12 @@ class _RiskAssesmentStopScreenState extends State<RiskAssesmentStopScreen> {
                                           .toList()
                                           .isNotEmpty &&
                                       upcomingInspectionsController
-                                              .taskUserDetailsCaliberation[0]
+                                              .taskUserDetailsCalibration[0]
                                                   ['Role_Id']
                                               .toString() ==
                                           '38' ||
                                   !homeController
-                                          .isCaliberationSection.value &&
+                                          .isCalibrationSection.value &&
                                       tcontoller.getAllStaffStatus
                                           .where((element) =>
                                               element['Task_Status_Id']

@@ -1,9 +1,9 @@
 class HttpUrls {
-   static String baseUrl = 'http://3.89.129.51:3514';
+  //  static String baseUrl = 'http://3.89.129.51:3514';
 
 // static String baseUrl = 'http://34.228.212.237:3514'; //  new live
 
-  // static String baseUrl = 'https://46c8-103-141-56-75.ngrok-free.app';
+  static String baseUrl = 'https://6ff2-103-141-56-75.ngrok-free.app';
   // static String baseUrl = 'https://m6lzn5b5-3514.inc1.devtunnels.ms';
 
   static String agentLogin = '/Login/Agent_Login/';
@@ -21,7 +21,7 @@ class HttpUrls {
   static String getTrainingCourse = '/Public_Data/Get_Training_Course/';
 
   static String saveCustomerRequest = '/Customer/Save_Customer_Request/';
-  static String saveCustomerRequestCaliberation =
+  static String saveCustomerRequestCalibration =
       '/Customer/Save_Customer_Request_Calibration_App/';
 
   static String loadTaskStatusApp = '/Customer/Load_Task_Status_App/';
@@ -29,19 +29,19 @@ class HttpUrls {
   static String getItemDetails = '/Public_Data/Get_Training_Course_Details_App';
   static String saveCustomerRequestExpiringEquipment =
       '/Customer/Save_Customer_Request_Expiring_Equipment/';
-  static String saveCustomerRequestExpiringEquipmentCaliberation =
+  static String saveCustomerRequestExpiringEquipmentCalibration =
       '/Customer/Save_Customer_Request_Exp_Calibration/';
   static String getCustomerEquipments =
       '/Customer/Get_Customer_Location_Equipments/';
-  static String getCustomerEquipmentsCaliberation =
+  static String getCustomerEquipmentsCalibration =
       '/Customer/Get_Customer_Location_Equipments_Calibration/';
 
   static String getCustomerPlace = '/Customer/get_Customer_Place/';
   static String saveEnquiries = '/public_Data/Save_Enquiries/';
-  static String saveEnquiriesCaliberation = '/public_Data/Save_Enquiries_Calibration/';
+  static String saveEnquiriesCalibration = '/public_Data/Save_Enquiries_Calibration/';
 
   static String getCustomerTask = '/Customer/Get_Customer_Task/';
-  static String getCustomerTaskCaliberation =
+  static String getCustomerTaskCalibration =
       '/Customer/Get_Customer_Task_Calibration/';
   static String saveProfile = '/Customer_Training/Save_Customer_Details_App/';
   static String getProfile =
@@ -50,29 +50,29 @@ class HttpUrls {
   static String getUserTask = '/Customer/Get_User_Task/';
 
   static String getUserTaskDateRange = '/Customer/Get_User_Task_Date_Range/';
-  static String getUserTaskDateRangeCaliberation = '/Customer/Get_User_Task_Date_Range_Calibration/';
+  static String getUserTaskDateRangeCalibration = '/Customer/Get_User_Task_Date_Range_Calibration/';
 
   static String getTaskDetails = '/Customer/Get_Task_Details/';
-  static String getTaskDetailsCaliberation = '/Customer/Get_Task_Details_Calibration/';
+  static String getTaskDetailsCalibration = '/Customer/Get_Task_Details_Calibration/';
 
   static String saveTaskDetails = '/Customer/save_task_details/';
-  static String saveTaskDetailsCaliberation = '/Customer/save_task_details_calibration/';
+  static String saveTaskDetailsCalibration = '/Customer/save_task_details_calibration/';
 
   static String getTestEquipment = '/Customer/Get_Test_Equpitment/';
-  static String getTestEquipmentCaliberation = '/Customer/Get_Test_Equipment_Calibration/';
+  static String getTestEquipmentCalibration = '/Customer/Get_Test_Equipment_Calibration/';
 
   static String getTestDocument = '/Customer/Get_Test_Document/';
-  static String getTestDocumentCaliberation = '/Customer/Get_Test_Document_Calibration/';
+  static String getTestDocumentCalibration = '/Customer/Get_Test_Document_Calibration/';
 
   static String saveTaskTest = '/Customer/Save_Task_Test/';
 
   static String searchExpiringInspections =
       '/Customer/Search_Expiring_Inspection_Report_App/';
-  static String searchExpiringInspectionsCaliberation =
+  static String searchExpiringInspectionsCalibration =
       '/Customer/Search_Expiring_Inspection_Report_App_Calibration/';
 
   static String getTestppe = '/Customer/Get_Test_PPE/';
-  static String getTestppeCaliberation = '/Customer/Get_Test_PPE_Calibration/';
+  static String getTestppeCalibration = '/Customer/Get_Test_PPE_Calibration/';
 
   static String saveTaskRiskAssistants = '/Customer/Save_Task_Risk_Assistants/';
 
@@ -91,20 +91,22 @@ class HttpUrls {
   static String saveTaskRiskAssistantsErgonomicsHazard =
       '/Customer/Save_Task_Risk_Assistants_ergonomics_hazard/';
   static String getTotalEquipments = '/Customer/Get_Total_Equipments/';
-  static String getTotalEquipmentsCaliberation =
+  static String getTotalEquipmentsCalibration =
       '/Customer/Get_Total_Equipments_Calibration/';
 
   static String saveTaskStop = '/Customer/Save_Task_Stop/';
-  static String saveTaskStopCaliberation = '/Customer/Save_Task_Stop_Calibration/';
+  static String saveTaskStopCalibration = '/Customer/Save_Task_Stop_Calibration/';
 
 
   static String savePublicInspection = '/public_Data/Save_Public_Inspection/';
   static String saveCustomerReschedule = '/Customer/Save_Customer_Reschedule/';
 
   static String getFullUsers = '/Customer/Get_Full_Users/';
-  static String getFullUsersCaliberation = '/Customer/Get_Full_Users_Calibration/';
+  static String getFullUsersCalibration = '/Customer/Get_Full_Users_Calibration/';
 
   static String changeTaskUser = '/Customer/Change_Task_User/';
+    static String changeTaskUserCalibration = '/Customer/Change_Task_User_Calibration/';
+
 
   // static String changeTaskUser = '/Customer/Change_Task_User/';
   static String checkVersion = '/Public_Data/Check_Version/';
@@ -183,7 +185,7 @@ class HttpUrls {
   static String searchEmiratesId =
       '/training_Order_Request_Master/fetchTraineeDetailsByEmiratesId';
   static String getAllUserTaskStatus = '/Customer/Get_All_Users_Task_Status/';
-    static String getAllUserTaskStatusCaliberation = '/Customer/Get_All_Users_Task_Status_Calibration/';
+    static String getAllUserTaskStatusCalibration = '/Customer/Get_All_Users_Task_Status_Calibration/';
 
   static String updateItemCartQuatity =
       '/Public_Data/Update_Itemcart_Quantity/';

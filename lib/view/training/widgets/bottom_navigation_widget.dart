@@ -80,10 +80,10 @@ class BottomNavigationWidgetState extends State<BottomNavigationWidget> {
     const AboutUsScreen(),
   ];
 
-  // caliberation tab
+  // Calibration tab
 
-  final caliberationTabPages = [
-    const HomePage(initialIndex: null), // select caliberation tab
+  final CalibrationTabPages = [
+    const HomePage(initialIndex: null), // select Calibration tab
     const ContactUs(),
     const AboutUsScreen(),
   ];
@@ -130,7 +130,7 @@ class BottomNavigationWidgetState extends State<BottomNavigationWidget> {
    
 try {
   print('kkikikii ${homeController.isInspectionSection.value}');
-    print('kkikikii ${homeController.isCaliberationSection.value}');
+    print('kkikikii ${homeController.isCalibrationSection.value}');
       print('kkikikii ${homeController.isTrainingSectionnew.value}');
 
 
@@ -253,7 +253,7 @@ try {
                                       label: 'Documentation',
                                     ),
                                   ]
-                            : homeController.isCaliberationSection.value?[
+                            : homeController.isCalibrationSection.value?[
                             BottomNavigationBarItem(
                                 icon: homeController.pageIndex.value == 0
                                     ? const Icon(
@@ -322,9 +322,9 @@ try {
       return homeController.isUserLoggedIn
           ? trainingTabPages[homeController.pageIndex.value]
           : trainigPagesDefault[homeController.pageIndex.value];
-    } else if (homeController.isCaliberationSection.value) {
+    } else if (homeController.isCalibrationSection.value) {
       print('JBFUIR 3');
-      return caliberationTabPages[homeController.pageIndex.value];
+      return CalibrationTabPages[homeController.pageIndex.value];
     } else {
       print('JBFUIR 4');
       return inspectionTabPages[widget.selectedIndex];
