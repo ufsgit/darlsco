@@ -1007,7 +1007,7 @@ class TrainingControllerHomee extends GetxController {
           traineeDetails.value = traineeDetailsData
               .map((result) => GetTraineeDetailModel.fromJson(result))
               .toList();
-          print('dfwrnfjer ${traineeDetails}');
+          print('dfwrnfjer $traineeDetails');
           dropdownValues.value = List.generate(
               trainingController.traineeDetails.length,
               (index) => eligibleList.first);

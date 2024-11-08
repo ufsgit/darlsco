@@ -5,9 +5,6 @@ import 'package:darlsco/view/home/bottom_navigation_screen.dart';
 import 'package:darlsco/view/widgets/loader.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:geocoding/geocoding.dart';
-import 'package:geocoding/geocoding.dart';
-import 'package:geocoding/geocoding.dart';
 
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
@@ -319,7 +316,7 @@ class TrainingController extends GetxController {
                       cos(fenceLongitude - position.longitude)) *
               6371;
 
-          print('DISTANCE ${d}');
+          print('DISTANCE $d');
           if (d <= 500) {
             await Loader.stopLoader();
             return 'inside';

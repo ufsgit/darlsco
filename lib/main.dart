@@ -1,11 +1,12 @@
+import 'dart:developer';
 import 'dart:isolate';
 
 // import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:darlsco/app_%20config/all_countries.dart';
-import 'package:darlsco/controller/home/home_controller.dart';
 import 'package:darlsco/controller/login/login_controller.dart';
 import 'package:darlsco/firebase_options.dart';
+import 'package:darlsco/notification.dart';
 import 'package:darlsco/view/home/bottom_navigation_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:location/location.dart' as loc;
@@ -23,7 +24,6 @@ import 'package:google_fonts/google_fonts.dart';
 
 import 'package:permission_handler/permission_handler.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:url_strategy/url_strategy.dart';
 
 import 'view/splash_screen/splash_screen.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -33,16 +33,20 @@ final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey =
 final messageStreamController = BehaviorSubject<RemoteMessage>();
 const initializationSettings = InitializationSettings(
     android: AndroidInitializationSettings('@mipmap/ic_launcher'));
+FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+      FlutterLocalNotificationsPlugin();
 
 SendPort? uiSendPort;
 final callbackPort = ReceivePort();
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-      FlutterLocalNotificationsPlugin();
-  // setPathUrlStrategy();
-  await Firebase.initializeApp();
+    // setPathUrlStrategy();
+
+await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+);
+  await FirebaseNotificationService.initialize();
 
 // final channel =  IOWebSocketChannel.connect( Uri.parse('wss://192.168.1.94:4510')    );
 
@@ -190,13 +194,13 @@ getNotificationToken() async {
     FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;
     PermissionStatus notificationStatus = await Permission.notification.status;
     print('FCM status $notificationStatus');
-    if (!notificationStatus.isDenied) {
+    if (notificationStatus.isDenied) {
       print('FCM status requesting permission.....');
 
       NotificationSettings notificationSettings =
           await firebaseMessaging.requestPermission();
       print('FCM NOT SETT ${notificationSettings.alert}');
-    } else if (!notificationStatus.isGranted) {
+    } else if (notificationStatus.isGranted) {
       String? token = await firebaseMessaging.getToken();
       print('FCM TOKEN $token');
     }
@@ -360,3 +364,36 @@ Future<String?> getCountryName(BuildContext context) async {
 //       content:
 //           Text('Error in $functionName function $filename.dart $lineNumber')));
 // }
+
+Future<void> initLocalNotifications() async {
+  try{
+    const AndroidInitializationSettings initializationSettingsAndroid =
+      AndroidInitializationSettings('@mipmap/ic_launcher');
+
+  const DarwinInitializationSettings initializationSettingsIOS =
+      DarwinInitializationSettings(
+    requestAlertPermission: true,
+    requestBadgePermission: true,
+    requestSoundPermission: true,
+  );
+
+  const InitializationSettings initializationSettings = InitializationSettings(
+    android: initializationSettingsAndroid,
+    iOS: initializationSettingsIOS,
+  );
+
+  await flutterLocalNotificationsPlugin.initialize(
+    initializationSettings,
+    
+    // onDidReceiveBackgroundNotificationResponse: (r){
+    //   print(r);
+    // },
+    onDidReceiveNotificationResponse: (NotificationResponse response) {
+      // Handle notification tapped logic here
+      print('Notification tapped with payload: ${response.payload}');
+    },
+  );
+  }catch(e){
+    log(e.toString());
+  }
+}

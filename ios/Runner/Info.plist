@@ -46,8 +46,12 @@
 	<true/>
 	<key>UIBackgroundModes</key>
 	<array>
+	    <string>fetch</string>
+
 		<string>remote-notification</string>
 	</array>
+	<key>NSUserTrackingUsageDescription</key>
+<string>We use this permission to send notifications.</string>
 	<key>UIFileSharingEnabled</key>
 	<true/>
 	<key>UILaunchStoryboardName</key>

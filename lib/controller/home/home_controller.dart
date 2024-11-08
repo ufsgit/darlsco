@@ -1065,7 +1065,7 @@ class HomeController extends GetxController {
         preferences.getString('inspection_login') ?? '';
 
     isUserLoggedIn = token != '';
-    print('dfwref ${isTraineeCustomer}');
+    print('dfwref $isTraineeCustomer');
     isInspectionEnabled = isInspectionCustomer == '1' || !isUserLoggedIn;
     isTrainingEnabled = isTraineeCustomer == '1' || !isUserLoggedIn;
     isCaliberationEnabled = isCaliberationCustomer == '1' || !isUserLoggedIn;

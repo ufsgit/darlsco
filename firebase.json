@@ -1,0 +1,25 @@
+{
+    "flutter": {
+        "platforms": {
+            "android": {
+                "default": {
+                    "projectId": "darlsco-inspection-services",
+                    "appId": "1:274402675206:android:a9567d5591cdd47787d187",
+                    "fileOutput": "android/app/google-services.json"
+                }
+            },
+            "dart": {
+                "lib/firebase_options.dart": {
+                    "projectId": "darlsco-inspection-services",
+                    "configurations": {
+                        "android": "1:274402675206:android:a9567d5591cdd47787d187",
+                        "ios": "1:274402675206:ios:d27055e01a3a749087d187",
+                        "macos": "1:274402675206:ios:d27055e01a3a749087d187",
+                        "web": "1:274402675206:web:b9cdb2087b92706887d187",
+                        "windows": "1:274402675206:web:0f297f687b9c869787d187"
+                    }
+                }
+            }
+        }
+    }
+}

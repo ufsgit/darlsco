@@ -185,7 +185,7 @@ class _RiskAssesmentStopScreenState extends State<RiskAssesmentStopScreen> {
                             }),
                         // else
                         GetBuilder<TrainingController>(builder: (c) {
-                          final dateTime = new DateFormat('yyyy-MM-dd hh:mm');
+                          final dateTime = DateFormat('yyyy-MM-dd hh:mm');
                         
                           return Column(
                             children: List.generate(
