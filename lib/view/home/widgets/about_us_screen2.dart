@@ -84,7 +84,7 @@ class AboutUsScreen2 extends StatelessWidget {
                         SizedBox(
                           width: 340.w,
                           child: Text(
-                            homeController.isCaliberationSection.value
+                            homeController.isCalibrationSection.value
                                 ? "Since 2012, DARLSCO has specialized in delivering certified, high-precision calibration services that meet the rigorous demands of today's industrial standards. As an accredited Conformity Assessment Body (CAB) and recognized by the Dubai Accreditation Center (DAC), we ensure compliance with ISO/IEC 17025 standards and are certified under ISO 9001, ISO 14001, and OHSAS 18001. Our calibration expertise covers a broad range of instruments, including dimensional, pressure, flow, temperature, electrical, torque, force, and mass measurements.\n\n Serving industries such as fabrication, marine, and oil & gas, DARLSCO's in-house calibration services are designed to enhance equipment reliability and operational accuracy, supporting our clients in maintaining safety and compliance across critical applications. Trusted by leaders in essential sectors, DARLSCO is committed to precision, quality, and continuous improvement in calibration services."
                                 : "DARLSCO is a member of diversified group launched/registered in Dubai, United Arab Emirates providing corporate professional and customized services in the field of Third Party Inspection, Testing and Certification (TPI) for Equipments and Machineries which includes but not limited to Fairground and Amusement rides and devices.",
                             style: TextStyle(

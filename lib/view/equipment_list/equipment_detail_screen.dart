@@ -55,7 +55,13 @@ class _EquipmentDetailScreenState extends State<EquipmentDetailScreen> {
               return const Center(
                 child: CircularProgressIndicator(),
               );
-            } else {
+            } else if (homeController
+                .equipmentDetailModel.returnvalue!.leads.isEmpty) {
+              return Center(
+                child: Text('No data found'),
+              );
+            }
+            {
               return ListView(
                 padding: const EdgeInsets.all(18),
                 children: List.generate(
@@ -140,7 +146,7 @@ class _EquipmentDetailScreenState extends State<EquipmentDetailScreen> {
                 ),
               ),
               child: const Text(
-                'View',
+                'View Certificate',
               ),
             )
           else

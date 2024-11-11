@@ -15,20 +15,19 @@ class CompanyLocationScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-     
       appBar: PreferredSize(
           preferredSize: Size(70.w, 70.h),
           child: commonBackgroundLinearColor(
               childWidget: AppBar(
             leading: IconButton(
                 onPressed: () {
-                   homeController.inspectionDropdownValue.value = '';
-    homeController.equipmentListCustomer = {};
-    homeController.inspectionDateController.clear();
-    homeController.inspectionMessageController.clear();
-     homeController.isChooseEquipment.value=false;
+                  homeController.inspectionDropdownValue.value = '';
+                  homeController.equipmentListCustomer = {};
+                  homeController.inspectionDateController.clear();
+                  homeController.inspectionMessageController.clear();
+                  homeController.isChooseEquipment.value = false;
 
-    homeController.update();
+                  homeController.update();
                   Get.back();
                 },
                 icon: const Icon(Icons.arrow_back_ios_new)),
@@ -67,7 +66,11 @@ class CompanyLocationScreen extends StatelessWidget {
               homeController.customerLocations.isEmpty
                   ? SizedBox(
                       height: 600.h,
-                      child: const Center(child: Text('No locations are currently available. They will be added soon. For assistance, contact the team!', textAlign: TextAlign.center,)),
+                      child: const Center(
+                          child: Text(
+                        'No locations are currently available. They will be added soon. For assistance, contact the team!',
+                        textAlign: TextAlign.center,
+                      )),
                     )
                   : Expanded(
                       child: ListView.separated(
@@ -129,12 +132,26 @@ class CompanyLocationScreen extends StatelessWidget {
                                       flex: 20,
                                       child: IconButton(
                                         onPressed: () {
-                                          homeController.getCustomerEquipments(
-                                              context,
-                                              homeController
-                                                  .customerLocations[index]
-                                                  .locationId,
-                                              isFromLocationScreen: true);
+                                          homeController
+                                                  .isCalibrationSection.value
+                                              ? homeController
+                                                  .getEquipmentsCalibration(
+                                                      context,
+                                                      homeController
+                                                          .customerLocations[
+                                                              index]
+                                                          .locationId,
+                                                      isFromLocationScreen:
+                                                          true)
+                                              : homeController
+                                                  .getCustomerEquipments(
+                                                      context,
+                                                      homeController
+                                                          .customerLocations[
+                                                              index]
+                                                          .locationId,
+                                                      isFromLocationScreen:
+                                                          true);
                                         },
                                         icon: Container(
                                           width: 100.w,

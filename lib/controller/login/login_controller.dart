@@ -178,7 +178,7 @@ print('kbhhubhu ${homeController.isFromPurchase.value}');
           // preferences.setString('name_user_', data['0'][0]['Name'].toString());
           //   preferences.setString('token', '${data['token']}');
           preferences.setString(
-              'caliberation_login', data['0'][0]['Caliberation'].toString());
+              'calibration_login', data['0'][0]['Calibration'].toString());
           preferences.setString(
               'trainee_login', data['0'][0]['Training'].toString());
           preferences.setString(
@@ -199,7 +199,7 @@ print('kbhhubhu ${homeController.isFromPurchase.value}');
           //         homeController.isTrainingEnabled &&
           //             homeController.isInspectionEnabled;
 
-          // homeController.isCaliberationSection.value =
+          // homeController.isCalibrationSection.value =
           //     !homeController.isInspectionEnabled &&
           //             !homeController.isTrainingEnabled ||
           //         homeController.isInspectionEnabled &&
@@ -208,7 +208,7 @@ print('kbhhubhu ${homeController.isFromPurchase.value}');
           //             homeController.isTrainingEnabled ||
           //         homeController.isInspectionEnabled &&
           //             homeController.isTrainingEnabled &&
-          //             homeController.isCaliberationEnabled;
+          //             homeController.isCalibrationEnabled;
           //       isFromSplashOrLogin = false;
           //     }
 
@@ -230,9 +230,9 @@ print('kbhhubhu ${homeController.isFromPurchase.value}');
           if (homeController.isuserLogin.value &&
               homeController.isTraineeLogin.value &&
               homeController.isTrainingSection.value &&
-              homeController.isCaliberationSection.value) {
+              homeController.isCalibrationSection.value) {
             homeController.isTrainingSection.value = false;
-            homeController.isCaliberationSection.value = false;
+            homeController.isCalibrationSection.value = false;
           }
           if (globalHomeController.tabIndex.value == 1) {
             globalHomeController.tabIndex.value = 0;
@@ -420,7 +420,7 @@ print('kbhhubhu ${homeController.isFromPurchase.value}');
     homeController.isFromPurchase.value = false;
     globalHomeController.isTraineeLogin.value == false;
     globalHomeController.isuserLogin.value = false;
-    globalHomeController.isCaliberationSection.value = false;
+    globalHomeController.isCalibrationSection.value = false;
     getcountry(context);
     homeController.isUsersignedIn();
 

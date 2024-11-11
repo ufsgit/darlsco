@@ -38,7 +38,7 @@ class _TrainingInspectionScreenState extends State<TrainingInspectionScreen> {
     //  homeController.getAllusers();
 print('dfnojwenfoiw ${homeController.isInspectionSection.value}');
 print('dfnojwenfoiw ${homeController.isTrainingSectionnew.value}');
-print('dfnojwenfoiw ${homeController.isCaliberationSection.value}');
+print('dfnojwenfoiw ${homeController.isCalibrationSection.value}');
 
 
     super.initState();
@@ -47,13 +47,13 @@ print('dfnojwenfoiw ${homeController.isCaliberationSection.value}');
   bool areAnyTwoTrue = [
         homeController.isTrainingEnabled,
         homeController.isInspectionEnabled,
-        homeController.isCaliberationEnabled
+        homeController.isCalibrationEnabled
       ].where((element) => element).length >=
       2;
 
   @override
   Widget build(BuildContext context) {
-    print('homeC ${homeController.isCaliberationSection.value}');
+    print('homeC ${homeController.isCalibrationSection.value}');
     
     return GetBuilder<HomeController>(builder: (loginData) {
       return DefaultTabController(
@@ -61,10 +61,10 @@ print('dfnojwenfoiw ${homeController.isCaliberationSection.value}');
 
         length: homeController.isInspectionEnabled &&
                     homeController.isTrainingEnabled &&
-                    homeController.isCaliberationEnabled ||
+                    homeController.isCalibrationEnabled ||
                 !homeController.isInspectionEnabled &&
                     !homeController.isTrainingEnabled &&
-                    !homeController.isCaliberationEnabled
+                    !homeController.isCalibrationEnabled
             ? 3
             : areAnyTwoTrue
                 ? 2
@@ -146,6 +146,7 @@ print('dfnojwenfoiw ${homeController.isCaliberationSection.value}');
 
                   bottom: TabBar(
                     onTap: (index) async {
+                      homeController.mainTabIndex=index;
                       homeController.isInspectionSection.value =
                           index == 0 && homeController.isInspectionEnabled;
                       homeController.isTrainingSectionnew.value =
@@ -154,7 +155,7 @@ print('dfnojwenfoiw ${homeController.isCaliberationSection.value}');
                                   homeController.isTrainingEnabled &&
                                   homeController.isInspectionEnabled;
 
-                      homeController.isCaliberationSection.value =
+                      homeController.isCalibrationSection.value =
                           index == 0 &&
                                   !homeController.isInspectionEnabled &&
                                   !homeController.isTrainingEnabled ||
@@ -167,7 +168,7 @@ print('dfnojwenfoiw ${homeController.isCaliberationSection.value}');
                               index == 2 &&
                                   homeController.isInspectionEnabled &&
                                   homeController.isTrainingEnabled &&
-                                  homeController.isCaliberationEnabled;
+                                  homeController.isCalibrationEnabled;
                       homeController.isInspectionSection.value =
                           index == 0 && homeController.isInspectionEnabled;
                       homeController.isTrainingSectionnew.value =
@@ -176,7 +177,7 @@ print('dfnojwenfoiw ${homeController.isCaliberationSection.value}');
                                   homeController.isTrainingEnabled &&
                                   homeController.isInspectionEnabled;
 
-                      homeController.isCaliberationSection.value =
+                      homeController.isCalibrationSection.value =
                           index == 0 &&
                                   !homeController.isInspectionEnabled &&
                                   !homeController.isTrainingEnabled ||
@@ -189,7 +190,7 @@ print('dfnojwenfoiw ${homeController.isCaliberationSection.value}');
                               index == 2 &&
                                   homeController.isInspectionEnabled &&
                                   homeController.isTrainingEnabled &&
-                                  homeController.isCaliberationEnabled;
+                                  homeController.isCalibrationEnabled;
                       upcomingInspectionsController.taskInitFunction(context);
                     },
                     tabAlignment: TabAlignment.fill,
@@ -225,16 +226,16 @@ print('dfnojwenfoiw ${homeController.isCaliberationSection.value}');
                               color: ColorResources.color294C73,
                               size: 30,
                             )),
-                      // if (globalHomeController.isCaliberationLogin.value ||
+                      // if (globalHomeController.isCalibrationLogin.value ||
                       //         !globalHomeController.isuserLogin.value &&
                       //             globalHomeController
-                      //                 .isCaliberationLogin.value ||
+                      //                 .isCalibrationLogin.value ||
                       //         !globalHomeController.isuserLogin.value &&
                       //             !globalHomeController
-                      //                 .isCaliberationLogin.value)
-                      if (homeController.isCaliberationEnabled)
+                      //                 .isCalibrationLogin.value)
+                      if (homeController.isCalibrationEnabled)
                         const Tab(
-                            text: 'Caliberation',
+                            text: 'Calibration',
                             iconMargin: EdgeInsets.all(0),
                             icon: Icon(
                               Icons.settings,
@@ -285,7 +286,7 @@ print('dfnojwenfoiw ${homeController.isCaliberationSection.value}');
                                     .selectDateTaskListData
                                     .clear();
                                 upcomingInspectionsController
-                                    .selectDateTaskListDataCaliberation
+                                    .selectDateTaskListDataCalibration
                                     .clear();
                                 upcomingInspectionsController.update();
                                 upcomingInspectionsController
@@ -299,7 +300,7 @@ print('dfnojwenfoiw ${homeController.isCaliberationSection.value}');
                                     .selectDateTaskListData
                                     .clear();
                                 upcomingInspectionsController
-                                    .selectDateTaskListDataCaliberation
+                                    .selectDateTaskListDataCalibration
                                     .clear();
 
                                 upcomingInspectionsController
@@ -549,10 +550,10 @@ print('dfnojwenfoiw ${homeController.isCaliberationSection.value}');
                                                               .isDateSubmitBtnClicked =
                                                           true;
                                                       if (homeController
-                                                          .isCaliberationSection
+                                                          .isCalibrationSection
                                                           .value) {
                                                                upcomingInspectionsController
-                                                              .selectDateTaskListDataCaliberation =
+                                                              .selectDateTaskListDataCalibration =
                                                           await upcomingInspectionsController
                                                               .getuserTaskDateRange(
                                                         isInitSate: false,
@@ -663,7 +664,7 @@ print('dfnojwenfoiw ${homeController.isCaliberationSection.value}');
                   ),
                 // if (loginData.isTraineeLogin.value == true)
                 if (homeController.isTrainingEnabled) const TaskPage(),
-                if (homeController.isCaliberationEnabled)
+                if (homeController.isCalibrationEnabled)
                   commonBackgroundLinearColorHome(
                     childWidget: DefaultTabController(
                       initialIndex: 1,
@@ -692,7 +693,7 @@ print('dfnojwenfoiw ${homeController.isCaliberationSection.value}');
                                     .selectDateTaskListData
                                     .clear();
                                     upcomingInspectionsController
-                                    .selectDateTaskListDataCaliberation
+                                    .selectDateTaskListDataCalibration
                                     .clear();
                                 upcomingInspectionsController.update();
                                 upcomingInspectionsController
@@ -706,7 +707,7 @@ print('dfnojwenfoiw ${homeController.isCaliberationSection.value}');
                                     .selectDateTaskListData
                                     .clear();
                                      upcomingInspectionsController
-                                    .selectDateTaskListDataCaliberation
+                                    .selectDateTaskListDataCalibration
                                     .clear();
 
                                 upcomingInspectionsController
@@ -774,7 +775,7 @@ print('dfnojwenfoiw ${homeController.isCaliberationSection.value}');
                                   await upcomingInspectionsController
                                       .taskInitFunction(context);
                                       print('jj213483jjj ${upcomingInspectionsController
-                                                  .yesterdayTaskListDataCaliberation}');
+                                                  .yesterdayTaskListDataCalibration}');
                                 },
                                 child: SingleChildScrollView(
                                   physics:
@@ -793,7 +794,7 @@ print('dfnojwenfoiw ${homeController.isCaliberationSection.value}');
                                               ),
                                             )
                                           : yesterdayData
-                                                  .yesterdayTaskListDataCaliberation
+                                                  .yesterdayTaskListDataCalibration
                                                   .isEmpty
                                               ? SizedBox(
                                                   height: 500.h,
@@ -804,7 +805,7 @@ print('dfnojwenfoiw ${homeController.isCaliberationSection.value}');
                                                 )
                                               : taskListTileData(
                                                   taskListData: yesterdayData
-                                                      .yesterdayTaskListDataCaliberation),
+                                                      .yesterdayTaskListDataCalibration),
                                     );
                                   }),
                                 ),
@@ -831,7 +832,7 @@ print('dfnojwenfoiw ${homeController.isCaliberationSection.value}');
                                               ),
                                             )
                                           : todayData
-                                                  .todayTaskListDataCaliberation
+                                                  .todayTaskListDataCalibration
                                                   .isEmpty
                                               ? SizedBox(
                                                   height: 500.h,
@@ -842,7 +843,7 @@ print('dfnojwenfoiw ${homeController.isCaliberationSection.value}');
                                                 )
                                               : taskListTileData(
                                                   taskListData: todayData
-                                                      .todayTaskListDataCaliberation),
+                                                      .todayTaskListDataCalibration),
                                     );
                                   }),
                                 ),
@@ -863,11 +864,12 @@ print('dfnojwenfoiw ${homeController.isCaliberationSection.value}');
                                           ? SizedBox(
                                               height: 500.h,
                                               child: const Center(
-                                                child: Text('Task not found!'),
+                                                child:
+                                                    CircularProgressIndicator(),
                                               ),
                                             )
                                           : tommorowData
-                                                  .tommorowTaskListDataCaliberation
+                                                  .tommorowTaskListDataCalibration
                                                   .isEmpty
                                               ? SizedBox(
                                                   height: 500.h,
@@ -878,7 +880,7 @@ print('dfnojwenfoiw ${homeController.isCaliberationSection.value}');
                                                 )
                                               : taskListTileData(
                                                   taskListData: tommorowData
-                                                      .tommorowTaskListDataCaliberation),
+                                                      .tommorowTaskListDataCalibration),
                                     );
                                   }),
                                 ),
@@ -962,12 +964,12 @@ print('dfnojwenfoiw ${homeController.isCaliberationSection.value}');
                                                               .isDateSubmitBtnClicked =
                                                           true;
                                                       if (homeController
-                                                          .isCaliberationSection
+                                                          .isCalibrationSection
                                                           .value) {
                                                                upcomingInspectionsController
-                                                              .selectDateTaskListDataCaliberation =
+                                                              .selectDateTaskListDataCalibration =
                                                           await upcomingInspectionsController
-                                                              .getCaliberationTasks(
+                                                              .getCalibrationTasks(
                                                         isInitSate: false,
                                                         startDate: DateFormat(
                                                                 'dd-MM-yyyy')
@@ -1044,7 +1046,7 @@ print('dfnojwenfoiw ${homeController.isCaliberationSection.value}');
                                           builder: (selectData) {
                                             return Container(
                                               child: selectData
-                                                          .selectDateTaskListDataCaliberation
+                                                          .selectDateTaskListDataCalibration
                                                           .isEmpty &&
                                                       upcomingInspectionsController
                                                           .endDatePickController
@@ -1063,7 +1065,7 @@ print('dfnojwenfoiw ${homeController.isCaliberationSection.value}');
                                                     )
                                                   : taskListTileData(
                                                       taskListData: selectData
-                                                          .selectDateTaskListDataCaliberation),
+                                                          .selectDateTaskListDataCalibration),
                                             );
                                           }),
                                     ],

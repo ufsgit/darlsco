@@ -67,174 +67,185 @@ class EquipmentListScreenMob extends StatelessWidget {
                       height: 44.h,
                     ),
                     GetBuilder<HomeController>(builder: (eqData) {
-                      List equipmentData =eqData.isCaliberationSection.value?eqData.customerEquipmentDataCaliberation:eqData.customerEquipmentData;
-                      print('dfgwr4tiow4oi4wroi kk${eqData.isCaliberationSection.value}');
-                      print('dfgwr4tiow4oi4wroi kk oop ${eqData.customerEquipmentDataCaliberation}');
-                      print('dfgwr4tiow4oi4wroi $equipmentData');
+                      List equipmentData = eqData.isCalibrationSection.value
+                          ? eqData.customerEquipmentDataCalibration
+                          : eqData.customerEquipmentData;
+                          print("sfedf $equipmentData");
                       return Wrap(
-                        children:equipmentData.isEmpty
+                        children: eqData.isLoadingEquipments.value
                             ? [
-                                SizedBox(
-                                  height: 500.h,
-                                  child: const Center(
-                                    child: Text(
-                                      'No equipments are currently available. They will be added soon. For assistance, contact the team!',
-                                      textAlign: TextAlign.center,
-                                    ),
-                                  ),
-                                ),
+                                Center(
+                                  child: CircularProgressIndicator(),
+                                )
                               ]
-                            : List.generate(
-                               equipmentData.length,
-                                (index) => Container(
-                                  width: Get.width > 615 ? 380.w : 367.w,
-
-                                  // height: 179.h,
-                                  margin: EdgeInsets.only(top: 15.h),
-                                  padding: EdgeInsets.only(
-                                      left: 15.sp, right: 15.sp, top: 15.sp),
-                                  decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius:
-                                          BorderRadius.circular(6.sp)),
-                                  child: Stack(
-                                    alignment: Alignment.centerRight,
-                                    children: [
-                                      Icon(
-                                        Icons.handyman_outlined,
-                                        color: ColorResources.color294C73
-                                            .withOpacity(0.10),
-                                        size: 100.sp,
+                            : equipmentData.isEmpty
+                                ? [
+                                    SizedBox(
+                                      height: 500.h,
+                                      child: const Center(
+                                        child: Text(
+                                          'No equipments are currently available. They will be added soon. For assistance, contact the team!',
+                                          textAlign: TextAlign.center,
+                                        ),
                                       ),
-                                      Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                    ),
+                                  ]
+                                : List.generate(
+                                    equipmentData.length,
+                                    (index) => Container(
+                                      width: Get.width > 615 ? 380.w : 367.w,
+
+                                      // height: 179.h,
+                                      margin: EdgeInsets.only(top: 15.h),
+                                      padding: EdgeInsets.only(
+                                          left: 15.sp,
+                                          right: 15.sp,
+                                          top: 15.sp),
+                                      decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius:
+                                              BorderRadius.circular(6.sp)),
+                                      child: Stack(
+                                        alignment: Alignment.centerRight,
                                         children: [
-                                          SizedBox(
-                                            child: Text(
-                                              
-                                                  equipmentData[index]
-                                                  .equipmentName,
-                                              overflow: TextOverflow.ellipsis,
-                                              style: TextStyle(
-                                                fontFamily: "DM Sans",
-                                                fontSize: 16.sp,
-                                                fontWeight: FontWeight.w700,
-                                                color:
-                                                    ColorResources.color294C73,
-                                              ),
-                                              textAlign: TextAlign.left,
-                                            ),
+                                          Icon(
+                                            Icons.handyman_outlined,
+                                            color: ColorResources.color294C73
+                                                .withOpacity(0.10),
+                                            size: 100.sp,
                                           ),
-                                          SizedBox(
-                                            height: 18.h,
-                                          ),
-                                          Row(
+                                          Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
                                             children: [
-                                              Expanded(
-                                                flex: 50,
-                                                child: Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    equipmentCommonItemWidget(
-                                                        keyText: 'Location',
-                                                        valueText: 
-                                                            equipmentData[
-                                                                index]
-                                                            .location),
-                                                    equipmentCommonItemWidget(
-                                                      keyText: 'Equipment Type',
-                                                      valueText: 
-                                                          equipmentData[
-                                                              index]
-                                                          .equipmentType,
-                                                    ),
-                                                    equipmentCommonItemWidget(
-                                                      keyText: 'Expiring Date',
-                                                      valueText: 
-                                                          equipmentData[
-                                                              index]
-                                                          .experingDate,
-                                                    ),
-                                                    equipmentCommonItemWidget(
-                                                      keyText: 'Make',
-                                                      valueText: 
-                                                          equipmentData[
-                                                              index]
-                                                          .equipmentMake,
-                                                    ),
-                                                    equipmentCommonItemWidget(
-                                                      keyText: 'Model',
-                                                      valueText: 
-                                                          equipmentData[
-                                                              index]
-                                                          .equipmentModel,
-                                                    ),
-                                                    equipmentCommonItemWidget(
-                                                      keyText: 'Serial No',
-                                                      valueText: 
-                                                          equipmentData[
-                                                              index]
-                                                          .serialNo,
-                                                    ),
-                                                    equipmentCommonItemWidget(
-                                                      keyText: 'Description',
-                                                      valueText:equipmentData[
-                                                              index]
-                                                          .description,
-                                                    ),
-                                                    SizedBox(height: 10.h),
-                                                    // equipmentCommonItemWidget(
-                                                    //   keyText: 'status',
-                                                    //   valueText: eqData
-                                                    //       .equipmentData[
-                                                    //           index]
-                                                    //       .statusName,
-                                                    // ),
-                                                    Text(
-                                                      
-                                                                  equipmentData[
-                                                                      index]
-                                                                  .statusId
-                                                                  .toString() ==
-                                                              '11'
-                                                          ? 'Inspection Finished'
-                                                          : 
-                                                              equipmentData[
-                                                                  index]
-                                                              .statusName,
-                                                      style: TextStyle(
-                                                          color: Colors.red,
-                                                          fontSize: 12.sp),
-                                                    )
-                                                  ],
+                                              SizedBox(
+                                                child: Text(
+                                                  equipmentData[index]
+                                                      .equipmentName,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  style: TextStyle(
+                                                    fontFamily: "DM Sans",
+                                                    fontSize: 16.sp,
+                                                    fontWeight: FontWeight.w700,
+                                                    color: ColorResources
+                                                        .color294C73,
+                                                  ),
+                                                  textAlign: TextAlign.left,
                                                 ),
                                               ),
+                                              SizedBox(
+                                                height: 18.h,
+                                              ),
+                                              Row(
+                                                children: [
+                                                  Expanded(
+                                                    flex: 50,
+                                                    child: Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        equipmentCommonItemWidget(
+                                                            keyText: 'Location',
+                                                            valueText:
+                                                                equipmentData[
+                                                                        index]
+                                                                    .location),
+                                                        equipmentCommonItemWidget(
+                                                          keyText:
+                                                              'Equipment Type',
+                                                          valueText:
+                                                              equipmentData[
+                                                                      index]
+                                                                  .equipmentType,
+                                                        ),
+                                                        equipmentCommonItemWidget(
+                                                          keyText:
+                                                              'Expiring Date',
+                                                          valueText:
+                                                              equipmentData[
+                                                                      index]
+                                                                  .experingDate,
+                                                        ),
+                                                        equipmentCommonItemWidget(
+                                                          keyText: 'Make',
+                                                          valueText:
+                                                              equipmentData[
+                                                                      index]
+                                                                  .equipmentMake,
+                                                        ),
+                                                        equipmentCommonItemWidget(
+                                                          keyText: 'Model',
+                                                          valueText:
+                                                              equipmentData[
+                                                                      index]
+                                                                  .equipmentModel,
+                                                        ),
+                                                        equipmentCommonItemWidget(
+                                                          keyText: 'Serial No',
+                                                          valueText:
+                                                              equipmentData[
+                                                                      index]
+                                                                  .serialNo,
+                                                        ),
+                                                        equipmentCommonItemWidget(
+                                                          keyText:
+                                                              'Description',
+                                                          valueText:
+                                                              equipmentData[
+                                                                      index]
+                                                                  .description,
+                                                        ),
+                                                        SizedBox(height: 10.h),
+                                                        // equipmentCommonItemWidget(
+                                                        //   keyText: 'status',
+                                                        //   valueText: eqData
+                                                        //       .equipmentData[
+                                                        //           index]
+                                                        //       .statusName,
+                                                        // ),
+                                                        Text(
+                                                          equipmentData[index]
+                                                                      .statusId
+                                                                      .toString() ==
+                                                                  '11'
+                                                              ? 'Inspection Finished'
+                                                              : equipmentData[
+                                                                      index]
+                                                                  .statusName,
+                                                          style: TextStyle(
+                                                              color: Colors.red,
+                                                              fontSize: 12.sp),
+                                                        )
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                              Align(
+                                                alignment:
+                                                    Alignment.centerRight,
+                                                child: ElevatedButton(
+                                                  child: const Text('View'),
+                                                  onPressed: () => Get.to(() =>
+                                                      EquipmentDetailScreen(
+                                                        equipmentId:
+                                                            equipmentData[index]
+                                                                .equipmentId
+                                                                .toString(),
+                                                      )),
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                height: 15.h,
+                                              )
                                             ],
                                           ),
-                                          Align(
-                                            alignment: Alignment.centerRight,
-                                            child: ElevatedButton(
-                                              child: const Text('View'),
-                                              onPressed: () => Get.to(
-                                                  () => EquipmentDetailScreen(
-                                                        equipmentId: equipmentData[
-                                                                index]
-                                                            .equipmentId
-                                                            .toString(),
-                                                      )),
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            height: 15.h,
-                                          )
                                         ],
                                       ),
-                                    ],
+                                    ),
                                   ),
-                                ),
-                              ),
                       );
                     })
                   ]),

@@ -26,6 +26,7 @@ class RiskAssesmentStopScreen extends StatefulWidget {
 }
 
 class _RiskAssesmentStopScreenState extends State<RiskAssesmentStopScreen> {
+  bool isLoading=false;
   final TrainingController tcontoller = Get.put(TrainingController());
 
   final RiskAssessmentController riskAssessmentController =
@@ -43,8 +44,8 @@ class _RiskAssesmentStopScreenState extends State<RiskAssesmentStopScreen> {
     upcomingInspectionsController.isEquipmentSelected.value = false;
 
     upcomingInspectionsController.eqList =
-        homeController.isCaliberationSection.value
-            ? upcomingInspectionsController.taskEquipmentListDataCaliberation
+        homeController.isCalibrationSection.value
+            ? upcomingInspectionsController.taskEquipmentListDataCalibration
             : upcomingInspectionsController.taskEquipmentListData;
 
     upcomingInspectionsController.eqList
@@ -80,28 +81,28 @@ class _RiskAssesmentStopScreenState extends State<RiskAssesmentStopScreen> {
               bool areAnyTwoTrue = [
                     homeController.isTrainingEnabled,
                     homeController.isInspectionEnabled,
-                    homeController.isCaliberationEnabled
+                    homeController.isCalibrationEnabled
                   ].where((element) => element).length >=
                   2;
               upcomingInspectionsController.getUserTaskDetails(
-                taskId: homeController.isCaliberationSection.value
+                taskId: homeController.isCalibrationSection.value
                     ? int.parse(upcomingInspectionsController
-                        .taskDetailsDataCaliberation[0]['Task_Id']
+                        .taskDetailsDataCalibration[0]['Task_Id']
                         .toString())
                     : int.parse(upcomingInspectionsController.taskDetailsData[0]
                             ['Task_Id']
                         .toString()),
                 isNotPageNavigation: true,
               );
-              if (homeController.isCaliberationSection.value) {
+              if (homeController.isCalibrationSection.value) {
                 Get.offAll(
                   TrainingInspectionScreen(
                     selectedIndex: homeController.isInspectionEnabled &&
                                 homeController.isTrainingEnabled &&
-                                homeController.isCaliberationEnabled ||
+                                homeController.isCalibrationEnabled ||
                             !homeController.isInspectionEnabled &&
                                 !homeController.isTrainingEnabled &&
-                                !homeController.isCaliberationEnabled
+                                !homeController.isCalibrationEnabled
                         ? 2
                         : areAnyTwoTrue
                             ? 1
@@ -123,324 +124,335 @@ class _RiskAssesmentStopScreenState extends State<RiskAssesmentStopScreen> {
       //     ],
       //   ),
       // ),
-      body: SingleChildScrollView(
-        child: SizedBox(
-          child: Container(
-            padding: EdgeInsets.all(15.sp),
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  Container(
-                    margin: EdgeInsets.only(left: 5.w),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        // if (!homeController.isCaliberationSection.value)
-                        GetBuilder<TrainingController>(
-                            init: TrainingController(),
-                            builder: (tData) {
-                              return DropdownButtonFormField(
-                                  value: tData.selectedStatusValue.value == ''
-                                      ? null
-                                      : tData.selectedStatusValue.value,
-                                  decoration: const InputDecoration(
-
-                                      // hintText: data.inspectionDropdownValue.value
-                                      //     .isEmpty? 'Location':'',
-                                      border: OutlineInputBorder(
-                                          borderSide:
-                                              BorderSide(color: Colors.black))),
-                                  onChanged: (value) {
-                                    print(
-                                        "printed statyus  ${value.toString()}");
-                                    if (value != null) {
-                                      tcontoller.selectedStatusValue.value =
-                                          value.toString();
-                                    }
-                                    // if (value == 'Finished') {
-                                    //   customEquipmentDialogue(context);
-                                    // }
-
-                                    print(tData.selectedStatusValue.value);
-                                  },
-                                  hint: const Text(
-                                    'Task Status',
-                                    style: TextStyle(color: Colors.black),
-                                  ),
-                                  items: tData.taskStatusList
-                                      .map((e) => DropdownMenuItem(
-                                            value: e['Task_Status_Name'],
-                                            child: SizedBox(
-                                                width: Get.width > 615
-                                                    ? 600.w
-                                                    : 250.w,
-                                                child: Text(
-                                                  e['Task_Status_Name'],
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                  softWrap: true,
-                                                )),
-                                          ))
-                                      .toList());
+      body: Stack(
+        children: [
+          SingleChildScrollView(
+            child: SizedBox(
+              child: Container(
+                padding: EdgeInsets.all(15.sp),
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      Container(
+                        margin: EdgeInsets.only(left: 5.w),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            // if (!homeController.isCalibrationSection.value)
+                            GetBuilder<TrainingController>(
+                                init: TrainingController(),
+                                builder: (tData) {
+                                  return DropdownButtonFormField(
+                                      value: tData.selectedStatusValue.value == ''
+                                          ? null
+                                          : tData.selectedStatusValue.value,
+                                      decoration: const InputDecoration(
+          
+                                          // hintText: data.inspectionDropdownValue.value
+                                          //     .isEmpty? 'Location':'',
+                                          border: OutlineInputBorder(
+                                              borderSide:
+                                                  BorderSide(color: Colors.black))),
+                                      onChanged: (value) {
+                                        print(
+                                            "printed statyus  ${value.toString()}");
+                                        if (value != null) {
+                                          tcontoller.selectedStatusValue.value =
+                                              value.toString();
+                                        }
+                                        // if (value == 'Finished') {
+                                        //   customEquipmentDialogue(context);
+                                        // }
+          
+                                        print(tData.selectedStatusValue.value);
+                                      },
+                                      hint: const Text(
+                                        'Task Status',
+                                        style: TextStyle(color: Colors.black),
+                                      ),
+                                      items: tData.taskStatusList
+                                          .map((e) => DropdownMenuItem(
+                                                value: e['Task_Status_Name'],
+                                                child: SizedBox(
+                                                    width: Get.width > 615
+                                                        ? 600.w
+                                                        : 250.w,
+                                                    child: Text(
+                                                      e['Task_Status_Name'],
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                      softWrap: true,
+                                                    )),
+                                              ))
+                                          .toList());
+                                }),
+                            // else
+                            GetBuilder<TrainingController>(builder: (c) {
+                              final dateTime = new DateFormat('yyyy-MM-dd hh:mm');
+                            
+                              return Column(
+                                children: List.generate(
+                                  tcontoller.dateAndTime.length,
+                                  (index) => trainningGridWidget(
+                                      cWidth: Get.width,
+                                      titleText: tcontoller.dateAndTime[index]
+                                          ['title'],
+                                      subTitle: tcontoller
+                                              .dateAndTime[index]['sub_title']
+                                              .isEmpty
+                                          ? 
+                                        dateTime .format(DateTime.now()).toString()
+                                          : tcontoller.dateAndTime[index]
+                                              ['sub_title'],
+                                      icon: tcontoller.dateAndTime[index]['icon'],
+                                      border: BorderSide.none),
+                                ),
+                              );
                             }),
-                        // else
-                        GetBuilder<TrainingController>(builder: (c) {
-                          final dateTime = new DateFormat('yyyy-MM-dd hh:mm');
-                        
-                          return Column(
-                            children: List.generate(
-                              tcontoller.dateAndTime.length,
-                              (index) => trainningGridWidget(
-                                  cWidth: Get.width,
-                                  titleText: tcontoller.dateAndTime[index]
-                                      ['title'],
-                                  subTitle: tcontoller
-                                          .dateAndTime[index]['sub_title']
-                                          .isEmpty
-                                      ? 
-                                    dateTime .format(DateTime.now()).toString()
-                                      : tcontoller.dateAndTime[index]
-                                          ['sub_title'],
-                                  icon: tcontoller.dateAndTime[index]['icon'],
-                                  border: BorderSide.none),
+                            SizedBox(
+                              height: 15.w,
                             ),
-                          );
-                        }),
-                        SizedBox(
-                          height: 15.w,
-                        ),
-                        homeController.isCaliberationSection.value &&
-                                    upcomingInspectionsController
-                                            .taskUserDetailsCaliberation[0]
-                                                ['Role_Id']
-                                            .toString() ==
-                                        '38' ||
-                                !homeController.isCaliberationSection.value &&
-                                    upcomingInspectionsController
-                                            .taskUserDetails[0]['Role_Id']
-                                            .toString() ==
-                                        '38'
-                            ? SizedBox(
-                                // height: 200.w,
-                                // width: 500.w,
-                                child: Column(
-                                  children: [
-                                    Row(
+                            homeController.isCalibrationSection.value &&
+                                        upcomingInspectionsController
+                                                .taskUserDetailsCalibration[0]
+                                                    ['Role_Id']
+                                                .toString() ==
+                                            '38' ||
+                                    !homeController.isCalibrationSection.value &&
+                                        upcomingInspectionsController
+                                                .taskUserDetails[0]['Role_Id']
+                                                .toString() ==
+                                            '38'
+                                ? SizedBox(
+                                    // height: 200.w,
+                                    // width: 500.w,
+                                    child: Column(
                                       children: [
-                                        Icon(
-                                          Icons.settings,
-                                          size: 20.sp,
-                                          color: ColorResources.color294C73,
+                                        Row(
+                                          children: [
+                                            Icon(
+                                              Icons.settings,
+                                              size: 20.sp,
+                                              color: ColorResources.color294C73,
+                                            ),
+                                            SizedBox(
+                                              width: 10.w,
+                                            ),
+                                            Text(
+                                              'Equipment Status',
+                                              style: TextStyle(
+                                                  color: ColorResources.color294C73,
+                                                  fontSize: 16.sp),
+                                            )
+                                          ],
                                         ),
                                         SizedBox(
-                                          width: 10.w,
+                                          height: 5.w,
                                         ),
-                                        Text(
-                                          'Equipment Status',
-                                          style: TextStyle(
-                                              color: ColorResources.color294C73,
-                                              fontSize: 16.sp),
-                                        )
+                                        GetBuilder<UpcomingInspectionsController>(
+                                            builder: (eqlistData) {
+                                          return Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: List.generate(
+                                                eqlistData.eqList.length,
+                                                (index) => Container(
+                                                      margin: EdgeInsets.symmetric(
+                                                          vertical: 10.w),
+                                                      child: Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceBetween,
+                                                        children: [
+                                                          SizedBox(
+                                                            width: Get.width > 615
+                                                                ? 400.w
+                                                                : 200.w,
+                                                            child: Row(
+                                                              children: [
+                                                                Expanded(
+                                                                    flex: 10,
+                                                                    child: Icon(
+                                                                      Icons.circle,
+                                                                      size: 10.w,
+                                                                    )),
+                                                                Expanded(
+                                                                  flex: 70,
+                                                                  child: Container(
+                                                                    margin: EdgeInsets
+                                                                        .only(
+                                                                            left: 10
+                                                                                .w),
+                                                                    child: Text(eqlistData
+                                                                                .eqList[
+                                                                            index][
+                                                                        'Equipment_Name']),
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                          Container(
+                                                            child: Container(
+                                                              width: Get.width > 615
+                                                                  ? 200.w
+                                                                  : 150.w,
+                                                              height: 40
+                                                                  .w, // Set the desired width here
+                                                              padding: EdgeInsets
+                                                                  .symmetric(
+                                                                      horizontal:
+                                                                          10.w),
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                color: Colors.white,
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            5),
+                                                                border: Border.all(
+                                                                    color: Colors
+                                                                        .grey),
+                                                              ),
+                                                              child: GetBuilder<
+                                                                      UpcomingInspectionsController>(
+                                                                  builder:
+                                                                      (eqStatus) {
+                                                                return DropdownButtonHideUnderline(
+                                                                  child:
+                                                                      DropdownButton<
+                                                                          dynamic>(
+                                                                    isExpanded:
+                                                                        true,
+                                                                    hint: Text(
+                                                                      eqStatus.eqList[index]['Task_Status_Name'] ==
+                                                                                  null ||
+                                                                              eqStatus
+                                                                                  .eqList[index][
+                                                                                      'Task_Status_Name']
+                                                                                  .isEmpty
+                                                                          ? 'status'
+                                                                          : eqStatus
+                                                                                  .eqList[index]
+                                                                              [
+                                                                              'Task_Status_Name'],
+                                                                      style: TextStyle(
+                                                                          color: Colors
+                                                                              .black,
+                                                                          fontSize:
+                                                                              12.sp),
+                                                                    ),
+                                                                    items: eqStatus
+                                                                        .equipmentStatusLIst
+                                                                        .map(
+                                                                            (value) {
+                                                                      return DropdownMenuItem<
+                                                                          dynamic>(
+                                                                        value:
+                                                                            value,
+                                                                        child: Text(
+                                                                            value[
+                                                                                'Task_Status_Name']),
+                                                                      );
+                                                                    }).toList(),
+                                                                    onChanged:
+                                                                        (newValue) {
+                                                                      if (newValue !=
+                                                                          null) {
+                                                                        eqStatus.eqList[index]
+                                                                                [
+                                                                                'Task_Status_Id'] =
+                                                                            newValue[
+                                                                                'Task_Status_Id'];
+          
+                                                                        eqStatus.eqList[index]
+                                                                                [
+                                                                                'Task_Status_Name'] =
+                                                                            newValue[
+                                                                                'Task_Status_Name'];
+                                                                      }
+                                                                      upcomingInspectionsController
+                                                                          .update();
+          
+                                                                      print(eqStatus
+                                                                          .eqList);
+                                                                    },
+                                                                  ),
+                                                                );
+                                                              }),
+                                                            ),
+                                                          )
+                                                        ],
+                                                      ),
+                                                    )),
+                                          );
+                                        }),
                                       ],
                                     ),
-                                    SizedBox(
-                                      height: 5.w,
-                                    ),
-                                    GetBuilder<UpcomingInspectionsController>(
-                                        builder: (eqlistData) {
-                                      return Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: List.generate(
-                                            eqlistData.eqList.length,
-                                            (index) => Container(
-                                                  margin: EdgeInsets.symmetric(
-                                                      vertical: 10.w),
-                                                  child: Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
-                                                    children: [
-                                                      SizedBox(
-                                                        width: Get.width > 615
-                                                            ? 400.w
-                                                            : 200.w,
-                                                        child: Row(
-                                                          children: [
-                                                            Expanded(
-                                                                flex: 10,
-                                                                child: Icon(
-                                                                  Icons.circle,
-                                                                  size: 10.w,
-                                                                )),
-                                                            Expanded(
-                                                              flex: 70,
-                                                              child: Container(
-                                                                margin: EdgeInsets
-                                                                    .only(
-                                                                        left: 10
-                                                                            .w),
-                                                                child: Text(eqlistData
-                                                                            .eqList[
-                                                                        index][
-                                                                    'Equipment_Name']),
-                                                              ),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                      Container(
-                                                        child: Container(
-                                                          width: Get.width > 615
-                                                              ? 200.w
-                                                              : 150.w,
-                                                          height: 40
-                                                              .w, // Set the desired width here
-                                                          padding: EdgeInsets
-                                                              .symmetric(
-                                                                  horizontal:
-                                                                      10.w),
-                                                          decoration:
-                                                              BoxDecoration(
-                                                            color: Colors.white,
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        5),
-                                                            border: Border.all(
-                                                                color: Colors
-                                                                    .grey),
-                                                          ),
-                                                          child: GetBuilder<
-                                                                  UpcomingInspectionsController>(
-                                                              builder:
-                                                                  (eqStatus) {
-                                                            return DropdownButtonHideUnderline(
-                                                              child:
-                                                                  DropdownButton<
-                                                                      dynamic>(
-                                                                isExpanded:
-                                                                    true,
-                                                                hint: Text(
-                                                                  eqStatus.eqList[index]['Task_Status_Name'] ==
-                                                                              null ||
-                                                                          eqStatus
-                                                                              .eqList[index][
-                                                                                  'Task_Status_Name']
-                                                                              .isEmpty
-                                                                      ? 'status'
-                                                                      : eqStatus
-                                                                              .eqList[index]
-                                                                          [
-                                                                          'Task_Status_Name'],
-                                                                  style: TextStyle(
-                                                                      color: Colors
-                                                                          .black,
-                                                                      fontSize:
-                                                                          12.sp),
-                                                                ),
-                                                                items: eqStatus
-                                                                    .equipmentStatusLIst
-                                                                    .map(
-                                                                        (value) {
-                                                                  return DropdownMenuItem<
-                                                                      dynamic>(
-                                                                    value:
-                                                                        value,
-                                                                    child: Text(
-                                                                        value[
-                                                                            'Task_Status_Name']),
-                                                                  );
-                                                                }).toList(),
-                                                                onChanged:
-                                                                    (newValue) {
-                                                                  if (newValue !=
-                                                                      null) {
-                                                                    eqStatus.eqList[index]
-                                                                            [
-                                                                            'Task_Status_Id'] =
-                                                                        newValue[
-                                                                            'Task_Status_Id'];
-
-                                                                    eqStatus.eqList[index]
-                                                                            [
-                                                                            'Task_Status_Name'] =
-                                                                        newValue[
-                                                                            'Task_Status_Name'];
-                                                                  }
-                                                                  upcomingInspectionsController
-                                                                      .update();
-
-                                                                  print(eqStatus
-                                                                      .eqList);
-                                                                },
-                                                              ),
-                                                            );
-                                                          }),
-                                                        ),
-                                                      )
-                                                    ],
-                                                  ),
-                                                )),
-                                      );
-                                    }),
-                                  ],
-                                ),
-                              )
-                            : Container()
-                      ],
-                    ),
-                  ),
-                  SizedBox(
-                    height: 15.w,
-                  ),
-
-                  SizedBox(
-                    child: Column(children: [
-                      TextFormField(
-                        // controller: tcontoller.stopScreenTextController,
-                        controller: riskAssessmentController.stopnoteController,
-                        maxLines: 6,
-                        onChanged: (value) {
-                          print(
-                              riskAssessmentController.stopnoteController.text);
-                        },
-                        maxLength: 800,
-                        style: TextStyle(fontSize: 14.sp),
-                        decoration: InputDecoration(
-                          focusColor: Colors.grey,
-                          hintText: 'Enter Comments',
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: const BorderSide(
-                                color: Colors.grey, width: 1.0),
-                            borderRadius: BorderRadius.circular(3.0),
-                          ),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(3.r),
-                          ),
+                                  )
+                                : Container()
+                          ],
                         ),
                       ),
-
-                      //     )),
                       SizedBox(
-                        height: 15.h,
+                        height: 15.w,
                       ),
-                    ]),
+          
+                      SizedBox(
+                        child: Column(children: [
+                          TextFormField(
+                            // controller: tcontoller.stopScreenTextController,
+                            controller: riskAssessmentController.stopnoteController,
+                            maxLines: 6,
+                            onChanged: (value) {
+                              print(
+                                  riskAssessmentController.stopnoteController.text);
+                            },
+                            maxLength: 800,
+                            style: TextStyle(fontSize: 14.sp),
+                            decoration: InputDecoration(
+                              focusColor: Colors.grey,
+                              hintText: 'Enter Comments',
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                    color: Colors.grey, width: 1.0),
+                                borderRadius: BorderRadius.circular(3.0),
+                              ),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(3.r),
+                              ),
+                            ),
+                          ),
+          
+                          //     )),
+                          SizedBox(
+                            height: 15.h,
+                          ),
+                        ]),
+                      ),
+          
+                      // commonNoteWidget(isReadOnly: false),
+                    ],
                   ),
-
-                  // commonNoteWidget(isReadOnly: false),
-                ],
+                ),
               ),
             ),
           ),
-        ),
+        if(isLoading)
+Container(
+  color: Colors.black12,
+  height: double.infinity,
+  child: Center(child: CircularProgressIndicator(),),
+)
+        ],
       ),
 
       bottomNavigationBar: Container(
         color: Colors.red,
         child: IconButton(
           onPressed: () {
-            if (homeController.isCaliberationSection.value) {
+            
+            if (homeController.isCalibrationSection.value) {
               // if (condition) {
               if (upcomingInspectionController.isOwner) {
                 tcontroller.getAllUserTaskStatus();
@@ -470,15 +482,15 @@ class _RiskAssesmentStopScreenState extends State<RiskAssesmentStopScreen> {
             if (tcontoller.selectedStatusValue.value == '') {
               ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(content: Text('Choose Task Status!')));
-            } else if (homeController.isCaliberationSection.value &&
+            } else if (homeController.isCalibrationSection.value &&
                     upcomingInspectionsController.eqList
                         .where((element) => element['Task_Status_Name'] == '')
                         .toList()
                         .isNotEmpty &&
-                    upcomingInspectionsController.taskUserDetailsCaliberation[0]['Role_Id']
+                    upcomingInspectionsController.taskUserDetailsCalibration[0]['Role_Id']
                             .toString() ==
                         '38' ||
-                !homeController.isCaliberationSection.value &&
+                !homeController.isCalibrationSection.value &&
                     upcomingInspectionsController.eqList
                         .where((element) => element['Task_Status_Name'] == '')
                         .toList()
@@ -491,17 +503,17 @@ class _RiskAssesmentStopScreenState extends State<RiskAssesmentStopScreen> {
                 .stopnoteController.text.isEmpty) {
               ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(content: Text('Please Enter Comments!')));
-            } else if (homeController.isCaliberationSection.value &&
+            } else if (homeController.isCalibrationSection.value &&
                     tcontoller.getAllStaffStatus
                         .where((element) =>
                             element['Task_Status_Id'].toString() == '4' ||
                             element['Task_Status_Id'].toString() == '1')
                         .toList()
                         .isNotEmpty &&
-                    upcomingInspectionsController.taskUserDetailsCaliberation[0]['Role_Id']
+                    upcomingInspectionsController.taskUserDetailsCalibration[0]['Role_Id']
                             .toString() ==
                         '38' ||
-                !homeController.isCaliberationSection.value &&
+                !homeController.isCalibrationSection.value &&
                     tcontoller.getAllStaffStatus
                         .where((element) =>
                             element['Task_Status_Id'].toString() == '4' ||
@@ -523,7 +535,7 @@ class _RiskAssesmentStopScreenState extends State<RiskAssesmentStopScreen> {
                     child: Column(
                       children: [
                         Text(
-                          homeController.isCaliberationSection.value &&
+                          homeController.isCalibrationSection.value &&
                                       tcontoller.getAllStaffStatus
                                           .where((element) =>
                                               element['Task_Status_Id']
@@ -532,12 +544,12 @@ class _RiskAssesmentStopScreenState extends State<RiskAssesmentStopScreen> {
                                           .toList()
                                           .isNotEmpty &&
                                       upcomingInspectionsController
-                                              .taskUserDetailsCaliberation[0]
+                                              .taskUserDetailsCalibration[0]
                                                   ['Role_Id']
                                               .toString() ==
                                           '38' ||
                                   !homeController
-                                          .isCaliberationSection.value &&
+                                          .isCalibrationSection.value &&
                                       tcontoller.getAllStaffStatus
                                           .where((element) =>
                                               element['Task_Status_Id']
@@ -600,10 +612,21 @@ class _RiskAssesmentStopScreenState extends State<RiskAssesmentStopScreen> {
                                     '38') {
                               Get.to(() => const TrainingInspectionScreen());
                             } else {
-                              riskAssessmentController.saveTaskStop(
+                             try {
+                              setState(() {
+                                isLoading=true;
+                              });
+                                riskAssessmentController.saveTaskStop(
                                   tcontoller.selectedStatusValue.value,
                                   riskAssessmentController
                                       .stopnoteController.text);
+                             } catch (e) {
+                               
+                             }finally{
+                               setState(() {
+                                isLoading=false;
+                              });
+                             }
                             }
 
                             // Get.to(()=>TrainingInspectionScreen());

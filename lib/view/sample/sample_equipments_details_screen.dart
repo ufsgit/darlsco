@@ -138,7 +138,7 @@ class _SampleEquipmentsDetailsScreenState extends State<SampleEquipmentsDetailsS
                 ),
               ),
               child: const Text(
-                'View',
+                'View Certificate',
               ),
             )
           else

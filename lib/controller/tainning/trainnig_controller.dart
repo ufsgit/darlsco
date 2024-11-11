@@ -167,16 +167,16 @@ class TrainingController extends GetxController {
     // Loader.showLoader();
     await HttpRequest.httpGetRequest(
       bodyData: {
-        "Role_Id": homeController.isCaliberationSection.value
+        "Role_Id": homeController.isCalibrationSection.value
             ? int.parse(upcomingInspectionsController
-                .taskUserDetailsCaliberation[0]['Role_Id']
+                .taskUserDetailsCalibration[0]['Role_Id']
                 .toString())
             : int.parse(upcomingInspectionsController.taskUserDetails[0]
                     ['Role_Id']
                 .toString()),
-        "Task_Id": homeController.isCaliberationSection.value
+        "Task_Id": homeController.isCalibrationSection.value
             ? int.parse(upcomingInspectionsController
-                .taskDetailsDataCaliberation[0]['Task_Id']
+                .taskDetailsDataCalibration[0]['Task_Id']
                 .toString())
             : int.parse(upcomingInspectionsController.taskDetailsData[0]
                     ['Task_Id']
@@ -188,7 +188,7 @@ class TrainingController extends GetxController {
       if (value.data != null) {
         print(value);
 
-        taskStatusList = !homeController.isCaliberationSection.value
+        taskStatusList = !homeController.isCalibrationSection.value
             ? value.data[0]
             : value.data[3];
         upcomingInspectionsController.equipmentStatusLIst = value.data[1];
@@ -213,15 +213,15 @@ class TrainingController extends GetxController {
   var dateAndTime = [];
 
   getAllUserTaskStatus() async {
-    if (homeController.isCaliberationSection.value) {
+    if (homeController.isCalibrationSection.value) {
       dateAndTime = [
         {
           "title": 'Task Date & Time',
           'sub_title': upcomingInspectionsController
-                      .taskDetailsDataCaliberation[0]['Proposed_Date_Time1'] ==
+                      .taskDetailsDataCalibration[0]['Proposed_Date_Time1'] ==
                   null
               ? ''
-              : upcomingInspectionsController.taskDetailsDataCaliberation[0]
+              : upcomingInspectionsController.taskDetailsDataCalibration[0]
                       ['Proposed_Date_Time1'] ??
                   '',
           "icon": Icons.calendar_month,
@@ -229,14 +229,14 @@ class TrainingController extends GetxController {
         {
           "title": 'Started Date & Time',
           'sub_title': upcomingInspectionsController
-                  .taskUserDetailsCaliberation.isEmpty
+                  .taskUserDetailsCalibration.isEmpty
               ? ''
-              : upcomingInspectionsController.taskUserDetailsCaliberation[0]
+              : upcomingInspectionsController.taskUserDetailsCalibration[0]
                           ['Actual_Start_Date_Time1'] ==
                       null
                   ? ''
                   : upcomingInspectionsController
-                      .taskUserDetailsCaliberation[0]
+                      .taskUserDetailsCalibration[0]
                           ['Actual_Start_Date_Time1']
                       .toString()
                       .toLowerCase(),
@@ -246,7 +246,7 @@ class TrainingController extends GetxController {
     }
     await HttpRequest.httpGetRequest(
       endPoint:
-          '${homeController.isCaliberationSection.value ? HttpUrls.getAllUserTaskStatusCaliberation : HttpUrls.getAllUserTaskStatus}${homeController.isCaliberationSection.value ? int.parse(upcomingInspectionsController.taskDetailsDataCaliberation[0]['Task_Id'].toString()) : int.parse(upcomingInspectionsController.taskDetailsData[0]['Task_Id'].toString())}',
+          '${homeController.isCalibrationSection.value ? HttpUrls.getAllUserTaskStatusCalibration : HttpUrls.getAllUserTaskStatus}${homeController.isCalibrationSection.value ? int.parse(upcomingInspectionsController.taskDetailsDataCalibration[0]['Task_Id'].toString()) : int.parse(upcomingInspectionsController.taskDetailsData[0]['Task_Id'].toString())}',
     ).then((value) {
       print('all status $value');
       if (value.data != null) {
