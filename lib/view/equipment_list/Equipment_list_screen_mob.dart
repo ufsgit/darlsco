@@ -160,6 +160,15 @@ class EquipmentListScreenMob extends StatelessWidget {
                                                                       index]
                                                                   .equipmentType,
                                                         ),
+                                                        if(homeController.isCalibrationSection.value)
+                                                        equipmentCommonItemWidget(
+                                                          keyText:
+                                                              'Calibration Type',
+                                                          valueText:
+                                                              equipmentData[
+                                                                      index]
+                                                                  .calibrationType,
+                                                        ),
                                                         equipmentCommonItemWidget(
                                                           keyText:
                                                               'Expiring Date',

@@ -14,7 +14,7 @@ int certificateCount;
   String statusName;
 
   String equipmentType;
-
+String calibrationType;
   CustomerEquipmentList({
     required this.certificateCount,
     required this.checked,
@@ -30,9 +30,11 @@ int certificateCount;
     required this.experingIn,
     required this.description,
     required this.equipmentType,
+    required this.calibrationType,
   });
   factory CustomerEquipmentList.fromJson(Map<String, dynamic> json) {
     return CustomerEquipmentList(
+      calibrationType:  json['Calibration_Type_Name']??'',
       certificateCount: json['Certificate_Count']??0,
         statusId: int.parse(json['Status_Id'].toString() == 'null'
             ? '0'

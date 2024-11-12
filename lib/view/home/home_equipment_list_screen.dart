@@ -264,7 +264,16 @@ class _HomeEquipmentListScreenState extends State<HomeEquipmentListScreen> {
                                                             index]
                                                         .equipmentType,
                                               ),
-
+ if(homeController.isCalibrationSection.value)
+                                                        equipmentCommonItemWidget(
+                                                          keyText:
+                                                              'Calibration Type',
+                                                          valueText:
+                                                              homeController
+                                                        .customerEquipmentDataCalibration[
+                                                                      index]
+                                                                  .calibrationType,
+                                                        ),
                                               equipmentCommonItemWidget(
                                                 keyText: 'Expiring Date',
                                                 valueText: homeController

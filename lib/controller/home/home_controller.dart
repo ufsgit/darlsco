@@ -593,7 +593,7 @@ class HomeController extends GetxController {
 
       await HttpRequest.httpGetRequest(
         bodyData: changtaskBodyData,
-        endPoint: HttpUrls.changeTaskUser,
+        endPoint:homeController.isCalibrationSection.value? HttpUrls.changeTaskUserCallibertion: HttpUrls.changeTaskUser,
       ).then((value) async {
         if (value.data[0].isNotEmpty) {
           homeController.allUserDropDownValue.value = '';
