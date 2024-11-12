@@ -317,7 +317,7 @@ class TrainingController extends GetxController {
               6371;
 
           print('DISTANCE $d');
-          if (d != 500) {
+          if (d == 500) {
             await Loader.stopLoader();
             return 'inside';
           } else {
