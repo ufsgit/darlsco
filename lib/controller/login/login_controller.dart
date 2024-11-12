@@ -6,6 +6,7 @@ import 'package:darlsco/controller/home/home_controller.dart';
 import 'package:darlsco/http/http_request.dart';
 import 'package:darlsco/http/http_urls.dart';
 import 'package:darlsco/model/login/login_model.dart';
+import 'package:darlsco/notification.dart';
 import 'package:darlsco/view/login/otp_screen.dart';
 import 'package:darlsco/view/training/widgets/bottom_navigation_widget.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -146,7 +147,7 @@ class LoginController extends GetxController {
     }
 
     // print('firbase login token $firebaseToken');
-print('kbhhubhu ${homeController.isFromPurchase.value}');
+    print('kbhhubhu ${homeController.isFromPurchase.value}');
     await HttpRequest.httpGetRequest(
         endPoint: homeController.isFromPurchase.value
             ? HttpUrls.agentLoginTraining
@@ -281,6 +282,10 @@ print('kbhhubhu ${homeController.isFromPurchase.value}');
             default:
               Get.offAll(() => BottomNavigationWidget());
           }
+          await FirebaseNotificationService.getNotificationPermission();
+          await FirebaseNotificationService.subscribeToTopic(
+              userType: dashboardController.dashboardRole.toString(),
+              customerId: data['0'][0]['Id'].toString());
 
           // Get.offAll(() => const BottomNavigationScreen());
         }
@@ -407,7 +412,7 @@ print('kbhhubhu ${homeController.isFromPurchase.value}');
 
   logout(BuildContext context) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-
+    String cusId = sharedPreferences.getString('darlsco_id').toString();
     await sharedPreferences.clear();
     // loginController.dispose();
     // tcontoller.refresh();
@@ -423,6 +428,9 @@ print('kbhhubhu ${homeController.isFromPurchase.value}');
     globalHomeController.isCalibrationSection.value = false;
     getcountry(context);
     homeController.isUsersignedIn();
+    await FirebaseNotificationService.unsubscribeFromTopic(
+        userType: dashboardController.dashboardRole.toString(),
+        customerId: cusId);
 
     Get.offAll(() => BottomNavigationWidget(), duration: Duration.zero);
   }

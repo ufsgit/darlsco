@@ -424,7 +424,10 @@ class _Tab2State extends State<Tab2> {
                                 context: context,
                                 datePickController:
                                     homeController.inspectionDateController,
-                                labelText:homeController.isCalibrationSection.value?'Calibration Date': 'Inspection Date',
+                                labelText:
+                                    homeController.isCalibrationSection.value
+                                        ? 'Calibration Date'
+                                        : 'Inspection Date',
                                 titleText: ''),
                           if (homeController.isUserLoggedIn == true)
                             SizedBox(
@@ -517,7 +520,7 @@ class _Tab2State extends State<Tab2> {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                     const SnackBar(
                                         content:
-                                            Text('Choose Inspection Date!')));
+                                            Text('Choose Date!')));
                               } else if (homeController
                                   .inspectionMessageController.text.isEmpty) {
                                 ScaffoldMessenger.of(context).showSnackBar(
@@ -534,6 +537,7 @@ class _Tab2State extends State<Tab2> {
                                       .isNotEmpty &&
                                   homeController
                                       .equipmentListCustomer.isNotEmpty) {
+                                        print('32323dfasdf');
                                 homeController.saveCustomerRequest(
                                     context: context);
                               }

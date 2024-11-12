@@ -657,7 +657,7 @@ commonBottomButton() {
                   .taskEquipmentListDataCalibration
                   .where((element) => element['Checked'].toString() == '1')
                   .toList();
-              print('equipmenkeoeioeiot list ${equipmentCheck}');
+              print('equipmenkeoeioeiot list $equipmentCheck');
 
               if (equipmentCheck.isNotEmpty) {
                 if (upcomingInspectionsController

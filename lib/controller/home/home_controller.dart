@@ -73,7 +73,7 @@ class HomeController extends GetxController {
   List<CustomerLocations> customerLocations = [];
   RxBool isLoadingEquipmentDetailsscreen = false.obs;
   EquipmentDetailModel equipmentDetailModel = EquipmentDetailModel();
-  int mainTabIndex =0;
+  int mainTabIndex = 0;
   List<Map<String, dynamic>> googleReview = [
     {
       "name": 'Ivy Dalde',
@@ -272,7 +272,7 @@ class HomeController extends GetxController {
     'Expiring Equipments',
     'Upcoming Inspections',
   ];
-    List<String> contentTextTrainingTab2Calibration = [
+  List<String> contentTextTrainingTab2Calibration = [
     'Total Locations',
     'Total Equipments',
     'Expiring Equipments',
@@ -566,9 +566,11 @@ class HomeController extends GetxController {
                 ['Task_Id']
             : upcomingInspectionsController.taskDetailsData[0]['Task_Id'],
         'From_User_': homeController.isCalibrationSection.value
-            ? getCurrentUsersListCalibration.where((element) =>
-                element['User_Details_Name'].toString().toLowerCase() ==
-                currentUserDropDownValue.value.toLowerCase())
+            ? getCurrentUsersListCalibration
+                .where((element) =>
+                    element['User_Details_Name'].toString().toLowerCase() ==
+                    currentUserDropDownValue.value.toLowerCase())
+                .toList()[0]['User_Details_Id']
             : getCurrentUsersList
                 .where((element) =>
                     element['User_Details_Name'].toString().toLowerCase() ==
@@ -600,7 +602,9 @@ class HomeController extends GetxController {
           ScaffoldMessenger.of(Get.context!).showSnackBar(const SnackBar(
               content: Text('Team member successfully updated!')));
           await upcomingInspectionsController.taskInitFunction(context);
-          Get.offAll(() =>  TrainingInspectionScreen(selectedIndex:  mainTabIndex,));
+          Get.offAll(() => TrainingInspectionScreen(
+                selectedIndex: mainTabIndex,
+              ));
         }
         update();
       });
@@ -803,7 +807,7 @@ class HomeController extends GetxController {
     ).then((value) {
       print('dfgwr4tiow4oi4wroi ${value.statusCode}');
       if (value.statusCode == 200) {
-         for (var element in value.data[0]) {
+        for (var element in value.data[0]) {
           customerEquipmentDataCalibration
               .add(CustomerEquipmentList.fromJson(element));
         }
@@ -821,7 +825,6 @@ class HomeController extends GetxController {
           }
         }
 
-       
         print('dfgwr4tiow4oi4wroi $customerEquipmentDataCalibration');
 
         // final data=jsonDecode(value.data[0].toString());
@@ -1034,10 +1037,18 @@ class HomeController extends GetxController {
           equipmentCheckValue.clear();
           inspectionDateController.clear();
           if (value.data[0].isNotEmpty) {
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            if (isCalibrationSection.value) {
+               ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                 content: Text(ispostdataExpiring
-                    ? "Expirying Equipment Inspection Request submitted successfully"
+                    ? "Expiring Equipment Calibration Request submitted successfully"
+                    : 'Calibration Request submitted sucessfully')));
+            }else{
+               ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                content: Text(ispostdataExpiring
+                    ? "Expiring Equipment Inspection Request submitted successfully"
                     : 'Inspection Request submitted sucessfully')));
+            }
+          
 
             if (ispostdataExpiring) {
               print(customerEquipmentExpiringData);
@@ -1092,7 +1103,7 @@ class HomeController extends GetxController {
         preferences.getString('inspection_login') ?? '';
 
     isUserLoggedIn = token != '';
-    print('dfwref ${isTraineeCustomer}');
+    print('dfwref $isTraineeCustomer');
     isInspectionEnabled = isInspectionCustomer == '1' || !isUserLoggedIn;
     isTrainingEnabled = isTraineeCustomer == '1' || !isUserLoggedIn;
     isCalibrationEnabled = isCalibrationCustomer == '1' || !isUserLoggedIn;

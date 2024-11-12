@@ -79,13 +79,7 @@ dependencies:
   dropdown_search: ^6.0.1
   dropdown_button2: ^2.3.9
   connectivity_plus: any
- 
 
-
-
-  
-  
-  
   intl: 
   version_check: ^0.4.0
   flutter_local_notifications: 
@@ -100,6 +94,9 @@ dependencies:
   # dart_console: ^1.2.0 
   
 
+  # flutter_localizations: 0.2.2
+  path_provider: any
+  http: any
 dev_dependencies:
   flutter_test:
     sdk: flutter

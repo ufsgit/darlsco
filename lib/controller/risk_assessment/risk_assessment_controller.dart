@@ -2332,16 +2332,7 @@ if (homeController.isCalibrationSection.value) {
                   ].where((element) => element).length >=
                   2;
               Get.offAll(() => TrainingInspectionScreen(
-                    selectedIndex: homeController.isInspectionEnabled &&
-                                homeController.isTrainingEnabled &&
-                                homeController.isCalibrationEnabled ||
-                            !homeController.isInspectionEnabled &&
-                                !homeController.isTrainingEnabled &&
-                                !homeController.isCalibrationEnabled
-                        ? 2
-                        : areAnyTwoTrue
-                            ? 1
-                            : 0,
+                    selectedIndex:homeController.mainTabIndex,
                   ));
 
               // Get.offAll( const TrainingInspectionScreen());

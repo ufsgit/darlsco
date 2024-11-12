@@ -9,13 +9,14 @@ class CustomerEquipmentList {
   int experingIn;
   String description;
   int checked;
-
+int certificateCount;
   int statusId;
   String statusName;
 
   String equipmentType;
 
   CustomerEquipmentList({
+    required this.certificateCount,
     required this.checked,
     required this.statusId,
     required this.statusName,
@@ -32,6 +33,7 @@ class CustomerEquipmentList {
   });
   factory CustomerEquipmentList.fromJson(Map<String, dynamic> json) {
     return CustomerEquipmentList(
+      certificateCount: json['Certificate_Count']??0,
         statusId: int.parse(json['Status_Id'].toString() == 'null'
             ? '0'
             : json['Status_Id'].toString()),

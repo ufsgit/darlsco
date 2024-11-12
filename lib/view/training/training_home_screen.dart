@@ -26,16 +26,24 @@ class _TrainingHomeScreenState extends State<TrainingHomeScreen> {
   bool isLoading=false;
 
   Future<void> getData() async {
-    setState(() {
+ try {
+      setState(() {
       isLoading=true;
     });
+ } catch (e) {
+   
+ }
     trainingController.priceList.value = 0;
     print('getItemCart2');
     await trainingController.fetchTrainingHomeData();
     await trainingController.getItemCart();
-   setState(() {
+   try {
+     setState(() {
       isLoading=false;
     });
+   } catch (e) {
+     
+   }
   }
 
   @override

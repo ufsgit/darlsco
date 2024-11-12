@@ -1,21 +1,21 @@
 {
   "project_info": {
-    "project_number": "917044543784",
-    "project_id": "darlsco",
-    "storage_bucket": "darlsco.firebasestorage.app"
+    "project_number": "274402675206",
+    "project_id": "darlsco-inspection-services",
+    "storage_bucket": "darlsco-inspection-services.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:917044543784:android:bde67dfa1c32ce0b9a501d",
+        "mobilesdk_app_id": "1:274402675206:android:a9567d5591cdd47787d187",
         "android_client_info": {
-          "package_name": "com.darlsco_solutions.darlsco"
+          "package_name": "com.inspection.darlsco"
         }
       },
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyB16xImBAsMAp3lROKoWfYmd7grtoxhwWc"
+          "current_key": "AIzaSyBfdWACvw_WqK-CTBJYQiLIjE6cHBSY-Og"
         }
       ],
       "services": {

@@ -7,9 +7,15 @@ import 'package:get/get.dart';
 
 import '../../controller/home/home_controller.dart';
 
-class UserListScreen extends StatelessWidget {
+class UserListScreen extends StatefulWidget {
   const UserListScreen({super.key});
 
+  @override
+  State<UserListScreen> createState() => _UserListScreenState();
+}
+
+class _UserListScreenState extends State<UserListScreen> {
+  bool isLoading =false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,80 +30,93 @@ class UserListScreen extends StatelessWidget {
                 icon: const Icon(Icons.arrow_back_ios_new_outlined)),
             backgroundColor: ColorResources.colorTransparent,
           ))),
-      body: commonBackgroundLinearColorHome(
-          childWidget: Container(
-        padding: EdgeInsets.all(15.sp),
-        child: SizedBox(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(
-                height: 40.h,
+      body: Stack(
+        children: [
+          commonBackgroundLinearColorHome(
+              childWidget: Container(
+            padding: EdgeInsets.all(15.sp),
+            child: SizedBox(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    height: 40.h,
+                  ),
+                  GetBuilder<HomeController>(builder: (data) {
+                    return Get.width > 615
+                        ? commonUserListDropdownTab(
+                            spacerWidth: 60,
+                            context: context,
+                            title: 'Current Team Members',
+                            dropDownValue: data.currentUserDropDownValue,
+                            userList: homeController.isCalibrationSection.value
+                                ? data.getCurrentUsersListCalibration
+                                : data.getCurrentUsersList,
+                          )
+                        : commonUserListDropdown(
+                            context: context,
+                            title: 'Current Team Members',
+                            dropDownValue: data.currentUserDropDownValue,
+                            userList: homeController.isCalibrationSection.value
+                                ? data.getCurrentUsersListCalibration
+                                : data.getCurrentUsersList,
+                          );
+                  }),
+                  SizedBox(
+                    height: 20.h,
+                  ),
+          
+                  Get.width > 615
+                      ? commonUserListDropdownTab(
+                          spacerWidth: 88,
+                          isButton: true,
+                          context: context,
+                          title: 'Other Team Members',
+                          dropDownValue: homeController.allUserDropDownValue,
+                          userList: homeController.isCalibrationSection.value
+                              ? homeController.getAllUsersListCalibration
+                              : homeController.getAllUsersList,
+                        )
+                      : commonUserListDropdown(
+                          isButton: true,
+                          context: context,
+                          title: 'Other Team Members',
+                          dropDownValue: homeController.allUserDropDownValue,
+                          userList: homeController.isCalibrationSection.value
+                              ? homeController.getAllUsersListCalibration
+                              : homeController.getAllUsersList,
+                        ),
+                  SizedBox(
+                    height: 20.h,
+                  ),
+          
+                  // commonUserListDropdown(),
+                ],
               ),
-              GetBuilder<HomeController>(builder: (data) {
-                return Get.width > 615
-                    ? commonUserListDropdownTab(
-                        spacerWidth: 60,
-                        context: context,
-                        title: 'Current Team Members',
-                        dropDownValue: data.currentUserDropDownValue,
-                        userList: homeController.isCalibrationSection.value
-                            ? data.getCurrentUsersListCalibration
-                            : data.getCurrentUsersList,
-                      )
-                    : commonUserListDropdown(
-                        context: context,
-                        title: 'Current Team Members',
-                        dropDownValue: data.currentUserDropDownValue,
-                        userList: homeController.isCalibrationSection.value
-                            ? data.getCurrentUsersListCalibration
-                            : data.getCurrentUsersList,
-                      );
-              }),
-              SizedBox(
-                height: 20.h,
-              ),
-
-              Get.width > 615
-                  ? commonUserListDropdownTab(
-                      spacerWidth: 88,
-                      isButton: true,
-                      context: context,
-                      title: 'Other Team Members',
-                      dropDownValue: homeController.allUserDropDownValue,
-                      userList: homeController.isCalibrationSection.value
-                          ? homeController.getAllUsersListCalibration
-                          : homeController.getAllUsersList,
-                    )
-                  : commonUserListDropdown(
-                      isButton: true,
-                      context: context,
-                      title: 'Other Team Members',
-                      dropDownValue: homeController.allUserDropDownValue,
-                      userList: homeController.isCalibrationSection.value
-                          ? homeController.getAllUsersListCalibration
-                          : homeController.getAllUsersList,
-                    ),
-              SizedBox(
-                height: 20.h,
-              ),
-
-              // commonUserListDropdown(),
-            ],
-          ),
-        ),
-      )),
+            ),
+          )),
+       if(isLoading) Container(
+        color: Colors.black12,
+        child: Center(child: CircularProgressIndicator(),),
+       )
+        ],
+      ),
     );
   }
 
   Container updateUserButton(BuildContext context) {
-    return Container(
+    return  Container(
       margin: EdgeInsets.only(top: 15.w),
       child: Align(
         alignment: Alignment.centerRight,
         child: IconButton(
             padding: EdgeInsets.all(4.w),
             onPressed: () {
+              print('sdfgswd');
+              try {
+                setState(() {
+                  isLoading=true;
+                });
               if (homeController.allUserDropDownValue.value != '' &&
                   homeController.currentUserDropDownValue.value != '') {
                 homeController.changeTaskUser(context);
@@ -109,6 +128,11 @@ class UserListScreen extends StatelessWidget {
                   ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                       content: Text('Select the member name to be update!')));
                 }
+              }
+              } finally{
+                //    setState(() {
+                //   isLoading=false;
+                // });
               }
             },
             icon: Container(

@@ -502,14 +502,13 @@ bool isLoading = false;
                               //         !globalHomeController
                               //             .isCalibrationLogin.value)
                               if (homeController.isCalibrationEnabled)
-                                const Tab(
+                                 Tab(
                                   iconMargin: EdgeInsets.all(0),
                                   text: 'Calibration',
-                                  icon: Icon(
-                                    Icons.settings,
-                                    color: ColorResources.color294C73,
-                                    size: 30,
-                                  ),
+                                  icon:Image.asset('assets/images/calibration.png',
+                                  height: 30,
+                                  width: 30,
+                                  )
                                 ),
                             ],
                           ),

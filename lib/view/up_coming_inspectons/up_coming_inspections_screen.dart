@@ -322,9 +322,9 @@ class UpcomingInspectionsScreen extends StatelessWidget {
                                     : [
                                         SizedBox(
                                           height: 500.h,
-                                          child: const Center(
+                                          child:  Center(
                                             child: Text(
-                                              'Currently, no inspection requests have been converted to inspection task!',
+                                            homeController.isCalibrationSection.value?'Currently, no calibration requests have been converted to calibration task!':'Currently, no inspection requests have been converted to inspection task!',
                                               textAlign: TextAlign.center,
                                             ),
                                           ),

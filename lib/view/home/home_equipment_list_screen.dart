@@ -1,4 +1,5 @@
 import 'package:darlsco/controller/home/home_controller.dart';
+import 'package:darlsco/controller/upcoming_inspections/upcoming_inspection_controller.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -9,7 +10,7 @@ import '../../core/constants/color_resources.dart';
 import '../../core/constants/common_widgets.dart';
 
 class HomeEquipmentListScreen extends StatefulWidget {
-  HomeEquipmentListScreen({super.key});
+  const HomeEquipmentListScreen({super.key});
 
   @override
   State<HomeEquipmentListScreen> createState() =>
@@ -195,10 +196,11 @@ class _HomeEquipmentListScreenState extends State<HomeEquipmentListScreen> {
                                                                   .toString() ==
                                                               '0'
                                                       ? Checkbox(
-                                                          value: equipmentData[
-                                                              index],
+                                                          value:data.equipmentCheckValue[index],
+                                                          //  equipmentData[
+                                                          //     index],
                                                           onChanged: (value) {
-                                                            equipmentData[
+                                                            data.equipmentCheckValue[
                                                                 index] = value!;
                                                             homeController
                                                                 .selectingEquipment(
@@ -271,7 +273,7 @@ class _HomeEquipmentListScreenState extends State<HomeEquipmentListScreen> {
                                                     ? homeController
                                                         .customerEquipmentDataCalibration[
                                                             index]
-                                                        .equipmentType
+                                                        .experingDate
                                                     : homeController
                                                         .customerEquipmentData[
                                                             index]
@@ -285,7 +287,7 @@ class _HomeEquipmentListScreenState extends State<HomeEquipmentListScreen> {
                                                     ? homeController
                                                         .customerEquipmentDataCalibration[
                                                             index]
-                                                        .equipmentType
+                                                        .equipmentMake
                                                     : homeController
                                                         .customerEquipmentData[
                                                             index]
@@ -299,7 +301,7 @@ class _HomeEquipmentListScreenState extends State<HomeEquipmentListScreen> {
                                                     ? homeController
                                                         .customerEquipmentDataCalibration[
                                                             index]
-                                                        .equipmentType
+                                                        .equipmentModel
                                                     : homeController
                                                         .customerEquipmentData[
                                                             index]
@@ -313,7 +315,7 @@ class _HomeEquipmentListScreenState extends State<HomeEquipmentListScreen> {
                                                     ? homeController
                                                         .customerEquipmentDataCalibration[
                                                             index]
-                                                        .equipmentType
+                                                        .serialNo
                                                     : homeController
                                                         .customerEquipmentData[
                                                             index]
@@ -327,7 +329,7 @@ class _HomeEquipmentListScreenState extends State<HomeEquipmentListScreen> {
                                                     ? homeController
                                                         .customerEquipmentDataCalibration[
                                                             index]
-                                                        .equipmentType
+                                                        .description
                                                     : homeController
                                                         .customerEquipmentData[
                                                             index]

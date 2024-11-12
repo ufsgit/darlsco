@@ -1,3 +1,4 @@
+import 'package:darlsco/view/home/bottom_navigation_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -70,7 +71,7 @@ class _ReScheduleInspectionsScreenState
                             fontWeight: FontWeight.w700),
                       ),
                       TextSpan(
-                        text: ' Inspection',
+                        text:homeController.isCalibrationSection.value?' Calibration': ' Inspection',
                         style: GoogleFonts.roboto(
                           fontSize: 40.sp,
                           fontWeight: FontWeight.w700,

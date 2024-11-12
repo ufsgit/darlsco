@@ -1,11 +1,12 @@
+import 'dart:io';
 import 'dart:isolate';
 
 // import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:darlsco/app_%20config/all_countries.dart';
-import 'package:darlsco/controller/home/home_controller.dart';
 import 'package:darlsco/controller/login/login_controller.dart';
 import 'package:darlsco/firebase_options.dart';
+import 'package:darlsco/notification.dart';
 import 'package:darlsco/view/home/bottom_navigation_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:location/location.dart' as loc;
@@ -23,11 +24,15 @@ import 'package:google_fonts/google_fonts.dart';
 
 import 'package:permission_handler/permission_handler.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:url_strategy/url_strategy.dart';
 
 import 'view/splash_screen/splash_screen.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-
+class MyHttpOverrides extends HttpOverrides {
+  @override
+  HttpClient createHttpClient(SecurityContext? context) {
+    return super.createHttpClient(context)..badCertificateCallback = (X509Certificate cert, String host, int port) => true;
+  }
+}
 final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey =
     GlobalKey<ScaffoldMessengerState>();
 final messageStreamController = BehaviorSubject<RemoteMessage>();
@@ -42,11 +47,16 @@ Future<void> main() async {
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
   // setPathUrlStrategy();
-  // await Firebase.initializeApp();
+
+await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+);
+  await FirebaseNotificationService.initialize();
 
 // final channel =  IOWebSocketChannel.connect( Uri.parse('wss://192.168.1.94:4510')    );
 
 //      channel.sink.add('Hello from ufs!');
+HttpOverrides.global=MyHttpOverrides();
 
   runApp(const MyApp());
 }

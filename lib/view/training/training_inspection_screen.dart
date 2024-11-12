@@ -16,8 +16,8 @@ import '../../controller/login/login_controller.dart';
 import '../../core/constants/color_resources.dart';
 
 class TrainingInspectionScreen extends StatefulWidget {
-  const TrainingInspectionScreen({super.key,this.selectedIndex=0});
-final int selectedIndex;
+  const TrainingInspectionScreen({super.key, this.selectedIndex = 0});
+  final int selectedIndex;
   @override
   State<TrainingInspectionScreen> createState() =>
       _TrainingInspectionScreenState();
@@ -36,10 +36,12 @@ class _TrainingInspectionScreenState extends State<TrainingInspectionScreen> {
     upcomingInspectionsController.taskInitFunction(context);
 
     //  homeController.getAllusers();
-print('dfnojwenfoiw ${homeController.isInspectionSection.value}');
-print('dfnojwenfoiw ${homeController.isTrainingSectionnew.value}');
-print('dfnojwenfoiw ${homeController.isCalibrationSection.value}');
-
+    print('dfnojwenfoiw ${homeController.isInspectionSection.value}');
+    print('dfnojwenfoiw ${homeController.isTrainingSectionnew.value}');
+    print('dfnojwenfoiw ${homeController.isCalibrationSection.value}');
+    try {
+      upcomingInspectionsController.isLoading.value = false;
+    } catch (e) {}
 
     super.initState();
   }
@@ -54,11 +56,10 @@ print('dfnojwenfoiw ${homeController.isCalibrationSection.value}');
   @override
   Widget build(BuildContext context) {
     print('homeC ${homeController.isCalibrationSection.value}');
-    
+
     return GetBuilder<HomeController>(builder: (loginData) {
       return DefaultTabController(
         initialIndex: widget.selectedIndex,
-
         length: homeController.isInspectionEnabled &&
                     homeController.isTrainingEnabled &&
                     homeController.isCalibrationEnabled ||
@@ -146,7 +147,7 @@ print('dfnojwenfoiw ${homeController.isCalibrationSection.value}');
 
                   bottom: TabBar(
                     onTap: (index) async {
-                      homeController.mainTabIndex=index;
+                      homeController.mainTabIndex = index;
                       homeController.isInspectionSection.value =
                           index == 0 && homeController.isInspectionEnabled;
                       homeController.isTrainingSectionnew.value =
@@ -155,20 +156,19 @@ print('dfnojwenfoiw ${homeController.isCalibrationSection.value}');
                                   homeController.isTrainingEnabled &&
                                   homeController.isInspectionEnabled;
 
-                      homeController.isCalibrationSection.value =
-                          index == 0 &&
-                                  !homeController.isInspectionEnabled &&
-                                  !homeController.isTrainingEnabled ||
-                              index == 1 &&
-                                  homeController.isInspectionEnabled &&
-                                  !homeController.isTrainingEnabled ||
-                              index == 1 &&
-                                  !homeController.isInspectionEnabled &&
-                                  homeController.isTrainingEnabled ||
-                              index == 2 &&
-                                  homeController.isInspectionEnabled &&
-                                  homeController.isTrainingEnabled &&
-                                  homeController.isCalibrationEnabled;
+                      homeController.isCalibrationSection.value = index == 0 &&
+                              !homeController.isInspectionEnabled &&
+                              !homeController.isTrainingEnabled ||
+                          index == 1 &&
+                              homeController.isInspectionEnabled &&
+                              !homeController.isTrainingEnabled ||
+                          index == 1 &&
+                              !homeController.isInspectionEnabled &&
+                              homeController.isTrainingEnabled ||
+                          index == 2 &&
+                              homeController.isInspectionEnabled &&
+                              homeController.isTrainingEnabled &&
+                              homeController.isCalibrationEnabled;
                       homeController.isInspectionSection.value =
                           index == 0 && homeController.isInspectionEnabled;
                       homeController.isTrainingSectionnew.value =
@@ -177,20 +177,19 @@ print('dfnojwenfoiw ${homeController.isCalibrationSection.value}');
                                   homeController.isTrainingEnabled &&
                                   homeController.isInspectionEnabled;
 
-                      homeController.isCalibrationSection.value =
-                          index == 0 &&
-                                  !homeController.isInspectionEnabled &&
-                                  !homeController.isTrainingEnabled ||
-                              index == 1 &&
-                                  homeController.isInspectionEnabled &&
-                                  !homeController.isTrainingEnabled ||
-                              index == 1 &&
-                                  !homeController.isInspectionEnabled &&
-                                  homeController.isTrainingEnabled ||
-                              index == 2 &&
-                                  homeController.isInspectionEnabled &&
-                                  homeController.isTrainingEnabled &&
-                                  homeController.isCalibrationEnabled;
+                      homeController.isCalibrationSection.value = index == 0 &&
+                              !homeController.isInspectionEnabled &&
+                              !homeController.isTrainingEnabled ||
+                          index == 1 &&
+                              homeController.isInspectionEnabled &&
+                              !homeController.isTrainingEnabled ||
+                          index == 1 &&
+                              !homeController.isInspectionEnabled &&
+                              homeController.isTrainingEnabled ||
+                          index == 2 &&
+                              homeController.isInspectionEnabled &&
+                              homeController.isTrainingEnabled &&
+                              homeController.isCalibrationEnabled;
                       upcomingInspectionsController.taskInitFunction(context);
                     },
                     tabAlignment: TabAlignment.fill,
@@ -218,13 +217,13 @@ print('dfnojwenfoiw ${homeController.isCalibrationSection.value}');
                       // if (loginData.isTraineeLogin.value == true)
 
                       if (homeController.isTrainingEnabled)
-                        const Tab(
+                        Tab(
                             text: 'Training',
                             iconMargin: EdgeInsets.all(0),
-                            icon: Icon(
-                              Icons.transfer_within_a_station,
-                              color: ColorResources.color294C73,
-                              size: 30,
+                            icon: Image.asset(
+                              'assets/images/calibration.png',
+                              height: 30,
+                              width: 30,
                             )),
                       // if (globalHomeController.isCalibrationLogin.value ||
                       //         !globalHomeController.isuserLogin.value &&
@@ -552,22 +551,22 @@ print('dfnojwenfoiw ${homeController.isCalibrationSection.value}');
                                                       if (homeController
                                                           .isCalibrationSection
                                                           .value) {
-                                                               upcomingInspectionsController
-                                                              .selectDateTaskListDataCalibration =
-                                                          await upcomingInspectionsController
-                                                              .getuserTaskDateRange(
-                                                        isInitSate: false,
-                                                        startDate: DateFormat(
-                                                                'dd-MM-yyyy')
-                                                            .parse(upcomingInspectionsController
-                                                                .startDatePickController
-                                                                .text),
-                                                        endDate: DateFormat(
-                                                                'dd-MM-yyyy')
-                                                            .parse(upcomingInspectionsController
-                                                                .endDatePickController
-                                                                .text),
-                                                      );
+                                                        upcomingInspectionsController
+                                                                .selectDateTaskListDataCalibration =
+                                                            await upcomingInspectionsController
+                                                                .getuserTaskDateRange(
+                                                          isInitSate: false,
+                                                          startDate: DateFormat(
+                                                                  'dd-MM-yyyy')
+                                                              .parse(upcomingInspectionsController
+                                                                  .startDatePickController
+                                                                  .text),
+                                                          endDate: DateFormat(
+                                                                  'dd-MM-yyyy')
+                                                              .parse(upcomingInspectionsController
+                                                                  .endDatePickController
+                                                                  .text),
+                                                        );
                                                       } else {
                                                         upcomingInspectionsController
                                                                 .selectDateTaskListData =
@@ -692,7 +691,7 @@ print('dfnojwenfoiw ${homeController.isCalibrationSection.value}');
                                 upcomingInspectionsController
                                     .selectDateTaskListData
                                     .clear();
-                                    upcomingInspectionsController
+                                upcomingInspectionsController
                                     .selectDateTaskListDataCalibration
                                     .clear();
                                 upcomingInspectionsController.update();
@@ -706,7 +705,7 @@ print('dfnojwenfoiw ${homeController.isCalibrationSection.value}');
                                 upcomingInspectionsController
                                     .selectDateTaskListData
                                     .clear();
-                                     upcomingInspectionsController
+                                upcomingInspectionsController
                                     .selectDateTaskListDataCalibration
                                     .clear();
 
@@ -774,8 +773,8 @@ print('dfnojwenfoiw ${homeController.isCalibrationSection.value}');
                                 onRefresh: () async {
                                   await upcomingInspectionsController
                                       .taskInitFunction(context);
-                                      print('jj213483jjj ${upcomingInspectionsController
-                                                  .yesterdayTaskListDataCalibration}');
+                                  print(
+                                      'jj213483jjj ${upcomingInspectionsController.yesterdayTaskListDataCalibration}');
                                 },
                                 child: SingleChildScrollView(
                                   physics:
@@ -936,7 +935,7 @@ print('dfnojwenfoiw ${homeController.isCalibrationSection.value}');
                                               alignment: Alignment.centerRight,
                                               child: IconButton(
                                                 onPressed: () async {
-                                                    if (upcomingInspectionsController
+                                                  if (upcomingInspectionsController
                                                           .startDatePickController
                                                           .text
                                                           .isNotEmpty &&
@@ -966,22 +965,22 @@ print('dfnojwenfoiw ${homeController.isCalibrationSection.value}');
                                                       if (homeController
                                                           .isCalibrationSection
                                                           .value) {
-                                                               upcomingInspectionsController
-                                                              .selectDateTaskListDataCalibration =
-                                                          await upcomingInspectionsController
-                                                              .getCalibrationTasks(
-                                                        isInitSate: false,
-                                                        startDate: DateFormat(
-                                                                'dd-MM-yyyy')
-                                                            .parse(upcomingInspectionsController
-                                                                .startDatePickController
-                                                                .text),
-                                                        endDate: DateFormat(
-                                                                'dd-MM-yyyy')
-                                                            .parse(upcomingInspectionsController
-                                                                .endDatePickController
-                                                                .text),
-                                                      );
+                                                        upcomingInspectionsController
+                                                                .selectDateTaskListDataCalibration =
+                                                            await upcomingInspectionsController
+                                                                .getCalibrationTasks(
+                                                          isInitSate: false,
+                                                          startDate: DateFormat(
+                                                                  'dd-MM-yyyy')
+                                                              .parse(upcomingInspectionsController
+                                                                  .startDatePickController
+                                                                  .text),
+                                                          endDate: DateFormat(
+                                                                  'dd-MM-yyyy')
+                                                              .parse(upcomingInspectionsController
+                                                                  .endDatePickController
+                                                                  .text),
+                                                        );
                                                       } else {
                                                         upcomingInspectionsController
                                                                 .selectDateTaskListData =
@@ -1175,8 +1174,9 @@ print('dfnojwenfoiw ${homeController.isCalibrationSection.value}');
               borderRadius: BorderRadius.circular(6.sp),
               onLongPress: () {},
               onTap: () {
+                upcomingInspectionsController.isScreenLoading.value = true;
                 upcomingInspectionsController.getUserTaskDetails(
-                  status:taskListData[index]['Task_Status_Name'] ,
+                    status: taskListData[index]['Task_Status_Name'],
                     taskId: taskListData[index]['Task_Id']);
               },
               child: Container(

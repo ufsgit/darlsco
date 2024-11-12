@@ -58,9 +58,9 @@ class ExpiringEquipmentScreen extends StatelessWidget {
                 child: Container(
                   height: 60.h,
                   color: ColorResources.colorE5AA17,
-                  child: const Center(
+                  child:  Center(
                       child: Text(
-                    'Inspection Request',
+                   homeController.isCalibrationSection.value?'Calibration Request':'Inspection Request',
                     style: TextStyle(fontWeight: FontWeight.w800),
                   )),
                 ),
@@ -117,7 +117,7 @@ class ExpiringEquipmentScreen extends StatelessWidget {
                                       height: 500.h,
                                       child: const Center(
                                           child: Text(
-                                        'No equipment has expired!',
+                                        'No equipments!',
                                         textAlign: TextAlign.center,
                                       )))
                                 ]

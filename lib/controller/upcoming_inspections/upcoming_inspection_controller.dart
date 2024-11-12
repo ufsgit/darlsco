@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:darlsco/controller/risk_assessment/risk_assessment_controller.dart';
 import 'package:darlsco/controller/tainning/training_controller_home.dart';
 import 'package:darlsco/http/http_request.dart';
 import 'package:darlsco/http/http_urls.dart';
@@ -17,7 +16,6 @@ import 'package:darlsco/view/widgets/loader.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../model/home/customer_equipment_list.dart';
@@ -63,6 +61,7 @@ class UpcomingInspectionsController extends GetxController {
   List eqList = [];
   List equipmentStatusLIst = [];
   RxBool isEquipmentSelected = false.obs;
+  RxBool isScreenLoading = false.obs;
   bool isOwner = false;
   List<Map<String, dynamic>> usedEquipmentData = [];
   List<Map<String, dynamic>> usedEquipmentDataCalibration = [];
@@ -75,7 +74,8 @@ class UpcomingInspectionsController extends GetxController {
   TextEditingController searchControllerTestDocument = TextEditingController();
   RxBool isLoading = false.obs;
   taskInitFunction(BuildContext context) async {
-    isLoading.value = true;
+   try {
+      isLoading.value = true;
     await todayTaskController.fetchTaskCount();
     // await trainingController.getTodayTask();
     await trainingController.getUpComingTask();
@@ -92,6 +92,9 @@ class UpcomingInspectionsController extends GetxController {
       });
     }
     isLoading.value = false;
+   } catch (e) {
+     
+   }
   }
 
   getCustomerTask({required isFromSplash}) async {
@@ -321,6 +324,7 @@ class UpcomingInspectionsController extends GetxController {
           isInitSate: isInitState,
           startDate: DateTime.now().add(const Duration(days: 1)),
           endDate: DateTime.now().add(const Duration(days: 1)));
+          print('djjnwrjjio to $tommorowTaskListDataCalibration');
     } else {
       tommorowTaskListData = await getuserTaskDateRange(
           isInitSate: isInitState,
@@ -337,7 +341,7 @@ class UpcomingInspectionsController extends GetxController {
           isInitSate: isInitState,
           startDate: DateTime.now().subtract(const Duration(days: 1)),
           endDate: DateTime.now().subtract(const Duration(days: 1)));
-      print('XHECKINFGGG ${yesterdayTaskListDataCalibration}');
+      print('XHECKINFGGG $yesterdayTaskListDataCalibration');
     } else {
       yesterdayTaskListData = await getuserTaskDateRange(
           isInitSate: isInitState,
@@ -377,7 +381,7 @@ class UpcomingInspectionsController extends GetxController {
         if ((value.data[0] != null) && (!value.data[0].isEmpty)) {
           result = value.data[0].reversed.toList();
         }
-        print('XHECKINFGGG 12${result}');
+        print('XHECKINFGGG 12$result');
 
         return result;
       } else {
@@ -413,7 +417,8 @@ class UpcomingInspectionsController extends GetxController {
         if ((value.data[0] != null) && (!value.data[0].isEmpty)) {
           result = value.data[0].reversed.toList();
         }
-        print('djjnwrjjio $result');
+      print('AJHBDHFI 123 $value');
+      print('AJHBDHFI 1234 $result');
 
         return result;
       } else {
@@ -719,7 +724,7 @@ class UpcomingInspectionsController extends GetxController {
             "Equipment_Name": "Other",
             "Checked": taskUserDetails[0]['Others_Checked']
           });
-          print('dfgerogthi i amhere ${taskEquipmentListData}');
+          print('dfgerogthi i amhere $taskEquipmentListData');
 
           tcontoller.periodicCheck.value =
               bool.parse(taskUserDetails[0]['Periodic'] ?? 'false');
@@ -858,7 +863,7 @@ class UpcomingInspectionsController extends GetxController {
             "Equipment_Name": "Other",
             "Checked": taskUserDetailsCalibration[0]['Others_Checked']
           });
-          print('dfgerogthi i amhere ${taskEquipmentListDataCalibration}');
+          print('dfgerogthi i amhere $taskEquipmentListDataCalibration');
 
           tcontoller.periodicCheck.value =
               bool.parse(taskUserDetailsCalibration[0]['Periodic'] ?? 'false');
@@ -994,6 +999,7 @@ class UpcomingInspectionsController extends GetxController {
       });
     }
     tcontoller.update();
+    isScreenLoading.value=false;
     update();
   }
 

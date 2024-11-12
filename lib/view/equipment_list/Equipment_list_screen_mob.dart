@@ -84,7 +84,7 @@ class EquipmentListScreenMob extends StatelessWidget {
                                       height: 500.h,
                                       child: const Center(
                                         child: Text(
-                                          'No equipments are currently available. They will be added soon. For assistance, contact the team!',
+                                          '',
                                           textAlign: TextAlign.center,
                                         ),
                                       ),
@@ -210,7 +210,7 @@ class EquipmentListScreenMob extends StatelessWidget {
                                                                       .statusId
                                                                       .toString() ==
                                                                   '11'
-                                                              ? 'Inspection Finished'
+                                                              ?homeController.isCalibrationSection.value? 'Calibration Finished': 'Inspection Finished'
                                                               : equipmentData[
                                                                       index]
                                                                   .statusName,
@@ -226,7 +226,8 @@ class EquipmentListScreenMob extends StatelessWidget {
                                               Align(
                                                 alignment:
                                                     Alignment.centerRight,
-                                                child: ElevatedButton(
+                                                child:equipmentData[
+                                                                      index].certificateCount==0?SizedBox(): ElevatedButton(
                                                   child: const Text('View'),
                                                   onPressed: () => Get.to(() =>
                                                       EquipmentDetailScreen(
