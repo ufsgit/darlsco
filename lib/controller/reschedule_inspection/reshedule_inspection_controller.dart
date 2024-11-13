@@ -1,6 +1,7 @@
 import 'package:darlsco/controller/upcoming_inspections/upcoming_inspection_controller.dart';
 import 'package:darlsco/http/http_request.dart';
 import 'package:darlsco/http/http_urls.dart';
+import 'package:darlsco/view/home/bottom_navigation_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -33,7 +34,7 @@ class ResheduleInspectionController extends GetxController {
 
     await HttpRequest.httpPostRequest(
       bodyData: mapData,
-      endPoint: HttpUrls.saveCustomerReschedule,
+      endPoint:homeController.isCalibrationSection.value? HttpUrls.saveCustomerRescheduleCalibration: HttpUrls.saveCustomerReschedule,
     ).then((value) async{
       if (value != null) {
         if (value.data.isNotEmpty) {

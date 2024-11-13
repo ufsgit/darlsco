@@ -1,10 +1,10 @@
 class HttpUrls {
-   static String baseUrl = 'http://3.89.129.51:3514';
+  //  static String baseUrl = 'http://3.89.129.51:3514';
 
 // static String baseUrl = 'http://34.228.212.237:3514'; //  new live
 
   // static String baseUrl = 'https://1d9c-103-141-56-75.ngrok-free.app';
-  // static String baseUrl = 'https://m6lzn5b5-3514.inc1.devtunnels.ms';
+  static String baseUrl = 'https://m6lzn5b5-3514.inc1.devtunnels.ms';
 
   static String agentLogin = '/Login/Agent_Login/';
 
@@ -100,6 +100,7 @@ class HttpUrls {
 
   static String savePublicInspection = '/public_Data/Save_Public_Inspection/';
   static String saveCustomerReschedule = '/Customer/Save_Customer_Reschedule/';
+  static String saveCustomerRescheduleCalibration = '/Customer/Save_Customer_Reschedule_Calibration/';
 
   static String getFullUsers = '/Customer/Get_Full_Users/';
   static String getFullUsersCalibration = '/Customer/Get_Full_Users_Calibration/';
