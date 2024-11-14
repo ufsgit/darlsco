@@ -428,9 +428,9 @@ class LoginController extends GetxController {
     globalHomeController.isCalibrationSection.value = false;
     getcountry(context);
     homeController.isUsersignedIn();
-    await FirebaseNotificationService.unsubscribeFromTopic(
-        userType: dashboardController.dashboardRole.toString(),
-        customerId: cusId);
+    // await FirebaseNotificationService.unsubscribeFromTopic(
+    //     userType: dashboardController.dashboardRole.toString(),
+    //     customerId: cusId);
 
     Get.offAll(() => BottomNavigationWidget(), duration: Duration.zero);
   }

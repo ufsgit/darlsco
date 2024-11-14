@@ -593,7 +593,9 @@ class HomeController extends GetxController {
 
       await HttpRequest.httpGetRequest(
         bodyData: changtaskBodyData,
-        endPoint:homeController.isCalibrationSection.value? HttpUrls.changeTaskUserCallibertion: HttpUrls.changeTaskUser,
+        endPoint: homeController.isCalibrationSection.value
+            ? HttpUrls.changeTaskUserCallibertion
+            : HttpUrls.changeTaskUser,
       ).then((value) async {
         if (value.data[0].isNotEmpty) {
           homeController.allUserDropDownValue.value = '';
@@ -979,16 +981,18 @@ class HomeController extends GetxController {
     int customerId = int.parse(sharedPreferences.getString('darlsco_id') ?? '');
     Map<String, dynamic> postDataExpiring = {};
     Map<String, dynamic> postData = {};
+    print('jnoiino ${ DateFormat('yyyy-MM-dd').format(
+            DateFormat('dd-MM-yyyy')
+                .parse(homeController.inspectionDateController.text))}');
     if (ispostdataExpiring == false) {
       postData = {
         // "Customer_Request_Id":0,
         "Customer_Id": customerId,
-        "Entry_Date": DateTime.now(),
+        "Entry_Date": DateTime.now().toString(),
         "Inspection_Date": DateFormat('yyyy-MM-dd').format(
             DateFormat('dd-MM-yyyy')
-                .parse(homeController.inspectionDateController.text)),
+                .parse(homeController.inspectionDateController.text)).toString(),
         "Description": inspectionMessageController.text,
-
         "Location_Id": customerLocations
             .where((element) {
               return element.locationName == inspectionDropdownValue.value;
@@ -997,6 +1001,7 @@ class HomeController extends GetxController {
             .locationId,
         "Equipments": equipmentListCustomer.map((e) => e).toList(),
       };
+
     } else {
       postDataExpiring = {
         // "Customer_Request_Id":0,
@@ -1017,65 +1022,123 @@ class HomeController extends GetxController {
         "Equipments": equipmentListCustomer.map((e) => e).toList(),
       };
     }
+    if (isCalibrationSection.value) {
+      await HttpRequest.httpPostBodyRequest(
+              endPoint: ispostdataExpiring
+                  ? homeController.isCalibrationSection.value
+                      ? HttpUrls.saveCustomerRequestExpiringEquipmentCalibration
+                      : HttpUrls.saveCustomerRequestExpiringEquipment
+                  : homeController.isCalibrationSection.value
+                      ? HttpUrls.saveCustomerRequestCalibration
+                      : HttpUrls.saveCustomerRequest,
+              bodyData: ispostdataExpiring ? postDataExpiring : postData)
+          .then((value) async {
+        if (value != null) {
+          if (value.statusCode == 200) {
+            // Loader.stopLoader();
+            inspectionDropdownValue.value = '';
+            inspectionMessageController.clear();
+            equipmentListCustomer.clear();
+            equipmentCheckValue.clear();
+            inspectionDateController.clear();
+            if (value.data[0].isNotEmpty) {
+              if (isCalibrationSection.value) {
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    content: Text(ispostdataExpiring
+                        ? "Expiring Equipment Calibration Request submitted successfully"
+                        : 'Calibration Request submitted sucessfully')));
+              } else {
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    content: Text(ispostdataExpiring
+                        ? "Expiring Equipment Inspection Request submitted successfully"
+                        : 'Inspection Request submitted sucessfully')));
+              }
 
-    await HttpRequest.httpPostRequest(
-            endPoint: ispostdataExpiring
-                ? homeController.isCalibrationSection.value
-                    ? HttpUrls.saveCustomerRequestExpiringEquipmentCalibration
-                    : HttpUrls.saveCustomerRequestExpiringEquipment
-                : homeController.isCalibrationSection.value
-                    ? HttpUrls.saveCustomerRequestCalibration
-                    : HttpUrls.saveCustomerRequest,
-            bodyData: ispostdataExpiring ? postDataExpiring : postData)
-        .then((value) async {
-      if (value != null) {
-        if (value.statusCode == 200) {
-          // Loader.stopLoader();
-          inspectionDropdownValue.value = '';
-          inspectionMessageController.clear();
-          equipmentListCustomer.clear();
-          equipmentCheckValue.clear();
-          inspectionDateController.clear();
-          if (value.data[0].isNotEmpty) {
-            if (isCalibrationSection.value) {
-               ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                content: Text(ispostdataExpiring
-                    ? "Expiring Equipment Calibration Request submitted successfully"
-                    : 'Calibration Request submitted sucessfully')));
-            }else{
-               ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                content: Text(ispostdataExpiring
-                    ? "Expiring Equipment Inspection Request submitted successfully"
-                    : 'Inspection Request submitted sucessfully')));
+              if (ispostdataExpiring) {
+                print(customerEquipmentExpiringData);
+
+                Get.back();
+              }
+
+              await HttpRequest.httpPostRequest(
+                  endPoint: HttpUrls.notificationUrl,
+                  bodyData: {
+                    'Notification_Id_': value.data[0]['Notification_Id_'],
+                    'Customer_Request_Id_': value.data[0]
+                        ['Customer_Request_Id_'],
+                    'Customer_Name_': value.data[0]['Customer_Name_'],
+                    'Notification_Type_Name_': value.data[0]
+                        ['Notification_Type_Name_'],
+                  });
             }
-          
-
-            if (ispostdataExpiring) {
-              print(customerEquipmentExpiringData);
-
-              Get.back();
-            }
-
-            await HttpRequest.httpPostRequest(
-                endPoint: HttpUrls.notificationUrl,
-                bodyData: {
-                  'Notification_Id_': value.data[0]['Notification_Id_'],
-                  'Customer_Request_Id_': value.data[0]['Customer_Request_Id_'],
-                  'Customer_Name_': value.data[0]['Customer_Name_'],
-                  'Notification_Type_Name_': value.data[0]
-                      ['Notification_Type_Name_'],
-                });
+          } else {
+            ScaffoldMessenger.of(context)
+                .showSnackBar(const SnackBar(content: Text('Server Error')));
           }
         } else {
           ScaffoldMessenger.of(context)
               .showSnackBar(const SnackBar(content: Text('Server Error')));
         }
-      } else {
-        ScaffoldMessenger.of(context)
-            .showSnackBar(const SnackBar(content: Text('Server Error')));
-      }
-    });
+      });
+    } else {
+      await HttpRequest.httpPostRequest(
+              endPoint: ispostdataExpiring
+                  ? homeController.isCalibrationSection.value
+                      ? HttpUrls.saveCustomerRequestExpiringEquipmentCalibration
+                      : HttpUrls.saveCustomerRequestExpiringEquipment
+                  : homeController.isCalibrationSection.value
+                      ? HttpUrls.saveCustomerRequestCalibration
+                      : HttpUrls.saveCustomerRequest,
+              bodyData: ispostdataExpiring ? postDataExpiring : postData)
+          .then((value) async {
+        if (value != null) {
+          if (value.statusCode == 200) {
+            // Loader.stopLoader();
+            inspectionDropdownValue.value = '';
+            inspectionMessageController.clear();
+            equipmentListCustomer.clear();
+            equipmentCheckValue.clear();
+            inspectionDateController.clear();
+            if (value.data[0].isNotEmpty) {
+              if (isCalibrationSection.value) {
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    content: Text(ispostdataExpiring
+                        ? "Expiring Equipment Calibration Request submitted successfully"
+                        : 'Calibration Request submitted sucessfully')));
+              } else {
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    content: Text(ispostdataExpiring
+                        ? "Expiring Equipment Inspection Request submitted successfully"
+                        : 'Inspection Request submitted sucessfully')));
+              }
 
+              if (ispostdataExpiring) {
+                print(customerEquipmentExpiringData);
+
+                Get.back();
+              }
+
+              await HttpRequest.httpPostRequest(
+                  endPoint: HttpUrls.notificationUrl,
+                  bodyData: {
+                    'Notification_Id_': value.data[0]['Notification_Id_'],
+                    'Customer_Request_Id_': value.data[0]
+                        ['Customer_Request_Id_'],
+                    'Customer_Name_': value.data[0]['Customer_Name_'],
+                    'Notification_Type_Name_': value.data[0]
+                        ['Notification_Type_Name_'],
+                  });
+            }
+          } else {
+            ScaffoldMessenger.of(context)
+                .showSnackBar(const SnackBar(content: Text('Server Error')));
+          }
+        } else {
+          ScaffoldMessenger.of(context)
+              .showSnackBar(const SnackBar(content: Text('Server Error')));
+        }
+      });
+    }
     update();
   }
 

@@ -26,7 +26,7 @@ class RiskAssesmentStopScreen extends StatefulWidget {
 }
 
 class _RiskAssesmentStopScreenState extends State<RiskAssesmentStopScreen> {
-  bool isLoading=false;
+  bool isLoading = false;
   final TrainingController tcontoller = Get.put(TrainingController());
 
   final RiskAssessmentController riskAssessmentController =
@@ -143,16 +143,17 @@ class _RiskAssesmentStopScreenState extends State<RiskAssesmentStopScreen> {
                                 init: TrainingController(),
                                 builder: (tData) {
                                   return DropdownButtonFormField(
-                                      value: tData.selectedStatusValue.value == ''
-                                          ? null
-                                          : tData.selectedStatusValue.value,
+                                      value:
+                                          tData.selectedStatusValue.value == ''
+                                              ? null
+                                              : tData.selectedStatusValue.value,
                                       decoration: const InputDecoration(
-          
+
                                           // hintText: data.inspectionDropdownValue.value
                                           //     .isEmpty? 'Location':'',
                                           border: OutlineInputBorder(
-                                              borderSide:
-                                                  BorderSide(color: Colors.black))),
+                                              borderSide: BorderSide(
+                                                  color: Colors.black))),
                                       onChanged: (value) {
                                         print(
                                             "printed statyus  ${value.toString()}");
@@ -163,7 +164,7 @@ class _RiskAssesmentStopScreenState extends State<RiskAssesmentStopScreen> {
                                         // if (value == 'Finished') {
                                         //   customEquipmentDialogue(context);
                                         // }
-          
+
                                         print(tData.selectedStatusValue.value);
                                       },
                                       hint: const Text(
@@ -189,7 +190,7 @@ class _RiskAssesmentStopScreenState extends State<RiskAssesmentStopScreen> {
                             // else
                             GetBuilder<TrainingController>(builder: (c) {
                               final dateTime = DateFormat('yyyy-MM-dd hh:mm');
-                            
+
                               return Column(
                                 children: List.generate(
                                   tcontoller.dateAndTime.length,
@@ -200,11 +201,13 @@ class _RiskAssesmentStopScreenState extends State<RiskAssesmentStopScreen> {
                                       subTitle: tcontoller
                                               .dateAndTime[index]['sub_title']
                                               .isEmpty
-                                          ? 
-                                        dateTime .format(DateTime.now()).toString()
+                                          ? dateTime
+                                              .format(DateTime.now())
+                                              .toString()
                                           : tcontoller.dateAndTime[index]
                                               ['sub_title'],
-                                      icon: tcontoller.dateAndTime[index]['icon'],
+                                      icon: tcontoller.dateAndTime[index]
+                                          ['icon'],
                                       border: BorderSide.none),
                                 ),
                               );
@@ -218,7 +221,8 @@ class _RiskAssesmentStopScreenState extends State<RiskAssesmentStopScreen> {
                                                     ['Role_Id']
                                                 .toString() ==
                                             '38' ||
-                                    !homeController.isCalibrationSection.value &&
+                                    !homeController
+                                            .isCalibrationSection.value &&
                                         upcomingInspectionsController
                                                 .taskUserDetails[0]['Role_Id']
                                                 .toString() ==
@@ -241,7 +245,8 @@ class _RiskAssesmentStopScreenState extends State<RiskAssesmentStopScreen> {
                                             Text(
                                               'Equipment Status',
                                               style: TextStyle(
-                                                  color: ColorResources.color294C73,
+                                                  color: ColorResources
+                                                      .color294C73,
                                                   fontSize: 16.sp),
                                             )
                                           ],
@@ -249,7 +254,8 @@ class _RiskAssesmentStopScreenState extends State<RiskAssesmentStopScreen> {
                                         SizedBox(
                                           height: 5.w,
                                         ),
-                                        GetBuilder<UpcomingInspectionsController>(
+                                        GetBuilder<
+                                                UpcomingInspectionsController>(
                                             builder: (eqlistData) {
                                           return Column(
                                             crossAxisAlignment:
@@ -257,36 +263,40 @@ class _RiskAssesmentStopScreenState extends State<RiskAssesmentStopScreen> {
                                             children: List.generate(
                                                 eqlistData.eqList.length,
                                                 (index) => Container(
-                                                      margin: EdgeInsets.symmetric(
-                                                          vertical: 10.w),
+                                                      margin:
+                                                          EdgeInsets.symmetric(
+                                                              vertical: 10.w),
                                                       child: Row(
                                                         mainAxisAlignment:
                                                             MainAxisAlignment
                                                                 .spaceBetween,
                                                         children: [
                                                           SizedBox(
-                                                            width: Get.width > 615
-                                                                ? 400.w
-                                                                : 200.w,
+                                                            width:
+                                                                Get.width > 615
+                                                                    ? 400.w
+                                                                    : 200.w,
                                                             child: Row(
                                                               children: [
                                                                 Expanded(
                                                                     flex: 10,
                                                                     child: Icon(
-                                                                      Icons.circle,
-                                                                      size: 10.w,
+                                                                      Icons
+                                                                          .circle,
+                                                                      size:
+                                                                          10.w,
                                                                     )),
                                                                 Expanded(
                                                                   flex: 70,
-                                                                  child: Container(
-                                                                    margin: EdgeInsets
-                                                                        .only(
-                                                                            left: 10
-                                                                                .w),
-                                                                    child: Text(eqlistData
-                                                                                .eqList[
-                                                                            index][
-                                                                        'Equipment_Name']),
+                                                                  child:
+                                                                      Container(
+                                                                    margin: EdgeInsets.only(
+                                                                        left: 10
+                                                                            .w),
+                                                                    child: Text(
+                                                                        eqlistData.eqList[index]
+                                                                            [
+                                                                            'Equipment_Name']),
                                                                   ),
                                                                 ),
                                                               ],
@@ -294,7 +304,8 @@ class _RiskAssesmentStopScreenState extends State<RiskAssesmentStopScreen> {
                                                           ),
                                                           Container(
                                                             child: Container(
-                                                              width: Get.width > 615
+                                                              width: Get.width >
+                                                                      615
                                                                   ? 200.w
                                                                   : 150.w,
                                                               height: 40
@@ -305,7 +316,8 @@ class _RiskAssesmentStopScreenState extends State<RiskAssesmentStopScreen> {
                                                                           10.w),
                                                               decoration:
                                                                   BoxDecoration(
-                                                                color: Colors.white,
+                                                                color: Colors
+                                                                    .white,
                                                                 borderRadius:
                                                                     BorderRadius
                                                                         .circular(
@@ -319,23 +331,15 @@ class _RiskAssesmentStopScreenState extends State<RiskAssesmentStopScreen> {
                                                                   builder:
                                                                       (eqStatus) {
                                                                 return DropdownButtonHideUnderline(
-                                                                  child:
-                                                                      DropdownButton<
-                                                                          dynamic>(
+                                                                  child: DropdownButton<
+                                                                      dynamic>(
                                                                     isExpanded:
                                                                         true,
                                                                     hint: Text(
-                                                                      eqStatus.eqList[index]['Task_Status_Name'] ==
-                                                                                  null ||
-                                                                              eqStatus
-                                                                                  .eqList[index][
-                                                                                      'Task_Status_Name']
-                                                                                  .isEmpty
+                                                                      eqStatus.eqList[index]['Task_Status_Name'] == null ||
+                                                                              eqStatus.eqList[index]['Task_Status_Name'].isEmpty
                                                                           ? 'status'
-                                                                          : eqStatus
-                                                                                  .eqList[index]
-                                                                              [
-                                                                              'Task_Status_Name'],
+                                                                          : eqStatus.eqList[index]['Task_Status_Name'],
                                                                       style: TextStyle(
                                                                           color: Colors
                                                                               .black,
@@ -351,29 +355,22 @@ class _RiskAssesmentStopScreenState extends State<RiskAssesmentStopScreen> {
                                                                         value:
                                                                             value,
                                                                         child: Text(
-                                                                            value[
-                                                                                'Task_Status_Name']),
+                                                                            value['Task_Status_Name']),
                                                                       );
                                                                     }).toList(),
                                                                     onChanged:
                                                                         (newValue) {
                                                                       if (newValue !=
                                                                           null) {
-                                                                        eqStatus.eqList[index]
-                                                                                [
-                                                                                'Task_Status_Id'] =
-                                                                            newValue[
-                                                                                'Task_Status_Id'];
-          
-                                                                        eqStatus.eqList[index]
-                                                                                [
-                                                                                'Task_Status_Name'] =
-                                                                            newValue[
-                                                                                'Task_Status_Name'];
+                                                                        eqStatus.eqList[index]['Task_Status_Id'] =
+                                                                            newValue['Task_Status_Id'];
+
+                                                                        eqStatus.eqList[index]['Task_Status_Name'] =
+                                                                            newValue['Task_Status_Name'];
                                                                       }
                                                                       upcomingInspectionsController
                                                                           .update();
-          
+
                                                                       print(eqStatus
                                                                           .eqList);
                                                                     },
@@ -397,16 +394,17 @@ class _RiskAssesmentStopScreenState extends State<RiskAssesmentStopScreen> {
                       SizedBox(
                         height: 15.w,
                       ),
-          
+
                       SizedBox(
                         child: Column(children: [
                           TextFormField(
                             // controller: tcontoller.stopScreenTextController,
-                            controller: riskAssessmentController.stopnoteController,
+                            controller:
+                                riskAssessmentController.stopnoteController,
                             maxLines: 6,
                             onChanged: (value) {
-                              print(
-                                  riskAssessmentController.stopnoteController.text);
+                              print(riskAssessmentController
+                                  .stopnoteController.text);
                             },
                             maxLength: 800,
                             style: TextStyle(fontSize: 14.sp),
@@ -423,14 +421,14 @@ class _RiskAssesmentStopScreenState extends State<RiskAssesmentStopScreen> {
                               ),
                             ),
                           ),
-          
+
                           //     )),
                           SizedBox(
                             height: 15.h,
                           ),
                         ]),
                       ),
-          
+
                       // commonNoteWidget(isReadOnly: false),
                     ],
                   ),
@@ -438,12 +436,14 @@ class _RiskAssesmentStopScreenState extends State<RiskAssesmentStopScreen> {
               ),
             ),
           ),
-        if(isLoading)
-Container(
-  color: Colors.black12,
-  height: double.infinity,
-  child: Center(child: CircularProgressIndicator(),),
-)
+          if (isLoading)
+            Container(
+              color: Colors.black12,
+              height: double.infinity,
+              child: Center(
+                child: CircularProgressIndicator(),
+              ),
+            )
         ],
       ),
 
@@ -451,7 +451,6 @@ Container(
         color: Colors.red,
         child: IconButton(
           onPressed: () {
-            
             if (homeController.isCalibrationSection.value) {
               // if (condition) {
               if (upcomingInspectionController.isOwner) {
@@ -495,7 +494,8 @@ Container(
                         .where((element) => element['Task_Status_Name'] == '')
                         .toList()
                         .isNotEmpty &&
-                    upcomingInspectionsController.taskUserDetails[0]['Role_Id'].toString() ==
+                    upcomingInspectionsController.taskUserDetails[0]['Role_Id']
+                            .toString() ==
                         '38') {
               ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                   content: Text('All equipment statuses should be selected!')));
@@ -510,7 +510,8 @@ Container(
                             element['Task_Status_Id'].toString() == '1')
                         .toList()
                         .isNotEmpty &&
-                    upcomingInspectionsController.taskUserDetailsCalibration[0]['Role_Id']
+                    upcomingInspectionsController.taskUserDetailsCalibration[0]
+                                ['Role_Id']
                             .toString() ==
                         '38' ||
                 !homeController.isCalibrationSection.value &&
@@ -520,7 +521,9 @@ Container(
                             element['Task_Status_Id'].toString() == '1')
                         .toList()
                         .isNotEmpty &&
-                    upcomingInspectionsController.taskUserDetails[0]['Role_Id'].toString() == '38') {
+                    upcomingInspectionsController.taskUserDetails[0]['Role_Id']
+                            .toString() ==
+                        '38') {
               //  print(tcontoller.getAllStaffStatus.where((element) => element['Task_Status_Id'].toString() == '4'||element['Task_Status_Id'].toString() == '1').toList());
 
               showDialog(
@@ -548,8 +551,7 @@ Container(
                                                   ['Role_Id']
                                               .toString() ==
                                           '38' ||
-                                  !homeController
-                                          .isCalibrationSection.value &&
+                                  !homeController.isCalibrationSection.value &&
                                       tcontoller.getAllStaffStatus
                                           .where((element) =>
                                               element['Task_Status_Id']
@@ -612,19 +614,19 @@ Container(
                                     '38') {
                               Get.to(() => const TrainingInspectionScreen());
                             } else {
-                             try {
-                              setState(() {
-                                isLoading=true;
-                              });
+                              try {
+                                setState(() {
+                                  isLoading = true;
+                                });
                                 riskAssessmentController.saveTaskStop(
-                                  tcontoller.selectedStatusValue.value,
-                                  riskAssessmentController
-                                      .stopnoteController.text);
-                             }finally{
-                               setState(() {
-                                isLoading=false;
-                              });
-                             }
+                                    tcontoller.selectedStatusValue.value,
+                                    riskAssessmentController
+                                        .stopnoteController.text);
+                              } finally {
+                                setState(() {
+                                  isLoading = false;
+                                });
+                              }
                             }
 
                             // Get.to(()=>TrainingInspectionScreen());

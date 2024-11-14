@@ -316,8 +316,8 @@ class TrainingController extends GetxController {
                       cos(fenceLongitude - position.longitude)) *
               6371;
 
-          print('DISTANCE $d');
-          if (d == 500) {
+          print('DISTANCE $distance');
+          if (distance == 500) {
             await Loader.stopLoader();
             return 'inside';
           } else {

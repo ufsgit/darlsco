@@ -56,7 +56,9 @@ class UpcomingInspectionsScreen extends StatelessWidget {
                             fontWeight: FontWeight.w700),
                       ),
                       TextSpan(
-                        text: ' Inspections',
+                        text: homeController.isCalibrationSection.value
+                            ? ' Calibration'
+                            : ' Inspections',
                         style: GoogleFonts.roboto(
                           fontSize: 40.sp,
                           fontWeight: FontWeight.w700,
@@ -322,9 +324,13 @@ class UpcomingInspectionsScreen extends StatelessWidget {
                                     : [
                                         SizedBox(
                                           height: 500.h,
-                                          child:  Center(
+                                          child: Center(
                                             child: Text(
-                                            homeController.isCalibrationSection.value?'Currently, no calibration requests have been converted to calibration task!':'Currently, no inspection requests have been converted to inspection task!',
+                                              homeController
+                                                      .isCalibrationSection
+                                                      .value
+                                                  ? 'Currently, no calibration requests have been converted to calibration task!'
+                                                  : 'Currently, no inspection requests have been converted to inspection task!',
                                               textAlign: TextAlign.center,
                                             ),
                                           ),

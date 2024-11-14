@@ -74,27 +74,25 @@ class UpcomingInspectionsController extends GetxController {
   TextEditingController searchControllerTestDocument = TextEditingController();
   RxBool isLoading = false.obs;
   taskInitFunction(BuildContext context) async {
-   try {
+    try {
       isLoading.value = true;
-    await todayTaskController.fetchTaskCount();
-    // await trainingController.getTodayTask();
-    await trainingController.getUpComingTask();
-    await trainingController.getTotalTraining();
-    await upcomingInspectionsController.getTodayTaskDetails(true);
-    await upcomingInspectionsController.getTommorrowTaskDetails(true);
-    await upcomingInspectionsController.getYesterdayTaskDetails(true);
-    if (homeController.isuserLogin.value == true ||
-        homeController.isTraineeLogin.value == true) {
-      Timer.periodic(const Duration(minutes: 1), (timer) {
-        homeController.checkUserTypeChanged(
-          context,
-        );
-      });
-    }
-    isLoading.value = false;
-   } catch (e) {
-     
-   }
+      await todayTaskController.fetchTaskCount();
+      // await trainingController.getTodayTask();
+      await trainingController.getUpComingTask();
+      await trainingController.getTotalTraining();
+      await upcomingInspectionsController.getTodayTaskDetails(true);
+      await upcomingInspectionsController.getTommorrowTaskDetails(true);
+      await upcomingInspectionsController.getYesterdayTaskDetails(true);
+      if (homeController.isuserLogin.value == true ||
+          homeController.isTraineeLogin.value == true) {
+        Timer.periodic(const Duration(minutes: 1), (timer) {
+          homeController.checkUserTypeChanged(
+            context,
+          );
+        });
+      }
+      isLoading.value = false;
+    } catch (e) {}
   }
 
   getCustomerTask({required isFromSplash}) async {
@@ -132,6 +130,18 @@ class UpcomingInspectionsController extends GetxController {
       }
     });
     // ========================= Calibration API==========================
+    getUpComingCalibration(isFromSplash: isFromSplash);
+    print('1111111111111111111111111111111111111111111111 = 1');
+    update();
+  }
+
+  getUpComingCalibration({required bool isFromSplash}) async {
+    upcomingInspectionListDataCalibration.clear();
+
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+
+    int customerId = int.parse(sharedPreferences.getString('darlsco_id') ?? '');
+
     await HttpRequest.httpGetRequest(
       bodyData: {
         "Customer_Id_": customerId,
@@ -158,8 +168,6 @@ class UpcomingInspectionsController extends GetxController {
         //     .showSnackBar(const SnackBar(content: Text('Server Error')));
       }
     });
-    print('1111111111111111111111111111111111111111111111 = 1');
-    update();
   }
 
   getAllEquipments({required isFromSplash, required isNotHomeBlock}) async {
@@ -324,7 +332,7 @@ class UpcomingInspectionsController extends GetxController {
           isInitSate: isInitState,
           startDate: DateTime.now().add(const Duration(days: 1)),
           endDate: DateTime.now().add(const Duration(days: 1)));
-          print('djjnwrjjio to $tommorowTaskListDataCalibration');
+      print('djjnwrjjio to $tommorowTaskListDataCalibration');
     } else {
       tommorowTaskListData = await getuserTaskDateRange(
           isInitSate: isInitState,
@@ -417,8 +425,8 @@ class UpcomingInspectionsController extends GetxController {
         if ((value.data[0] != null) && (!value.data[0].isEmpty)) {
           result = value.data[0].reversed.toList();
         }
-      print('AJHBDHFI 123 $value');
-      print('AJHBDHFI 1234 $result');
+        print('AJHBDHFI 123 $value');
+        print('AJHBDHFI 1234 $result');
 
         return result;
       } else {
@@ -908,8 +916,7 @@ class UpcomingInspectionsController extends GetxController {
                   : taskUserDetailsCalibration[0]['Actual_Start_Date_Time1'] ==
                           null
                       ? ''
-                      : taskUserDetailsCalibration[0]
-                              ['Actual_Start_Date_Time1']
+                      : taskUserDetailsCalibration[0]['Actual_Start_Date_Time1']
                           .toString()
                           .toLowerCase(),
               "icon": Icons.calendar_month,
@@ -946,8 +953,7 @@ class UpcomingInspectionsController extends GetxController {
             },
             {
               "title": 'Location',
-              'sub_title':
-                  taskDetailsDataCalibration[0]['Location_Name'] ?? '',
+              'sub_title': taskDetailsDataCalibration[0]['Location_Name'] ?? '',
               "icon": Icons.location_on,
             },
 
@@ -999,7 +1005,7 @@ class UpcomingInspectionsController extends GetxController {
       });
     }
     tcontoller.update();
-    isScreenLoading.value=false;
+    isScreenLoading.value = false;
     update();
   }
 
@@ -1039,11 +1045,10 @@ class UpcomingInspectionsController extends GetxController {
     if (homeController.isCalibrationSection.value) {
       await HttpRequest.httpPostBodyRequest(
         bodyData: {
-          "Task_User_Details_Id_": int.parse(
-              homeController.isCalibrationSection.value
-                  ? taskUserDetailsCalibration[0]['Task_User_Details_Id']
-                      .toString()
-                  : taskUserDetails[0]['Task_User_Details_Id'].toString()),
+          "Task_User_Details_Id_": int.parse(homeController
+                  .isCalibrationSection.value
+              ? taskUserDetailsCalibration[0]['Task_User_Details_Id'].toString()
+              : taskUserDetails[0]['Task_User_Details_Id'].toString()),
 
           "Task_Id_": int.parse(homeController.isCalibrationSection.value
               ? taskDetailsDataCalibration[0]['Task_Id'].toString()
@@ -1186,11 +1191,10 @@ class UpcomingInspectionsController extends GetxController {
     } else {
       await HttpRequest.httpPostRequest(
         bodyData: {
-          "Task_User_Details_Id_": int.parse(
-              homeController.isCalibrationSection.value
-                  ? taskUserDetailsCalibration[0]['Task_User_Details_Id']
-                      .toString()
-                  : taskUserDetails[0]['Task_User_Details_Id'].toString()),
+          "Task_User_Details_Id_": int.parse(homeController
+                  .isCalibrationSection.value
+              ? taskUserDetailsCalibration[0]['Task_User_Details_Id'].toString()
+              : taskUserDetails[0]['Task_User_Details_Id'].toString()),
           "Task_Id_": int.parse(homeController.isCalibrationSection.value
               ? taskDetailsDataCalibration[0]['Task_Id'].toString()
               : taskDetailsData[0]['Task_Id'].toString()),

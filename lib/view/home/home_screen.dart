@@ -30,12 +30,12 @@ class HomePageState extends State<HomePage>
     with SingleTickerProviderStateMixin {
   final HomeController homeController = Get.put(HomeController());
   late TabController _tabController;
-bool isLoading = false;
+  bool isLoading = false;
   @override
   void initState() {
     super.initState();
     // setState(() {
-      getNotificationToken();
+    getNotificationToken();
     //   homeController.isHomeLoading.value = true;
     // });
     bool areAnyTwoTrue = [
@@ -184,7 +184,7 @@ bool isLoading = false;
                           automaticallyImplyLeading: false,
                           backgroundColor: ColorResources.colorTransparent,
                           actions: const [SizedBox()],
-                          flexibleSpace:!homeController.isUserLoggedIn
+                          flexibleSpace: !homeController.isUserLoggedIn
                               ? Padding(
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 0, vertical: 28),
@@ -213,14 +213,15 @@ bool isLoading = false;
                                           onPressed: () {
                                             homeController
                                                 .checkCountryCode(context);
-        
+
                                             Get.to(() => const LoginScreen());
                                           },
                                           text: 'Login',
                                           backgroundColor:
                                               ColorResources.whiteColor,
                                           txtcolor: ColorResources.whiteColor,
-                                          borderColor: ColorResources.colorFF0950A0,
+                                          borderColor:
+                                              ColorResources.colorFF0950A0,
                                         ),
                                       )
                                       // : Padding(
@@ -246,8 +247,8 @@ bool isLoading = false;
                                   ? Align(
                                       alignment: Alignment.topRight,
                                       child: Padding(
-                                        padding:
-                                            EdgeInsets.only(top: 24.h, right: 8.w),
+                                        padding: EdgeInsets.only(
+                                            top: 24.h, right: 8.w),
                                         child: IconButton(
                                           onPressed: () {
                                             showDialog(
@@ -261,7 +262,8 @@ bool isLoading = false;
                                                 content: SingleChildScrollView(
                                                   child: Column(
                                                       crossAxisAlignment:
-                                                          CrossAxisAlignment.start,
+                                                          CrossAxisAlignment
+                                                              .start,
                                                       children: [
                                                         SizedBox(
                                                           height: 20.h,
@@ -289,8 +291,9 @@ bool isLoading = false;
                                                           .isCalibrationSection
                                                           .value = false;
                                                       globalHomeController
-                                                          .isUserLoggedIn = false;
-        
+                                                              .isUserLoggedIn =
+                                                          false;
+
                                                       _handleTabSelection();
                                                       Get.back();
                                                     },
@@ -305,7 +308,8 @@ bool isLoading = false;
                                                 ColorResources.whiteColor,
                                             child: Center(
                                               child: Icon(
-                                                Icons.power_settings_new_rounded,
+                                                Icons
+                                                    .power_settings_new_rounded,
                                                 size: 18.sp,
                                                 color: Colors.black,
                                               ),
@@ -317,27 +321,30 @@ bool isLoading = false;
                                   : Container(),
                           bottom: TabBar(
                             controller: _tabController,
-        
+
                             isScrollable: homeController.isuserLogin.value ==
                                             false &&
                                         homeController.isTraineeLogin.value ==
                                             false ||
                                     homeController.isuserLogin.value == true &&
-                                        homeController.isTraineeLogin.value == true
+                                        homeController.isTraineeLogin.value ==
+                                            true
                                 ? false
                                 : true,
-        
+
                             tabAlignment: homeController.isuserLogin.value ==
                                             false &&
                                         homeController.isTraineeLogin.value ==
                                             false ||
                                     homeController.isuserLogin.value == true &&
-                                        homeController.isTraineeLogin.value == true
+                                        homeController.isTraineeLogin.value ==
+                                            true
                                 ? TabAlignment.fill
                                 : TabAlignment.start,
-        
+
                             onTap: (index) async {
-                              ///////========/////
+                              await upcomingInspectionsController
+                                  .getUpComingCalibration(isFromSplash: true);
                               if (index == 2 &&
                                   homeController.isTraineeLogin.value == true &&
                                   homeController.isuserLogin.value == false) {
@@ -348,7 +355,7 @@ bool isLoading = false;
                                 loginController.logout(context);
                               }
                               print('dfgswrlkkkjkh $index');
-        
+
                               homeController.tabIndex.value = index;
                               if (index == 0 &&
                                   homeController.isInspectionEnabled) {
@@ -359,15 +366,16 @@ bool isLoading = false;
                                     'HIJACK ${homeController.isInspectionEnabled}');
                               }
                               homeController.isInspectionSection.value =
-                                  index == 0 && homeController.isInspectionEnabled;
-        
+                                  index == 0 &&
+                                      homeController.isInspectionEnabled;
+
                               homeController.isTrainingSectionnew.value =
                                   index == 0 &&
                                           !homeController.isInspectionEnabled ||
                                       index == 1 &&
                                           homeController.isTrainingEnabled &&
                                           homeController.isInspectionEnabled;
-        
+
                               homeController.isCalibrationSection.value =
                                   index == 0 &&
                                           !homeController.isInspectionEnabled &&
@@ -382,19 +390,17 @@ bool isLoading = false;
                                           homeController.isInspectionEnabled &&
                                           homeController.isTrainingEnabled &&
                                           homeController.isCalibrationEnabled;
-                              print(
-                                  'dfwerhbbhbgyg57 ${homeController.isCalibrationSection.value}');
                               homeController.update();
                               // if (index == 0) {
                               //   globalHomeController.isTrainingSection.value =
                               //       false;
                               //   globalHomeController.isCalibrationSection.value =
                               //       false;
-        
+
                               //   homeController.tabIndex.value = index;
                               // } else if (index == 2) {
                               //   print('dfsrgre 8');
-        
+
                               //   globalHomeController.isTrainingSection.value =
                               //       false;
                               //   globalHomeController.isCalibrationSection.value =
@@ -420,7 +426,7 @@ bool isLoading = false;
                               //   if (homeController.isCalibrationLogin.value &&
                               //       !homeController.isTraineeLogin.value) {
                               //     print('dfsrgre 10');
-        
+
                               //     globalHomeController.isTrainingSection.value =
                               //         false;
                               //     globalHomeController.isCalibrationSection.value =
@@ -429,17 +435,17 @@ bool isLoading = false;
                               //           .isCalibrationLogin.value &&
                               //       homeController.isTraineeLogin.value) {
                               //     print('dfsrgre 11');
-        
+
                               //     globalHomeController.isTrainingSection.value =
                               //         true;
                               //     globalHomeController.isCalibrationSection.value =
                               //         false;
                               //   }
-        
+
                               //   homeController.tabIndex.value = index;
                               // } else {
                               //   print('dfsrgre 9');
-        
+
                               //   globalHomeController.isTrainingSection.value = true;
                               //   globalHomeController.isCalibrationSection.value =
                               //       false;
@@ -460,7 +466,7 @@ bool isLoading = false;
                               fontSize: 16.sp.h,
                               fontWeight: FontWeight.w600,
                             ),
-        
+
                             tabs: [
                               // if (globalHomeController.isuserLogin.value == true ||
                               //     (globalHomeController.isuserLogin.value ==
@@ -483,7 +489,7 @@ bool isLoading = false;
                               //             false &&
                               //         globalHomeController.isTraineeLogin.value ==
                               //             false))
-        
+
                               if (homeController.isTrainingEnabled)
                                 const Tab(
                                   text: 'Training',
@@ -502,14 +508,14 @@ bool isLoading = false;
                               //         !globalHomeController
                               //             .isCalibrationLogin.value)
                               if (homeController.isCalibrationEnabled)
-                                 Tab(
-                                  iconMargin: EdgeInsets.all(0),
-                                  text: 'Calibration',
-                                  icon:Image.asset('assets/images/calibration.png',
-                                  height: 30,
-                                  width: 30,
-                                  )
-                                ),
+                                Tab(
+                                    iconMargin: EdgeInsets.all(0),
+                                    text: 'Calibration',
+                                    icon: Image.asset(
+                                      'assets/images/calibration.png',
+                                      height: 30,
+                                      width: 30,
+                                    )),
                             ],
                           ),
                         ),
@@ -535,27 +541,29 @@ bool isLoading = false;
                                 spacing: Get.width > 615 ? 30.w : 10.w,
                                 runSpacing: Get.width > 615 ? 30.w : 10.w,
                                 children: List.generate(
-                                    homeController.contentTextTrainingTab2.length,
+                                    homeController
+                                        .contentTextTrainingTab2.length,
                                     (index) => IconButton(
                                           padding: const EdgeInsets.all(2),
                                           onPressed: () {
                                             // ScaffoldMessenger.of(context)
                                             // .showSnackBar(const SnackBar(
-        
+
                                             //   content: Text('server failure')));
-                                          
+
                                             homeController
                                                 .functionsTrainingTab2[index]();
-                                          
                                           },
                                           icon: GetBuilder<HomeController>(
                                               builder: (locationData) {
                                             return homeColorContainer(
                                                 contentText: homeController
-                                                    .contentTextTrainingTab2[index],
+                                                        .contentTextTrainingTab2[
+                                                    index],
                                                 numberText: index == 0
                                                     ? homeController
-                                                        .customerLocations.length
+                                                        .customerLocations
+                                                        .length
                                                         .toString()
                                                     : index == 1
                                                         ? homeController
@@ -574,9 +582,11 @@ bool isLoading = false;
                                                                     .toString()
                                                                 : '0',
                                                 cBgColor: homeController
-                                                    .cBgColorTrainingTab2[index],
+                                                        .cBgColorTrainingTab2[
+                                                    index],
                                                 numBgColor: homeController
-                                                    .numBgColorTrainingTab2[index]);
+                                                        .numBgColorTrainingTab2[
+                                                    index]);
                                           }),
                                         )),
                               )
@@ -627,24 +637,24 @@ bool isLoading = false;
                                 spacing: Get.width > 615 ? 30.w : 10.w,
                                 runSpacing: Get.width > 615 ? 30.w : 10.w,
                                 children: List.generate(
-                                    homeController.contentTextTrainingTab2.length,
+                                    homeController
+                                        .contentTextTrainingTab2.length,
                                     (index) => IconButton(
                                           padding: const EdgeInsets.all(2),
                                           onPressed: () {
-                                           
-                                           
                                             homeController
                                                 .functionsTrainingTab2[index]();
-                                      
                                           },
                                           icon: GetBuilder<HomeController>(
                                               builder: (locationData) {
                                             return homeColorContainer(
                                                 contentText: homeController
-                                                    .contentTextTrainingTab2Calibration[index],
+                                                        .contentTextTrainingTab2Calibration[
+                                                    index],
                                                 numberText: index == 0
                                                     ? homeController
-                                                        .customerLocations.length
+                                                        .customerLocations
+                                                        .length
                                                         .toString()
                                                     : index == 1
                                                         ? homeController
@@ -663,9 +673,11 @@ bool isLoading = false;
                                                                     .toString()
                                                                 : '0',
                                                 cBgColor: homeController
-                                                    .cBgColorTrainingTab2[index],
+                                                        .cBgColorTrainingTab2[
+                                                    index],
                                                 numBgColor: homeController
-                                                    .numBgColorTrainingTab2[index]);
+                                                        .numBgColorTrainingTab2[
+                                                    index]);
                                           }),
                                         )),
                               )
@@ -698,11 +710,14 @@ bool isLoading = false;
             );
           }),
         ),
-      if(isLoading)
-      Container(
-        height:   double.infinity,
-        color: Colors.black.withAlpha(20),
-        child:Center(child: CircularProgressIndicator(),),)
+        if (isLoading)
+          Container(
+            height: double.infinity,
+            color: Colors.black.withAlpha(20),
+            child: Center(
+              child: CircularProgressIndicator(),
+            ),
+          )
       ],
     );
   }
