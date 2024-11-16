@@ -1,8 +1,10 @@
 class HttpUrls {
   //  static String baseUrl = 'http://3.89.129.51:3514';
+      static String baseUrl = 'https://api.darlsco.com';
+
  
   
-static String baseUrl = 'http://34.228.212.237:3514'; //  new live
+// static String baseUrl = 'http://34.228.212.237:3514'; //  new live
 
 //   static String baseUrl = 'https://7413-103-214-232-132.ngrok-free.app';
 
@@ -86,11 +88,13 @@ static String baseUrl = 'http://34.228.212.237:3514'; //  new live
 
   // static String changeTaskUser = '/Customer/Change_Task_User/';
   static String checkVersion = '/Public_Data/Check_Version/';
-
+///
 //training section urls
 //endpoints
+  // static String imageBase =
+  //     'http://darlsco-files.s3-website.ap-south-1.amazonaws.com/';
   static String imageBase =
-      'http://darlsco-files.s3-website.ap-south-1.amazonaws.com/';
+      ' https://d2d3b4kzecpaau.cloudfront.net/';
   static String saveToCart = '/Public_Data/Save_Item_Cart/';
 
   static String saveTrainee = '/Public_Data/Save_Trainee_Details_App/';
