@@ -25,17 +25,18 @@ class ResheduleInspectionController extends GetxController {
     Map<String, dynamic> mapData = {
       "User_Id": customerId,
       'Task_Id': taskId,
-      'Date':   DateFormat('yyyy-MM-dd').format(
-                            DateFormat('dd-MM-yyyy').parse((  reschudleDateController.text)))    ,
+      'Date': DateFormat('yyyy-MM-dd').format(
+          DateFormat('dd-MM-yyyy').parse((reschudleDateController.text))),
       "Remark": resonController.text,
-      "Time": resheduleInspectionController
-                                .rescheduleTimeContorller.text,
+      "Time": resheduleInspectionController.rescheduleTimeContorller.text,
     };
 
     await HttpRequest.httpPostRequest(
       bodyData: mapData,
-      endPoint:homeController.isCalibrationSection.value? HttpUrls.saveCustomerRescheduleCalibration: HttpUrls.saveCustomerReschedule,
-    ).then((value) async{
+      endPoint: homeController.isCalibrationSection.value
+          ? HttpUrls.saveCustomerRescheduleCalibration
+          : HttpUrls.saveCustomerReschedule,
+    ).then((value) async {
       if (value != null) {
         if (value.data.isNotEmpty) {
           reschudleDateController.clear();
@@ -46,23 +47,25 @@ class ResheduleInspectionController extends GetxController {
           //  homeController. inspectionCategoryController.clear();
 
           ScaffoldMessenger.of(Get.context!).showSnackBar(const SnackBar(
-              content:  Text(
+              content: Text(
                   'Re-Schedule request submitted successfully. Our team will contact you soon')));
-         await  upcomingInspectionsController.getCustomerTask(isFromSplash: true);
-          await HttpRequest.httpPostRequest(endPoint: HttpUrls.notificationUrlReschedule,
-               bodyData: {
-                'Notification_Id_':value.data[0]['Notification_Id_'],
-                'Task_Reschedule_Id_':value.data[0]['Task_Reschedule_Id_'],
-                'Task_Id_':value.data[0]['Task_Id_'],
-                'Task_Name_':value.data[0]['Task_Name_'],
-                'Notification_Type_Name_':value.data[0]['Notification_Type_Name_'],
-
-
-
-               });
+          await upcomingInspectionsController.getCustomerTask(
+            isFromRescheduleScreen: true,
+              isFromSplash: true);
+          await HttpRequest.httpPostRequest(
+              endPoint: HttpUrls.notificationUrlReschedule,
+              bodyData: {
+                'Notification_Id_': value.data[0]['Notification_Id_'],
+                'Task_Reschedule_Id_': value.data[0]['Task_Reschedule_Id_'],
+                'Task_Id_': value.data[0]['Task_Id_'],
+                'Task_Name_': value.data[0]['Task_Name_'],
+                'Notification_Type_Name_': value.data[0]
+                    ['Notification_Type_Name_'],
+              });
           Get.back();
         }
       }
     });
+    upcomingInspectionsController.update();
   }
 }

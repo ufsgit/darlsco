@@ -35,22 +35,25 @@ class _EligibleExamPageState extends State<EligibleExamPage> {
   @override
   void initState() {
     print('eligible exam page');
-    setState(() => isLoaded = true);
-   
- 
-   
-      WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      trainingController.getTraineeDetails(
-          widget.model.orderDetailsId.toString(),
-          widget.model.orderLocationId.toString(),
-          widget.model.examMasterId.toString());
+
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+     getData();
     });
     print('nnokftr ${trainingController.traineeDetails.length}');
-    setState(() => isLoaded = false);
 
     super.initState();
   }
 
+getData()async{
+      setState(() => isLoaded = true);
+
+ await  trainingController.getTraineeDetails(
+          widget.model.orderDetailsId.toString(),
+          widget.model.orderLocationId.toString(),
+          widget.model.examMasterId.toString());
+              setState(() => isLoaded = false);
+
+}
   String getCurrentTimeAsString() {
     DateTime now = DateTime.now();
     String formattedTime = DateFormat.Hms().format(now);
@@ -64,9 +67,8 @@ class _EligibleExamPageState extends State<EligibleExamPage> {
         body: commonBackgroundLinearColorCart(childWidget:
             GetBuilder<TrainingControllerHomee>(builder: (context) {
           print('sdjnajds ${trainingController.traineeDetails.length}');
-                    // print('sdjnajds ${drop}');
+          // print('sdjnajds ${drop}');
 
- 
           return SingleChildScrollView(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
@@ -139,10 +141,12 @@ class _EligibleExamPageState extends State<EligibleExamPage> {
                                       context: context,
                                       onChanged: (newValue) {
                                         setState(() {
-                                         trainingController. dropdownValues.value[index] = newValue!;
+                                          trainingController.dropdownValues
+                                              .value[index] = newValue!;
                                         });
                                       },
-                                      dropDownValue:trainingController. dropdownValues.value[index],
+                                      dropDownValue: trainingController
+                                          .dropdownValues.value[index],
                                       itemsList: eligibleList,
                                     );
                                   },
@@ -177,15 +181,18 @@ class _EligibleExamPageState extends State<EligibleExamPage> {
                       (index) => EligibilityDetails(
                           traineeDetailsId: trainingController
                               .traineeDetails[index].traineeDetailsId,
-                          eligibilityStatusId:
-                              trainingController.dropdownValues[index].toString() ==
-                                      'Eligible for Exam'
-                                  ? 1
-                                  : trainingController.dropdownValues[index].toString() ==
-                                          'Ineligible for Exam'
-                                      ? 2
-                                      : 0,
-                          eligibilityStatusName: trainingController.dropdownValues[index]))));
+                          eligibilityStatusId: trainingController
+                                      .dropdownValues[index]
+                                      .toString() ==
+                                  'Eligible for Exam'
+                              ? 1
+                              : trainingController.dropdownValues[index]
+                                          .toString() ==
+                                      'Ineligible for Exam'
+                                  ? 2
+                                  : 0,
+                          eligibilityStatusName:
+                              trainingController.dropdownValues[index]))));
               await todayTaskController.fetchTaskCount();
               todayTaskController.update();
 

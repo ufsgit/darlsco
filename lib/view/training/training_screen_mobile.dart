@@ -120,7 +120,7 @@ class _TrainingScreenMobileState extends State<TrainingScreenMobile> {
                     ),
                   ),
                 ),
-                bottomNavigationBar: commonBottomButton(),
+                bottomNavigationBar: commonBottomButton(context),
                 body: commonBackgroundLinearColorHome(
                   childWidget: Container(
                     height: Get.height,
@@ -159,6 +159,8 @@ class _TrainingScreenMobileState extends State<TrainingScreenMobile> {
                                               '1' ||
                                       homeController
                                               .isCalibrationSection.value &&
+                                          eqData[0]['Role_Id'].toString() ==
+                                              '38' &&
                                           eqData[0]['Task_Status_Id']
                                                   .toString() ==
                                               '15')

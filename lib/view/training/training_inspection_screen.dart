@@ -33,22 +33,28 @@ class _TrainingInspectionScreenState extends State<TrainingInspectionScreen> {
   //     Get.put(TrainingControllerHomee());
   @override
   void initState() {
-    upcomingInspectionsController.taskInitFunction(context);
+  getData();
 
     //  homeController.getAllusers();
-print('dfnojwenfoiw ${homeController.isInspectionSection.value}');
-print('dfnojwenfoiw ${homeController.isTrainingSectionnew.value}');
-print('dfnojwenfoiw ${homeController.isCalibrationSection.value}');
+// print('dfnojwenfoiw ${homeController.isInspectionSection.value}');
+// print('dfnojwenfoiw ${homeController.isTrainingSectionnew.value}');
 try {
-      upcomingInspectionsController.isLoading.value=false;
 
-} catch (e) {
+} finally{
   
-}
+}print('dfnojwenfoiw ${upcomingInspectionsController.isLoading.value}');
+
 
     super.initState();
   }
+getData()async{
+try {
+     await upcomingInspectionsController.taskInitFunction(context);
 
+} finally{
+        upcomingInspectionsController.isLoading.value=false;
+
+}}
   bool areAnyTwoTrue = [
         homeController.isTrainingEnabled,
         homeController.isInspectionEnabled,

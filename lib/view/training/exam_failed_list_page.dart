@@ -8,7 +8,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-
 class ExamFailedListPage extends StatefulWidget {
   const ExamFailedListPage({
     super.key,
@@ -60,6 +59,7 @@ class _ExamFailedListPageState extends State<ExamFailedListPage> {
                   .examFailedTraineeDetails[index].subTotal,
               "is_selected": false,
             }).toList();
+            print('kjnihj ${ trainingHomeController.failedTraineesData}');
 
     trainingHomeController.update();
   }
@@ -73,8 +73,8 @@ class _ExamFailedListPageState extends State<ExamFailedListPage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        appBar: AppBar(),
         body: GetBuilder<TrainingControllerHomee>(
-        
           builder: (controller) {
             return commonBackgroundLinearColorCart(
               childWidget: SingleChildScrollView(
@@ -147,8 +147,9 @@ class _ExamFailedListPageState extends State<ExamFailedListPage> {
                                       ),
                                     ),
                                     TextSpan(
-                                      text:
-                                          controller.examFailedTraineeDetails[index].writenStatusName,
+                                      text: controller
+                                          .examFailedTraineeDetails[index]
+                                          .writenStatusName,
                                       style: GoogleFonts.dmSans(
                                         color: controller
                                                     .examFailedTraineeDetails[
@@ -224,11 +225,11 @@ class _ExamFailedListPageState extends State<ExamFailedListPage> {
                                                           .validityStatus ==
                                                       'Expired'
                                               ? null
-                                              : (bool? value) async{
-
-                                                trainingController.transactionFee= await   trainingController.getTransactionFee();
-
-
+                                              : (bool? value) async {
+                                                  trainingController
+                                                          .transactionFee =
+                                                      await trainingController
+                                                          .getTransactionFee();
 
                                                   checkboxSelected
                                                               .failedTraineesData[
@@ -238,9 +239,6 @@ class _ExamFailedListPageState extends State<ExamFailedListPage> {
                                                   if (value == true) {
                                                     print(index);
 
-
-
-                                                    
                                                     controller
                                                         .retakePurchaseBillDataList
                                                         .add({
@@ -291,15 +289,14 @@ class _ExamFailedListPageState extends State<ExamFailedListPage> {
                                                                   .examFailedTraineeDetails[
                                                                       index]
                                                                   .vatAmount)) +
-                                                          (((double.parse(controller
-                                                                          .examFailedTraineeDetails[
-                                                                              index]
-                                                                          .amount) +
+                                                          (((double.parse(controller.examFailedTraineeDetails[index].amount) +
                                                                       double.parse(controller
                                                                           .examFailedTraineeDetails[
                                                                               index]
-                                                                          .vatAmount)) *double.parse(
-                                                                trainingController.transactionFee)) /
+                                                                          .vatAmount)) *
+                                                                  double.parse(
+                                                                      trainingController
+                                                                          .transactionFee)) /
                                                               100)
                                                     });
                                                   } else {

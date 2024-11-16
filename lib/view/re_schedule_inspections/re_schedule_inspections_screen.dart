@@ -25,9 +25,7 @@ class _ReScheduleInspectionsScreenState
     extends State<ReScheduleInspectionsScreen> {
   @override
   void initState() {
-
-     resheduleInspectionController
-                                .rescheduleTimeContorller.clear();
+    resheduleInspectionController.rescheduleTimeContorller.clear();
     resheduleInspectionController.reschudleDateController.clear();
     resheduleInspectionController.resonController.clear();
 
@@ -37,7 +35,6 @@ class _ReScheduleInspectionsScreenState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-     
       appBar: PreferredSize(
           preferredSize: Size(70.w, 70.h),
           child: commonBackgroundLinearColor(
@@ -71,7 +68,9 @@ class _ReScheduleInspectionsScreenState
                             fontWeight: FontWeight.w700),
                       ),
                       TextSpan(
-                        text:homeController.isCalibrationSection.value?' Calibration': ' Inspection',
+                        text: homeController.isCalibrationSection.value
+                            ? ' Calibration'
+                            : ' Inspection',
                         style: GoogleFonts.roboto(
                           fontSize: 40.sp,
                           fontWeight: FontWeight.w700,
@@ -86,19 +85,13 @@ class _ReScheduleInspectionsScreenState
                       height: 44.h,
                     ),
                     SizedBox(
-                     
                       width: 800.w,
-                     
-                
                       child: Wrap(
                         crossAxisAlignment: WrapCrossAlignment.end,
-                
-                        
-                 
                         children: [
                           Container(
                             padding: EdgeInsets.all(10.w),
-                            width:Get.width>615?400.w: 346.w,
+                            width: Get.width > 615 ? 400.w : 346.w,
                             child: TextField(
                               style: TextStyle(fontSize: 14.sp),
                               controller: resheduleInspectionController
@@ -127,9 +120,9 @@ class _ReScheduleInspectionsScreenState
                                         .parse(widget.inspectionDate)
                                         .add(const Duration(days: 1)),
                                     lastDate: DateTime(2101));
-                      
-                                String formattedDate =
-                                    DateFormat('yyyy-MM-dd').format(pickedDate!);
+
+                                String formattedDate = DateFormat('yyyy-MM-dd')
+                                    .format(pickedDate!);
                                 resheduleInspectionController
                                         .reschudleDateController.text =
                                     DateFormat('dd-MM-yyyy').format(
@@ -138,13 +131,13 @@ class _ReScheduleInspectionsScreenState
                                 // setState(() {
                                 //   datePickController.text = formattedDate;
                                 // });
-                                                            },
+                              },
                             ),
                           ),
-                      
+
                           Container(
                             padding: EdgeInsets.all(10.w),
-                             width:Get.width>615?400.w: 346.w,
+                            width: Get.width > 615 ? 400.w : 346.w,
                             child: TextField(
                               style: TextStyle(fontSize: 14.sp),
                               controller: resheduleInspectionController
@@ -164,23 +157,16 @@ class _ReScheduleInspectionsScreenState
                                   context: context,
                                   initialTime: initialTime,
                                 );
-                      
-                                if(pickedTime!=null){
-                                   resheduleInspectionController
-                                  .rescheduleTimeContorller.text = pickedTime.format(context).toLowerCase();
-                      
-                               
-                      
-                      
+
+                                if (pickedTime != null) {
+                                  resheduleInspectionController
+                                          .rescheduleTimeContorller.text =
+                                      pickedTime.format(context).toLowerCase();
                                 }
-                      
-                               
-                      
-                      
                               },
                             ),
                           ),
-                      
+
                           // rescheduleMainWidget(
                           //     titleText: 'Proposed Date',
                           //     icon: Icons.calendar_month,
@@ -188,116 +174,119 @@ class _ReScheduleInspectionsScreenState
                           SizedBox(
                             height: 5.h,
                           ),
-                          customResonNoteWidget(context,Get.width>615?true:false),
-                        Get.width<615?   Container(
-                          alignment: Alignment.bottomRight,
+                          customResonNoteWidget(
+                              context, Get.width > 615 ? true : false),
+                          Get.width < 615
+                              ? Container(
+                                  alignment: Alignment.bottomRight,
                                   margin: EdgeInsets.only(bottom: 25.w),
-
-                                   child: IconButton(
-                                     onPressed: () {
-                                       if (resheduleInspectionController
-                                               .reschudleDateController.text.isEmpty || resheduleInspectionController
-                                             .rescheduleTimeContorller.text.isEmpty||
-                                           resheduleInspectionController
-                                               .resonController.text.isEmpty) {
-                                         ScaffoldMessenger.of(context).showSnackBar(
-                                             const SnackBar(
-                                                 duration: Duration(milliseconds: 400),
-                                                 content: Text('All fields are required')));
-                                         Future.delayed(
-                                             const Duration(milliseconds: 600), () {});
-                                       } else {
-                                         resheduleInspectionController
-                                             .saveCustomerReschedule(widget.taskId);
-                                       }
-                                     },
-                                     icon: Container(
-                                       
-                                       width: 100.w,
-                                       height: 40.h,
-                                       decoration: BoxDecoration(
-                                           color: ColorResources.color32C000,
-                                           borderRadius: BorderRadius.circular(15.r)),
-                                       child: Center(
-                                           child: Text(
-                                         'Submit',
-                                         style: TextStyle(
-                                             color: ColorResources.whiteColor,
-                                             fontSize: 14.sp),
-                                       )),
-                                     ),
-                                   ),
-                                 ):Container(),
-                      
-                      
-                                  
+                                  child: IconButton(
+                                    onPressed: () {
+                                      if (resheduleInspectionController
+                                              .reschudleDateController
+                                              .text
+                                              .isEmpty ||
+                                          resheduleInspectionController
+                                              .rescheduleTimeContorller
+                                              .text
+                                              .isEmpty ||
+                                          resheduleInspectionController
+                                              .resonController.text.isEmpty) {
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(const SnackBar(
+                                                duration:
+                                                    Duration(milliseconds: 400),
+                                                content: Text(
+                                                    'All fields are required')));
+                                        Future.delayed(
+                                            const Duration(milliseconds: 600),
+                                            () {});
+                                      } else {
+                                        resheduleInspectionController
+                                            .saveCustomerReschedule(
+                                                widget.taskId);
+                                      }
+                                    },
+                                    icon: Container(
+                                      width: 100.w,
+                                      height: 40.h,
+                                      decoration: BoxDecoration(
+                                          color: ColorResources.color32C000,
+                                          borderRadius:
+                                              BorderRadius.circular(15.r)),
+                                      child: Center(
+                                          child: Text(
+                                        'Submit',
+                                        style: TextStyle(
+                                            color: ColorResources.whiteColor,
+                                            fontSize: 14.sp),
+                                      )),
+                                    ),
+                                  ),
+                                )
+                              : Container(),
                         ],
                       ),
                     ),
-                   
                   ]),
             )),
       ),
     );
   }
 
-  Row customResonNoteWidget(BuildContext context,isRowButton) {
+  Row customResonNoteWidget(BuildContext context, isRowButton) {
     return Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          // alignment: WrapAlignment.end,
-                          // runAlignment: WrapAlignment.end,
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            rescheduleMainWidget(
-                                controller:
-                                    resheduleInspectionController.resonController,
-                                titleText: 'Reason ',
-                                icon: Icons.add_comment_outlined,
-                                maxLine: 5,
-                                maxLength: 250,
-                                contentText:
-                                    'Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500sLorem Ipsum has been the industry\'s standard dummy text ever since the 1500s'),
-
-                               isRowButton?      Container(
-                                  margin: EdgeInsets.only(bottom: 25.w),
-
-                                   child: IconButton(
-                                     onPressed: () {
-                                       if (resheduleInspectionController
-                                               .reschudleDateController.text.isEmpty || resheduleInspectionController
-                                             .rescheduleTimeContorller.text.isEmpty||
-                                           resheduleInspectionController
-                                               .resonController.text.isEmpty) {
-                                         ScaffoldMessenger.of(context).showSnackBar(
-                                             const SnackBar(
-                                                 duration: Duration(milliseconds: 400),
-                                                 content: Text('All fields are required')));
-                                         Future.delayed(
-                                             const Duration(milliseconds: 600), () {});
-                                       } else {
-                                         resheduleInspectionController
-                                             .saveCustomerReschedule(widget.taskId);
-                                       }
-                                     },
-                                     icon: Container(
-                                       
-                                       width: 100.w,
-                                       height: 40.h,
-                                       decoration: BoxDecoration(
-                                           color: ColorResources.color32C000,
-                                           borderRadius: BorderRadius.circular(15.r)),
-                                       child: Center(
-                                           child: Text(
-                                         'Submit',
-                                         style: TextStyle(
-                                             color: ColorResources.whiteColor,
-                                             fontSize: 14.sp),
-                                       )),
-                                     ),
-                                   ),
-                                 ):Container(),
-                          ],
-                        );
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      // alignment: WrapAlignment.end,
+      // runAlignment: WrapAlignment.end,
+      crossAxisAlignment: CrossAxisAlignment.end,
+      children: [
+        rescheduleMainWidget(
+            controller: resheduleInspectionController.resonController,
+            titleText: 'Reason ',
+            icon: Icons.add_comment_outlined,
+            maxLine: 5,
+            maxLength: 250,
+            contentText:
+                'Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500sLorem Ipsum has been the industry\'s standard dummy text ever since the 1500s'),
+        isRowButton
+            ? Container(
+                margin: EdgeInsets.only(bottom: 25.w),
+                child: IconButton(
+                  onPressed: () {
+                    if (resheduleInspectionController
+                            .reschudleDateController.text.isEmpty ||
+                        resheduleInspectionController
+                            .rescheduleTimeContorller.text.isEmpty ||
+                        resheduleInspectionController
+                            .resonController.text.isEmpty) {
+                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                          duration: Duration(milliseconds: 400),
+                          content: Text('All fields are required')));
+                      Future.delayed(const Duration(milliseconds: 600), () {});
+                    } else {
+                      resheduleInspectionController
+                          .saveCustomerReschedule(widget.taskId);
+                    }
+                  },
+                  icon: Container(
+                    width: 100.w,
+                    height: 40.h,
+                    decoration: BoxDecoration(
+                        color: ColorResources.color32C000,
+                        borderRadius: BorderRadius.circular(15.r)),
+                    child: Center(
+                        child: Text(
+                      'Submit',
+                      style: TextStyle(
+                          color: ColorResources.whiteColor, fontSize: 14.sp),
+                    )),
+                  ),
+                ),
+              )
+            : Container(),
+      ],
+    );
   }
 
   Container rescheduleMainWidget(
@@ -308,7 +297,7 @@ class _ReScheduleInspectionsScreenState
       required controller,
       int maxLine = 1}) {
     return Container(
-        width: Get.width>615?400.w:346.w,
+        width: Get.width > 615 ? 400.w : 346.w,
         padding: EdgeInsets.all(10.sp),
         // decoration: BoxDecoration(
         //     border: Border.all(color: ColorResources.color294C73),
@@ -318,16 +307,15 @@ class _ReScheduleInspectionsScreenState
           maxLines: maxLine,
           maxLength: maxLength,
           decoration: InputDecoration(
-              label: Text(
-                titleText,
-                
-                textAlign: TextAlign.left,
-              ),
-              border: OutlineInputBorder(
-                borderSide: const BorderSide(color: ColorResources.color294C73),
-                borderRadius: BorderRadius.circular(8.r),
-              ),
-             ),
+            label: Text(
+              titleText,
+              textAlign: TextAlign.left,
+            ),
+            border: OutlineInputBorder(
+              borderSide: const BorderSide(color: ColorResources.color294C73),
+              borderRadius: BorderRadius.circular(8.r),
+            ),
+          ),
         )
         // Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
         //    Icon(

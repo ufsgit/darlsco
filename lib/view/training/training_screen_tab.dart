@@ -51,7 +51,7 @@ class _TrainningScreenTabState extends State<TrainningScreenTab> {
           ),
         ),
       ),
-      bottomNavigationBar: commonBottomButton(),
+      bottomNavigationBar: commonBottomButton(context),
       body: commonBackgroundLinearColorHome(
         childWidget: Container(
           height: Get.height,
@@ -632,7 +632,7 @@ class _TrainningScreenTabState extends State<TrainningScreenTab> {
   }
 }
 
-commonBottomButton() {
+commonBottomButton(BuildContext context) {
   print('periodic value ${tcontoller.periodicCheck.value}');
   if (homeController.isCalibrationSection.value) {
     return upcomingInspectionsController.taskUserDetailsCalibration[0]
@@ -679,7 +679,7 @@ commonBottomButton() {
                           .taskUserDetailsCalibration[0]['Role_Id']
                           .toString() ==
                       '38') {
-                            // if (tcontoller.visualCheck.value == true ||
+                    // if (tcontoller.visualCheck.value == true ||
                     //     tcontoller.periodicCheck.value == true ||
                     //     tcontoller.thoroughCheck.value == true ||
                     //     tcontoller.inServiceCheck.value == true ||
@@ -861,7 +861,7 @@ commonBottomButton() {
                       } else {
                         showDialog(
                           barrierDismissible: false,
-                          context: Get.context!,
+                          context: context,
                           builder: (ctx) => AlertDialog(
                             // title: const Text(
                             //   'Logout',
@@ -1347,16 +1347,14 @@ Container trainningGridWidget(
                               child: Row(
                                 children: [
                                   Checkbox(
-                                    value: !homeController
-                                                    .isCalibrationSection
+                                    value: !homeController.isCalibrationSection
                                                     .value &&
                                                 eqpmentListData
                                                         .taskEquipmentListData[
                                                             index]['Checked']
                                                         .toString() ==
                                                     '1' ||
-                                            homeController
-                                                    .isCalibrationSection
+                                            homeController.isCalibrationSection
                                                     .value &&
                                                 eqpmentListData
                                                         .taskEquipmentListDataCalibration[

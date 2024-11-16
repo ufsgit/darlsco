@@ -53,7 +53,7 @@ Future<void> main() async {
 // await Firebase.initializeApp(
 //     options: DefaultFirebaseOptions.currentPlatform,
 // );
-  // await FirebaseNotificationService.initialize();
+//   await FirebaseNotificationService.initialize();
 
 // final channel =  IOWebSocketChannel.connect( Uri.parse('wss://192.168.1.94:4510')    );
 

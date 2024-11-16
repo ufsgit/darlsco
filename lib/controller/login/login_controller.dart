@@ -65,7 +65,7 @@ class LoginController extends GetxController {
         if (jsonDecode(value.toString())['Data'].isEmpty) {
           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
               content:
-                  Text('Mobile no not found, please contact Darlsco team.')));
+                  Text('Mobile no not found, please contact Darlsco team.')));
         } else {
           final data = jsonDecode(value.toString());
 
@@ -282,10 +282,10 @@ class LoginController extends GetxController {
             default:
               Get.offAll(() => BottomNavigationWidget());
           }
-          await FirebaseNotificationService.getNotificationPermission();
-          await FirebaseNotificationService.subscribeToTopic(
-              userType: dashboardController.dashboardRole.toString(),
-              customerId: data['0'][0]['Id'].toString());
+          // await FirebaseNotificationService.getNotificationPermission();
+          // await FirebaseNotificationService.subscribeToTopic(
+          //     userType: dashboardController.dashboardRole.toString(),
+          //     customerId: data['0'][0]['Id'].toString());
 
           // Get.offAll(() => const BottomNavigationScreen());
         }
@@ -425,6 +425,8 @@ class LoginController extends GetxController {
     homeController.isFromPurchase.value = false;
     globalHomeController.isTraineeLogin.value == false;
     globalHomeController.isuserLogin.value = false;
+        globalHomeController.isUserLoggedIn = false;
+
     globalHomeController.isCalibrationSection.value = false;
     getcountry(context);
     homeController.isUsersignedIn();

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../../../controller/home/home_controller.dart';
 import '../../../core/constants/color_resources.dart';
@@ -141,49 +142,56 @@ Container homeColorContainer({
     padding: EdgeInsets.all(15.sp),
     decoration: BoxDecoration(
         color: cBgColor, borderRadius: BorderRadius.circular(10.r)),
-    child: Obx(
-       () {
-        return Center(
-            child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            SizedBox(
-              width: 98.w,
-              child: Text(
-                contentText,
-                style: TextStyle(
-                  fontFamily: "DM Sans",
-                  fontSize: 14.sp,
-                  fontWeight: FontWeight.w500,
-                  color: ColorResources.color294C73,
-                ),
+    child: Obx(() {
+      return Center(
+          child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          SizedBox(
+            width: 98.w,
+            child: Text(
+              contentText,
+              style: TextStyle(
+                fontFamily: "DM Sans",
+                fontSize: 14.sp,
+                fontWeight: FontWeight.w500,
+                color: ColorResources.color294C73,
               ),
             ),
-            CircleAvatar(
-              backgroundColor: numBgColor,
-              radius: 20.r,
-              child: homeController.isHomeLoading.value
-                  ? const Center(
-                      child: CircularProgressIndicator.adaptive(
-        
-        
+          ),
+          CircleAvatar(
+            backgroundColor: numBgColor,
+            radius: 20.r,
+            child: homeController.isHomeLoading.value
+                ? Container(
+                    width: 200.0,
+                    height: 100.0,
+                    decoration: BoxDecoration(shape: BoxShape.circle),
+                    child: Shimmer.fromColors(
+                      baseColor: Colors.grey.shade100,
+                      highlightColor: Colors.grey.shade300,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Colors.grey.shade200,
+                        ),
                       ),
-                    )
-                  : Text(
-                      numberText,
-                      style: TextStyle(
-                        fontFamily: "DM Sans",
-                        fontSize: 13.sp,
-                        fontWeight: FontWeight.w500,
-                        color: ColorResources.color294C73,
-                      ),
-                      textAlign: TextAlign.center,
                     ),
-            )
-          ],
-        ));
-      }
-    ),
+                  )
+                : Text(
+                    numberText,
+                    style: TextStyle(
+                      fontFamily: "DM Sans",
+                      fontSize: 13.sp,
+                      fontWeight: FontWeight.w500,
+                      color: ColorResources.color294C73,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+          )
+        ],
+      ));
+    }),
   );
 }

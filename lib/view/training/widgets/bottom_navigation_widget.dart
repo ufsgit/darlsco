@@ -128,15 +128,6 @@ class BottomNavigationWidgetState extends State<BottomNavigationWidget> {
   @override
   Widget build(BuildContext context) {
    
-try {
-  print('kkikikii ${homeController.isInspectionSection.value}');
-    print('kkikikii ${homeController.isCalibrationSection.value}');
-      print('kkikikii ${homeController.isTrainingSectionnew.value}');
-
-
-} catch (e) {
-  
-}
     return PopScope(
       canPop: false,
       child: Obx(

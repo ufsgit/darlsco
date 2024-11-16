@@ -10,10 +10,23 @@ import '../../core/constants/color_resources.dart';
 import '../../core/constants/common_widgets.dart';
 import '../re_schedule_inspections/re_schedule_inspections_screen.dart';
 
-class UpcomingInspectionsScreen extends StatelessWidget {
-  UpcomingInspectionsScreen({super.key});
-  final upcomingController = Get.put(UpcomingInspectionsController());
+class UpcomingInspectionsScreen extends StatefulWidget {
+  const UpcomingInspectionsScreen({super.key,this.isFromRescheduleScreen=false});
+final bool isFromRescheduleScreen ;
 
+  @override
+  State<UpcomingInspectionsScreen> createState() => _UpcomingInspectionsScreenState();
+}
+
+class _UpcomingInspectionsScreenState extends State<UpcomingInspectionsScreen> {
+  final upcomingController = Get.put(UpcomingInspectionsController());
+@override
+initState(){
+  super.initState();
+  if(widget.isFromRescheduleScreen){
+    upcomingInspectionsController.getCustomerTask(isFromSplash: true);
+  }
+}
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -76,14 +89,20 @@ class UpcomingInspectionsScreen extends StatelessWidget {
                       children: [
                         GetBuilder<UpcomingInspectionsController>(
                             builder: (customerData) {
+                          upcomingInspectionsController.upcomingTaskData.value =
+                              homeController.isCalibrationSection.value
+                                  ? customerData
+                                      .upcomingInspectionListDataCalibration
+                                  : customerData.upcomingInspectionListData;
+
                           return Wrap(
                             spacing: 20.w,
                             children:
-                                customerData
-                                        .upcomingInspectionListData.isNotEmpty
+                                upcomingInspectionsController
+                                        .upcomingTaskData.value.isNotEmpty
                                     ? List.generate(
-                                        customerData
-                                            .upcomingInspectionListData.length,
+                                        upcomingInspectionsController
+                                            .upcomingTaskData.value.length,
                                         (index) => Container(
                                           width:
                                               Get.width > 615 ? 390.w : 360.w,
@@ -141,8 +160,9 @@ class UpcomingInspectionsScreen extends StatelessWidget {
                                                               upcomingInspectionCommonItemWidget(
                                                                 icon: Icons
                                                                     .business,
-                                                                valueText: customerData
-                                                                            .upcomingInspectionListData[index]
+                                                                valueText: upcomingInspectionsController
+                                                                            .upcomingTaskData
+                                                                            .value[index]
                                                                         [
                                                                         'Task_Name'] ??
                                                                     '',
@@ -150,24 +170,25 @@ class UpcomingInspectionsScreen extends StatelessWidget {
                                                               upcomingInspectionCommonItemWidget(
                                                                 icon: Icons
                                                                     .calendar_month,
-                                                                valueText: DateFormat('dd-MM-yyyy').format(DateTime.parse((customerData.upcomingInspectionListData[index]
+                                                                valueText: DateFormat('dd-MM-yyyy').format(DateTime.parse((upcomingInspectionsController.upcomingTaskData.value[index]
                                                                             [
                                                                             'Reschedule_Date'] ==
                                                                         null
-                                                                    ? customerData.upcomingInspectionListData[index]
+                                                                    ? upcomingInspectionsController.upcomingTaskData.value[index]
                                                                             [
                                                                             'Task_Date'] ??
                                                                         ''
-                                                                    : customerData.upcomingInspectionListData[index]
-                                                                            [
-                                                                            'Reschedule_Date'] ??
+                                                                    : upcomingInspectionsController
+                                                                            .upcomingTaskData
+                                                                            .value[index]['Reschedule_Date'] ??
                                                                         ""))),
                                                               ),
                                                               upcomingInspectionCommonItemWidget(
                                                                 icon: Icons
                                                                     .timer_outlined,
-                                                                valueText: customerData
-                                                                            .upcomingInspectionListData[index]
+                                                                valueText: upcomingInspectionsController
+                                                                            .upcomingTaskData
+                                                                            .value[index]
                                                                         [
                                                                         'Time'] ??
                                                                     '',
@@ -175,8 +196,9 @@ class UpcomingInspectionsScreen extends StatelessWidget {
                                                               upcomingInspectionCommonItemWidget(
                                                                 icon: Icons
                                                                     .location_on_outlined,
-                                                                valueText: customerData
-                                                                            .upcomingInspectionListData[index]
+                                                                valueText: upcomingInspectionsController
+                                                                            .upcomingTaskData
+                                                                            .value[index]
                                                                         [
                                                                         'Location_Name'] ??
                                                                     '',
@@ -184,8 +206,9 @@ class UpcomingInspectionsScreen extends StatelessWidget {
                                                               upcomingInspectionCommonItemWidget(
                                                                 icon: Icons
                                                                     .person,
-                                                                valueText: customerData
-                                                                            .upcomingInspectionListData[index]
+                                                                valueText: upcomingInspectionsController
+                                                                            .upcomingTaskData
+                                                                            .value[index]
                                                                         [
                                                                         'User_Details_Name'] ??
                                                                     '',
@@ -211,7 +234,9 @@ class UpcomingInspectionsScreen extends StatelessWidget {
                                                                 height: 20.h,
                                                               ),
 
-                                                              customerData.upcomingInspectionListData[
+                                                              upcomingInspectionsController
+                                                                          .upcomingTaskData
+                                                                          .value[
                                                                               index]
                                                                               [
                                                                               'Task_Status_Id']
@@ -220,12 +245,12 @@ class UpcomingInspectionsScreen extends StatelessWidget {
                                                                   ? IconButton(
                                                                       onPressed:
                                                                           () {
-                                                                        if (customerData.upcomingInspectionListData[index]['Task_Status_Id'].toString() !=
+                                                                        if (upcomingInspectionsController.upcomingTaskData.value[index]['Task_Status_Id'].toString() !=
                                                                             '7') {
                                                                           Get.to(() =>
                                                                               ReScheduleInspectionsScreen(
-                                                                                inspectionDate: DateFormat('dd-MM-yyyy').format(DateTime.parse((customerData.upcomingInspectionListData[index]['Reschedule_Date'] == null ? customerData.upcomingInspectionListData[index]['Task_Date'] ?? '' : customerData.upcomingInspectionListData[index]['Reschedule_Date'] ?? ""))),
-                                                                                taskId: customerData.upcomingInspectionListData[index]['Task_Id'].toString(),
+                                                                                inspectionDate: DateFormat('dd-MM-yyyy').format(DateTime.parse((upcomingInspectionsController.upcomingTaskData.value[index]['Reschedule_Date'] == null ? upcomingInspectionsController.upcomingTaskData.value[index]['Task_Date'] ?? '' : upcomingInspectionsController.upcomingTaskData.value[index]['Reschedule_Date'] ?? ""))),
+                                                                                taskId: upcomingInspectionsController.upcomingTaskData.value[index]['Task_Id'].toString(),
                                                                               ));
                                                                         }
                                                                       },
@@ -293,7 +318,9 @@ class UpcomingInspectionsScreen extends StatelessWidget {
                                                               SizedBox(
                                                                 height: 8.h,
                                                               ),
-                                                              customerData.upcomingInspectionListData[
+                                                              upcomingInspectionsController
+                                                                          .upcomingTaskData
+                                                                          .value[
                                                                               index]
                                                                               [
                                                                               'Task_Status_Id']

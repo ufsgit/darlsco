@@ -97,6 +97,7 @@ dependencies:
   # flutter_localizations: 0.2.2
   path_provider: any
   http: any
+  shimmer: ^3.0.0
 dev_dependencies:
   flutter_test:
     sdk: flutter

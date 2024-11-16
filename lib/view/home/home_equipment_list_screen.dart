@@ -21,6 +21,10 @@ class _HomeEquipmentListScreenState extends State<HomeEquipmentListScreen> {
   final HomeController homeController = Get.put(HomeController());
   bool isLoading = false;
   @override
+  initState(){
+    super.initState();
+  }
+  @override
   Widget build(BuildContext context) {
     return isLoading
         ? Scaffold(

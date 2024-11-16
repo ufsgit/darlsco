@@ -271,8 +271,9 @@ class _PDFViewerPageState extends State<PDFViewerPage>
               icon: const Icon(Icons.download),
             ),
           ],
+          centerTitle: true,
           title: Text(
-            'Certificate',
+            'Download',
             style: TextStyle(
               fontSize: 32.sp.h,
               color: ColorResources.color294C73,

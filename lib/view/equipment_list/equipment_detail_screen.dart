@@ -1,6 +1,7 @@
 import 'package:darlsco/controller/home/home_controller.dart';
 import 'package:darlsco/core/constants/color_resources.dart';
 import 'package:darlsco/core/constants/common_widgets.dart';
+import 'package:darlsco/view/login/company_location_screen.dart';
 import 'package:darlsco/view/training/view_certificate_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -15,14 +16,27 @@ class EquipmentDetailScreen extends StatefulWidget {
 
 class _EquipmentDetailScreenState extends State<EquipmentDetailScreen> {
   HomeController homeController = Get.put(HomeController());
-
+  bool isLoading = false;
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      homeController.getSingleEquipMentData(widget.equipmentId);
+      getData();
     });
 
     super.initState();
+  }
+
+  getData() async {
+    setState(() {
+      isLoading = true;
+    });
+    try {
+      await homeController.getSingleEquipMentData(widget.equipmentId);
+    } finally {
+      setState(() {
+        isLoading = false;
+      });
+    }
   }
 
   @override
@@ -32,6 +46,7 @@ class _EquipmentDetailScreenState extends State<EquipmentDetailScreen> {
         preferredSize: Size(70.w, 70.h),
         child: commonBackgroundLinearColor(
           childWidget: AppBar(
+            title: Text('Certificate List'),
             leading: IconButton(
                 onPressed: () {
                   homeController.inspectionDropdownValue.value = '';
@@ -49,65 +64,78 @@ class _EquipmentDetailScreenState extends State<EquipmentDetailScreen> {
         ),
       ),
       body: commonBackgroundLinearColorHome(
-        childWidget: Obx(
-          () {
-            if (homeController.isLoadingEquipmentDetailsscreen.value) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            } else if (homeController
-                .equipmentDetailModel.returnvalue!.leads.isEmpty) {
-              return Center(
-                child: Text('No data found'),
-              );
-            }
-            {
-              return ListView(
-                padding: const EdgeInsets.all(18),
-                children: List.generate(
-                  homeController
-                          .equipmentDetailModel.returnvalue?.leads.length ??
-                      0,
-                  (index) => Card(
-                    child: Padding(
-                      padding: const EdgeInsets.all(13.0),
-                      child: Column(
-                        children: [
-                          element(
-                              keyText: 'Certificate Number',
-                              valueText: homeController.equipmentDetailModel
-                                  .returnvalue!.leads[index].certificateNumber),
-                          element(
-                              keyText: 'Issue Date',
-                              valueText: homeController.equipmentDetailModel
-                                  .returnvalue!.leads[index].issueDateG),
-                          //      element(
-                          // keyText: 'Period From',
-                          // valueText: homeController
-                          //     .equipmentDetailModel
-                          //     .returnvalue!
-                          //     .leads[index]
-                          //     .periodFromG),
-                          element(
-                              keyText: 'Expiry Date',
-                              valueText: homeController.equipmentDetailModel
-                                  .returnvalue!.leads[index].periodToG),
-                          element(
-                            name: homeController.equipmentDetailModel
-                                .returnvalue!.leads[index].certificateNumber,
-                            keyText: 'View Certificate',
-                            pdfPath: homeController.equipmentDetailModel
-                                .returnvalue!.leads[index].fileKey,
-                            valueText: '',
+        childWidget: Stack(
+          children: [
+            Obx(
+              () {
+                if (homeController.isLoadingEquipmentDetailsscreen.value) {
+                  return const Center(
+                    child: SizedBox(),
+                  );
+                } else if (homeController
+                    .equipmentDetailModel.returnvalue!.leads.isEmpty) {
+                  return Center(
+                    child: Text('No data found'),
+                  );
+                }
+                {
+                  return ListView(
+                    padding: const EdgeInsets.all(18),
+                    children: List.generate(
+                      homeController
+                              .equipmentDetailModel.returnvalue?.leads.length ??
+                          0,
+                      (index) => Card(
+                        color: Colors.white,
+                        surfaceTintColor: Colors.white,
+                        child: Padding(
+                          padding: const EdgeInsets.all(13.0),
+                          child: Column(
+                            children: [
+                              element(
+                                  keyText: 'Certificate No.',
+                                  valueText: homeController
+                                      .equipmentDetailModel
+                                      .returnvalue!
+                                      .leads[index]
+                                      .certificateNumber),
+                              element(
+                                  keyText: 'Issue Date',
+                                  valueText: homeController.equipmentDetailModel
+                                      .returnvalue!.leads[index].issueDateG),
+                              //      element(
+                              // keyText: 'Period From',
+                              // valueText: homeController
+                              //     .equipmentDetailModel
+                              //     .returnvalue!
+                              //     .leads[index]
+                              //     .periodFromG),
+                              element(
+                                  keyText: 'Expiry Date',
+                                  valueText: homeController.equipmentDetailModel
+                                      .returnvalue!.leads[index].periodToG),
+                              element(
+                                name: homeController
+                                    .equipmentDetailModel
+                                    .returnvalue!
+                                    .leads[index]
+                                    .certificateNumber,
+                                keyText: '',
+                                pdfPath: homeController.equipmentDetailModel
+                                    .returnvalue!.leads[index].fileKey,
+                                valueText: '',
+                              ),
+                            ],
                           ),
-                        ],
+                        ),
                       ),
                     ),
-                  ),
-                ),
-              );
-            }
-          },
+                  );
+                }
+              },
+            ),
+            if (isLoading) loadingWidget
+          ],
         ),
       ),
     );
@@ -123,10 +151,11 @@ class _EquipmentDetailScreenState extends State<EquipmentDetailScreen> {
           const EdgeInsets.only(left: 8.0, right: 48.0, top: 19.0, bottom: 8.0),
       child: Row(
         children: [
-          Icon(
-            Icons.arrow_forward_ios_rounded,
-            size: 12.sp,
-          ),
+          if (valueText.isNotEmpty)
+            Icon(
+              Icons.arrow_forward_ios_rounded,
+              size: 12.sp,
+            ),
           const SizedBox(width: 2),
           Text(
             keyText,

@@ -17,7 +17,30 @@ class ExpiringEquipmentScreen extends StatelessWidget {
     var data = homeController.isCalibrationSection.value
         ? homeController.customerEquipmentExpiringDataCalibration
         : homeController.customerEquipmentExpiringData;
+
     return GetBuilder<HomeController>(builder: (_) {
+      if (homeController.isCalibrationSection.value) {
+        if (homeController.equipmentCheckValue.isEmpty ||
+            homeController.equipmentCheckValue.length !=
+                homeController
+                    .customerEquipmentExpiringDataCalibration.length) {
+          homeController.equipmentCheckValue = List.generate(
+              homeController.customerEquipmentExpiringDataCalibration.length,
+              (index) => false);
+          print(
+              'jiwefiw ${homeController.customerEquipmentExpiringDataCalibration.length}');
+        }
+      } else {
+        if (homeController.equipmentCheckValue.isEmpty ||
+            homeController.equipmentCheckValue.length !=
+                homeController.customerEquipmentExpiringData.length) {
+          homeController.equipmentCheckValue = List.generate(
+              homeController.customerEquipmentExpiringData.length,
+              (index) => false);
+          print(
+              'jiwefiw ${homeController.customerEquipmentExpiringData.length}');
+        }
+      }
       return Scaffold(
         // drawer: const Drawer(),
         appBar: PreferredSize(
@@ -31,6 +54,7 @@ class ExpiringEquipmentScreen extends StatelessWidget {
                     homeController.inspectionDateController.clear();
                     homeController.inspectionMessageController.clear();
                     homeController.isChooseEquipment.value = false;
+                    homeController.initfunction();
                     homeController.update();
                     Get.back();
                   },
@@ -58,9 +82,11 @@ class ExpiringEquipmentScreen extends StatelessWidget {
                 child: Container(
                   height: 60.h,
                   color: ColorResources.colorE5AA17,
-                  child:  Center(
+                  child: Center(
                       child: Text(
-                   homeController.isCalibrationSection.value?'Calibration Request':'Inspection Request',
+                    homeController.isCalibrationSection.value
+                        ? 'Calibration Request'
+                        : 'Inspection Request',
                     style: TextStyle(fontWeight: FontWeight.w800),
                   )),
                 ),
@@ -125,8 +151,10 @@ class ExpiringEquipmentScreen extends StatelessWidget {
                                   data.length,
                                   (index) => InkWell(
                                     // onTap: () {
-                                    //   homeController.selectingEquipment(homeController
-                                    //       .customerEquipmentData[index].equipmentName);
+                                    //   print(
+                                    //       'djkfns ${homeController.equipmentCheckValue}');
+                                    //   // homeController.selectingEquipment(homeController
+                                    //   //     .customerEquipmentData[index].equipmentName);
                                     // },
                                     child: Container(
                                       width: Get.width,
@@ -171,6 +199,7 @@ class ExpiringEquipmentScreen extends StatelessWidget {
                                                       data[index].statusId == 0
                                                   ? GetBuilder<HomeController>(
                                                       builder: (hdata) {
+                                                     
                                                       return Checkbox(
                                                           value: hdata
                                                                   .equipmentCheckValue[

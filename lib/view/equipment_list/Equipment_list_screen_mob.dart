@@ -10,9 +10,15 @@ import '../../core/constants/color_resources.dart';
 import '../../core/constants/common_widgets.dart';
 import '../home/bottom_navigation_screen.dart';
 
-class EquipmentListScreenMob extends StatelessWidget {
+class EquipmentListScreenMob extends StatefulWidget {
   const EquipmentListScreenMob({super.key});
 
+  @override
+  State<EquipmentListScreenMob> createState() => _EquipmentListScreenMobState();
+}
+
+class _EquipmentListScreenMobState extends State<EquipmentListScreenMob> {
+  bool isLoading = true;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -70,7 +76,7 @@ class EquipmentListScreenMob extends StatelessWidget {
                       List equipmentData = eqData.isCalibrationSection.value
                           ? eqData.customerEquipmentDataCalibration
                           : eqData.customerEquipmentData;
-                          print("sfedf $equipmentData");
+                      print("sfedf $equipmentData");
                       return Wrap(
                         children: eqData.isLoadingEquipments.value
                             ? [
@@ -84,7 +90,7 @@ class EquipmentListScreenMob extends StatelessWidget {
                                       height: 500.h,
                                       child: const Center(
                                         child: Text(
-                                          '',
+                                          'No equipments are currently available. They will be added soon. For assistance, contact the team!',
                                           textAlign: TextAlign.center,
                                         ),
                                       ),
@@ -160,15 +166,17 @@ class EquipmentListScreenMob extends StatelessWidget {
                                                                       index]
                                                                   .equipmentType,
                                                         ),
-                                                        if(homeController.isCalibrationSection.value)
-                                                        equipmentCommonItemWidget(
-                                                          keyText:
-                                                              'Calibration Type',
-                                                          valueText:
-                                                              equipmentData[
-                                                                      index]
-                                                                  .calibrationType,
-                                                        ),
+                                                        if (homeController
+                                                            .isCalibrationSection
+                                                            .value)
+                                                          equipmentCommonItemWidget(
+                                                            keyText:
+                                                                'Calibration Type',
+                                                            valueText:
+                                                                equipmentData[
+                                                                        index]
+                                                                    .calibrationType,
+                                                          ),
                                                         equipmentCommonItemWidget(
                                                           keyText:
                                                               'Expiring Date',
@@ -219,7 +227,11 @@ class EquipmentListScreenMob extends StatelessWidget {
                                                                       .statusId
                                                                       .toString() ==
                                                                   '11'
-                                                              ?homeController.isCalibrationSection.value? 'Calibration Finished': 'Inspection Finished'
+                                                              ? homeController
+                                                                      .isCalibrationSection
+                                                                      .value
+                                                                  ? 'Calibration Finished'
+                                                                  : 'Inspection Finished'
                                                               : equipmentData[
                                                                       index]
                                                                   .statusName,
@@ -235,17 +247,22 @@ class EquipmentListScreenMob extends StatelessWidget {
                                               Align(
                                                 alignment:
                                                     Alignment.centerRight,
-                                                child:equipmentData[
-                                                                      index].certificateCount==0?SizedBox(): ElevatedButton(
-                                                  child: const Text('View'),
-                                                  onPressed: () => Get.to(() =>
-                                                      EquipmentDetailScreen(
-                                                        equipmentId:
-                                                            equipmentData[index]
-                                                                .equipmentId
-                                                                .toString(),
-                                                      )),
-                                                ),
+                                                child: equipmentData[index]
+                                                            .certificateCount ==
+                                                        0
+                                                    ? SizedBox()
+                                                    : ElevatedButton(
+                                                        child: const Text(
+                                                            'Certificate List'),
+                                                        onPressed: () => Get.to(
+                                                            () =>
+                                                                EquipmentDetailScreen(
+                                                                  equipmentId: equipmentData[
+                                                                          index]
+                                                                      .equipmentId
+                                                                      .toString(),
+                                                                )),
+                                                      ),
                                               ),
                                               SizedBox(
                                                 height: 15.h,

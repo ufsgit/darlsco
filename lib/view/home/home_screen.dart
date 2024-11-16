@@ -343,8 +343,11 @@ class HomePageState extends State<HomePage>
                                 : TabAlignment.start,
 
                             onTap: (index) async {
-                              await upcomingInspectionsController
-                                  .getUpComingCalibration(isFromSplash: true);
+                              // await upcomingInspectionsController
+                              // .getUpComingCalibration(isFromSplash: true);
+                              if (homeController.isHomeLoading.value) {
+                                print('dfgswrlkkkjkhk 12343');
+                              } else {}
                               if (index == 2 &&
                                   homeController.isTraineeLogin.value == true &&
                                   homeController.isuserLogin.value == false) {
@@ -550,9 +553,14 @@ class HomePageState extends State<HomePage>
                                             // .showSnackBar(const SnackBar(
 
                                             //   content: Text('server failure')));
-
-                                            homeController
-                                                .functionsTrainingTab2[index]();
+                                            if (!homeController
+                                                .isHomeLoading.value) {
+                                              homeController.focusNode
+                                                  .unfocus();
+                                              homeController
+                                                      .functionsTrainingTab2[
+                                                  index]();
+                                            }
                                           },
                                           icon: GetBuilder<HomeController>(
                                               builder: (locationData) {
@@ -642,8 +650,14 @@ class HomePageState extends State<HomePage>
                                     (index) => IconButton(
                                           padding: const EdgeInsets.all(2),
                                           onPressed: () {
-                                            homeController
-                                                .functionsTrainingTab2[index]();
+                                            if (!homeController
+                                                .isHomeLoading.value) {
+                                              homeController.focusNode
+                                                  .unfocus();
+                                              homeController
+                                                      .functionsTrainingTab2[
+                                                  index]();
+                                            }
                                           },
                                           icon: GetBuilder<HomeController>(
                                               builder: (locationData) {

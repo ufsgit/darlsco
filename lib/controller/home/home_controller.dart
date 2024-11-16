@@ -45,6 +45,8 @@ final HomeController globalHomeController = Get.put(HomeController());
 class HomeController extends GetxController {
   String testKey = '1'; // 1 for  test and 0 for live
   RxBool isHomeLoading = false.obs;
+  RxBool isLoading = false.obs;
+  FocusNode focusNode = FocusNode();
   late TabController tabController;
   CarouselSliderController homeTab1CarouselController =
       CarouselSliderController();
@@ -737,7 +739,7 @@ class HomeController extends GetxController {
     pay(bookshelfXml, context, isRetake, orderMasterId);
   }
 
-  void getCustomerEquipments(context, locationId,
+  Future<void> getCustomerEquipments(context, locationId,
       {isFromLocationScreen = false}) async {
     isLoadingEquipments.value = true;
     update();
@@ -756,11 +758,14 @@ class HomeController extends GetxController {
       },
       endPoint: HttpUrls.getCustomerEquipments,
     ).then((value) {
+      print('sdkjbedifuwe $customerId');
+      print('sdkjbedifuwe $locationId');
       if (value.statusCode == 200) {
         if (isFromLocationScreen) {
           Get.to(
             () => const EquipmentListScreenMob(),
           );
+          // return;
         } else {
           if (value.data[0].isEmpty && isFromLocationScreen == false) {
             ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
@@ -776,7 +781,7 @@ class HomeController extends GetxController {
 
         // final data=jsonDecode(value.data[0].toString());
 // ist<CustomerEquipmentList> result= value.data[0].map((e)=>CustomerEquipmentList.fromJson(e)).toList()as  List<CustomerEquipmentList> ;
-
+        print('sdfasdkjnf ${equipmentCheckValue}');
         if (equipmentCheckValue.isEmpty ||
             equipmentCheckValue.length != customerEquipmentData.length) {
           equipmentCheckValue = List.generate(
@@ -787,7 +792,11 @@ class HomeController extends GetxController {
     });
 
     /// ============== Calibration Api ==================
+    ///
+    // if(!isFromLocationScreen){
+    //   print('dfwrferwgrd');
     getEquipmentsCalibration(context, locationId);
+    // }
     isLoadingEquipments.value = false;
 
     update();
@@ -807,6 +816,9 @@ class HomeController extends GetxController {
       },
       endPoint: HttpUrls.getCustomerEquipmentsCalibration,
     ).then((value) {
+      print('sdkjbedifuwe $customerId');
+      print('sdkjbedifuwe $locationId');
+
       print('dfgwr4tiow4oi4wroi ${value.statusCode}');
       if (value.statusCode == 200) {
         for (var element in value.data[0]) {
@@ -823,11 +835,13 @@ class HomeController extends GetxController {
             ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                 content: Text('No equipment found this location')));
           } else {
-            Get.to(() => HomeEquipmentListScreen());
+            if (homeController.isCalibrationSection.value) {
+              Get.to(() => HomeEquipmentListScreen());
+            }
           }
         }
 
-        print('dfgwr4tiow4oi4wroi $customerEquipmentDataCalibration');
+        print('dfgwr4tiow4oi4wroi $equipmentCheckValue');
 
         // final data=jsonDecode(value.data[0].toString());
 // ist<CustomerEquipmentList> result= value.data[0].map((e)=>CustomerEquipmentList.fromJson(e)).toList()as  List<CustomerEquipmentList> ;
@@ -839,6 +853,8 @@ class HomeController extends GetxController {
               homeController.customerEquipmentDataCalibration.length,
               (index) => false);
         }
+        print('dfgwr4tiow4oi4wroi $equipmentCheckValue');
+
         // print(customerEquipmentData[0].equipmentName);
       }
     });
@@ -919,13 +935,14 @@ class HomeController extends GetxController {
         customerEquipmentExpiringData
             .add(CustomerEquipmentList.fromJson(element));
       }
-
       if (equipmentCheckValue.isEmpty ||
           equipmentCheckValue.length != customerEquipmentExpiringData.length) {
         equipmentCheckValue = List.generate(
             homeController.customerEquipmentExpiringData.length,
             (index) => false);
       }
+      print('ndsjkdsf $equipmentCheckValue');
+
       // print(customerEquipmentData[0].equipmentName);
 
       homeController.numberTextList[2] =
@@ -981,17 +998,17 @@ class HomeController extends GetxController {
     int customerId = int.parse(sharedPreferences.getString('darlsco_id') ?? '');
     Map<String, dynamic> postDataExpiring = {};
     Map<String, dynamic> postData = {};
-    print('jnoiino ${ DateFormat('yyyy-MM-dd').format(
-            DateFormat('dd-MM-yyyy')
-                .parse(homeController.inspectionDateController.text))}');
+    // print(
+    //     'jnoiino ${DateFormat('yyyy-MM-dd').format(DateFormat('dd-MM-yyyy').parse(homeController.inspectionDateController.text))}');
     if (ispostdataExpiring == false) {
       postData = {
         // "Customer_Request_Id":0,
         "Customer_Id": customerId,
         "Entry_Date": DateTime.now().toString(),
-        "Inspection_Date": DateFormat('yyyy-MM-dd').format(
-            DateFormat('dd-MM-yyyy')
-                .parse(homeController.inspectionDateController.text)).toString(),
+        "Inspection_Date": DateFormat('yyyy-MM-dd')
+            .format(DateFormat('dd-MM-yyyy')
+                .parse(homeController.inspectionDateController.text))
+            .toString(),
         "Description": inspectionMessageController.text,
         "Location_Id": customerLocations
             .where((element) {
@@ -1001,12 +1018,11 @@ class HomeController extends GetxController {
             .locationId,
         "Equipments": equipmentListCustomer.map((e) => e).toList(),
       };
-
     } else {
       postDataExpiring = {
         // "Customer_Request_Id":0,
         "Customer_Id": customerId,
-        "Entry_Date": DateTime.now(),
+        "Entry_Date": DateTime.now().toString(),
         // "Inspection_Date": DateFormat('yyyy-MM-dd').format(
         //     DateFormat('dd-MM-yyyy')
         //         .parse(homeController.inspectionDateController.text)),
@@ -1071,6 +1087,9 @@ class HomeController extends GetxController {
                         ['Notification_Type_Name_'],
                   });
             }
+            if (homeController.isUserLoggedIn) {
+              await homeController.initfunction();
+            }
           } else {
             ScaffoldMessenger.of(context)
                 .showSnackBar(const SnackBar(content: Text('Server Error')));
@@ -1128,6 +1147,9 @@ class HomeController extends GetxController {
                     'Notification_Type_Name_': value.data[0]
                         ['Notification_Type_Name_'],
                   });
+            }
+            if (homeController.isUserLoggedIn) {
+              await homeController.initfunction();
             }
           } else {
             ScaffoldMessenger.of(context)

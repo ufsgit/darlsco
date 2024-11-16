@@ -34,6 +34,7 @@ class UpcomingInspectionsController extends GetxController {
   List totalEquipments = [];
   List upcomingInspectionListData = [];
   List upcomingInspectionListDataCalibration = [];
+  RxList upcomingTaskData = [].obs;
   List todayTaskListData = [];
   List todayTaskListDataCalibration = [];
   List tommorowTaskListData = [];
@@ -92,10 +93,12 @@ class UpcomingInspectionsController extends GetxController {
         });
       }
       isLoading.value = false;
+      update();
     } catch (e) {}
   }
 
-  getCustomerTask({required isFromSplash}) async {
+  getCustomerTask(
+      {required isFromSplash, bool isFromRescheduleScreen = false}) async {
     // Loader.showLoader();
     upcomingInspectionListData.clear();
     upcomingInspectionListDataCalibration.clear();
@@ -122,7 +125,8 @@ class UpcomingInspectionsController extends GetxController {
             '${upcomingInspectionListData.length}';
         homeController.update();
         if (isFromSplash == false) {
-          Get.to(() => UpcomingInspectionsScreen());
+          Get.to(() => UpcomingInspectionsScreen(
+              isFromRescheduleScreen: isFromRescheduleScreen));
         }
       } else {
         // ScaffoldMessenger.of(Get.context!)
@@ -131,8 +135,8 @@ class UpcomingInspectionsController extends GetxController {
     });
     // ========================= Calibration API==========================
     getUpComingCalibration(isFromSplash: isFromSplash);
-    print('1111111111111111111111111111111111111111111111 = 1');
     update();
+    print('1111111111111111111111111111111111111111111111 = 1');
   }
 
   getUpComingCalibration({required bool isFromSplash}) async {
@@ -168,6 +172,7 @@ class UpcomingInspectionsController extends GetxController {
         //     .showSnackBar(const SnackBar(content: Text('Server Error')));
       }
     });
+    update();
   }
 
   getAllEquipments({required isFromSplash, required isNotHomeBlock}) async {

@@ -27,6 +27,7 @@ class Tab2 extends StatefulWidget {
 }
 
 class _Tab2State extends State<Tab2> {
+  bool checkingEquipment = false;
   @override
   void initState() {
     getData();
@@ -40,7 +41,7 @@ class _Tab2State extends State<Tab2> {
   }
 
   getData() async {
-    if (homeController.isUserLoggedIn) {
+    if (homeController.isUserLoggedIn && !homeController.isHomeLoading.value) {
       await homeController.initfunction();
     }
   }
@@ -241,34 +242,52 @@ class _Tab2State extends State<Tab2> {
                           ),
                           if (homeController.isUserLoggedIn == true)
                             commonHmeButtonWidget(
-                                ontap: () {
+                                ontap: () async {
+                                  homeController.focusNode.unfocus();
+                                  if (!checkingEquipment) {
+                                    setState(() {
+                                      checkingEquipment = true;
+                                    });
+                                    try {
 // ScaffoldMessenger.of(context)
 //             .showSnackBar(const SnackBar(
 
 //               content: Text('homeController.inspectionDropdownValue.value')));
 
-                                  if (homeController
-                                          .inspectionDropdownValue.value ==
-                                      '') {
-                                    homeController.isChooseEquipment.value =
-                                        true;
-                                  } else {
-                                    final List<CustomerLocations>
-                                        loctionIdSearch = homeController
-                                            .customerLocations
-                                            .where((element) {
-                                      return element.locationName ==
-                                          homeController
-                                              .inspectionDropdownValue.value;
-                                    }).toList();
+                                      if (homeController
+                                              .inspectionDropdownValue.value ==
+                                          '') {
+                                        homeController.isChooseEquipment.value =
+                                            true;
+                                      } else {
+                                        final List<CustomerLocations>
+                                            loctionIdSearch = homeController
+                                                .customerLocations
+                                                .where((element) {
+                                          return element.locationName ==
+                                              homeController
+                                                  .inspectionDropdownValue
+                                                  .value;
+                                        }).toList();
 
-                                    homeController.isCalibrationSection.value
-                                        ? homeController
-                                            .getEquipmentsCalibration(context,
-                                                loctionIdSearch[0].locationId)
-                                        : homeController.getCustomerEquipments(
-                                            context,
-                                            loctionIdSearch[0].locationId);
+                                        homeController
+                                                .isCalibrationSection.value
+                                            ? await homeController
+                                                .getEquipmentsCalibration(
+                                                    context,
+                                                    loctionIdSearch[0]
+                                                        .locationId)
+                                            : await homeController
+                                                .getCustomerEquipments(
+                                                    context,
+                                                    loctionIdSearch[0]
+                                                        .locationId);
+                                      }
+                                    } finally {
+                                      setState(() {
+                                        checkingEquipment = false;
+                                      });
+                                    }
                                   }
                                 },
                                 buttonTxt: 'Choose Equipment'),
@@ -445,6 +464,7 @@ class _Tab2State extends State<Tab2> {
                           // ),
                           if (homeController.isUserLoggedIn == true)
                             TextFormField(
+                              focusNode: homeController.focusNode,
                               controller:
                                   homeController.inspectionMessageController,
                               maxLines: 3,
@@ -499,6 +519,7 @@ class _Tab2State extends State<Tab2> {
                         alignment: Alignment.center,
                         child: commonHmeButtonWidget(
                           ontap: () {
+                            homeController.focusNode.unfocus();
                             print('fdere');
                             if (homeController.isUserLoggedIn == true) {
                               //  Get.to(()=> DashBoardScreen());
@@ -519,8 +540,7 @@ class _Tab2State extends State<Tab2> {
                                   .inspectionDateController.text.isEmpty) {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                     const SnackBar(
-                                        content:
-                                            Text('Choose Date!')));
+                                        content: Text('Choose Date!')));
                               } else if (homeController
                                   .inspectionMessageController.text.isEmpty) {
                                 ScaffoldMessenger.of(context).showSnackBar(
@@ -537,7 +557,7 @@ class _Tab2State extends State<Tab2> {
                                       .isNotEmpty &&
                                   homeController
                                       .equipmentListCustomer.isNotEmpty) {
-                                        print('32323dfasdf');
+                                print('32323dfasdf');
                                 homeController.saveCustomerRequest(
                                     context: context);
                               }

@@ -232,8 +232,7 @@ class TrainingController extends GetxController {
                           ['Actual_Start_Date_Time1'] ==
                       null
                   ? ''
-                  : upcomingInspectionsController
-                      .taskUserDetailsCalibration[0]
+                  : upcomingInspectionsController.taskUserDetailsCalibration[0]
                           ['Actual_Start_Date_Time1']
                       .toString()
                       .toLowerCase(),
@@ -308,7 +307,7 @@ class TrainingController extends GetxController {
           Position position = await Geolocator.getCurrentPosition(
               desiredAccuracy: LocationAccuracy.high);
 
-          double distance = Geolocator.distanceBetween(position.latitude,
+        double distance = Geolocator.distanceBetween(position.latitude,
               position.longitude, fenceLatitude, fenceLongitude);
           var d = acos(sin(position.latitude) * sin(fenceLatitude) +
                   cos(position.latitude) *
@@ -316,12 +315,14 @@ class TrainingController extends GetxController {
                       cos(fenceLongitude - position.longitude)) *
               6371;
 
-          print('DISTANCE $distance');
-          if (distance == 500) {
-            await Loader.stopLoader();
+          print('DISTANCE $d');
+          // Get.snackbar('Location', 'You are ${d.round()} meter away');
+          // await Loader.stopLoader();
+
+          if (d <= 500) {
+            // await Loader.stopLoader();
             return 'inside';
           } else {
-            await Loader.stopLoader();
             return 'outside';
           }
         } catch (e) {

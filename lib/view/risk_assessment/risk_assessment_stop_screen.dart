@@ -77,7 +77,7 @@ class _RiskAssesmentStopScreenState extends State<RiskAssesmentStopScreen> {
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-            onPressed: () {
+            onPressed: ()async {
               bool areAnyTwoTrue = [
                     homeController.isTrainingEnabled,
                     homeController.isInspectionEnabled,
@@ -95,6 +95,7 @@ class _RiskAssesmentStopScreenState extends State<RiskAssesmentStopScreen> {
                 isNotPageNavigation: true,
               );
               if (homeController.isCalibrationSection.value) {
+
                 Get.offAll(
                   TrainingInspectionScreen(
                     selectedIndex: homeController.isInspectionEnabled &&
@@ -109,6 +110,8 @@ class _RiskAssesmentStopScreenState extends State<RiskAssesmentStopScreen> {
                             : 0,
                   ),
                 );
+                upcomingInspectionsController.update();
+
                 return;
               }
 

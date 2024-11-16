@@ -1122,6 +1122,7 @@ class TrainingControllerHomee extends GetxController {
                                   borderRadius: BorderRadius.circular(5)),
                               backgroundColor: const Color(0xFFE5AA17)),
                           onPressed: () async {
+                            print('dfknjfrvkef');
                             // widget.model.remainingDaysCount == 1
                             // Get.to(() => EligibleExamPage());
                             await trainingController.fetchTaskCount();
@@ -2051,8 +2052,8 @@ class TrainingControllerHomee extends GetxController {
           .toList();
     }
 
-    print(
-        'retake purchase bill ${trainingHomeController.examFailedTraineeDetails[0].orderMasterId}');
+    // print(
+    //     'retake purchase bill ${trainingHomeController.examFailedTraineeDetails[0].orderMasterId}');
 
     Map<String, dynamic> jsonData = {
       "Order_Master_Id_": orderMasterId,
