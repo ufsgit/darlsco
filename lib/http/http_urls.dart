@@ -94,7 +94,7 @@ class HttpUrls {
   // static String imageBase =
   //     'http://darlsco-files.s3-website.ap-south-1.amazonaws.com/';
   static String imageBase =
-      ' https://d2d3b4kzecpaau.cloudfront.net/';
+      'https://d2d3b4kzecpaau.cloudfront.net/';
   static String saveToCart = '/Public_Data/Save_Item_Cart/';
 
   static String saveTrainee = '/Public_Data/Save_Trainee_Details_App/';
