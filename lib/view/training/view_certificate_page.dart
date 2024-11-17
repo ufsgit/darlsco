@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:darlsco/core/constants/common_widgets.dart';
+import 'package:darlsco/http/http_urls.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_pdfview/flutter_pdfview.dart';
@@ -76,7 +77,7 @@ class _PDFViewerPageState extends State<PDFViewerPage>
     try {
     String filePath = '';
     final url =
-        'https://darlsco-files.s3.ap-south-1.amazonaws.com/${widget.pdfPath}';
+        '${HttpUrls.imageBase}${widget.pdfPath}';
     log('PDF SAVE : URL = $url');
     Directory dir;
 
