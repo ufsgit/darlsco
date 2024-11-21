@@ -17,6 +17,7 @@ class ExamFailedPage extends StatefulWidget {
 
 class _ExamFailedPageState extends State<ExamFailedPage> {
   final trainingHomeController = Get.put(TrainingControllerHomee());
+  
   @override
   void initState() {
     print('exam failed page');

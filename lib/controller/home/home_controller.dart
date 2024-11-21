@@ -298,7 +298,7 @@ class HomeController extends GetxController {
       // );
     },
     () {
-      Get.to(() => const ExpiringEquipmentScreen());
+      Get.to(() =>  ExpiringEquipmentScreen());
 
       // homeController.searchExpiringInspections(
       //     context: Get.context, isfromSplashScreen: false);
@@ -336,6 +336,8 @@ class HomeController extends GetxController {
   List getCurrentUsersList = [];
   List getCurrentUsersListCalibration = [];
   //methhod for getting device id
+  Map<String, dynamic> inspectionHomeCount = {};
+  Map<String, dynamic> calibrationHomeCount = {};
 
   //TODO===================
   bool isUserLoggedIn = false;
@@ -389,18 +391,19 @@ class HomeController extends GetxController {
 
     if (isUserLoggedIn) {
       print('frgertg3');
+      await getHomeScreenCardCount();
       await getCustomerPlace();
 
-      await upcomingInspectionsController.getCustomerTask(isFromSplash: true);
+      // await upcomingInspectionsController.getCustomerTask(isFromSplash: true);
       // for (var i = 0; i < 1; i++) {
       //   print('ferfget')
-      await upcomingInspectionsController.getAllEquipments(
-          isFromSplash: true, isNotHomeBlock: false);
+      // await upcomingInspectionsController.getAllEquipments(
+      //     isFromSplash: true, isNotHomeBlock: false);
       //     break;
       // }
 
-      await homeController.searchExpiringInspections(
-          context: Get.context, isfromSplashScreen: true);
+      // await homeController.searchExpiringInspections(
+      //     context: Get.context, isfromSplashScreen: true);
       upcomingInspectionsController.update();
     }
 
@@ -408,6 +411,23 @@ class HomeController extends GetxController {
     isHomeLoading.value = false;
 
     update();
+  }
+
+  getHomeScreenCardCount() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    int customerId = int.parse(sharedPreferences.getString('darlsco_id') ?? '');
+    try {
+      await HttpRequest.httpGetRequest(
+          endPoint: HttpUrls.getHomeCountOfInspection,
+          bodyData: {"Customer_Id_": customerId}).then((v) {
+        inspectionHomeCount = v.data[0][0];
+      });
+      await HttpRequest.httpGetRequest(
+          endPoint: HttpUrls.getHomeCountOfCalibration,
+          bodyData: {"Customer_Id_": customerId}).then((v) {
+        calibrationHomeCount = v.data[0][0];
+      });
+    } catch (e) {}
   }
 
   postPurchaseOrder() async {
@@ -540,8 +560,14 @@ class HomeController extends GetxController {
           : HttpUrls.getFullUsers,
     ).then((value) {
       if (value.data != null) {
-        getAllUsersListCalibration = value.data[0];
+        if(homeController.isCalibrationSection.value){
+getAllUsersListCalibration = value.data[0];
         getCurrentUsersListCalibration = value.data[1];
+        }else{
+          getAllUsersList = value.data[0];
+        getCurrentUsersList= value.data[1];
+        }
+        
         Get.to(() => const UserListScreen());
       }
       update();
@@ -560,7 +586,7 @@ class HomeController extends GetxController {
     }
   }
 
-  void changeTaskUser(BuildContext context) async {
+  Future<void> changeTaskUser(BuildContext context) async {
     try {
       Map<String, dynamic> changtaskBodyData = {
         'Task_Id_': homeController.isCalibrationSection.value
@@ -599,7 +625,7 @@ class HomeController extends GetxController {
             ? HttpUrls.changeTaskUserCallibertion
             : HttpUrls.changeTaskUser,
       ).then((value) async {
-        if (value.data[0].isNotEmpty) {
+        if (value.data["data"][0].isNotEmpty) {
           homeController.allUserDropDownValue.value = '';
           homeController.currentUserDropDownValue.value = '';
 
@@ -609,10 +635,13 @@ class HomeController extends GetxController {
           Get.offAll(() => TrainingInspectionScreen(
                 selectedIndex: mainTabIndex,
               ));
+        }else{
+          print('dfvsfvefd');
         }
         update();
       });
     } catch (e) {
+      print(e);
       // errorLoggingSnackbaR(context, functionName: 'changeTaskUser', error: e.toString());
     }
   }

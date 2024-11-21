@@ -18,6 +18,27 @@ class CompanyLocationScreen extends StatefulWidget {
 class _CompanyLocationScreenState extends State<CompanyLocationScreen> {
   final HomeController homeController = Get.put(HomeController());
   bool isLoading = false;
+  bool isScreenLoading = false;
+
+  @override
+  initState() {
+    super.initState();
+    getData();
+  }
+
+  getData() async {
+    try {
+      setState(() {
+        isScreenLoading = true;
+      });
+      await homeController.getCustomerPlace();
+    } finally {
+      setState(() {
+        isScreenLoading = false;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -72,153 +93,143 @@ class _CompanyLocationScreenState extends State<CompanyLocationScreen> {
                       SizedBox(
                         height: 44.h,
                       ),
-                      homeController.customerLocations.isEmpty
+                      isScreenLoading
                           ? SizedBox(
-                              height: 600.h,
-                              child: const Center(
-                                  child: Text(
-                                'No locations are currently available. They will be added soon. For assistance, contact the team!',
-                                textAlign: TextAlign.center,
-                              )),
-                            )
-                          : Expanded(
-                              child: ListView.separated(
-                                  itemCount:
-                                      homeController.customerLocations.length,
-                                  separatorBuilder: (context, index) =>
-                                      SizedBox(
-                                        height: 10.h,
-                                      ),
-                                  itemBuilder: (context, index) {
-                                    return Container(
-                                      padding: EdgeInsets.all(15.sp),
-                                      width: 367.w,
-                                      // height: 83.h,
-                                      decoration: BoxDecoration(
-                                          color: ColorResources.whiteColor,
-                                          borderRadius:
-                                              BorderRadius.circular(16.sp)),
-                                      child: Column(children: [
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Expanded(
-                                              flex: 80,
-                                              child: Row(
-                                                children: [
-                                                  Icon(
-                                                    Icons.location_on_outlined,
-                                                    size: 20.sp,
-                                                    color: ColorResources
-                                                        .color294C73,
+                            height: MediaQuery.sizeOf(context).height/2,
+                            child: Center(
+                                child: CircularProgressIndicator(),
+                              ),
+                          )
+                          : homeController.customerLocations.isEmpty
+                              ? SizedBox(
+                                  height: 600.h,
+                                  child: const Center(
+                                      child: Text(
+                                    'No locations are currently available. They will be added soon. For assistance, contact the team!',
+                                    textAlign: TextAlign.center,
+                                  )),
+                                )
+                              : Expanded(
+                                  child: ListView.separated(
+                                      itemCount: homeController
+                                          .customerLocations.length,
+                                      separatorBuilder: (context, index) =>
+                                          SizedBox(
+                                            height: 10.h,
+                                          ),
+                                      itemBuilder: (context, index) {
+                                        return Container(
+                                          padding: EdgeInsets.all(15.sp),
+                                          // width: 367.w,
+                                          // height: 83.h,
+                                          decoration: BoxDecoration(
+                                              color: ColorResources.whiteColor,
+                                              borderRadius:
+                                                  BorderRadius.circular(16.sp)),
+                                          child: Column(children: [
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Expanded(
+                                                  // flex: 80,
+                                                  child: Row(
+                                                    children: [
+                                                      Icon(
+                                                        Icons
+                                                            .location_on_outlined,
+                                                        size: 20.sp,
+                                                        color: ColorResources
+                                                            .color294C73,
+                                                      ),
+                                                      SizedBox(
+                                                        width: 17.w,
+                                                      ),
+                                                      Expanded(
+                                                        child: Text(
+                                                            homeController
+                                                                .customerLocations[
+                                                                    index]
+                                                                .locationName,
+                                                            style: TextStyle(
+                                                                fontSize: 16.sp,
+                                                                fontWeight:
+                                                                    FontWeight.w700,
+                                                                color: ColorResources
+                                                                    .color294C73),
+                                                          
+                                                        ),
+                                                      ),
+                                                    ],
                                                   ),
-                                                  SizedBox(
-                                                    width: 17.w,
-                                                  ),
-                                                  SizedBox(
-                                                    width: MediaQuery.of(
-                                                                        context)
-                                                                    .size
-                                                                    .width >
-                                                                600 &&
-                                                            MediaQuery.of(
-                                                                        context)
-                                                                    .size
-                                                                    .width <
-                                                                1440
-                                                        ? 400.w
-                                                        : 200.w,
-                                                    child: Text(
-                                                      homeController
-                                                          .customerLocations[
-                                                              index]
-                                                          .locationName,
-                                                      style: TextStyle(
-                                                          fontSize: 16.sp,
-                                                          fontWeight:
-                                                              FontWeight.w700,
-                                                          color: ColorResources
-                                                              .color294C73),
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
+                                                ),
+                                                
+                                              ],
                                             ),
-                                            Expanded(
-                                              flex: 20,
-                                              child: TextButton(
-                                                onPressed: () async {
-                                                  setState(
-                                                      () => isLoading = true);
-                                                  try {
-                                                    homeController
-                                                            .isCalibrationSection
-                                                            .value
-                                                        ? await homeController
-                                                            .getEquipmentsCalibration(
-                                                                context,
-                                                                homeController
-                                                                    .customerLocations[
-                                                                        index]
-                                                                    .locationId,
-                                                                isFromLocationScreen:
-                                                                    true)
-                                                        : await homeController
-                                                            .getCustomerEquipments(
-                                                                context,
-                                                                homeController
-                                                                    .customerLocations[
-                                                                        index]
-                                                                    .locationId,
-                                                                isFromLocationScreen:
-                                                                    true);
-                                                  } finally {
+                                            Row(
+                                              mainAxisAlignment: MainAxisAlignment.end,
+                                              children: [
+                                                ElevatedButton(
+
+                                                  onPressed: () async {
                                                     setState(() =>
-                                                        isLoading = false);
-                                                  }
-                                                },
-                                                child: Container(
-                                                  width: 100.w,
-                                                  height: 32.w,
-                                                  padding: EdgeInsets.all(5.w),
-                                                  decoration: BoxDecoration(
-                                                      color: ColorResources
-                                                          .colorDCCCFF,
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              43.sp)),
+                                                        isLoading = true);
+                                                    try {
+                                                      homeController
+                                                              .isCalibrationSection
+                                                              .value
+                                                          ? await homeController.getEquipmentsCalibration(
+                                                              context,
+                                                              homeController
+                                                                  .customerLocations[
+                                                                      index]
+                                                                  .locationId,
+                                                              isFromLocationScreen:
+                                                                  true)
+                                                          : await homeController.getCustomerEquipments(
+                                                              context,
+                                                              homeController
+                                                                  .customerLocations[
+                                                                      index]
+                                                                  .locationId,
+                                                              isFromLocationScreen:
+                                                                  true);
+                                                    } finally {
+                                                      setState(() =>
+                                                          isLoading = false);
+                                                    }
+                                                  },
                                                   child: Center(
                                                       child: Text(
-                                                    'view',
+                                                    'View Equipment',
                                                     style: TextStyle(
                                                         fontSize: 14.sp,
                                                         fontWeight:
-                                                            FontWeight.w500),
+                                                            FontWeight
+                                                                .bold),
                                                   )),
                                                 ),
-                                              ),
-                                            )
-                                          ],
-                                        ),
-                                        SizedBox(
-                                          height: 14.h,
-                                        ),
-                                        //   Row(
-                                        //     children: [
-                                        //       Icon(Icons.build_outlined, size: 20.sp,color: ColorResources.color294C73,),
+                                              ],
+                                            ),
+                                            SizedBox(
+                                              height: 14.h,
+                                            ),
+                                            //   Row(
+                                            //     children: [
+                                            //       Icon(Icons.build_outlined, size: 20.sp,color: ColorResources.color294C73,),
 
-                                        //         SizedBox(width: 17.w,),
-                                        //       Text(
-                                        //        loginController.companyEquipmentList[index],
-                                        //         style: TextStyle(fontSize: 13.sp),
-                                        //       ),
-                                        //     ],
-                                        //   ),
-                                      ]),
-                                    );
-                                  }),
-                            ),
+                                            //         SizedBox(width: 17.w,),
+                                            //       Text(
+                                            //        loginController.companyEquipmentList[index],
+                                            //         style: TextStyle(fontSize: 13.sp),
+                                            //       ),
+                                            //     ],
+                                            //   ),
+                                          ]),
+                                        );
+                                      }),
+                                ),
                     ])),
             if (isLoading) loadingWidget
           ],

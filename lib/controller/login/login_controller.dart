@@ -190,6 +190,11 @@ class LoginController extends GetxController {
           homeController.isTraineee.value = data['0'][0]['Training'].toString();
           homeController.isInspectionSection.value =
               data['0'][0]['Inspection'] == '1';
+               homeController.isTrainingSectionnew.value =
+              data['0'][0]['Training'] == '1';
+               homeController.isCalibrationSection.value =
+              data['0'][0]['Calibration'] == '1';
+              print('dfnsdefwe ${homeController.isTrainingSectionnew.value}');
 
           //     if (isFromSplashOrLogin) {
           //         homeController.isInspectionSection.value =

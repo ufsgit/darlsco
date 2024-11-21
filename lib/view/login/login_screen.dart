@@ -178,7 +178,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                       context: context);
                                 }
 
-                                Future.delayed(
+                            Future.delayed(
                                   const Duration(milliseconds: 600),
                                   () {},
                                 );

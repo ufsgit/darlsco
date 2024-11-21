@@ -111,7 +111,7 @@ class _UserListScreenState extends State<UserListScreen> {
         alignment: Alignment.centerRight,
         child: IconButton(
             padding: EdgeInsets.all(4.w),
-            onPressed: () {
+            onPressed: ()async {
               print('sdfgswd');
               try {
                 setState(() {
@@ -119,7 +119,7 @@ class _UserListScreenState extends State<UserListScreen> {
                 });
               if (homeController.allUserDropDownValue.value != '' &&
                   homeController.currentUserDropDownValue.value != '') {
-                homeController.changeTaskUser(context);
+             await   homeController.changeTaskUser(context);
               } else {
                 if (homeController.currentUserDropDownValue.value == '') {
                   ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
@@ -130,9 +130,9 @@ class _UserListScreenState extends State<UserListScreen> {
                 }
               }
               } finally{
-                //    setState(() {
-                //   isLoading=false;
-                // });
+                   setState(() {
+                  isLoading=false;
+                });
               }
             },
             icon: Container(

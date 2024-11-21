@@ -1,3 +1,4 @@
+import 'package:darlsco/controller/home/home_controller.dart';
 import 'package:darlsco/controller/risk_assessment/risk_assessment_controller.dart';
 import 'package:darlsco/controller/tainning/trainnig_controller.dart';
 import 'package:darlsco/core/constants/color_resources.dart';
@@ -77,7 +78,7 @@ class _RiskAssesmentStopScreenState extends State<RiskAssesmentStopScreen> {
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-            onPressed: ()async {
+            onPressed: () async {
               bool areAnyTwoTrue = [
                     homeController.isTrainingEnabled,
                     homeController.isInspectionEnabled,
@@ -95,19 +96,11 @@ class _RiskAssesmentStopScreenState extends State<RiskAssesmentStopScreen> {
                 isNotPageNavigation: true,
               );
               if (homeController.isCalibrationSection.value) {
+                upcomingInspectionController.taskInitFunction(context);
 
                 Get.offAll(
                   TrainingInspectionScreen(
-                    selectedIndex: homeController.isInspectionEnabled &&
-                                homeController.isTrainingEnabled &&
-                                homeController.isCalibrationEnabled ||
-                            !homeController.isInspectionEnabled &&
-                                !homeController.isTrainingEnabled &&
-                                !homeController.isCalibrationEnabled
-                        ? 2
-                        : areAnyTwoTrue
-                            ? 1
-                            : 0,
+                    selectedIndex: homeController.mainTabIndex,
                   ),
                 );
                 upcomingInspectionsController.update();
@@ -615,7 +608,11 @@ class _RiskAssesmentStopScreenState extends State<RiskAssesmentStopScreen> {
                                             ['Role_Id']
                                         .toString() ==
                                     '38') {
-                              Get.to(() => const TrainingInspectionScreen());
+                              upcomingInspectionController
+                                  .taskInitFunction(context);
+
+                              Get.to(() => TrainingInspectionScreen(
+                                  selectedIndex: homeController.mainTabIndex));
                             } else {
                               try {
                                 setState(() {
@@ -648,8 +645,12 @@ class _RiskAssesmentStopScreenState extends State<RiskAssesmentStopScreen> {
                             ? Container()
                             : TextButton(
                                 onPressed: () {
-                                  Get.to(
-                                      () => const TrainingInspectionScreen());
+                                  upcomingInspectionController
+                                      .taskInitFunction(context);
+
+                                  Get.to(() =>  TrainingInspectionScreen(
+                                      selectedIndex:
+                                          homeController.mainTabIndex));
                                 },
                                 child: Text(
                                   'Cancel',

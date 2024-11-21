@@ -38,7 +38,8 @@ class HttpUrls {
 
   static String getCustomerPlace = '/Customer/get_Customer_Place/';
   static String saveEnquiries = '/public_Data/Save_Enquiries/';
-  static String saveEnquiriesCalibration = '/public_Data/Save_Enquiries_Calibration/';
+  static String saveEnquiriesCalibration =
+      '/public_Data/Save_Enquiries_Calibration/';
 
   static String getCustomerTask = '/Customer/Get_Customer_Task/';
   static String getCustomerTaskCalibration =
@@ -50,19 +51,24 @@ class HttpUrls {
   static String getUserTask = '/Customer/Get_User_Task/';
 
   static String getUserTaskDateRange = '/Customer/Get_User_Task_Date_Range/';
-  static String getUserTaskDateRangeCalibration = '/Customer/Get_User_Task_Date_Range_Calibration/';
+  static String getUserTaskDateRangeCalibration =
+      '/Customer/Get_User_Task_Date_Range_Calibration/';
 
   static String getTaskDetails = '/Customer/Get_Task_Details/';
-  static String getTaskDetailsCalibration = '/Customer/Get_Task_Details_Calibration/';
+  static String getTaskDetailsCalibration =
+      '/Customer/Get_Task_Details_Calibration/';
 
   static String saveTaskDetails = '/Customer/save_task_details/';
-  static String saveTaskDetailsCalibration = '/Customer/save_task_details_calibration/';
+  static String saveTaskDetailsCalibration =
+      '/Customer/save_task_details_calibration/';
 
   static String getTestEquipment = '/Customer/Get_Test_Equpitment/';
-  static String getTestEquipmentCalibration = '/Customer/Get_Test_Equipment_Calibration/';
+  static String getTestEquipmentCalibration =
+      '/Customer/Get_Test_Equipment_Calibration/';
 
-  static String getTestDocument = '/Customer/Get_Test_Document/';
-  static String getTestDocumentCalibration = '/Customer/Get_Test_Document_Calibration/';
+  static String getTestDocument = '/Customer/Get_Test_Document/0';
+  static String getTestDocumentCalibration =
+      '/Customer/Get_Test_Document_Calibration/';
 
   static String saveTaskTest = '/Customer/Save_Task_Test/';
 
@@ -95,18 +101,26 @@ class HttpUrls {
       '/Customer/Get_Total_Equipments_Calibration/';
 
   static String saveTaskStop = '/Customer/Save_Task_Stop/';
-  static String saveTaskStopCalibration = '/Customer/Save_Task_Stop_Calibration/';
-
+  static String saveTaskStopCalibration =
+      '/Customer/Save_Task_Stop_Calibration/';
 
   static String savePublicInspection = '/public_Data/Save_Public_Inspection/';
   static String saveCustomerReschedule = '/Customer/Save_Customer_Reschedule/';
-  static String saveCustomerRescheduleCalibration = '/Customer/Save_Customer_Reschedule_Calibration/';
+  static String saveCustomerRescheduleCalibration =
+      '/Customer/Save_Customer_Reschedule_Calibration/';
 
   static String getFullUsers = '/Customer/Get_Full_Users/';
-  static String getFullUsersCalibration = '/Customer/Get_Full_Users_Calibration/';
+  static String getFullUsersCalibration =
+      '/Customer/Get_Full_Users_Calibration/';
+
+  static String getHomeCountOfCalibration =
+      '/Customer/Get_Customer_Location_Equipments_Count_Calibration/';
+  static String getHomeCountOfInspection =
+      '/Customer/Get_Customer_Location_Equipments_Count_Inspection/';
 
   static String changeTaskUser = '/Customer/Change_Task_User/';
-  static String changeTaskUserCallibertion = '/Customer/Change_Task_User_Calibration/';
+  static String changeTaskUserCallibertion =
+      '/Customer/Change_Task_User_Calibration/';
 
   // static String changeTaskUser = '/Customer/Change_Task_User/';
   static String checkVersion = '/Public_Data/Check_Version/';
@@ -185,7 +199,8 @@ class HttpUrls {
   static String searchEmiratesId =
       '/training_Order_Request_Master/fetchTraineeDetailsByEmiratesId';
   static String getAllUserTaskStatus = '/Customer/Get_All_Users_Task_Status/';
-    static String getAllUserTaskStatusCalibration = '/Customer/Get_All_Users_Task_Status_Calibration/';
+  static String getAllUserTaskStatusCalibration =
+      '/Customer/Get_All_Users_Task_Status_Calibration/';
 
   static String updateItemCartQuatity =
       '/Public_Data/Update_Itemcart_Quantity/';

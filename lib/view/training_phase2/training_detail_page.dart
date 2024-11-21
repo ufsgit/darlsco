@@ -125,18 +125,21 @@ class _Training_DetailsState extends State<Training_Details> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      ClipRRect(
-                        borderRadius: const BorderRadius.only(
-                          topLeft: Radius.circular(10),
-                          topRight: Radius.circular(10),
-                          bottomLeft: Radius.circular(10),
-                          bottomRight: Radius.circular(100),
-                        ), // Adjust the radius as needed
-                        child: Image.network(
-                          imageName,
-                          fit: BoxFit.cover,
-                          width: MediaQuery.sizeOf(context).width,
-                          height: 350,
+                      Hero(
+                        tag: '1',
+                        child: ClipRRect(
+                          borderRadius: const BorderRadius.only(
+                            topLeft: Radius.circular(10),
+                            topRight: Radius.circular(10),
+                            bottomLeft: Radius.circular(10),
+                            bottomRight: Radius.circular(100),
+                          ), // Adjust the radius as needed
+                          child: Image.network(
+                            imageName,
+                            fit: BoxFit.cover,
+                            width: MediaQuery.sizeOf(context).width,
+                            height: 350,
+                          ),
                         ),
                       ),
 

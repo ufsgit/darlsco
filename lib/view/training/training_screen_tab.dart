@@ -3,6 +3,7 @@ import 'package:darlsco/core/constants/color_resources.dart';
 import 'package:darlsco/view/home/bottom_navigation_screen.dart';
 import 'package:darlsco/view/risk_assessment/risk_assessment_stop_screen.dart';
 import 'package:darlsco/view/training/training_screen_mobile.dart';
+import 'package:darlsco/view/widgets/loader.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -1338,8 +1339,7 @@ Container trainningGridWidget(
                                   .taskEquipmentListDataCalibration.length
                               : upcomingInspectionsController
                                   .taskEquipmentListData.length, (index) {
-                        print(
-                            'fiiurreoiu ${upcomingInspectionsController.taskEquipmentListDataCalibration.length}');
+                     //    'fiiurreoiu ${upcomingInspectionsController.taskEquipmentListDataCalibration.length}');
                         return GetBuilder<UpcomingInspectionsController>(
                             builder: (eqpmentListData) {
                           return SizedBox(

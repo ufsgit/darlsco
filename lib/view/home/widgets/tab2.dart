@@ -31,6 +31,7 @@ class _Tab2State extends State<Tab2> {
   @override
   void initState() {
     getData();
+
     homeController.checkCountryCode(context);
     homeController.inspectionDropdownValue.value = '';
     homeController.equipmentListCustomer = {};
@@ -46,6 +47,7 @@ class _Tab2State extends State<Tab2> {
     }
   }
 
+  ScrollController scrollController = ScrollController();
   HomeController homeController = Get.put(HomeController());
 
   @override
@@ -60,6 +62,7 @@ class _Tab2State extends State<Tab2> {
             }
           },
           child: SingleChildScrollView(
+            controller: scrollController,
             physics: const AlwaysScrollableScrollPhysics(),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -560,6 +563,11 @@ class _Tab2State extends State<Tab2> {
                                 print('32323dfasdf');
                                 homeController.saveCustomerRequest(
                                     context: context);
+                                scrollController.animateTo(
+                                  scrollController.position.minScrollExtent,
+                                  curve: Curves.easeOut,
+                                  duration: const Duration(milliseconds: 500),
+                                );
                               }
                             } else {
                               // homeController.publicTextboxValidation();

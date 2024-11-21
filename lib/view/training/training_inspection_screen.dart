@@ -35,6 +35,7 @@ class _TrainingInspectionScreenState extends State<TrainingInspectionScreen> {
   void initState() {
   getData();
 
+
     //  homeController.getAllusers();
 // print('dfnojwenfoiw ${homeController.isInspectionSection.value}');
 // print('dfnojwenfoiw ${homeController.isTrainingSectionnew.value}');
@@ -94,7 +95,7 @@ try {
                   leading: Container(),
                   backgroundColor: ColorResources.colorTransparent,
                   // leading: Builder(builder: (ctx) {
-                  //   return customDrawerIcon(context: ctx);
+                //   return customDrawerIcon(context: ctx);
                   // }),
                   actions: [
                     Container(

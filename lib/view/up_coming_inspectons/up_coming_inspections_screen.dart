@@ -11,22 +11,38 @@ import '../../core/constants/common_widgets.dart';
 import '../re_schedule_inspections/re_schedule_inspections_screen.dart';
 
 class UpcomingInspectionsScreen extends StatefulWidget {
-  const UpcomingInspectionsScreen({super.key,this.isFromRescheduleScreen=false});
-final bool isFromRescheduleScreen ;
+  const UpcomingInspectionsScreen(
+      {super.key, this.isFromRescheduleScreen = false});
+  final bool isFromRescheduleScreen;
 
   @override
-  State<UpcomingInspectionsScreen> createState() => _UpcomingInspectionsScreenState();
+  State<UpcomingInspectionsScreen> createState() =>
+      _UpcomingInspectionsScreenState();
 }
 
 class _UpcomingInspectionsScreenState extends State<UpcomingInspectionsScreen> {
   final upcomingController = Get.put(UpcomingInspectionsController());
-@override
-initState(){
-  super.initState();
-  if(widget.isFromRescheduleScreen){
-    upcomingInspectionsController.getCustomerTask(isFromSplash: true);
+  bool isScreenLoading = false;
+  @override
+  initState() {
+    super.initState();
+    // if(widget.isFromRescheduleScreen){
+    getData(); // }
   }
-}
+
+  getData() async {
+    try {
+      setState(() {
+        isScreenLoading = true;
+      });
+      await upcomingInspectionsController.getCustomerTask(isFromSplash: true);
+    } finally {
+      setState(() {
+        isScreenLoading = false;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -55,214 +71,243 @@ initState(){
             padding: EdgeInsets.all(15.sp),
             width: Get.width,
             height: Get.height,
-            child: SingleChildScrollView(
-              child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    RichText(
-                        text: TextSpan(children: [
-                      TextSpan(
-                        text: 'Upcoming',
-                        style: GoogleFonts.roboto(
-                            color: ColorResources.color294C73,
-                            fontSize: 40.sp,
-                            fontWeight: FontWeight.w700),
-                      ),
-                      TextSpan(
-                        text: homeController.isCalibrationSection.value
-                            ? ' Calibration'
-                            : ' Inspections',
-                        style: GoogleFonts.roboto(
-                          fontSize: 40.sp,
-                          fontWeight: FontWeight.w700,
-                          foreground: Paint()
-                            ..style = PaintingStyle.stroke
-                            ..strokeWidth = 1
-                            ..color = ColorResources.color294C73,
+            child: RefreshIndicator(
+              onRefresh: () => getData(),
+              child: SingleChildScrollView(
+                physics: AlwaysScrollableScrollPhysics(),
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      RichText(
+                          text: TextSpan(children: [
+                        TextSpan(
+                          text: 'Upcoming',
+                          style: GoogleFonts.roboto(
+                              color: ColorResources.color294C73,
+                              fontSize: 40.sp,
+                              fontWeight: FontWeight.w700),
                         ),
+                        TextSpan(
+                          text: homeController.isCalibrationSection.value
+                              ? ' Calibration'
+                              : ' Inspections',
+                          style: GoogleFonts.roboto(
+                            fontSize: 40.sp,
+                            fontWeight: FontWeight.w700,
+                            foreground: Paint()
+                              ..style = PaintingStyle.stroke
+                              ..strokeWidth = 1
+                              ..color = ColorResources.color294C73,
+                          ),
+                        ),
+                      ])),
+                      SizedBox(
+                        height: 44.h,
                       ),
-                    ])),
-                    SizedBox(
-                      height: 44.h,
-                    ),
-                    Column(
-                      children: [
-                        GetBuilder<UpcomingInspectionsController>(
-                            builder: (customerData) {
-                          upcomingInspectionsController.upcomingTaskData.value =
-                              homeController.isCalibrationSection.value
-                                  ? customerData
-                                      .upcomingInspectionListDataCalibration
-                                  : customerData.upcomingInspectionListData;
+                      Column(
+                        children: [
+                          GetBuilder<UpcomingInspectionsController>(
+                              builder: (customerData) {
+                            upcomingInspectionsController
+                                    .upcomingTaskData.value =
+                                homeController.isCalibrationSection.value
+                                    ? customerData
+                                        .upcomingInspectionListDataCalibration
+                                    : customerData.upcomingInspectionListData;
 
-                          return Wrap(
-                            spacing: 20.w,
-                            children:
-                                upcomingInspectionsController
-                                        .upcomingTaskData.value.isNotEmpty
-                                    ? List.generate(
-                                        upcomingInspectionsController
-                                            .upcomingTaskData.value.length,
-                                        (index) => Container(
-                                          width:
-                                              Get.width > 615 ? 390.w : 360.w,
-                                          // height: 217.h,
-                                          margin: EdgeInsets.only(top: 15.h),
-                                          padding: EdgeInsets.only(
-                                              left: 15.sp,
-                                              right: 15.sp,
-                                              top: 15.sp),
-                                          decoration: BoxDecoration(
-                                              color: Colors.white,
-                                              borderRadius:
-                                                  BorderRadius.circular(6.sp)),
-                                          child: Stack(
-                                            alignment: Alignment.centerRight,
-                                            children: [
-                                              Align(
-                                                alignment:
-                                                    Alignment.centerRight,
-                                                child: Icon(
-                                                  Icons.handyman,
-                                                  color: ColorResources
-                                                      .color294C73
-                                                      .withOpacity(0.10),
-                                                  size: 100.sp,
+                            return Wrap(
+                              spacing: 20.w,
+                              children: isScreenLoading
+                                  ? [
+                                      SizedBox(
+
+                            height: MediaQuery.sizeOf(context).height/2,
+                                        child: Center(
+                                          child: CircularProgressIndicator(),
+                                        ),
+                                      )
+                                    ]
+                                  : upcomingInspectionsController
+                                          .upcomingTaskData.value.isNotEmpty
+                                      ? List.generate(
+                                          upcomingInspectionsController
+                                              .upcomingTaskData.value.length,
+                                          (index) => Container(
+                                            width:
+                                                Get.width > 615 ? 390.w : 360.w,
+                                            // height: 217.h,
+                                            margin: EdgeInsets.only(top: 15.h),
+                                            padding: EdgeInsets.only(
+                                                left: 15.sp,
+                                                right: 15.sp,
+                                                top: 15.sp),
+                                            decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                borderRadius:
+                                                    BorderRadius.circular(
+                                                        6.sp)),
+                                            child: Stack(
+                                              alignment: Alignment.centerRight,
+                                              children: [
+                                                Align(
+                                                  alignment:
+                                                      Alignment.centerRight,
+                                                  child: Icon(
+                                                    Icons.handyman,
+                                                    color: ColorResources
+                                                        .color294C73
+                                                        .withOpacity(0.10),
+                                                    size: 100.sp,
+                                                  ),
                                                 ),
-                                              ),
-                                              Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  // Text(
-                                                  //   equipmentListController
-                                                  //       .equipmentListData[index]['title'],
-                                                  //   style: TextStyle(
-                                                  //     fontFamily: "DM Sans",
-                                                  //     fontSize: 16.sp,
-                                                  //     fontWeight: FontWeight.w700,
-                                                  //     color: ColorResources.color294C73,
-                                                  //   ),
-                                                  //   textAlign: TextAlign.left,
-                                                  // ),
-                                                  // SizedBox(
-                                                  //   height: 18.h,
-                                                  // ),
-                                                  Row(
-                                                    children: [
-                                                      Expanded(
-                                                        flex: 50,
-                                                        child: Column(
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .start,
-                                                            children: [
-                                                              upcomingInspectionCommonItemWidget(
-                                                                icon: Icons
-                                                                    .business,
-                                                                valueText: upcomingInspectionsController
-                                                                            .upcomingTaskData
-                                                                            .value[index]
-                                                                        [
-                                                                        'Task_Name'] ??
-                                                                    '',
-                                                              ),
-                                                              upcomingInspectionCommonItemWidget(
-                                                                icon: Icons
-                                                                    .calendar_month,
-                                                                valueText: DateFormat('dd-MM-yyyy').format(DateTime.parse((upcomingInspectionsController.upcomingTaskData.value[index]
-                                                                            [
-                                                                            'Reschedule_Date'] ==
-                                                                        null
-                                                                    ? upcomingInspectionsController.upcomingTaskData.value[index]
-                                                                            [
-                                                                            'Task_Date'] ??
-                                                                        ''
-                                                                    : upcomingInspectionsController
-                                                                            .upcomingTaskData
-                                                                            .value[index]['Reschedule_Date'] ??
-                                                                        ""))),
-                                                              ),
-                                                              upcomingInspectionCommonItemWidget(
-                                                                icon: Icons
-                                                                    .timer_outlined,
-                                                                valueText: upcomingInspectionsController
-                                                                            .upcomingTaskData
-                                                                            .value[index]
-                                                                        [
-                                                                        'Time'] ??
-                                                                    '',
-                                                              ),
-                                                              upcomingInspectionCommonItemWidget(
-                                                                icon: Icons
-                                                                    .location_on_outlined,
-                                                                valueText: upcomingInspectionsController
-                                                                            .upcomingTaskData
-                                                                            .value[index]
-                                                                        [
-                                                                        'Location_Name'] ??
-                                                                    '',
-                                                              ),
-                                                              upcomingInspectionCommonItemWidget(
-                                                                icon: Icons
-                                                                    .person,
-                                                                valueText: upcomingInspectionsController
-                                                                            .upcomingTaskData
-                                                                            .value[index]
-                                                                        [
-                                                                        'User_Details_Name'] ??
-                                                                    '',
-                                                              ),
-                                                              // upcomingInspectionCommonItemWidget(
-                                                              //   icon: Icons.abc,
-                                                              //   valueText: equipmentListController
-                                                              //       .equipmentListData[index]['make'],
-                                                              // ),
-                                                              //  upcomingInspectionCommonItemWidget(
-                                                              //   icon: Icons.abc,
-                                                              //   valueText: equipmentListController.equipmentListData[index]['model'],
-                                                              // ),
-                                                              //  upcomingInspectionCommonItemWidget(
-                                                              //   icon:  Icons.abc,
-                                                              //   valueText: equipmentListController.equipmentListData[index]['serial_no'],
-                                                              // ),
-                                                              //  upcomingInspectionCommonItemWidget(
-                                                              //   icon:  Icons.abc,
-                                                              //   valueText: equipmentListController.equipmentListData[index]['expiring_date'],
-                                                              // ),
-                                                              SizedBox(
-                                                                height: 20.h,
-                                                              ),
-
-                                                              upcomingInspectionsController
+                                                Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    // Text(
+                                                    //   equipmentListController
+                                                    //       .equipmentListData[index]['title'],
+                                                    //   style: TextStyle(
+                                                    //     fontFamily: "DM Sans",
+                                                    //     fontSize: 16.sp,
+                                                    //     fontWeight: FontWeight.w700,
+                                                    //     color: ColorResources.color294C73,
+                                                    //   ),
+                                                    //   textAlign: TextAlign.left,
+                                                    // ),
+                                                    // SizedBox(
+                                                    //   height: 18.h,
+                                                    // ),
+                                                    Row(
+                                                      children: [
+                                                        Expanded(
+                                                          flex: 50,
+                                                          child: Column(
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .start,
+                                                              children: [
+                                                                upcomingInspectionCommonItemWidget(
+                                                                  icon: Icons
+                                                                      .business,
+                                                                  valueText: upcomingInspectionsController
                                                                           .upcomingTaskData
-                                                                          .value[
-                                                                              index]
+                                                                          .value[index]['Task_Name'] ??
+                                                                      '',
+                                                                ),
+                                                                upcomingInspectionCommonItemWidget(
+                                                                  icon: Icons
+                                                                      .calendar_month,
+                                                                  valueText: DateFormat('dd-MM-yyyy').format(DateTime.parse((upcomingInspectionsController.upcomingTaskData.value[index]
                                                                               [
-                                                                              'Task_Status_Id']
-                                                                          .toString() !=
-                                                                      '7'
-                                                                  ? IconButton(
-                                                                      onPressed:
-                                                                          () {
-                                                                        if (upcomingInspectionsController.upcomingTaskData.value[index]['Task_Status_Id'].toString() !=
-                                                                            '7') {
-                                                                          Get.to(() =>
-                                                                              ReScheduleInspectionsScreen(
-                                                                                inspectionDate: DateFormat('dd-MM-yyyy').format(DateTime.parse((upcomingInspectionsController.upcomingTaskData.value[index]['Reschedule_Date'] == null ? upcomingInspectionsController.upcomingTaskData.value[index]['Task_Date'] ?? '' : upcomingInspectionsController.upcomingTaskData.value[index]['Reschedule_Date'] ?? ""))),
-                                                                                taskId: upcomingInspectionsController.upcomingTaskData.value[index]['Task_Id'].toString(),
-                                                                              ));
-                                                                        }
-                                                                      },
-                                                                      icon:
-                                                                          Container(
+                                                                              'Reschedule_Date'] ==
+                                                                          null
+                                                                      ? upcomingInspectionsController.upcomingTaskData.value[index]
+                                                                              [
+                                                                              'Task_Date'] ??
+                                                                          ''
+                                                                      : upcomingInspectionsController
+                                                                              .upcomingTaskData
+                                                                              .value[index]['Reschedule_Date'] ??
+                                                                          ""))),
+                                                                ),
+                                                                upcomingInspectionCommonItemWidget(
+                                                                  icon: Icons
+                                                                      .timer_outlined,
+                                                                  valueText: upcomingInspectionsController
+                                                                          .upcomingTaskData
+                                                                          .value[index]['Time'] ??
+                                                                      '',
+                                                                ),
+                                                                upcomingInspectionCommonItemWidget(
+                                                                  icon: Icons
+                                                                      .location_on_outlined,
+                                                                  valueText: upcomingInspectionsController
+                                                                          .upcomingTaskData
+                                                                          .value[index]['Location_Name'] ??
+                                                                      '',
+                                                                ),
+                                                                upcomingInspectionCommonItemWidget(
+                                                                  icon: Icons
+                                                                      .person,
+                                                                  valueText: upcomingInspectionsController
+                                                                          .upcomingTaskData
+                                                                          .value[index]['User_Details_Name'] ??
+                                                                      '',
+                                                                ),
+                                                                // upcomingInspectionCommonItemWidget(
+                                                                //   icon: Icons.abc,
+                                                                //   valueText: equipmentListController
+                                                                //       .equipmentListData[index]['make'],
+                                                                // ),
+                                                                //  upcomingInspectionCommonItemWidget(
+                                                                //   icon: Icons.abc,
+                                                                //   valueText: equipmentListController.equipmentListData[index]['model'],
+                                                                // ),
+                                                                //  upcomingInspectionCommonItemWidget(
+                                                                //   icon:  Icons.abc,
+                                                                //   valueText: equipmentListController.equipmentListData[index]['serial_no'],
+                                                                // ),
+                                                                //  upcomingInspectionCommonItemWidget(
+                                                                //   icon:  Icons.abc,
+                                                                //   valueText: equipmentListController.equipmentListData[index]['expiring_date'],
+                                                                // ),
+                                                                SizedBox(
+                                                                  height: 20.h,
+                                                                ),
+
+                                                                upcomingInspectionsController
+                                                                            .upcomingTaskData
+                                                                            .value[index]['Task_Status_Id']
+                                                                            .toString() !=
+                                                                        '7'
+                                                                    ? IconButton(
+                                                                        onPressed:
+                                                                            () {
+                                                                          if (upcomingInspectionsController.upcomingTaskData.value[index]['Task_Status_Id'].toString() !=
+                                                                              '7') {
+                                                                            Get.to(() =>
+                                                                                ReScheduleInspectionsScreen(
+                                                                                  inspectionDate: DateFormat('dd-MM-yyyy').format(DateTime.parse((upcomingInspectionsController.upcomingTaskData.value[index]['Reschedule_Date'] == null ? upcomingInspectionsController.upcomingTaskData.value[index]['Task_Date'] ?? '' : upcomingInspectionsController.upcomingTaskData.value[index]['Reschedule_Date'] ?? ""))),
+                                                                                  taskId: upcomingInspectionsController.upcomingTaskData.value[index]['Task_Id'].toString(),
+                                                                                ));
+                                                                          }
+                                                                        },
+                                                                        icon:
+                                                                            Container(
+                                                                          height:
+                                                                              30.h,
+                                                                          width:
+                                                                              100.w,
+                                                                          decoration: BoxDecoration(
+                                                                              border: Border.all(
+                                                                                color: ColorResources.color294C73,
+                                                                              ),
+                                                                              borderRadius: BorderRadius.circular(7.r)),
+                                                                          child: Center(
+                                                                              child: Text(
+                                                                            "Re-Schedule",
+                                                                            style:
+                                                                                TextStyle(
+                                                                              fontFamily: "Roboto",
+                                                                              fontSize: 14.sp,
+                                                                              fontWeight: FontWeight.w500,
+                                                                              color: ColorResources.color294C73,
+                                                                            ),
+                                                                            textAlign:
+                                                                                TextAlign.left,
+                                                                          )),
+                                                                        ),
+                                                                      )
+                                                                    : Container(
                                                                         height:
                                                                             30.h,
                                                                         width:
                                                                             100.w,
                                                                         decoration: BoxDecoration(
+                                                                            color: ColorResources.colorBlack.withOpacity(0.2),
                                                                             border: Border.all(
-                                                                              color: ColorResources.color294C73,
+                                                                              color: ColorResources.colorBlack.withOpacity(0.10),
                                                                             ),
                                                                             borderRadius: BorderRadius.circular(7.r)),
                                                                         child: Center(
@@ -283,91 +328,57 @@ initState(){
                                                                               TextAlign.left,
                                                                         )),
                                                                       ),
-                                                                    )
-                                                                  : Container(
-                                                                      height:
-                                                                          30.h,
-                                                                      width:
-                                                                          100.w,
-                                                                      decoration: BoxDecoration(
-                                                                          color: ColorResources.colorBlack.withOpacity(0.2),
-                                                                          border: Border.all(
-                                                                            color:
-                                                                                ColorResources.colorBlack.withOpacity(0.10),
-                                                                          ),
-                                                                          borderRadius: BorderRadius.circular(7.r)),
-                                                                      child: Center(
-                                                                          child: Text(
-                                                                        "Re-Schedule",
-                                                                        style:
-                                                                            TextStyle(
-                                                                          fontFamily:
-                                                                              "Roboto",
-                                                                          fontSize:
-                                                                              14.sp,
-                                                                          fontWeight:
-                                                                              FontWeight.w500,
-                                                                          color:
-                                                                              ColorResources.color294C73,
-                                                                        ),
-                                                                        textAlign:
-                                                                            TextAlign.left,
-                                                                      )),
-                                                                    ),
 
-                                                              SizedBox(
-                                                                height: 8.h,
-                                                              ),
-                                                              upcomingInspectionsController
-                                                                          .upcomingTaskData
-                                                                          .value[
-                                                                              index]
-                                                                              [
-                                                                              'Task_Status_Id']
-                                                                          .toString() ==
-                                                                      '7'
-                                                                  ? Text(
-                                                                      'Re-Schedule Requested',
-                                                                      style: TextStyle(
-                                                                          color: Colors
-                                                                              .red,
-                                                                          fontSize:
-                                                                              13.sp),
-                                                                    )
-                                                                  : Container(),
-                                                            ]),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  SizedBox(
-                                                    height: 15.h,
-                                                  ),
-                                                ],
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      )
-                                    : [
-                                        SizedBox(
-                                          height: 500.h,
-                                          child: Center(
-                                            child: Text(
-                                              homeController
-                                                      .isCalibrationSection
-                                                      .value
-                                                  ? 'Currently, no calibration requests have been converted to calibration task!'
-                                                  : 'Currently, no inspection requests have been converted to inspection task!',
-                                              textAlign: TextAlign.center,
+                                                                SizedBox(
+                                                                  height: 8.h,
+                                                                ),
+                                                                upcomingInspectionsController
+                                                                            .upcomingTaskData
+                                                                            .value[index]['Task_Status_Id']
+                                                                            .toString() ==
+                                                                        '7'
+                                                                    ? Text(
+                                                                        'Re-Schedule Requested',
+                                                                        style: TextStyle(
+                                                                            color:
+                                                                                Colors.red,
+                                                                            fontSize: 13.sp),
+                                                                      )
+                                                                    : Container(),
+                                                              ]),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    SizedBox(
+                                                      height: 15.h,
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
                                             ),
                                           ),
                                         )
-                                      ],
-                          );
-                        }),
-                      ],
-                    )
-                  ]),
+                                      : [
+                                          SizedBox(
+                                            height: 500.h,
+                                            child: Center(
+                                              child: Text(
+                                                homeController
+                                                        .isCalibrationSection
+                                                        .value
+                                                    ? 'Currently, no calibration requests have been converted to calibration task!'
+                                                    : 'Currently, no inspection requests have been converted to inspection task!',
+                                                textAlign: TextAlign.center,
+                                              ),
+                                            ),
+                                          )
+                                        ],
+                            );
+                          }),
+                        ],
+                      )
+                    ]),
+              ),
             )),
       ),
     );

@@ -134,7 +134,7 @@ class UpcomingInspectionsController extends GetxController {
       }
     });
     // ========================= Calibration API==========================
-    getUpComingCalibration(isFromSplash: isFromSplash);
+  await  getUpComingCalibration(isFromSplash: isFromSplash);
     update();
     print('1111111111111111111111111111111111111111111111 = 1');
   }

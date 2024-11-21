@@ -128,43 +128,46 @@ Widget gridViewWidget({
     itemBuilder: (context, index) {
       final training = trainingController.trainingData[index];
 
-      return InkWell(
-        onTap: () {
-          Get.to(() => Training_Details(
-                trainingCourseDetail: training,
-                isFail: false,
-                trainingCourseId: training.trainingCourseId,
-              ));
-        },
-        child: Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20),
-            image: DecorationImage(
-              image: NetworkImage(HttpUrls.imageBase +
-                  trainingController.trainingData[index].fileName!),
-              fit: BoxFit.cover,
+      return Hero(
+        tag: "1",
+        child: InkWell(
+          onTap: () {
+            Get.to(() => Training_Details(
+                  trainingCourseDetail: training,
+                  isFail: false,
+                  trainingCourseId: training.trainingCourseId,
+                ));
+          },
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20),
+              image: DecorationImage(
+                image: NetworkImage(HttpUrls.imageBase +
+                    trainingController.trainingData[index].fileName!),
+                fit: BoxFit.cover,
+              ),
             ),
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              trainingBackgroundLinearColor(
-                context: context,
-                childWidget: Padding(
-                  padding: const EdgeInsets.only(left: 12),
-                  child: Text(
-                    training.trainingCourseName,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                      color: ColorResources.whiteColor,
-                      fontWeight: FontWeight.w800,
-                      fontSize: Get.width < 700 ? 13.sp : 17.sp,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                trainingBackgroundLinearColor(
+                  context: context,
+                  childWidget: Padding(
+                    padding: const EdgeInsets.only(left: 12),
+                    child: Text(
+                      training.trainingCourseName,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        color: ColorResources.whiteColor,
+                        fontWeight: FontWeight.w800,
+                        fontSize: Get.width < 700 ? 13.sp : 17.sp,
+                      ),
+                      textAlign: TextAlign.start,
                     ),
-                    textAlign: TextAlign.start,
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       );

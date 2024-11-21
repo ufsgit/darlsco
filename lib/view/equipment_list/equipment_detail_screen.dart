@@ -93,12 +93,14 @@ class _EquipmentDetailScreenState extends State<EquipmentDetailScreen> {
                           child: Column(
                             children: [
                               element(
-                                  keyText: 'Certificate No.',
-                                  valueText: homeController
-                                      .equipmentDetailModel
-                                      .returnvalue!
-                                      .leads[index]
-                                      .certificateNumber),
+                                keyText: 'Certificate No.',
+                                valueText:
+                                homeController
+                                    .equipmentDetailModel
+                                    .returnvalue!
+                                    .leads[index]
+                                    .certificateNumber,
+                              ),
                               element(
                                   keyText: 'Issue Date',
                                   valueText: homeController.equipmentDetailModel
@@ -148,7 +150,7 @@ class _EquipmentDetailScreenState extends State<EquipmentDetailScreen> {
       String? name}) {
     return Padding(
       padding:
-          const EdgeInsets.only(left: 8.0, right: 48.0, top: 19.0, bottom: 8.0),
+          const EdgeInsets.only(left: 8.0, right: 18.0, top: 19.0, bottom: 8.0),
       child: Row(
         children: [
           if (valueText.isNotEmpty)
@@ -179,11 +181,9 @@ class _EquipmentDetailScreenState extends State<EquipmentDetailScreen> {
               ),
             )
           else
-            Expanded(
-              child: Text(
-                valueText,
-                maxLines: 4,
-              ),
+            Text(
+              valueText,
+              maxLines: 4,
             ),
         ],
       ),

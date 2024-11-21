@@ -33,6 +33,7 @@ class _TrainingScreenMobileState extends State<TrainingScreenMobile> {
   @override
   Widget build(BuildContext context) {
     return PopScope(
+      // ignore: deprecated_member_use
       onPopInvoked: (value) async {
         upcomingInspectionsController.selectDateTaskListData.clear();
         upcomingInspectionsController.taskInitFunction(context);

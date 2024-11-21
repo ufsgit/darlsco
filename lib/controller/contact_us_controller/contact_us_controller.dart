@@ -33,6 +33,7 @@ class ContactUsController extends GetxController {
       bodyData: mapData,
       endPoint:homeController.isCalibrationSection.value? HttpUrls.saveEnquiriesCalibration: HttpUrls.saveEnquiries,
     ).then((value) {
+      print('objectjkhbiu ${value}');
       if (value != null) {
         if (value.statusCode == 200) {
           // Loader.stopLoader();
@@ -43,12 +44,16 @@ class ContactUsController extends GetxController {
                 content: Text('Enquiry sent successfully')));
         }
       } else {
-        ScaffoldMessenger.of(context)
-            .showSnackBar(const SnackBar(
+         ScaffoldMessenger.of(Get.context!).showSnackBar(
+              const SnackBar(
+                content: Text('Enquiry sent successfully')));
+      
+        // ScaffoldMessenger.of(context)
+        //     .showSnackBar(const SnackBar(
 
               
               
-              content: Text('server failure')));
+        //       content: Text('server failure')));
       }
     });
   }

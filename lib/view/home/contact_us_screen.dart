@@ -17,6 +17,7 @@ class ContactUs extends StatefulWidget {
 }
 
 class _ContactUsState extends State<ContactUs> {
+  FocusNode focusNode =FocusNode();
   @override
   void initState() {
     contactUsController.clearValues();
@@ -139,6 +140,7 @@ class _ContactUsState extends State<ContactUs> {
                           height: 11.h,
                         ),
                         TextFormField(
+                          focusNode: focusNode,
                           controller:
                               contactUsController.additionMessageController,
                           maxLines: 3,
@@ -153,6 +155,7 @@ class _ContactUsState extends State<ContactUs> {
                         // ),
                         IconButton(
                           onPressed: () {
+                            focusNode.unfocus();
                             contactUsController.contactFormValidation(
                               contactUsController.fullnameController.text,
                               contactUsController.mobileNumberController.text,

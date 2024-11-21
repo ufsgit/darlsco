@@ -320,9 +320,11 @@ class TrainingController extends GetxController {
           // await Loader.stopLoader();
 
           if (d <= 500) {
-            // await Loader.stopLoader();
+            await Loader.stopLoader();
             return 'inside';
           } else {
+                  await Loader.stopLoader();
+
             return 'outside';
           }
         } catch (e) {

@@ -72,7 +72,6 @@ class HomePageState extends State<HomePage>
         (homeController.tabIndex.value == 1) ||
         homeController.isuserLogin.value == true) {
       if (widget.initialIndex == null) {
-        print('hiiii');
         _tabController.index = !homeController.isInspectionEnabled &&
                 !homeController.isTrainingEnabled
             ? 0
@@ -364,20 +363,29 @@ class HomePageState extends State<HomePage>
                                   homeController.isInspectionEnabled) {
                                 print('HIJACK SUCCESS');
                               } else {
-                                print('HIJACK $index');
                                 print(
-                                    'HIJACK ${homeController.isInspectionEnabled}');
+                                    'HIJACK ${homeController.isCalibrationSection}');
+                                print(
+                                    'HIJACK ${homeController.isTrainingSectionnew}');
+                                print(
+                                    'HIJACK ${homeController.isInspectionSection}');
                               }
                               homeController.isInspectionSection.value =
                                   index == 0 &&
                                       homeController.isInspectionEnabled;
 
-                              homeController.isTrainingSectionnew.value =
+                              homeController
+                                  .isTrainingSectionnew.value = index == 0 &&
+                                      !homeController.isInspectionEnabled &&
+                                      !homeController.isCalibrationEnabled &&
+                                      homeController.isTrainingEnabled ||
                                   index == 0 &&
-                                          !homeController.isInspectionEnabled ||
-                                      index == 1 &&
-                                          homeController.isTrainingEnabled &&
-                                          homeController.isInspectionEnabled;
+                                      !homeController.isInspectionEnabled &&
+                                      homeController.isCalibrationEnabled &&
+                                      homeController.isTrainingEnabled ||
+                                  index == 1 &&
+                                      homeController.isTrainingEnabled &&
+                                      homeController.isInspectionEnabled;
 
                               homeController.isCalibrationSection.value =
                                   index == 0 &&
@@ -570,25 +578,46 @@ class HomePageState extends State<HomePage>
                                                     index],
                                                 numberText: index == 0
                                                     ? homeController
-                                                        .customerLocations
-                                                        .length
+                                                        .inspectionHomeCount[
+                                                            'Location_Count']
                                                         .toString()
                                                     : index == 1
                                                         ? homeController
-                                                            .customerEquipmentData
-                                                            .length
+                                                            .inspectionHomeCount[
+                                                                'Equipment_Count']
                                                             .toString()
                                                         : index == 2
                                                             ? homeController
-                                                                .customerEquipmentExpiringData
-                                                                .length
+                                                                .inspectionHomeCount[
+                                                                    'Exp_Equipment_Count']
                                                                 .toString()
                                                             : index == 3
-                                                                ? upcomingInspectionsController
-                                                                    .upcomingInspectionListData
-                                                                    .length
+                                                                ? homeController
+                                                                    .inspectionHomeCount[
+                                                                        'Task_Count']
                                                                     .toString()
                                                                 : '0',
+                                                //  index == 0
+                                                //     ? homeController
+                                                //         .customerLocations
+                                                //         .length
+                                                //         .toString()
+                                                //     : index == 1
+                                                //         ? homeController
+                                                //             .customerEquipmentData
+                                                //             .length
+                                                //             .toString()
+                                                //         : index == 2
+                                                //             ? homeController
+                                                //                 .customerEquipmentExpiringData
+                                                //                 .length
+                                                //                 .toString()
+                                                //             : index == 3
+                                                //                 ? upcomingInspectionsController
+                                                //                     .upcomingInspectionListData
+                                                //                     .length
+                                                //                     .toString()
+                                                //                 : '0',
                                                 cBgColor: homeController
                                                         .cBgColorTrainingTab2[
                                                     index],
@@ -665,27 +694,48 @@ class HomePageState extends State<HomePage>
                                                 contentText: homeController
                                                         .contentTextTrainingTab2Calibration[
                                                     index],
-                                                numberText: index == 0
+                                                numberText:index == 0
                                                     ? homeController
-                                                        .customerLocations
-                                                        .length
+                                                        .calibrationHomeCount[
+                                                            'Location_Count']
                                                         .toString()
                                                     : index == 1
                                                         ? homeController
-                                                            .customerEquipmentDataCalibration
-                                                            .length
+                                                            .calibrationHomeCount[
+                                                                'Equipment_Count']
                                                             .toString()
                                                         : index == 2
                                                             ? homeController
-                                                                .customerEquipmentExpiringDataCalibration
-                                                                .length
+                                                                .calibrationHomeCount[
+                                                                    'Exp_Equipment_Count']
                                                                 .toString()
                                                             : index == 3
-                                                                ? upcomingInspectionsController
-                                                                    .upcomingInspectionListDataCalibration
-                                                                    .length
+                                                                ? homeController
+                                                                    .calibrationHomeCount[
+                                                                        'Task_Count']
                                                                     .toString()
                                                                 : '0',
+                                                //  index == 0
+                                                //     ? homeController
+                                                //         .customerLocations
+                                                //         .length
+                                                //         .toString()
+                                                //     : index == 1
+                                                //         ? homeController
+                                                //             .customerEquipmentDataCalibration
+                                                //             .length
+                                                //             .toString()
+                                                //         : index == 2
+                                                //             ? homeController
+                                                //                 .customerEquipmentExpiringDataCalibration
+                                                //                 .length
+                                                //                 .toString()
+                                                //             : index == 3
+                                                //                 ? upcomingInspectionsController
+                                                //                     .upcomingInspectionListDataCalibration
+                                                //                     .length
+                                                //                     .toString()
+                                                //                 : '0',
                                                 cBgColor: homeController
                                                         .cBgColorTrainingTab2[
                                                     index],

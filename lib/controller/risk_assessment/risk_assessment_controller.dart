@@ -16,10 +16,7 @@ final RiskAssessmentController riskAssessmentController =
     Get.put(RiskAssessmentController());
 
 class RiskAssessmentController extends GetxController {
-
-    DateTime ?startedDateTime;
-
-
+  DateTime? startedDateTime;
 
   RxBool isExpanded = false.obs;
   RxBool pending = false.obs;
@@ -2229,7 +2226,6 @@ class RiskAssessmentController extends GetxController {
 
   saveTaskStop(statusName, stopNote) async {
     Loader.showLoader();
-   
 
     String dateTimeString = '';
     final dio = Dio();
@@ -2256,9 +2252,7 @@ class RiskAssessmentController extends GetxController {
         .where((element) => element['Checked'].toString() == '1')
         .toList();
 
-if (homeController.isCalibrationSection.value) {
-  
-     
+    if (homeController.isCalibrationSection.value) {
       await HttpRequest.httpPostBodyRequest(
         bodyData: {
           "Task_Id_": int.parse(homeController.isCalibrationSection.value
@@ -2269,8 +2263,8 @@ if (homeController.isCalibrationSection.value) {
                   .toString()),
           "User_Details_Id_": int.parse(
               homeController.isCalibrationSection.value
-                  ? upcomingInspectionsController
-                      .taskUserDetailsCalibration[0]['User_Details_Id']
+                  ? upcomingInspectionsController.taskUserDetailsCalibration[0]
+                          ['User_Details_Id']
                       .toString()
                   : upcomingInspectionsController.taskUserDetails[0]
                           ['User_Details_Id']
@@ -2278,8 +2272,8 @@ if (homeController.isCalibrationSection.value) {
           'Stop_Notes_': stopNote,
           "Task_User_Details_Id_": int.parse(
               homeController.isCalibrationSection.value
-                  ? upcomingInspectionsController
-                      .taskUserDetailsCalibration[0]['Task_User_Details_Id']
+                  ? upcomingInspectionsController.taskUserDetailsCalibration[0]
+                          ['Task_User_Details_Id']
                       .toString()
                   : upcomingInspectionsController.taskUserDetails[0]
                           ['Task_User_Details_Id']
@@ -2332,7 +2326,7 @@ if (homeController.isCalibrationSection.value) {
                   ].where((element) => element).length >=
                   2;
               Get.offAll(() => TrainingInspectionScreen(
-                    selectedIndex:homeController.mainTabIndex,
+                    selectedIndex: homeController.mainTabIndex,
                   ));
 
               // Get.offAll( const TrainingInspectionScreen());
@@ -2341,8 +2335,7 @@ if (homeController.isCalibrationSection.value) {
           }
         }
       });
-} else {
-  
+    } else {
       await HttpRequest.httpPostRequest(
         bodyData: {
           "Task_Id_": int.parse(homeController.isCalibrationSection.value
@@ -2353,8 +2346,8 @@ if (homeController.isCalibrationSection.value) {
                   .toString()),
           "User_Details_Id_": int.parse(
               homeController.isCalibrationSection.value
-                  ? upcomingInspectionsController
-                      .taskUserDetailsCalibration[0]['User_Details_Id']
+                  ? upcomingInspectionsController.taskUserDetailsCalibration[0]
+                          ['User_Details_Id']
                       .toString()
                   : upcomingInspectionsController.taskUserDetails[0]
                           ['User_Details_Id']
@@ -2362,8 +2355,8 @@ if (homeController.isCalibrationSection.value) {
           'Stop_Notes_': stopNote,
           "Task_User_Details_Id_": int.parse(
               homeController.isCalibrationSection.value
-                  ? upcomingInspectionsController
-                      .taskUserDetailsCalibration[0]['Task_User_Details_Id']
+                  ? upcomingInspectionsController.taskUserDetailsCalibration[0]
+                          ['Task_User_Details_Id']
                       .toString()
                   : upcomingInspectionsController.taskUserDetails[0]
                           ['Task_User_Details_Id']
@@ -2411,17 +2404,7 @@ if (homeController.isCalibrationSection.value) {
                   ].where((element) => element).length >=
                   2;
               Get.offAll(() => TrainingInspectionScreen(
-                    selectedIndex: homeController.isInspectionEnabled &&
-                                homeController.isTrainingEnabled &&
-                                homeController.isCalibrationEnabled ||
-                            !homeController.isInspectionEnabled &&
-                                !homeController.isTrainingEnabled &&
-                                !homeController.isCalibrationEnabled
-                        ? 2
-                        : areAnyTwoTrue
-                            ? 1
-                            : 0,
-                  ));
+                  selectedIndex: homeController.mainTabIndex));
 
               // Get.offAll( const TrainingInspectionScreen());
             }
@@ -2429,7 +2412,6 @@ if (homeController.isCalibrationSection.value) {
           }
         }
       });
-}
-    
+    }
   }
 }

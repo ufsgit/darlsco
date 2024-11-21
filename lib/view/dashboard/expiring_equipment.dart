@@ -9,8 +9,35 @@ import '../../controller/home/home_controller.dart';
 import '../../core/constants/color_resources.dart';
 import '../../core/constants/common_widgets.dart';
 
-class ExpiringEquipmentScreen extends StatelessWidget {
+class ExpiringEquipmentScreen extends StatefulWidget {
   const ExpiringEquipmentScreen({super.key});
+
+  @override
+  State<ExpiringEquipmentScreen> createState() =>
+      _ExpiringEquipmentScreenState();
+}
+
+class _ExpiringEquipmentScreenState extends State<ExpiringEquipmentScreen> {
+  bool isScreenLoading = false;
+  @override
+  initState() {
+    super.initState();
+    getData();
+  }
+
+  getData() async {
+    try {
+      setState(() {
+        isScreenLoading = true;
+      });
+      await homeController.searchExpiringInspections(
+          context: Get.context, isfromSplashScreen: false);
+    } finally {
+      setState(() {
+        isScreenLoading = false;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -95,299 +122,323 @@ class ExpiringEquipmentScreen extends StatelessWidget {
           childWidget: Container(
               padding: EdgeInsets.all(15.sp),
               width: Get.width,
-              child: SingleChildScrollView(
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      RichText(
-                          text: TextSpan(children: [
-                        TextSpan(
-                          text: 'Expiring',
-                          style: GoogleFonts.roboto(
-                              color: ColorResources.color294C73,
-                              fontSize: 40.sp,
-                              fontWeight: FontWeight.w700),
-                        ),
-                        TextSpan(
-                          text: ' Equipments',
-                          style: GoogleFonts.roboto(
-                            fontSize: 40.sp,
-                            fontWeight: FontWeight.w700,
-                            foreground: Paint()
-                              ..style = PaintingStyle.stroke
-                              ..strokeWidth = 1
-                              ..color = ColorResources.color294C73,
+              child: RefreshIndicator(
+                onRefresh: () => getData(),
+                child: SingleChildScrollView(
+                  physics: AlwaysScrollableScrollPhysics(),
+                  child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        RichText(
+                            text: TextSpan(children: [
+                          TextSpan(
+                            text: 'Expiring',
+                            style: GoogleFonts.roboto(
+                                color: ColorResources.color294C73,
+                                fontSize: 40.sp,
+                                fontWeight: FontWeight.w700),
                           ),
+                          TextSpan(
+                            text: ' Equipments',
+                            style: GoogleFonts.roboto(
+                              fontSize: 40.sp,
+                              fontWeight: FontWeight.w700,
+                              foreground: Paint()
+                                ..style = PaintingStyle.stroke
+                                ..strokeWidth = 1
+                                ..color = ColorResources.color294C73,
+                            ),
+                          ),
+                        ])),
+                        SizedBox(
+                          height: 44.h,
                         ),
-                      ])),
-                      SizedBox(
-                        height: 44.h,
-                      ),
 
-                      GetBuilder<HomeController>(builder: (context) {
-                        return Column(
-                          mainAxisAlignment: homeController
-                                  .isCalibrationSection.value
-                              ? homeController
-                                      .customerEquipmentExpiringDataCalibration
-                                      .isEmpty
-                                  ? MainAxisAlignment.center
-                                  : MainAxisAlignment.start
-                              : homeController
-                                      .customerEquipmentExpiringData.isEmpty
-                                  ? MainAxisAlignment.center
-                                  : MainAxisAlignment.start,
-                          children: data.isEmpty
-                              ? [
-                                  SizedBox(
-                                      height: 500.h,
-                                      child: const Center(
-                                          child: Text(
-                                        'No equipments!',
-                                        textAlign: TextAlign.center,
-                                      )))
-                                ]
-                              : List.generate(
-                                  data.length,
-                                  (index) => InkWell(
-                                    // onTap: () {
-                                    //   print(
-                                    //       'djkfns ${homeController.equipmentCheckValue}');
-                                    //   // homeController.selectingEquipment(homeController
-                                    //   //     .customerEquipmentData[index].equipmentName);
-                                    // },
-                                    child: Container(
-                                      width: Get.width,
-                                      // height: 179.h,
-                                      margin: EdgeInsets.only(top: 15.h),
-                                      padding: EdgeInsets.only(
-                                          left: 15.sp,
-                                          right: 15.sp,
-                                          top: 15.sp),
-                                      decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          borderRadius:
-                                              BorderRadius.circular(6.sp)),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              SizedBox(
-                                                width: Get.width > 615
-                                                    ? 550.w
-                                                    : 200.w,
+                        GetBuilder<HomeController>(builder: (_) {
+                          return Column(
+                            mainAxisAlignment: homeController
+                                    .isCalibrationSection.value
+                                ? homeController
+                                        .customerEquipmentExpiringDataCalibration
+                                        .isEmpty
+                                    ? MainAxisAlignment.center
+                                    : MainAxisAlignment.start
+                                : homeController
+                                        .customerEquipmentExpiringData.isEmpty
+                                    ? MainAxisAlignment.center
+                                    : MainAxisAlignment.start,
+                            children: isScreenLoading
+                                ? [
+                                    Container(
+                                        height:
+                                            MediaQuery.sizeOf(context).height /
+                                                2,
+                                        child: Center(child: CircularProgressIndicator()))
+                                  ]
+                                : data.isEmpty
+                                    ? [
+                                        SizedBox(
+                                            height: 500.h,
+                                            child: const Center(
                                                 child: Text(
-                                                  data[index].equipmentName,
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                  softWrap: true,
-                                                  style: TextStyle(
-                                                    fontFamily: "DM Sans",
-                                                    fontSize: 16.sp,
-                                                    fontWeight: FontWeight.w700,
-                                                    color: ColorResources
-                                                        .color294C73,
-                                                  ),
-                                                  textAlign: TextAlign.left,
+                                              'No equipment has expired!',
+                                              textAlign: TextAlign.center,
+                                            )))
+                                      ]
+                                    : List.generate(
+                                        data.length,
+                                        (index) => InkWell(
+                                          // onTap: () {
+                                          //   print(
+                                          //       'djkfns ${homeController.equipmentCheckValue}');
+                                          //   // homeController.selectingEquipment(homeController
+                                          //   //     .customerEquipmentData[index].equipmentName);
+                                          // },
+                                          child: Container(
+                                            width: Get.width,
+                                            // height: 179.h,
+                                            margin: EdgeInsets.only(top: 15.h),
+                                            padding: EdgeInsets.only(
+                                                left: 15.sp,
+                                                right: 15.sp,
+                                                top: 15.sp),
+                                            decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                borderRadius:
+                                                    BorderRadius.circular(
+                                                        6.sp)),
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    SizedBox(
+                                                      width: Get.width > 615
+                                                          ? 550.w
+                                                          : 200.w,
+                                                      child: Text(
+                                                        data[index]
+                                                            .equipmentName,
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
+                                                        softWrap: true,
+                                                        style: TextStyle(
+                                                          fontFamily: "DM Sans",
+                                                          fontSize: 16.sp,
+                                                          fontWeight:
+                                                              FontWeight.w700,
+                                                          color: ColorResources
+                                                              .color294C73,
+                                                        ),
+                                                        textAlign:
+                                                            TextAlign.left,
+                                                      ),
+                                                    ),
+                                                    data[index].statusId ==
+                                                                11 ||
+                                                            data[index]
+                                                                    .statusId ==
+                                                                0
+                                                        ? GetBuilder<
+                                                                HomeController>(
+                                                            builder: (hdata) {
+                                                            return Checkbox(
+                                                                value: hdata
+                                                                        .equipmentCheckValue[
+                                                                    index],
+                                                                onChanged:
+                                                                    (value) {
+                                                                  hdata.equipmentCheckValue[
+                                                                          index] =
+                                                                      value!;
+                                                                  homeController
+                                                                      .selectingEquipment({
+                                                                    'Equipment_Id':
+                                                                        data[index]
+                                                                            .equipmentId,
+                                                                    'Equipment_Name':
+                                                                        data[index]
+                                                                            .equipmentName
+                                                                  }, value);
+                                                                });
+                                                          })
+                                                        : Text(
+                                                            !homeController.isCalibrationSection
+                                                                            .value &&
+                                                                        data[index].statusId ==
+                                                                            12 ||
+                                                                    homeController
+                                                                            .isCalibrationSection
+                                                                            .value &&
+                                                                        data[index].statusId ==
+                                                                            16
+                                                                ? 'Requested'
+                                                                : data[index]
+                                                                    .statusName,
+                                                            style: TextStyle(
+                                                                color:
+                                                                    Colors.red,
+                                                                fontSize:
+                                                                    12.sp),
+                                                          )
+                                                  ],
                                                 ),
-                                              ),
-                                              data[index].statusId == 11 ||
-                                                      data[index].statusId == 0
-                                                  ? GetBuilder<HomeController>(
-                                                      builder: (hdata) {
-                                                     
-                                                      return Checkbox(
-                                                          value: hdata
-                                                                  .equipmentCheckValue[
-                                                              index],
-                                                          onChanged: (value) {
-                                                            hdata.equipmentCheckValue[
-                                                                index] = value!;
-                                                            homeController
-                                                                .selectingEquipment(
-                                                                    {
-                                                                  'Equipment_Id':
-                                                                      data[index]
-                                                                          .equipmentId,
-                                                                  'Equipment_Name':
-                                                                      data[index]
-                                                                          .equipmentName
-                                                                },
-                                                                    value);
-                                                          });
-                                                    })
-                                                  : Text(
-                                                      !homeController.isCalibrationSection
-                                                                      .value &&
-                                                                  data[index]
-                                                                          .statusId ==
-                                                                      12 ||
-                                                              homeController
-                                                                      .isCalibrationSection
-                                                                      .value &&
-                                                                  data[index]
-                                                                          .statusId ==
-                                                                      16
-                                                          ? 'Requested'
-                                                          : data[index]
-                                                              .statusName,
+                                                SizedBox(
+                                                  height: 18.h,
+                                                ),
+
+                                                // Column(children: [
+                                                //   // equipmentCommonItemWidget(
+                                                //   //   keyText: 'Location',
+                                                //   //   valueText: equipmentListController.equipmentListData[index]['location'],
+                                                //   // ),
+                                                //   // equipmentCommonItemWidget(
+                                                //   //   keyText: 'Make',
+                                                //   //   valueText: homeController
+                                                //   //       .customerEquipmentData[index]
+                                                //   //       .equipmentMake,
+                                                //   // ),
+                                                //   // equipmentCommonItemWidget(
+                                                //   //   keyText: 'Model',
+                                                //   //   valueText: homeController
+                                                //   //       .customerEquipmentData[index]
+                                                //   //       .equipmentModel,
+                                                //   // ),
+                                                //   // equipmentCommonItemWidget(
+                                                //   //   keyText: 'Serial No',
+                                                //   //   valueText: homeController
+                                                //   //       .customerEquipmentData[index].serialNo,
+                                                //   // ),
+                                                //   // equipmentCommonItemWidget(
+                                                //   //   keyText: 'Expiring Date',
+                                                //   //   valueText: homeController
+                                                //   //       .customerEquipmentData[index]
+                                                //   //       .experingDate,
+                                                //   // ),
+                                                // ]),
+                                                SizedBox(
+                                                  height: 15.h,
+                                                ),
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    Text(
+                                                      "Expiring In",
                                                       style: TextStyle(
-                                                          color: Colors.red,
-                                                          fontSize: 12.sp),
-                                                    )
-                                            ],
-                                          ),
-                                          SizedBox(
-                                            height: 18.h,
-                                          ),
-
-                                          // Column(children: [
-                                          //   // equipmentCommonItemWidget(
-                                          //   //   keyText: 'Location',
-                                          //   //   valueText: equipmentListController.equipmentListData[index]['location'],
-                                          //   // ),
-                                          //   // equipmentCommonItemWidget(
-                                          //   //   keyText: 'Make',
-                                          //   //   valueText: homeController
-                                          //   //       .customerEquipmentData[index]
-                                          //   //       .equipmentMake,
-                                          //   // ),
-                                          //   // equipmentCommonItemWidget(
-                                          //   //   keyText: 'Model',
-                                          //   //   valueText: homeController
-                                          //   //       .customerEquipmentData[index]
-                                          //   //       .equipmentModel,
-                                          //   // ),
-                                          //   // equipmentCommonItemWidget(
-                                          //   //   keyText: 'Serial No',
-                                          //   //   valueText: homeController
-                                          //   //       .customerEquipmentData[index].serialNo,
-                                          //   // ),
-                                          //   // equipmentCommonItemWidget(
-                                          //   //   keyText: 'Expiring Date',
-                                          //   //   valueText: homeController
-                                          //   //       .customerEquipmentData[index]
-                                          //   //       .experingDate,
-                                          //   // ),
-                                          // ]),
-                                          SizedBox(
-                                            height: 15.h,
-                                          ),
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Text(
-                                                "Expiring In",
-                                                style: TextStyle(
-                                                  fontFamily: "DM Sans",
-                                                  fontSize: 13.sp,
-                                                  fontWeight: FontWeight.w500,
-                                                  color: ColorResources
-                                                      .color294C73,
+                                                        fontFamily: "DM Sans",
+                                                        fontSize: 13.sp,
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        color: ColorResources
+                                                            .color294C73,
+                                                      ),
+                                                      textAlign: TextAlign.left,
+                                                    ),
+                                                    Text(
+                                                      int.parse(data[index]
+                                                                  .experingIn
+                                                                  .toString()) <
+                                                              0
+                                                          ? 'Expired'
+                                                          : int.parse(data[
+                                                                          index]
+                                                                      .experingIn
+                                                                      .toString()) ==
+                                                                  0
+                                                              ? 'Today'
+                                                              : '${data[index].experingIn} Days',
+                                                      style: TextStyle(
+                                                        fontFamily: "DM Sans",
+                                                        fontSize: 13.sp,
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        color: ColorResources
+                                                            .color294C73,
+                                                      ),
+                                                      textAlign: TextAlign.left,
+                                                    ),
+                                                  ],
                                                 ),
-                                                textAlign: TextAlign.left,
-                                              ),
-                                              Text(
-                                                int.parse(data[index]
-                                                            .experingIn
-                                                            .toString()) <
-                                                        0
-                                                    ? 'Expired'
-                                                    : int.parse(data[index]
-                                                                .experingIn
-                                                                .toString()) ==
-                                                            0
-                                                        ? 'Today'
-                                                        : '${data[index].experingIn} Days',
-                                                style: TextStyle(
-                                                  fontFamily: "DM Sans",
-                                                  fontSize: 13.sp,
-                                                  fontWeight: FontWeight.w500,
-                                                  color: ColorResources
-                                                      .color294C73,
-                                                ),
-                                                textAlign: TextAlign.left,
-                                              ),
-                                            ],
-                                          ),
 
-                                          SizedBox(
-                                            height: 15.h,
-                                          )
-                                        ],
+                                                SizedBox(
+                                                  height: 15.h,
+                                                )
+                                              ],
+                                            ),
+                                          ),
+                                        ),
                                       ),
-                                    ),
-                                  ),
-                                ),
-                        );
-                      }),
+                          );
+                        }),
 
-                      // Expanded(
-                      //   child: ListView.separated(
-                      //       itemCount: 3,
-                      //       separatorBuilder: (context, index) => SizedBox(
-                      //             height: 10.h,
-                      //           ),
-                      //       itemBuilder: (context, index) {
-                      //         return Container(
-                      //           padding: EdgeInsets.all(15.sp),
-                      //           width: 367.w,
-                      //           // height: 83.h,
-                      //           decoration: BoxDecoration(
-                      //               color: ColorResources.whiteColor,
-                      //               borderRadius: BorderRadius.circular(16.sp)),
-                      //           child: Column(
-                      //               crossAxisAlignment: CrossAxisAlignment.start,
-                      //               children: [
-                      //                 SizedBox(
-                      //                   width: 17.w,
-                      //                 ),
-                      //                 Text(
-                      //                   'Bending Machine',
-                      //                   style: TextStyle(
-                      //                       fontSize: 16.sp,
-                      //                       fontWeight: FontWeight.w700,
-                      //                       color: ColorResources.color294C73),
-                      //                 ),
-                      //                 SizedBox(
-                      //                   height: 14.h,
-                      //                 ),
-                      //                 Row(
-                      //                   mainAxisAlignment:
-                      //                       MainAxisAlignment.spaceBetween,
-                      //                   children: [
-                      //                     Text(
-                      //                       "Expiring In",
-                      //                       style: TextStyle(
-                      //                         fontFamily: "DM Sans",
-                      //                         fontSize: 13.sp,
-                      //                         fontWeight: FontWeight.w500,
-                      //                         color: ColorResources.color294C73,
-                      //                       ),
-                      //                       textAlign: TextAlign.left,
-                      //                     ),
-                      //                    Text(
-                      //                       "200 Days",
-                      //                       style: TextStyle(
-                      //                         fontFamily: "DM Sans",
-                      //                         fontSize: 13.sp,
-                      //                         fontWeight: FontWeight.w500,
-                      //                         color: ColorResources.color294C73,
-                      //                       ),
-                      //                       textAlign: TextAlign.left,
-                      //                     ),
-                      //                   ],
-                      //                 ),
-                      //               ]),
-                      //         );
-                      //       }),
-                      // ),
-                    ]),
+                        // Expanded(
+                        //   child: ListView.separated(
+                        //       itemCount: 3,
+                        //       separatorBuilder: (context, index) => SizedBox(
+                        //             height: 10.h,
+                        //           ),
+                        //       itemBuilder: (context, index) {
+                        //         return Container(
+                        //           padding: EdgeInsets.all(15.sp),
+                        //           width: 367.w,
+                        //           // height: 83.h,
+                        //           decoration: BoxDecoration(
+                        //               color: ColorResources.whiteColor,
+                        //               borderRadius: BorderRadius.circular(16.sp)),
+                        //           child: Column(
+                        //               crossAxisAlignment: CrossAxisAlignment.start,
+                        //               children: [
+                        //                 SizedBox(
+                        //                   width: 17.w,
+                        //                 ),
+                        //                 Text(
+                        //                   'Bending Machine',
+                        //                   style: TextStyle(
+                        //                       fontSize: 16.sp,
+                        //                       fontWeight: FontWeight.w700,
+                        //                       color: ColorResources.color294C73),
+                        //                 ),
+                        //                 SizedBox(
+                        //                   height: 14.h,
+                        //                 ),
+                        //                 Row(
+                        //                   mainAxisAlignment:
+                        //                       MainAxisAlignment.spaceBetween,
+                        //                   children: [
+                        //                     Text(
+                        //                       "Expiring In",
+                        //                       style: TextStyle(
+                        //                         fontFamily: "DM Sans",
+                        //                         fontSize: 13.sp,
+                        //                         fontWeight: FontWeight.w500,
+                        //                         color: ColorResources.color294C73,
+                        //                       ),
+                        //                       textAlign: TextAlign.left,
+                        //                     ),
+                        //                    Text(
+                        //                       "200 Days",
+                        //                       style: TextStyle(
+                        //                         fontFamily: "DM Sans",
+                        //                         fontSize: 13.sp,
+                        //                         fontWeight: FontWeight.w500,
+                        //                         color: ColorResources.color294C73,
+                        //                       ),
+                        //                       textAlign: TextAlign.left,
+                        //                     ),
+                        //                   ],
+                        //                 ),
+                        //               ]),
+                        //         );
+                        //       }),
+                        // ),
+                      ]),
+                ),
               )),
         ),
       );
