@@ -54,18 +54,14 @@ class LoginController extends GetxController {
   getOtp({required String mobileNumber, required context}) async {
     //  await  getcountry();
     // Loader.showLoader();
-    await HttpRequest.httpGetRequest(endPoint: HttpUrls.getOtp, bodyData: {
-      "phone": mobileNumber,
-      "Country_Code": loginController.countryCode.isEmpty
-          ? homeController.currentCountryCode.value
-          : loginController.countryCode.value
-    }).then((value) {
+    await HttpRequest.httpGetRequest(
+            endPoint: HttpUrls.getOtp,
+            bodyData: {"phone": mobileNumber, "Country_Code": loginController.countryCode.isEmpty ? homeController.currentCountryCode.value : loginController.countryCode.value})
+        .then((value) {
       if (value.statusCode == 200) {
         // Loader.stopLoader();
         if (jsonDecode(value.toString())['Data'].isEmpty) {
-          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-              content:
-                  Text('Mobile no not found, please contact Darlsco team.')));
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Mobile no not found, please contact Darlsco team.')));
         } else {
           final data = jsonDecode(value.toString());
 
@@ -74,15 +70,13 @@ class LoginController extends GetxController {
           dashboardController.dashboardRole = loginData?.customerType;
 
           if (loginData != null) {
-            ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text('Otp: ${loginData!.customerOtp}')));
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Otp: ${loginData!.customerOtp}')));
           }
 
           Get.to(() => const OtpScreen());
         }
       } else {
-        ScaffoldMessenger.of(context)
-            .showSnackBar(const SnackBar(content: Text('Server Error')));
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Server Error')));
       }
     });
   }
@@ -148,25 +142,18 @@ class LoginController extends GetxController {
 
     // print('firbase login token $firebaseToken');
     print('kbhhubhu ${homeController.isFromPurchase.value}');
-    await HttpRequest.httpGetRequest(
-        endPoint: homeController.isFromPurchase.value
-            ? HttpUrls.agentLoginTraining
-            : HttpUrls.agentLogin,
-        bodyData: {
-          "phone": phNo,
-          "otp": otp,
-          "Device_Id": firebaseToken,
-          "Country_Code": loginController.countryCode.isEmpty
-              ? homeController.currentCountryCode.value
-              : loginController.countryCode.value
-        }).then((value) async {
+    await HttpRequest.httpGetRequest(endPoint: homeController.isFromPurchase.value ? HttpUrls.agentLoginTraining : HttpUrls.agentLogin, bodyData: {
+      "phone": phNo,
+      "otp": otp,
+      "Device_Id": firebaseToken,
+      "Country_Code": loginController.countryCode.isEmpty ? homeController.currentCountryCode.value : loginController.countryCode.value
+    }).then((value) async {
       if (value.statusCode == 200) {
         // Loader.stopLoader();
         final data = jsonDecode(value.toString());
 
         if (data['0'][0]['Id'].toString() == '0') {
-          ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('Incorrect OTP entered!')));
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Incorrect OTP entered!')));
           pinPutOtpController.clear();
         } else {
           userData = LoginOtpModel.fromJson(data['0'][0]);
@@ -178,23 +165,16 @@ class LoginController extends GetxController {
 
           // preferences.setString('name_user_', data['0'][0]['Name'].toString());
           //   preferences.setString('token', '${data['token']}');
-          preferences.setString(
-              'calibration_login', data['0'][0]['Calibration'].toString());
-          preferences.setString(
-              'trainee_login', data['0'][0]['Training'].toString());
-          preferences.setString(
-              'inspection_login', data['0'][0]['Inspection'].toString());
+          preferences.setString('calibration_login', data['0'][0]['Calibration'].toString());
+          preferences.setString('trainee_login', data['0'][0]['Training'].toString());
+          preferences.setString('inspection_login', data['0'][0]['Inspection'].toString());
           // TODO:NEED TO STORE LOCALLY
-          homeController.isInspection.value =
-              data['0'][0]['Inspection'].toString();
+          homeController.isInspection.value = data['0'][0]['Inspection'].toString();
           homeController.isTraineee.value = data['0'][0]['Training'].toString();
-          homeController.isInspectionSection.value =
-              data['0'][0]['Inspection'] == '1';
-               homeController.isTrainingSectionnew.value =
-              data['0'][0]['Training'] == '1';
-               homeController.isCalibrationSection.value =
-              data['0'][0]['Calibration'] == '1';
-              print('dfnsdefwe ${homeController.isTrainingSectionnew.value}');
+          homeController.isInspectionSection.value = data['0'][0]['Inspection'] == '1';
+          homeController.isTrainingSectionnew.value = data['0'][0]['Training'] == '1';
+          homeController.isCalibrationSection.value = data['0'][0]['Calibration'] == '1';
+          print('dfnsdefwe ${homeController.isTrainingSectionnew.value}');
 
           //     if (isFromSplashOrLogin) {
           //         homeController.isInspectionSection.value =
@@ -233,10 +213,7 @@ class LoginController extends GetxController {
               inAppReview.requestReview();
             });
           }
-          if (homeController.isuserLogin.value &&
-              homeController.isTraineeLogin.value &&
-              homeController.isTrainingSection.value &&
-              homeController.isCalibrationSection.value) {
+          if (homeController.isuserLogin.value && homeController.isTraineeLogin.value && homeController.isTrainingSection.value && homeController.isCalibrationSection.value) {
             homeController.isTrainingSection.value = false;
             homeController.isCalibrationSection.value = false;
           }
@@ -287,24 +264,20 @@ class LoginController extends GetxController {
             default:
               Get.offAll(() => BottomNavigationWidget());
           }
-          // await FirebaseNotificationService.getNotificationPermission();
-          // await FirebaseNotificationService.subscribeToTopic(
-          //     userType: dashboardController.dashboardRole.toString(),
-          //     customerId: data['0'][0]['Id'].toString());
+          await FirebaseNotificationService.getNotificationPermission();
+          await FirebaseNotificationService.subscribeToTopic(userType: dashboardController.dashboardRole.toString(), customerId: data['0'][0]['Id'].toString());
 
           // Get.offAll(() => const BottomNavigationScreen());
         }
 
         // Get.to(() => const BottomNavigationScreen());
       } else {
-        ScaffoldMessenger.of(context)
-            .showSnackBar(const SnackBar(content: Text('Server Error')));
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Server Error')));
       }
     });
   }
 
-  void adminLogin(
-      {required String otp, required context, required String phNo}) async {
+  void adminLogin({required String otp, required context, required String phNo}) async {
     // Loader.showLoader();
     SharedPreferences preferences = await SharedPreferences.getInstance();
     String firebaseToken = '';
@@ -328,17 +301,14 @@ class LoginController extends GetxController {
       "phone": phNo,
       "otp": otp,
       "Device_Id": firebaseToken,
-      "Country_Code": loginController.countryCode.isEmpty
-          ? homeController.currentCountryCode.value
-          : loginController.countryCode.value
+      "Country_Code": loginController.countryCode.isEmpty ? homeController.currentCountryCode.value : loginController.countryCode.value
     }).then((value) async {
       if (value.statusCode == 200) {
         // Loader.stopLoader();
         final data = jsonDecode(value.toString());
 
         if (data['0'][0]['Id'].toString() == '0') {
-          ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('Incorrect OTP entered!')));
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Incorrect OTP entered!')));
           pinPutOtpController.clear();
         } else {
           userData = LoginOtpModel.fromJson(data['0'][0]);
@@ -348,13 +318,10 @@ class LoginController extends GetxController {
 
           preferences.setString('type', data['0'][0]['tp'].toString());
           //   preferences.setString('token', '${data['token']}');
-          preferences.setString(
-              'trainee_login', data['0'][0]['Training'].toString());
+          preferences.setString('trainee_login', data['0'][0]['Training'].toString());
           preferences.setString('phone_no', data['0'][0]["Mobile"].toString());
-          preferences.setString(
-              'inspection_login', data['0'][0]['Inspection'].toString());
-          homeController.isInspection.value =
-              data['0'][0]['Inspection'].toString();
+          preferences.setString('inspection_login', data['0'][0]['Inspection'].toString());
+          homeController.isInspection.value = data['0'][0]['Inspection'].toString();
           homeController.isTraineee.value = data['0'][0]['Training'].toString();
           homeController.isUsersignedIn();
           mobileNumberController.clear();
@@ -386,12 +353,7 @@ class LoginController extends GetxController {
                     ));
               } else {
                 if (homeController.isFromPurchase.value == true) {
-                  await homeController.purchaseGateWay(
-                      name: customerName,
-                      phoneNumber: customerMobile,
-                      email: customerEmail,
-                      context,
-                      tcontoller.totalPrice);
+                  await homeController.purchaseGateWay(name: customerName, phoneNumber: customerMobile, email: customerEmail, context, tcontoller.totalPrice);
                 } else {
                   Get.offAll(() => BottomNavigationWidget());
                 }
@@ -409,8 +371,7 @@ class LoginController extends GetxController {
 
         // Get.to(() => const BottomNavigationScreen());
       } else {
-        ScaffoldMessenger.of(context)
-            .showSnackBar(const SnackBar(content: Text('Server Error')));
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Server Error')));
       }
     });
   }
@@ -418,27 +379,25 @@ class LoginController extends GetxController {
   logout(BuildContext context) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     String cusId = sharedPreferences.getString('darlsco_id').toString();
+
     await sharedPreferences.clear();
+
+    Get.offAll(() => BottomNavigationWidget(), duration: Duration.zero);
+    await FirebaseNotificationService.unsubscribeFromTopic(userType: dashboardController.dashboardRole.toString(), customerId: cusId);
     // loginController.dispose();
     // tcontoller.refresh();
     // upcomingInspectionsController.refresh();
     // riskAssessmentController.dispose();
-    if (homeController.tabIndex.value == 1 ||
-        homeController.tabIndex.value == 2) {
+    if (homeController.tabIndex.value == 1 || homeController.tabIndex.value == 2) {
       homeController.tabIndex.value = 0;
     }
     homeController.isFromPurchase.value = false;
     globalHomeController.isTraineeLogin.value == false;
     globalHomeController.isuserLogin.value = false;
-        globalHomeController.isUserLoggedIn = false;
+    globalHomeController.isUserLoggedIn = false;
 
     globalHomeController.isCalibrationSection.value = false;
     getcountry(context);
     homeController.isUsersignedIn();
-    // await FirebaseNotificationService.unsubscribeFromTopic(
-    //     userType: dashboardController.dashboardRole.toString(),
-    //     customerId: cusId);
-
-    Get.offAll(() => BottomNavigationWidget(), duration: Duration.zero);
   }
 }

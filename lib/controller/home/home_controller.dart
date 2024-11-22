@@ -48,8 +48,7 @@ class HomeController extends GetxController {
   RxBool isLoading = false.obs;
   FocusNode focusNode = FocusNode();
   late TabController tabController;
-  CarouselSliderController homeTab1CarouselController =
-      CarouselSliderController();
+  CarouselSliderController homeTab1CarouselController = CarouselSliderController();
   TabController? bottomController;
   late FirebaseMessaging messagingToken;
   RxInt pageIndex = 0.obs;
@@ -63,8 +62,7 @@ class HomeController extends GetxController {
   RxString isInspection = ''.obs;
   RxBool isTraineeUserLogin = false.obs; //training logined or not
   RxBool isTrainingSection = false.obs;
-  RxBool isFromHome = false
-      .obs; //for login condition if the user is navigate from home to login screen
+  RxBool isFromHome = false.obs; //for login condition if the user is navigate from home to login screen
   RxBool isFromPurchase = false.obs; //for
   RxBool isLoadingEquipments = false.obs;
   Set equipmentListCustomer = {};
@@ -92,8 +90,7 @@ class HomeController extends GetxController {
     {
       "name": 'Geetika Monga',
       "imgUrl": 'assets/images/unnamed_2.png',
-      "message":
-          'The most reliable company that I have come across. The whole team is so professional and really really take care of their clients',
+      "message": 'The most reliable company that I have come across. The whole team is so professional and really really take care of their clients',
     },
     {
       "name": 'Ruchita patel',
@@ -109,8 +106,7 @@ class HomeController extends GetxController {
     {
       "name": 'AL Daraawi',
       "imgUrl": 'assets/images/al_araawi.png',
-      "message":
-          'Distinctive service organized by doctors, customer service staff and translators',
+      "message": 'Distinctive service organized by doctors, customer service staff and translators',
     },
     {
       "name": 'Regine Napoles',
@@ -121,20 +117,17 @@ class HomeController extends GetxController {
     {
       "name": 'Laith Aljariri',
       "imgUrl": 'assets/images/laith_aljariri.png',
-      "message":
-          'They have a perfect service with great training team. Krunal and Divya were amazing in everything thanks alot and we will work together again',
+      "message": 'They have a perfect service with great training team. Krunal and Divya were amazing in everything thanks alot and we will work together again',
     },
     {
       "name": 'Grace Achieng',
       "imgUrl": 'assets/images/grace_achieng.png',
-      "message":
-          'So professional regarding inspection... best training company they deliver the best team.Thank you DARLSCO',
+      "message": 'So professional regarding inspection... best training company they deliver the best team.Thank you DARLSCO',
     },
     {
       "name": 'Mohath Soodeen',
       "imgUrl": 'assets/images/mohathsoodeen.png',
-      "message":
-          'I had a very good experience with you,and i wish u the best😊',
+      "message": 'I had a very good experience with you,and i wish u the best😊',
     },
   ];
 
@@ -262,11 +255,7 @@ class HomeController extends GetxController {
     'Upcoming Trainings',
   ];
 
-  List<String> contentTextTrainingTab3 = <String>[
-    'Total Equipments',
-    'Upcoming Calibration',
-    'Total Locations'
-  ];
+  List<String> contentTextTrainingTab3 = <String>['Total Equipments', 'Upcoming Calibration', 'Total Locations'];
 
   List<String> contentTextTrainingTab2 = [
     'Total Locations',
@@ -298,7 +287,7 @@ class HomeController extends GetxController {
       // );
     },
     () {
-      Get.to(() =>  ExpiringEquipmentScreen());
+      Get.to(() => ExpiringEquipmentScreen());
 
       // homeController.searchExpiringInspections(
       //     context: Get.context, isfromSplashScreen: false);
@@ -417,14 +406,10 @@ class HomeController extends GetxController {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     int customerId = int.parse(sharedPreferences.getString('darlsco_id') ?? '');
     try {
-      await HttpRequest.httpGetRequest(
-          endPoint: HttpUrls.getHomeCountOfInspection,
-          bodyData: {"Customer_Id_": customerId}).then((v) {
+      await HttpRequest.httpGetRequest(endPoint: HttpUrls.getHomeCountOfInspection, bodyData: {"Customer_Id_": customerId}).then((v) {
         inspectionHomeCount = v.data[0][0];
       });
-      await HttpRequest.httpGetRequest(
-          endPoint: HttpUrls.getHomeCountOfCalibration,
-          bodyData: {"Customer_Id_": customerId}).then((v) {
+      await HttpRequest.httpGetRequest(endPoint: HttpUrls.getHomeCountOfCalibration, bodyData: {"Customer_Id_": customerId}).then((v) {
         calibrationHomeCount = v.data[0][0];
       });
     } catch (e) {}
@@ -435,8 +420,7 @@ class HomeController extends GetxController {
     String? deviceId = await _getId();
     print("sahgkjhsa///////Device ID $deviceId");
     int customerId = int.parse(sharedPreferences.getString('darlsco_id') ?? '');
-    String servicePercentage =
-        sharedPreferences.getString('transaction_fee') ?? '';
+    String servicePercentage = sharedPreferences.getString('transaction_fee') ?? '';
     DateTime now = DateTime.now();
     String formattedTime = DateFormat('HH:mm:ss').format(now);
     DateTime date = DateTime.now();
@@ -452,8 +436,7 @@ class HomeController extends GetxController {
       "Service_pers_": servicePercentage,
       "Grand_Total_": tcontoller.totalPrice,
       "Payment_Status_": tcontoller.isPaymentSuccessful.value == true ? 2 : 3,
-      "Payment_Status_Name_":
-          tcontoller.isPaymentSuccessful.value == true ? 'Completed' : 'Cancel',
+      "Payment_Status_Name_": tcontoller.isPaymentSuccessful.value == true ? 'Completed' : 'Cancel',
       "Reference_Id_": tcontoller.orderNo,
 
       "Start_Date": formattedDate,
@@ -551,23 +534,20 @@ class HomeController extends GetxController {
     await HttpRequest.httpGetRequest(
       bodyData: {
         'Task_Id_': homeController.isCalibrationSection.value
-            ? upcomingInspectionsController.taskDetailsDataCalibration[0]
-                ['Task_Id']
+            ? upcomingInspectionsController.taskDetailsDataCalibration[0]['Task_Id']
             : upcomingInspectionsController.taskDetailsData[0]['Task_Id']
       },
-      endPoint: homeController.isCalibrationSection.value
-          ? HttpUrls.getFullUsersCalibration
-          : HttpUrls.getFullUsers,
+      endPoint: homeController.isCalibrationSection.value ? HttpUrls.getFullUsersCalibration : HttpUrls.getFullUsers,
     ).then((value) {
       if (value.data != null) {
-        if(homeController.isCalibrationSection.value){
-getAllUsersListCalibration = value.data[0];
-        getCurrentUsersListCalibration = value.data[1];
-        }else{
+        if (homeController.isCalibrationSection.value) {
+          getAllUsersListCalibration = value.data[0];
+          getCurrentUsersListCalibration = value.data[1];
+        } else {
           getAllUsersList = value.data[0];
-        getCurrentUsersList= value.data[1];
+          getCurrentUsersList = value.data[1];
         }
-        
+
         Get.to(() => const UserListScreen());
       }
       update();
@@ -580,8 +560,7 @@ getAllUsersListCalibration = value.data[0];
       PermissionStatus locationStatus = await Permission.location.status;
 
       if (!locationStatus.isDenied) {
-        homeController.currentCountryCode.value =
-            await getCountryName(context) ?? '';
+        homeController.currentCountryCode.value = await getCountryName(context) ?? '';
       }
     }
   }
@@ -590,52 +569,35 @@ getAllUsersListCalibration = value.data[0];
     try {
       Map<String, dynamic> changtaskBodyData = {
         'Task_Id_': homeController.isCalibrationSection.value
-            ? upcomingInspectionsController.taskDetailsDataCalibration[0]
-                ['Task_Id']
+            ? upcomingInspectionsController.taskDetailsDataCalibration[0]['Task_Id']
             : upcomingInspectionsController.taskDetailsData[0]['Task_Id'],
         'From_User_': homeController.isCalibrationSection.value
-            ? getCurrentUsersListCalibration
-                .where((element) =>
-                    element['User_Details_Name'].toString().toLowerCase() ==
-                    currentUserDropDownValue.value.toLowerCase())
-                .toList()[0]['User_Details_Id']
-            : getCurrentUsersList
-                .where((element) =>
-                    element['User_Details_Name'].toString().toLowerCase() ==
-                    currentUserDropDownValue.value.toLowerCase())
-                .toList()[0]['User_Details_Id'],
+            ? getCurrentUsersListCalibration.where((element) => element['User_Details_Name'].toString().toLowerCase() == currentUserDropDownValue.value.toLowerCase()).toList()[0]
+                ['User_Details_Id']
+            : getCurrentUsersList.where((element) => element['User_Details_Name'].toString().toLowerCase() == currentUserDropDownValue.value.toLowerCase()).toList()[0]
+                ['User_Details_Id'],
         'To_User_': homeController.isCalibrationSection.value
-            ? getAllUsersListCalibration
-                .where((element) =>
-                    element['User_Details_Name'].toString().toLowerCase() ==
-                    allUserDropDownValue.value.toLowerCase())
-                .toList()[0]['User_Details_Id']
-            : getAllUsersList
-                .where((element) =>
-                    element['User_Details_Name'].toString().toLowerCase() ==
-                    allUserDropDownValue.value.toLowerCase())
-                .toList()[0]['User_Details_Id'],
+            ? getAllUsersListCalibration.where((element) => element['User_Details_Name'].toString().toLowerCase() == allUserDropDownValue.value.toLowerCase()).toList()[0]
+                ['User_Details_Id']
+            : getAllUsersList.where((element) => element['User_Details_Name'].toString().toLowerCase() == allUserDropDownValue.value.toLowerCase()).toList()[0]['User_Details_Id'],
 
         // upcomingInspectionsController.taskDetailsData[0]['Task_Id']
       };
 
       await HttpRequest.httpGetRequest(
         bodyData: changtaskBodyData,
-        endPoint: homeController.isCalibrationSection.value
-            ? HttpUrls.changeTaskUserCallibertion
-            : HttpUrls.changeTaskUser,
+        endPoint: homeController.isCalibrationSection.value ? HttpUrls.changeTaskUserCallibertion : HttpUrls.changeTaskUser,
       ).then((value) async {
         if (value.data["data"][0].isNotEmpty) {
           homeController.allUserDropDownValue.value = '';
           homeController.currentUserDropDownValue.value = '';
 
-          ScaffoldMessenger.of(Get.context!).showSnackBar(const SnackBar(
-              content: Text('Team member successfully updated!')));
+          ScaffoldMessenger.of(Get.context!).showSnackBar(const SnackBar(content: Text('Team member successfully updated!')));
           await upcomingInspectionsController.taskInitFunction(context);
           Get.offAll(() => TrainingInspectionScreen(
                 selectedIndex: mainTabIndex,
               ));
-        }else{
+        } else {
           print('dfvsfvefd');
         }
         update();
@@ -646,15 +608,9 @@ getAllUsersListCalibration = value.data[0];
     }
   }
 
-  purchaseGateWay(context, totalPrice,
-      {bool isRetake = false,
-      String orderMasterId = '0',
-      required String phoneNumber,
-      required String email,
-      required String name}) async {
+  purchaseGateWay(context, totalPrice, {bool isRetake = false, String orderMasterId = '0', required String phoneNumber, required String email, required String name}) async {
     print(authKey);
-    print(
-        'inside purchase xml function ${trainingController.retakePurchaseBillDataList}');
+    print('inside purchase xml function ${trainingController.retakePurchaseBillDataList}');
     final builder = XmlBuilder();
     builder.processing('xml', 'version="1.0"');
     builder.element('mobile', nest: () {
@@ -768,8 +724,7 @@ getAllUsersListCalibration = value.data[0];
     pay(bookshelfXml, context, isRetake, orderMasterId);
   }
 
-  Future<void> getCustomerEquipments(context, locationId,
-      {isFromLocationScreen = false}) async {
+  Future<void> getCustomerEquipments(context, locationId, {isFromLocationScreen = false}) async {
     isLoadingEquipments.value = true;
     update();
 
@@ -797,8 +752,7 @@ getAllUsersListCalibration = value.data[0];
           // return;
         } else {
           if (value.data[0].isEmpty && isFromLocationScreen == false) {
-            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                content: Text('No equipment found this location')));
+            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('No equipment found this location')));
           } else {
             Get.to(() => HomeEquipmentListScreen());
           }
@@ -811,10 +765,8 @@ getAllUsersListCalibration = value.data[0];
         // final data=jsonDecode(value.data[0].toString());
 // ist<CustomerEquipmentList> result= value.data[0].map((e)=>CustomerEquipmentList.fromJson(e)).toList()as  List<CustomerEquipmentList> ;
         print('sdfasdkjnf ${equipmentCheckValue}');
-        if (equipmentCheckValue.isEmpty ||
-            equipmentCheckValue.length != customerEquipmentData.length) {
-          equipmentCheckValue = List.generate(
-              homeController.customerEquipmentData.length, (index) => false);
+        if (equipmentCheckValue.isEmpty || equipmentCheckValue.length != customerEquipmentData.length) {
+          equipmentCheckValue = List.generate(homeController.customerEquipmentData.length, (index) => false);
         }
         // print(customerEquipmentData[0].equipmentName);
       }
@@ -831,8 +783,7 @@ getAllUsersListCalibration = value.data[0];
     update();
   }
 
-  getEquipmentsCalibration(context, locationId,
-      {isFromLocationScreen = false}) async {
+  getEquipmentsCalibration(context, locationId, {isFromLocationScreen = false}) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
 
     int customerId = int.parse(sharedPreferences.getString('darlsco_id') ?? '');
@@ -851,8 +802,7 @@ getAllUsersListCalibration = value.data[0];
       print('dfgwr4tiow4oi4wroi ${value.statusCode}');
       if (value.statusCode == 200) {
         for (var element in value.data[0]) {
-          customerEquipmentDataCalibration
-              .add(CustomerEquipmentList.fromJson(element));
+          customerEquipmentDataCalibration.add(CustomerEquipmentList.fromJson(element));
         }
         if (isFromLocationScreen) {
           Get.to(
@@ -861,8 +811,7 @@ getAllUsersListCalibration = value.data[0];
         } else {
           print('dfasd');
           if (value.data[0].isEmpty && isFromLocationScreen == false) {
-            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                content: Text('No equipment found this location')));
+            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('No equipment found this location')));
           } else {
             if (homeController.isCalibrationSection.value) {
               Get.to(() => HomeEquipmentListScreen());
@@ -875,12 +824,8 @@ getAllUsersListCalibration = value.data[0];
         // final data=jsonDecode(value.data[0].toString());
 // ist<CustomerEquipmentList> result= value.data[0].map((e)=>CustomerEquipmentList.fromJson(e)).toList()as  List<CustomerEquipmentList> ;
 
-        if (equipmentCheckValue.isEmpty ||
-            equipmentCheckValue.length !=
-                customerEquipmentDataCalibration.length) {
-          equipmentCheckValue = List.generate(
-              homeController.customerEquipmentDataCalibration.length,
-              (index) => false);
+        if (equipmentCheckValue.isEmpty || equipmentCheckValue.length != customerEquipmentDataCalibration.length) {
+          equipmentCheckValue = List.generate(homeController.customerEquipmentDataCalibration.length, (index) => false);
         }
         print('dfgwr4tiow4oi4wroi $equipmentCheckValue');
 
@@ -922,12 +867,9 @@ getAllUsersListCalibration = value.data[0];
     try {
       Map<String, dynamic> postData = {"Version_Number": versionNumber};
       print('dfswgr Version Checkinggg..');
-      await HttpRequest.httpGetRequest(
-              endPoint: HttpUrls.checkVersion, bodyData: postData)
-          .then((value) {
+      await HttpRequest.httpGetRequest(endPoint: HttpUrls.checkVersion, bodyData: postData).then((value) {
         print('dfswgr $value');
-        isAppBlocked.value =
-            value.data['Status'].toString() == '0' ? true : false;
+        isAppBlocked.value = value.data['Status'].toString() == '0' ? true : false;
       });
     } catch (e) {
       // errorLoggingSnackbaR(context, functionName: 'versionCheck', error: e.toString());
@@ -944,11 +886,8 @@ getAllUsersListCalibration = value.data[0];
     int customerId = int.parse(sharedPreferences.getString('darlsco_id') ?? '');
     Map<String, dynamic> postData = {"Customer_Id_": customerId};
 
-    await HttpRequest.httpGetRequest(
-            endPoint: HttpUrls.searchExpiringInspections, bodyData: postData)
-        .then((value) {
-      if (value.data['returnvalue']['Leads'].isEmpty &&
-          isfromSplashScreen == false) {
+    await HttpRequest.httpGetRequest(endPoint: HttpUrls.searchExpiringInspections, bodyData: postData).then((value) {
+      if (value.data['returnvalue']['Leads'].isEmpty && isfromSplashScreen == false) {
         if (isfromSplashScreen == false) {
           Get.to(() => const ExpiringEquipmentScreen());
         }
@@ -961,31 +900,22 @@ getAllUsersListCalibration = value.data[0];
       }
 
       for (var element in value.data['returnvalue']['Leads']) {
-        customerEquipmentExpiringData
-            .add(CustomerEquipmentList.fromJson(element));
+        customerEquipmentExpiringData.add(CustomerEquipmentList.fromJson(element));
       }
-      if (equipmentCheckValue.isEmpty ||
-          equipmentCheckValue.length != customerEquipmentExpiringData.length) {
-        equipmentCheckValue = List.generate(
-            homeController.customerEquipmentExpiringData.length,
-            (index) => false);
+      if (equipmentCheckValue.isEmpty || equipmentCheckValue.length != customerEquipmentExpiringData.length) {
+        equipmentCheckValue = List.generate(homeController.customerEquipmentExpiringData.length, (index) => false);
       }
       print('ndsjkdsf $equipmentCheckValue');
 
       // print(customerEquipmentData[0].equipmentName);
 
-      homeController.numberTextList[2] =
-          '${customerEquipmentExpiringData.length}';
+      homeController.numberTextList[2] = '${customerEquipmentExpiringData.length}';
 
       // print('expiring value ${customerEquipmentExpiringData[0].equipmentId}');
     });
     // ======== Calibration API ======
-    await HttpRequest.httpGetRequest(
-            endPoint: HttpUrls.searchExpiringInspectionsCalibration,
-            bodyData: postData)
-        .then((value) {
-      if (value.data['returnvalue']['Leads'].isEmpty &&
-          isfromSplashScreen == false) {
+    await HttpRequest.httpGetRequest(endPoint: HttpUrls.searchExpiringInspectionsCalibration, bodyData: postData).then((value) {
+      if (value.data['returnvalue']['Leads'].isEmpty && isfromSplashScreen == false) {
         if (isfromSplashScreen == false) {
           Get.to(() => const ExpiringEquipmentScreen());
         }
@@ -998,29 +928,22 @@ getAllUsersListCalibration = value.data[0];
       }
 
       for (var element in value.data['returnvalue']['Leads']) {
-        customerEquipmentExpiringDataCalibration
-            .add(CustomerEquipmentList.fromJson(element));
+        customerEquipmentExpiringDataCalibration.add(CustomerEquipmentList.fromJson(element));
       }
 
-      if (equipmentCheckValue.isEmpty ||
-          equipmentCheckValue.length !=
-              customerEquipmentExpiringDataCalibration.length) {
-        equipmentCheckValue = List.generate(
-            homeController.customerEquipmentExpiringDataCalibration.length,
-            (index) => false);
+      if (equipmentCheckValue.isEmpty || equipmentCheckValue.length != customerEquipmentExpiringDataCalibration.length) {
+        equipmentCheckValue = List.generate(homeController.customerEquipmentExpiringDataCalibration.length, (index) => false);
       }
       // print(customerEquipmentData[0].equipmentName);
 
-      homeController.numberTextList[2] =
-          '${customerEquipmentExpiringDataCalibration.length}';
+      homeController.numberTextList[2] = '${customerEquipmentExpiringDataCalibration.length}';
 
       // print('expiring value ${customerEquipmentExpiringData[0].equipmentId}');
     });
     update();
   }
 
-  void saveCustomerRequest(
-      {required context, ispostdataExpiring = false}) async {
+  void saveCustomerRequest({required context, ispostdataExpiring = false}) async {
     // Loader.showLoader();
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
 
@@ -1034,10 +957,7 @@ getAllUsersListCalibration = value.data[0];
         // "Customer_Request_Id":0,
         "Customer_Id": customerId,
         "Entry_Date": DateTime.now().toString(),
-        "Inspection_Date": DateFormat('yyyy-MM-dd')
-            .format(DateFormat('dd-MM-yyyy')
-                .parse(homeController.inspectionDateController.text))
-            .toString(),
+        "Inspection_Date": DateFormat('yyyy-MM-dd').format(DateFormat('dd-MM-yyyy').parse(homeController.inspectionDateController.text)).toString(),
         "Description": inspectionMessageController.text,
         "Location_Id": customerLocations
             .where((element) {
@@ -1088,15 +1008,11 @@ getAllUsersListCalibration = value.data[0];
             inspectionDateController.clear();
             if (value.data[0].isNotEmpty) {
               if (isCalibrationSection.value) {
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                    content: Text(ispostdataExpiring
-                        ? "Expiring Equipment Calibration Request submitted successfully"
-                        : 'Calibration Request submitted sucessfully')));
+                ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text(ispostdataExpiring ? "Expiring Equipment Calibration Request submitted successfully" : 'Calibration Request submitted sucessfully')));
               } else {
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                    content: Text(ispostdataExpiring
-                        ? "Expiring Equipment Inspection Request submitted successfully"
-                        : 'Inspection Request submitted sucessfully')));
+                ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text(ispostdataExpiring ? "Expiring Equipment Inspection Request submitted successfully" : 'Inspection Request submitted sucessfully')));
               }
 
               if (ispostdataExpiring) {
@@ -1105,27 +1021,21 @@ getAllUsersListCalibration = value.data[0];
                 Get.back();
               }
 
-              await HttpRequest.httpPostRequest(
-                  endPoint: HttpUrls.notificationUrl,
-                  bodyData: {
-                    'Notification_Id_': value.data[0]['Notification_Id_'],
-                    'Customer_Request_Id_': value.data[0]
-                        ['Customer_Request_Id_'],
-                    'Customer_Name_': value.data[0]['Customer_Name_'],
-                    'Notification_Type_Name_': value.data[0]
-                        ['Notification_Type_Name_'],
-                  });
+              await HttpRequest.httpPostRequest(endPoint: HttpUrls.notificationUrl, bodyData: {
+                'Notification_Id_': value.data[0]['Notification_Id_'],
+                'Customer_Request_Id_': value.data[0]['Customer_Request_Id_'],
+                'Customer_Name_': value.data[0]['Customer_Name_'],
+                'Notification_Type_Name_': value.data[0]['Notification_Type_Name_'],
+              });
             }
             if (homeController.isUserLoggedIn) {
               await homeController.initfunction();
             }
           } else {
-            ScaffoldMessenger.of(context)
-                .showSnackBar(const SnackBar(content: Text('Server Error')));
+            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Server Error')));
           }
         } else {
-          ScaffoldMessenger.of(context)
-              .showSnackBar(const SnackBar(content: Text('Server Error')));
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Server Error')));
         }
       });
     } else {
@@ -1149,15 +1059,11 @@ getAllUsersListCalibration = value.data[0];
             inspectionDateController.clear();
             if (value.data[0].isNotEmpty) {
               if (isCalibrationSection.value) {
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                    content: Text(ispostdataExpiring
-                        ? "Expiring Equipment Calibration Request submitted successfully"
-                        : 'Calibration Request submitted sucessfully')));
+                ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text(ispostdataExpiring ? "Expiring Equipment Calibration Request submitted successfully" : 'Calibration Request submitted sucessfully')));
               } else {
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                    content: Text(ispostdataExpiring
-                        ? "Expiring Equipment Inspection Request submitted successfully"
-                        : 'Inspection Request submitted sucessfully')));
+                ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text(ispostdataExpiring ? "Expiring Equipment Inspection Request submitted successfully" : 'Inspection Request submitted sucessfully')));
               }
 
               if (ispostdataExpiring) {
@@ -1166,27 +1072,21 @@ getAllUsersListCalibration = value.data[0];
                 Get.back();
               }
 
-              await HttpRequest.httpPostRequest(
-                  endPoint: HttpUrls.notificationUrl,
-                  bodyData: {
-                    'Notification_Id_': value.data[0]['Notification_Id_'],
-                    'Customer_Request_Id_': value.data[0]
-                        ['Customer_Request_Id_'],
-                    'Customer_Name_': value.data[0]['Customer_Name_'],
-                    'Notification_Type_Name_': value.data[0]
-                        ['Notification_Type_Name_'],
-                  });
+              await HttpRequest.httpPostRequest(endPoint: HttpUrls.notificationUrl, bodyData: {
+                'Notification_Id_': value.data[0]['Notification_Id_'],
+                'Customer_Request_Id_': value.data[0]['Customer_Request_Id_'],
+                'Customer_Name_': value.data[0]['Customer_Name_'],
+                'Notification_Type_Name_': value.data[0]['Notification_Type_Name_'],
+              });
             }
             if (homeController.isUserLoggedIn) {
               await homeController.initfunction();
             }
           } else {
-            ScaffoldMessenger.of(context)
-                .showSnackBar(const SnackBar(content: Text('Server Error')));
+            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Server Error')));
           }
         } else {
-          ScaffoldMessenger.of(context)
-              .showSnackBar(const SnackBar(content: Text('Server Error')));
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Server Error')));
         }
       });
     }
@@ -1197,8 +1097,7 @@ getAllUsersListCalibration = value.data[0];
     if (check) {
       equipmentListCustomer.add(value);
     } else {
-      equipmentListCustomer.removeWhere(
-          (element) => element['Equipment_Id'] == value['Equipment_Id']);
+      equipmentListCustomer.removeWhere((element) => element['Equipment_Id'] == value['Equipment_Id']);
     }
 
     update();
@@ -1209,12 +1108,10 @@ getAllUsersListCalibration = value.data[0];
 
     String token = preferences.getString('token') ?? '';
     String? userId = preferences.getString('darlsco_id');
-    String isCalibrationCustomer =
-        preferences.getString('calibration_login') ?? '1';
+    String isCalibrationCustomer = preferences.getString('calibration_login') ?? '1';
     String isTraineeCustomer = preferences.getString('trainee_login') ?? '';
 
-    String isInspectionCustomer =
-        preferences.getString('inspection_login') ?? '';
+    String isInspectionCustomer = preferences.getString('inspection_login') ?? '';
 
     isUserLoggedIn = token != '';
     print('dfwref $isTraineeCustomer');
@@ -1225,45 +1122,36 @@ getAllUsersListCalibration = value.data[0];
 
     if (loginController.isFromSplashOrLogin) {
       // INSPECTION
-      homeController.isInspectionSection.value =
-          homeController.isInspectionEnabled;
+      homeController.isInspectionSection.value = homeController.isInspectionEnabled;
       // TRAINING
-      homeController.isTrainingSectionnew.value =
-          !homeController.isInspectionEnabled &&
-                  homeController.isTrainingEnabled &&
-                  !homeController.isInspectionSection.value ||
-              homeController.isTrainingEnabled &&
-                  homeController.isInspectionEnabled &&
-                  !homeController.isInspectionSection.value;
+      homeController.isTrainingSectionnew.value = !homeController.isInspectionEnabled && homeController.isTrainingEnabled && !homeController.isInspectionSection.value ||
+          homeController.isTrainingEnabled && homeController.isInspectionEnabled && !homeController.isInspectionSection.value;
       // Calibration
 
-      homeController.isCalibrationSection.value =
+      homeController.isCalibrationSection.value = !homeController.isInspectionEnabled &&
+              !homeController.isTrainingEnabled &&
+              homeController.isCalibrationEnabled &&
+              !homeController.isTrainingSectionnew.value &&
+              !homeController.isInspectionSection.value ||
+          homeController.isInspectionEnabled &&
+              !homeController.isTrainingEnabled &&
+              homeController.isCalibrationEnabled &&
+              !homeController.isTrainingSectionnew.value &&
+              !homeController.isInspectionSection.value ||
           !homeController.isInspectionEnabled &&
-                  !homeController.isTrainingEnabled &&
-                  homeController.isCalibrationEnabled &&
-                  !homeController.isTrainingSectionnew.value &&
-                  !homeController.isInspectionSection.value ||
-              homeController.isInspectionEnabled &&
-                  !homeController.isTrainingEnabled &&
-                  homeController.isCalibrationEnabled &&
-                  !homeController.isTrainingSectionnew.value &&
-                  !homeController.isInspectionSection.value ||
-              !homeController.isInspectionEnabled &&
-                  homeController.isTrainingEnabled &&
-                  homeController.isCalibrationEnabled &&
-                  !homeController.isTrainingSectionnew.value &&
-                  !homeController.isInspectionSection.value ||
-              homeController.isInspectionEnabled &&
-                  homeController.isTrainingEnabled &&
-                  homeController.isCalibrationEnabled &&
-                  !homeController.isTrainingSectionnew.value &&
-                  !homeController.isInspectionSection.value;
+              homeController.isTrainingEnabled &&
+              homeController.isCalibrationEnabled &&
+              !homeController.isTrainingSectionnew.value &&
+              !homeController.isInspectionSection.value ||
+          homeController.isInspectionEnabled &&
+              homeController.isTrainingEnabled &&
+              homeController.isCalibrationEnabled &&
+              !homeController.isTrainingSectionnew.value &&
+              !homeController.isInspectionSection.value;
 
       print(homeController.isTrainingSectionnew.value);
       print(homeController.isTrainingEnabled);
-      if (!homeController.isInspectionEnabled ||
-          homeController.isTrainingEnabled &&
-              homeController.isInspectionEnabled) {
+      if (!homeController.isInspectionEnabled || homeController.isTrainingEnabled && homeController.isInspectionEnabled) {
         print('CHECKING ${homeController.isInspectionEnabled}');
         print('CHECKING ${homeController.isTrainingEnabled}');
 
@@ -1309,11 +1197,8 @@ getAllUsersListCalibration = value.data[0];
   }
 
   publicTextboxValidation() {
-    if (inspectionLocationController.text.isEmpty ||
-        inspectionCategoryController.text.isEmpty ||
-        homeController.inspectionMessageController.text.isEmpty) {
-      ScaffoldMessenger.of(Get.context!).showSnackBar(
-          const SnackBar(content: Text('all fields are required')));
+    if (inspectionLocationController.text.isEmpty || inspectionCategoryController.text.isEmpty || homeController.inspectionMessageController.text.isEmpty) {
+      ScaffoldMessenger.of(Get.context!).showSnackBar(const SnackBar(content: Text('all fields are required')));
     } else {
       contactUsController.savePublicInspection();
     }
@@ -1322,15 +1207,12 @@ getAllUsersListCalibration = value.data[0];
   Future<bool> verifyCustomerProfile() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
 
-    int customerId =
-        int.parse(sharedPreferences.getString('darlsco_id') ?? '0');
+    int customerId = int.parse(sharedPreferences.getString('darlsco_id') ?? '0');
     Map<String, dynamic> postData = {"Customer_Id_": customerId};
     bool verifyProfileValue = false;
 
     try {
-      await HttpRequest.httpGetRequest(
-              endPoint: HttpUrls.verifyCustomerProfile, bodyData: postData)
-          .then((value) async {
+      await HttpRequest.httpGetRequest(endPoint: HttpUrls.verifyCustomerProfile, bodyData: postData).then((value) async {
         print("is profile updated  ${value.data[0][0]['Profile_Status']}");
 
         SharedPreferences preferences = await SharedPreferences.getInstance();
@@ -1375,16 +1257,11 @@ getAllUsersListCalibration = value.data[0];
             final data = response.data;
 
             print('jhdfbweyuisdfwer ${data[0][0]}');
-            prefs.setString(
-                'calibration_login', data['0'][0]['Calibration_'].toString());
-            prefs.setString(
-                'trainee_login', (data[0][0]['Training_'] ?? '0').toString());
-            prefs.setString('inspection_login',
-                (data[0][0]['Inspection_'] ?? '0').toString());
-            homeController.isInspection.value =
-                (data[0][0]['Inspection_'] ?? '0').toString();
-            homeController.isTraineee.value =
-                (data[0][0]['Training_'] ?? '0').toString();
+            prefs.setString('calibration_login', data['0'][0]['Calibration_'].toString());
+            prefs.setString('trainee_login', (data[0][0]['Training_'] ?? '0').toString());
+            prefs.setString('inspection_login', (data[0][0]['Inspection_'] ?? '0').toString());
+            homeController.isInspection.value = (data[0][0]['Inspection_'] ?? '0').toString();
+            homeController.isTraineee.value = (data[0][0]['Training_'] ?? '0').toString();
             homeController.isUsersignedIn();
             if (homeController.isuserLogin.value == true) {
               //  {
@@ -1410,9 +1287,7 @@ getAllUsersListCalibration = value.data[0];
   Future<void> getSingleEquipMentData(String equipmentId) async {
     // try {
     isLoadingEquipmentDetailsscreen.value = true;
-    var res = await HttpRequest.httpGetRequest(
-        endPoint:
-            '/Customer/Search_Equipment_Certificate/?Equipment_Id_=$equipmentId');
+    var res = await HttpRequest.httpGetRequest(endPoint: '/Customer/Search_Equipment_Certificate/?Equipment_Id_=$equipmentId');
     equipmentDetailModel = EquipmentDetailModel.fromJson(res.data);
     isLoadingEquipmentDetailsscreen.value = false;
 

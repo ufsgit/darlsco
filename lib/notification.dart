@@ -1,9 +1,12 @@
 import 'dart:convert';
 import 'dart:developer';
+import 'package:darlsco/controller/dashboard/dashboard_controller.dart';
 import 'package:darlsco/controller/upcoming_inspections/upcoming_inspection_controller.dart';
 import 'package:darlsco/view/home/bottom_navigation_screen.dart';
+import 'package:darlsco/view/training/training_inspection_screen.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:get/get.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 // This needs to be added to your main.dart as a top-level function
@@ -14,10 +17,8 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 }
 
 class FirebaseNotificationService {
-  static final FlutterLocalNotificationsPlugin _localNotificationsPlugin =
-      FlutterLocalNotificationsPlugin();
-  static final FirebaseMessaging _firebaseMessaging =
-      FirebaseMessaging.instance;
+  static final FlutterLocalNotificationsPlugin _localNotificationsPlugin = FlutterLocalNotificationsPlugin();
+  static final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
 
   static const AndroidNotificationChannel _channel = AndroidNotificationChannel(
     'high_importance_channel',
@@ -29,8 +30,7 @@ class FirebaseNotificationService {
   static Future<void> initialize() async {
     try {
       // Set up background message handler
-      FirebaseMessaging.onBackgroundMessage(
-          _firebaseMessagingBackgroundHandler);
+      FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
       // Request permissions and initialize settings
       await _setupNotifications();
@@ -46,8 +46,7 @@ class FirebaseNotificationService {
 
       log('Firebase Notification Service initialized successfully');
     } catch (e, stackTrace) {
-      log('Error initializing Firebase Notification Service',
-          error: e, stackTrace: stackTrace);
+      log('Error initializing Firebase Notification Service', error: e, stackTrace: stackTrace);
     }
   }
 
@@ -64,10 +63,7 @@ class FirebaseNotificationService {
       );
 
       // Create the Android notification channel
-      await _localNotificationsPlugin
-          .resolvePlatformSpecificImplementation<
-              AndroidFlutterLocalNotificationsPlugin>()
-          ?.createNotificationChannel(_channel);
+      await _localNotificationsPlugin.resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()?.createNotificationChannel(_channel);
 
       // Initialize local notifications
       await _localNotificationsPlugin.initialize(
@@ -95,8 +91,7 @@ class FirebaseNotificationService {
 
   static Future<void> _handleInitialMessage() async {
     print('dsfgrfgswdr');
-    RemoteMessage? initialMessage =
-        await FirebaseMessaging.instance.getInitialMessage();
+    RemoteMessage? initialMessage = await FirebaseMessaging.instance.getInitialMessage();
 
     if (initialMessage != null) {
       _handleMessage(initialMessage);
@@ -110,6 +105,38 @@ class FirebaseNotificationService {
     log('Handling message: ${message.messageId}');
     // Add your message handling logic here
     // For example, navigate to a specific screen based on the message
+    var data = message.data;
+    print('jon $data');
+    if (data.isNotEmpty) {
+      homeController.isCalibrationSection.value = homeController.isCalibrationEnabled && data['type'] == 'Calibration_Task';
+      homeController.isInspectionSection.value = homeController.isInspectionEnabled && data['type'] == 'Inspection_Task';
+      homeController.isTrainingSectionnew.value = homeController.isTrainingEnabled && data['type'] == 'new_trainer' || homeController.isTrainingEnabled && data['type'] == 'Exam';
+
+      Get.offAll(
+        TrainingInspectionScreen(
+          selectedIndex: homeController.isInspectionSection.value
+              ? 0
+              : homeController.isTrainingSectionnew.value
+                  ? homeController.isInspectionEnabled
+                      ? 1
+                      : 0
+                  : homeController.isCalibrationSection.value
+                      ? !homeController.isInspectionEnabled && !homeController.isTrainingEnabled
+                          ? 0
+                          : !homeController.isInspectionEnabled && homeController.isTrainingEnabled || homeController.isInspectionEnabled && !homeController.isTrainingEnabled
+                              ? 1
+                              : homeController.isInspectionEnabled && homeController.isTrainingEnabled && homeController.isCalibrationEnabled
+                                  ? 2
+                                  : 0
+                      : 0,
+        ),
+      );
+      // homeController.tabController.animateTo(2);
+      print(homeController.isCalibrationSection.value);
+      print(homeController.isInspectionSection.value);
+      print(homeController.isTrainingSectionnew.value);
+      homeController.update();
+    }
   }
 
   static void _handleNotificationTap(NotificationResponse response) async {
@@ -117,24 +144,51 @@ class FirebaseNotificationService {
     String rawNotificationData = response.payload.toString();
 
     // Fixing the malformed string
-    // String fixedJson = fixMalformedJson(rawNotificationData);
 
     // Now decoding the fixed JSON string
-    // try {
-    //   Map<String, dynamic> data = jsonDecode(fixedJson);
-    //   // if(){}
-    //   homeController.isCalibrationSection.value =
-    //       data['type'] != 'Calibration_Task';
-    //   homeController.isInspectionSection.value =
-    //       data['type'] != 'Inspection_Task';
-    //   await upcomingInspectionsController.getUserTaskDetails(
-    //     taskId: data['Task_Id'],
-    //   );
-      
-    //   print(data); // Successfully parsed map
-    // } catch (e) {
-    //   print('Error parsing JSON: $e');
-    // }
+    try {
+      String fixedJson = fixMalformedJson(rawNotificationData);
+      Map<String, dynamic> data = jsonDecode(fixedJson);
+      print('dfsoidnf 7487 ${data.isNotEmpty} $data');
+      if (dashboardController.dashboardRole == "user") {
+        print('dfsoidnf 748700 ');
+        if (data.isNotEmpty) {
+          homeController.isCalibrationSection.value = homeController.isCalibrationEnabled && data['type'] == 'Calibration_Task';
+          homeController.isInspectionSection.value = homeController.isInspectionEnabled && data['type'] == 'Inspection_Task';
+          homeController.isTrainingSectionnew.value =
+              homeController.isTrainingEnabled && data['type'] == 'new_trainer' || homeController.isTrainingEnabled && data['type'] == 'Exam';
+
+          Get.offAll(
+            TrainingInspectionScreen(
+              selectedIndex: homeController.isInspectionSection.value
+                  ? 0
+                  : homeController.isTrainingSectionnew.value
+                      ? homeController.isInspectionEnabled
+                          ? 1
+                          : 0
+                      : homeController.isCalibrationSection.value
+                          ? !homeController.isInspectionEnabled && !homeController.isTrainingEnabled
+                              ? 0
+                              : !homeController.isInspectionEnabled && homeController.isTrainingEnabled || homeController.isInspectionEnabled && !homeController.isTrainingEnabled
+                                  ? 1
+                                  : homeController.isInspectionEnabled && homeController.isTrainingEnabled && homeController.isCalibrationEnabled
+                                      ? 2
+                                      : 0
+                          : 0,
+            ),
+          );
+          // homeController.tabController.animateTo(2);
+          print(homeController.isCalibrationSection.value);
+          print(homeController.isInspectionSection.value);
+          print(homeController.isTrainingSectionnew.value);
+          homeController.update();
+        }
+      }
+
+      print(data); // Successfully parsed map
+    } catch (e) {
+      print('Error parsing JSON: $e');
+    }
     // Add your notification tap handling logic here
   }
 
@@ -179,19 +233,18 @@ class FirebaseNotificationService {
   }
 
   // Method to subscribe to topics
-  static Future<void> subscribeToTopic(
-      {required String userType, required String customerId}) async {
+  static Future<void> subscribeToTopic({required String userType, required String customerId}) async {
     if (userType == 'user') {
       await _firebaseMessaging.subscribeToTopic('USR-$customerId');
       print('blah blah USR-$customerId');
     } else {
+      print('blah blah CSR-$customerId');
       await _firebaseMessaging.subscribeToTopic('CUS-$customerId');
     }
   }
 
   // Method to unsubscribe from topics
-  static Future<void> unsubscribeFromTopic(
-      {required String userType, required String customerId}) async {
+  static Future<void> unsubscribeFromTopic({required String userType, required String customerId}) async {
     if (userType == 'user') {
       print('blah blah USR-$customerId');
 
