@@ -44,11 +44,9 @@ class _TraineeDetailsPageState extends State<TraineeDetailsPage> {
     print('quantity in trainee  ${widget.orderItem.quantity}');
     super.initState();
 
-    selectedLocations =
-        List.generate(widget.orderItem.quantity, (index) => null);
+    selectedLocations = List.generate(widget.orderItem.quantity, (index) => null);
 
-    selectedLocationLatLong =
-        List.generate(widget.orderItem.quantity, (index) => null);
+    selectedLocationLatLong = List.generate(widget.orderItem.quantity, (index) => null);
 
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       init();
@@ -89,7 +87,8 @@ class _TraineeDetailsPageState extends State<TraineeDetailsPage> {
 
     return isValid;
   }
-bool calledoneTime=false;
+
+  bool calledoneTime = false;
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -103,8 +102,7 @@ bool calledoneTime=false;
               children: [
                 SingleChildScrollView(
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 16, vertical: 32),
+                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 32),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -146,19 +144,17 @@ bool calledoneTime=false;
                         SizedBox(
                           height: 8.h,
                         ),
-                        richTextWidget(
-                            text: 'Enter Trainee ', spanText: 'Details'),
+                        richTextWidget(text: 'Enter Trainee ', spanText: 'Details'),
                         SizedBox(
                           height: 12.h,
                         ),
                         GetBuilder<TrainingControllerHomee>(builder: (data) {
                           void requestCustomLocationFocus() {
-                            FocusScope.of(context)
-                                .requestFocus(customLocationFocusNode);
+                            FocusScope.of(context).requestFocus(customLocationFocusNode);
                           }
 
                           return isLoading
-                              ? const Center(child:CircularProgressIndicator())
+                              ? const Center(child: CircularProgressIndicator())
                               : ListView.separated(
                                   itemCount: widget.orderItem.quantity,
                                   shrinkWrap: true,
@@ -170,57 +166,31 @@ bool calledoneTime=false;
                                   },
                                   itemBuilder: (context, index) {
                                     if (data.getIndivivdualDetails.isNotEmpty) {
-                                     
-                                      data.firstNameControllers[index].text =
-                                          data.getIndivivdualDetails[index]
-                                              .customerName;
-                                      data.emailControllers[index].text = data
-                                          .getIndivivdualDetails[index].email;
-                                      data.emiratesidControllers[index].text =
-                                          data.getIndivivdualDetails[index]
-                                              .emiratesId;
-                                      data.contactControllers[index].text = data
-                                          .getIndivivdualDetails[index].mobile;
+                                      data.firstNameControllers[index].text = data.getIndivivdualDetails[index].customerName;
+                                      data.emailControllers[index].text = data.getIndivivdualDetails[index].email;
+                                      data.emiratesidControllers[index].text = data.getIndivivdualDetails[index].emiratesId;
+                                      data.contactControllers[index].text = data.getIndivivdualDetails[index].mobile;
                                     }
 
                                     return traineeDetailsWidget(
                                       index: index,
-                                      imageListUrl:
-                                          trainingHomeController.traineeImgUrl,
-                                      isDropdownEnabled:
-                                          widget.orderItem.statusId == 1
-                                              ? false
-                                              : true,
-                                      enabled: widget.orderItem.statusId == 1
-                                          ? false
-                                          : true,
+                                      imageListUrl: trainingHomeController.traineeImgUrl,
+                                      isDropdownEnabled: widget.orderItem.statusId == 1 ? false : true,
+                                      enabled: widget.orderItem.statusId == 1 ? false : true,
                                       traineecount: 'Trainee ${index + 1}',
                                       context: context,
-                                      selectedLocation:
-                                          selectedLocations[index],
-                                      selectedLocationLatLong:
-                                          selectedLocationLatLong[index],
-                                      firstNameController: trainingController
-                                          .firstNameControllers[index],
-                                      lastNameController: trainingController
-                                          .lastNameControllers[index],
-                                      dobController: trainingController
-                                          .dobControllers[index],
-                                      emailController: trainingController
-                                          .emailControllers[index],
-                                      contactController: trainingController
-                                          .contactControllers[index],
-                                      emiratedIdController: trainingController
-                                          .emiratesidControllers[index],
-                                      employeeIdcontroller: trainingController
-                                          .employeeidControllers[index],
+                                      selectedLocation: selectedLocations[index],
+                                      selectedLocationLatLong: selectedLocationLatLong[index],
+                                      firstNameController: trainingController.firstNameControllers[index],
+                                      lastNameController: trainingController.lastNameControllers[index],
+                                      dobController: trainingController.dobControllers[index],
+                                      emailController: trainingController.emailControllers[index],
+                                      contactController: trainingController.contactControllers[index],
+                                      emiratedIdController: trainingController.emiratesidControllers[index],
+                                      employeeIdcontroller: trainingController.employeeidControllers[index],
                                       locList: trainingController.locList,
-                                      customLocationController:
-                                          trainingController
-                                              .customLocationControllers[index],
-                                      applicationIdController: trainingController
-                                              .applicationNumberIdControllers[
-                                          index],
+                                      customLocationController: trainingController.customLocationControllers[index],
+                                      applicationIdController: trainingController.applicationNumberIdControllers[index],
                                       onChanged: (value) {
                                         setState(() {
                                           selectedLocations[index] = value;
@@ -244,186 +214,143 @@ bool calledoneTime=false;
             ),
           ),
         ),
-        bottomNavigationBar:calledoneTime?null:
-            GetBuilder<TrainingControllerHomee>(builder: (trainee) {
-          return elevatedButtonWidget(
-            context: context,
-            text: widget.orderItem.statusId == 1 ? 'Saved' : 'Save',
-            backgroundColor: ColorResources.colorE5AA17,
-            width: Get.width,
-            txtColor: widget.orderItem.statusId == 1
-                ? ColorResources.color8D8D8D
-                : ColorResources.colorBlack,
-            onPressed: widget.orderItem.statusId == 1
-                ? null
-                : () async {
-                    List<String> errorMessages = [];
+        bottomNavigationBar: calledoneTime
+            ? null
+            : GetBuilder<TrainingControllerHomee>(builder: (trainee) {
+                return elevatedButtonWidget(
+                  context: context,
+                  text: widget.orderItem.statusId == 1 ? 'Saved' : 'Save',
+                  backgroundColor: ColorResources.colorE5AA17,
+                  width: Get.width,
+                  txtColor: widget.orderItem.statusId == 1 ? ColorResources.color8D8D8D : ColorResources.colorBlack,
+                  onPressed: widget.orderItem.statusId == 1
+                      ? null
+                      : () async {
+                          List<String> errorMessages = [];
 
-                    bool validateTraineeFields(int index) {
-                      bool isValid = true;
-                      var controllers = trainingController;
+                          bool validateTraineeFields(int index) {
+                            bool isValid = true;
+                            var controllers = trainingController;
 
-                      void addError(String message) {
-                        errorMessages.add(message);
-                        isValid = false;
-                      }
-
-                      if (controllers
-                          .firstNameControllers[index].text.isEmpty) {
-                        addError('Enter First Name for Trainee ${index + 1}');
-                      }
-                      if (controllers.lastNameControllers[index].text.isEmpty) {
-                        addError('Enter Last Name for Trainee ${index + 1}');
-                      }
-
-                      // if (controllers
-                      //     .applicationNumberIdControllers[index].text.isEmpty) {
-                      //   addError(
-                      //       'Enter Application No for Trainee ${index + 1}');
-                      // }
-
-                      // if (controllers
-                      //     .employeeidControllers[index].text.isEmpty) {
-                      //   addError('Enter Trainee ID for Trainee ${index + 1}');
-                      // }
-
-                      if (selectedLocations[index]?.locationId != -1 &&
-                          selectedLocations[index] == null) {
-                        addError('Select Location for Trainee ${index + 1}');
-                      }
-
-                      if (selectedLocations[index]?.locationId == -1 &&
-                          controllers
-                              .customLocationControllers[index].text.isEmpty) {
-                        addError(
-                            'Select Location Name for Trainee ${index + 1}');
-                      }
-
-                      if (controllers
-                          .emiratesidControllers[index].text.isNotEmpty) {
-                        if (controllers
-                                .emiratesidControllers[index].text.length !=
-                            18) {
-                          addError(
-                              'Enter Valid Emirates ID for Trainee ${index + 1}');
-                        }
-                      }
-
-                      return isValid;
-                    }
-
-                    bool allValid = true;
-                    for (int index = 0;
-                        index < widget.orderItem.quantity;
-                        index++) {
-                      if (!validateTraineeFields(index)) {
-                        allValid = false;
-                      }
-                    }
-
-                    if (allValid) {
-                      await trainingController.addTrainee(
-                        AddTraineeModel(
-                          orderDetailsId: widget.orderItem.orderDetailsId,
-                          duration: widget.orderItem.duration,
-                          orderMasterId: widget.orderItem.orderMasterId,
-                          quantity: widget.orderItem.quantity,
-                          traineeDetails:
-                              List.generate(widget.orderItem.quantity, (index) {
-                            if (trainingController
-                                .dobControllers[index].text.isNotEmpty) {
-                              String inputDate =
-                                  trainingController.dobControllers[index].text;
-                              DateTime parsedDate =
-                                  DateFormat('dd/MM/yyyy').parse(inputDate);
-                              formattedDate =
-                                  DateFormat('yyyy-MM-dd').format(parsedDate);
+                            void addError(String message) {
+                              errorMessages.add(message);
+                              isValid = false;
                             }
 
-                            print(
-                              trainingController.locList.isNotEmpty
-                                  ? selectedLocations[index] != null
-                                      ? selectedLocations[index]!.locationId
-                                      : 0
-                                  : 0,
-                            );
+                            if (controllers.firstNameControllers[index].text.isEmpty) {
+                              addError('Enter First Name for Trainee ${index + 1}');
+                            }
+                            if (controllers.lastNameControllers[index].text.isEmpty) {
+                              addError('Enter Last Name for Trainee ${index + 1}');
+                            }
 
-                            return TraineeDetails(
-                              locationId: trainingController.locList.isNotEmpty
-                                  ? selectedLocations[index] != null
-                                      ? selectedLocations[index]!.locationId
-                                      : 0
-                                  : 0,
-                              locationName: trainingController
-                                      .locList.isNotEmpty
-                                  ? selectedLocations[index] == null
-                                      ? '0'
-                                      : selectedLocations[index]!.locationId ==
-                                              -1
-                                          ? trainingController
-                                              .customLocationControllers[index]
-                                              .text
-                                          : selectedLocations[index]!
-                                              .locationName
-                                  : trainingController.locController.text,
-                              latitude: selectedLocations[index] == null
-                                  ? ''
-                                  : selectedLocations[index]?.latitude ?? '',
-                              longitude: selectedLocations[index] == null
-                                  ? ''
-                                  : selectedLocations[index]?.longitude ?? '',
-                              trainingCourseId:
-                                  widget.orderItem.trainingCourseId,
-                              trainingCourseName:
-                                  widget.orderItem.trainingCourseName,
-                              trainingCourseCategoryId:
-                                  widget.orderItem.trainingCourseCategoryId,
-                              categoryName: widget.orderItem.categoryName,
-                              employeeFirstname: trainingController
-                                  .firstNameControllers[index].text,
-                              employeeLastname: trainingController
-                                  .lastNameControllers[index].text,
-                              employeeId: trainingController
-                                  .employeeidControllers[index].text,
-                              dateofBirth: formattedDate,
-                              photoUrl: trainingController
-                                          .traineeImgUrl[index].isNotEmpty &&
-                                      trainingController.traineeImgUrl[index] !=
-                                          'empty'
-                                  ? trainingController.traineeImgUrl[index]
-                                      .substring(1)
-                                  : '',
-                              emailId: trainingController
-                                  .emailControllers[index].text,
-                              countryCode: loginController.countryCode.value,
-                              countryCodeName:
-                                  homeController.currentCountryCode.value,
-                              mobileNo: trainingController
-                                  .contactControllers[index].text,
-                              applicationNumber: trainingController
-                                  .applicationNumberIdControllers[index].text,
-                              emirateId: trainingController
-                                  .emiratesidControllers[index].text,
+                            // if (controllers
+                            //     .applicationNumberIdControllers[index].text.isEmpty) {
+                            //   addError(
+                            //       'Enter Application No for Trainee ${index + 1}');
+                            // }
+
+                            // if (controllers
+                            //     .employeeidControllers[index].text.isEmpty) {
+                            //   addError('Enter Trainee ID for Trainee ${index + 1}');
+                            // }
+
+                            if (selectedLocations[index]?.locationId != -1 && selectedLocations[index] == null) {
+                              addError('Select Location for Trainee ${index + 1}');
+                            }
+
+                            if (selectedLocations[index]?.locationId == -1 && controllers.customLocationControllers[index].text.isEmpty) {
+                              addError('Select Location Name for Trainee ${index + 1}');
+                            }
+
+                            if (controllers.emiratesidControllers[index].text.isNotEmpty) {
+                              // if (controllers.emiratesidControllers[index].text.length != 18) {
+                              //   addError('Enter Valid Emirates ID for Trainee ${index + 1}');
+                              // }
+                            }
+
+                            return isValid;
+                          }
+
+                          bool allValid = true;
+                          for (int index = 0; index < widget.orderItem.quantity; index++) {
+                            if (!validateTraineeFields(index)) {
+                              allValid = false;
+                            }
+                          }
+
+                          if (allValid) {
+                            await trainingController.addTrainee(
+                              AddTraineeModel(
+                                orderDetailsId: widget.orderItem.orderDetailsId,
+                                duration: widget.orderItem.duration,
+                                orderMasterId: widget.orderItem.orderMasterId,
+                                quantity: widget.orderItem.quantity,
+                                traineeDetails: List.generate(widget.orderItem.quantity, (index) {
+                                  if (trainingController.dobControllers[index].text.isNotEmpty) {
+                                    String inputDate = trainingController.dobControllers[index].text;
+                                    DateTime parsedDate = DateFormat('dd/MM/yyyy').parse(inputDate);
+                                    formattedDate = DateFormat('yyyy-MM-dd').format(parsedDate);
+                                  }
+
+                                  print(
+                                    trainingController.locList.isNotEmpty
+                                        ? selectedLocations[index] != null
+                                            ? selectedLocations[index]!.locationId
+                                            : 0
+                                        : 0,
+                                  );
+
+                                  return TraineeDetails(
+                                    locationId: trainingController.locList.isNotEmpty
+                                        ? selectedLocations[index] != null
+                                            ? selectedLocations[index]!.locationId
+                                            : 0
+                                        : 0,
+                                    locationName: trainingController.locList.isNotEmpty
+                                        ? selectedLocations[index] == null
+                                            ? '0'
+                                            : selectedLocations[index]!.locationId == -1
+                                                ? trainingController.customLocationControllers[index].text
+                                                : selectedLocations[index]!.locationName
+                                        : trainingController.locController.text,
+                                    latitude: selectedLocations[index] == null ? '' : selectedLocations[index]?.latitude ?? '',
+                                    longitude: selectedLocations[index] == null ? '' : selectedLocations[index]?.longitude ?? '',
+                                    trainingCourseId: widget.orderItem.trainingCourseId,
+                                    trainingCourseName: widget.orderItem.trainingCourseName,
+                                    trainingCourseCategoryId: widget.orderItem.trainingCourseCategoryId,
+                                    categoryName: widget.orderItem.categoryName,
+                                    employeeFirstname: trainingController.firstNameControllers[index].text,
+                                    employeeLastname: trainingController.lastNameControllers[index].text,
+                                    employeeId: trainingController.employeeidControllers[index].text,
+                                    dateofBirth: formattedDate,
+                                    photoUrl: trainingController.traineeImgUrl[index].isNotEmpty && trainingController.traineeImgUrl[index] != 'empty'
+                                        ? trainingController.traineeImgUrl[index].substring(1)
+                                        : '',
+                                    emailId: trainingController.emailControllers[index].text,
+                                    countryCode: loginController.countryCode.value,
+                                    countryCodeName: homeController.currentCountryCode.value,
+                                    mobileNo: trainingController.contactControllers[index].text,
+                                    applicationNumber: trainingController.applicationNumberIdControllers[index].text,
+                                    emirateId: trainingController.emiratesidControllers[index].text,
+                                  );
+                                }),
+                              ),
+                              context,
                             );
-                          }),
-                        ),
-                        context,
-                      );
-                      await trainingHomeController.getSpecificOrderDetails(
-                          orderMasterId:
-                              widget.orderItem.orderMasterId.toString());
-                      widget.previousPageSetState(() {});
-                      setState(() {
-                        calledoneTime=true;
-                      });
-                    } else {
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                        content: Text(errorMessages.first),
-                      ));
-                    }
-                  },
-          );
-        }),
+                            await trainingHomeController.getSpecificOrderDetails(orderMasterId: widget.orderItem.orderMasterId.toString());
+                            widget.previousPageSetState(() {});
+                            setState(() {
+                              calledoneTime = true;
+                            });
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                              content: Text(errorMessages.first),
+                            ));
+                          }
+                        },
+                );
+              }),
       ),
     );
   }

@@ -2128,22 +2128,22 @@ Widget traineeDetailsWidget(
                     rowField(
                         title: 'Emirates ID',
                         // maxLength: 18,
-                        keyboardType: TextInputType.number,
+                        // keyboardType: TextInputType.number,
                         enabled: enabled,
                         context: context,
                         controller: emiratedIdController,
                         focusNode: emiratedIdFocusNode,
                         onChanged: (value) {
-                          if (value.length == 18) {
-                            trainingController.getTraineeDetailsByEmiratesId(
-                                emiratesId: value,
-                                firstNameController: firstNameController,
-                                lastNameController: lastNameController,
-                                dobController: dobController,
-                                contactNumberController: contactController,
-                                emailIdController: emailController,
-                                employeeIdController: employeeIdcontroller);
-                          }
+                          // if (value.length == 18) {
+                          trainingController.getTraineeDetailsByEmiratesId(
+                              emiratesId: value,
+                              firstNameController: firstNameController,
+                              lastNameController: lastNameController,
+                              dobController: dobController,
+                              contactNumberController: contactController,
+                              emailIdController: emailController,
+                              employeeIdController: employeeIdcontroller);
+                          // }
                         },
 
                         // validator: (value) {
