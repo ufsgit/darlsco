@@ -171,9 +171,12 @@ class LoginController extends GetxController {
           // TODO:NEED TO STORE LOCALLY
           homeController.isInspection.value = data['0'][0]['Inspection'].toString();
           homeController.isTraineee.value = data['0'][0]['Training'].toString();
-          homeController.isInspectionSection.value = data['0'][0]['Inspection'] == '1';
-          homeController.isTrainingSectionnew.value = data['0'][0]['Training'] == '1';
-          homeController.isCalibrationSection.value = data['0'][0]['Calibration'] == '1';
+          homeController.isInspectionSection.value =
+              data['0'][0]['Inspection'] == '1';
+          homeController.isTrainingSectionnew.value =
+              data['0'][0]['Training'] == '1';
+          homeController.isCalibrationSection.value =
+              data['0'][0]['Calibration'] == '1';
           print('dfnsdefwe ${homeController.isTrainingSectionnew.value}');
 
           //     if (isFromSplashOrLogin) {
@@ -264,8 +267,10 @@ class LoginController extends GetxController {
             default:
               Get.offAll(() => BottomNavigationWidget());
           }
-          await FirebaseNotificationService.getNotificationPermission();
-          await FirebaseNotificationService.subscribeToTopic(userType: dashboardController.dashboardRole.toString(), customerId: data['0'][0]['Id'].toString());
+          // await FirebaseNotificationService.getNotificationPermission();
+          // await FirebaseNotificationService.subscribeToTopic(
+          //     userType: dashboardController.dashboardRole.toString(),
+          //     customerId: data['0'][0]['Id'].toString());
 
           // Get.offAll(() => const BottomNavigationScreen());
         }
@@ -381,9 +386,6 @@ class LoginController extends GetxController {
     String cusId = sharedPreferences.getString('darlsco_id').toString();
 
     await sharedPreferences.clear();
-
-    Get.offAll(() => BottomNavigationWidget(), duration: Duration.zero);
-    await FirebaseNotificationService.unsubscribeFromTopic(userType: dashboardController.dashboardRole.toString(), customerId: cusId);
     // loginController.dispose();
     // tcontoller.refresh();
     // upcomingInspectionsController.refresh();
