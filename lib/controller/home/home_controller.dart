@@ -43,7 +43,7 @@ import '../tainning/trainnig_controller.dart';
 final HomeController globalHomeController = Get.put(HomeController());
 
 class HomeController extends GetxController {
-  String testKey = '1'; // 1 for  test and 0 for live
+  String testKey = '0'; // 1 for  test and 0 for live
   RxBool isHomeLoading = false.obs;
   RxBool isLoading = false.obs;
   FocusNode focusNode = FocusNode();
@@ -97,7 +97,6 @@ class HomeController extends GetxController {
       "imgUrl": 'assets/images/ruchita_patel.png',
       "message": 'One of the best inspections company in UAE.',
     },
-    
     {
       "name": 'Jean-Baptiste De Winter',
       "imgUrl": 'assets/images/jean_baptiste de winter.png',

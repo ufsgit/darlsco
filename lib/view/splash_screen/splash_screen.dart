@@ -30,8 +30,7 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  final UpcomingInspectionsController upcontroller =
-      Get.put(UpcomingInspectionsController());
+  final UpcomingInspectionsController upcontroller = Get.put(UpcomingInspectionsController());
   AppUpdateInfo? updateInfo;
   GlobalKey<ScaffoldState> scaffoldKey = GlobalKey();
 
@@ -46,7 +45,7 @@ class _SplashScreenState extends State<SplashScreen> {
     try {
       loginController.isFromSplashOrLogin = true;
       PackageInfo packageInfo = await PackageInfo.fromPlatform();
-      const String version = '1.0.11';
+      const String version = '1.0.14';
       await homeController.versionCheck(version, context);
       if (homeController.isAppBlocked.value) {
         Get.to(() => const UserBlockScreen());
