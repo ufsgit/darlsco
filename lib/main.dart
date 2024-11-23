@@ -49,9 +49,9 @@ Future<void> main() async {
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
   // setPathUrlStrategy();
 
-  await Firebase.initializeApp(
+await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
-  );
+);
   await FirebaseNotificationService.initialize();
 
 // final channel =  IOWebSocketChannel.connect( Uri.parse('wss://192.168.1.94:4510')    );

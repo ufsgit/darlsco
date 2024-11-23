@@ -97,6 +97,7 @@ class HomeController extends GetxController {
       "imgUrl": 'assets/images/ruchita_patel.png',
       "message": 'One of the best inspections company in UAE.',
     },
+    
     {
       "name": 'Jean-Baptiste De Winter',
       "imgUrl": 'assets/images/jean_baptiste de winter.png',

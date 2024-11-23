@@ -694,7 +694,7 @@ class HomePageState extends State<HomePage>
                                                 contentText: homeController
                                                         .contentTextTrainingTab2Calibration[
                                                     index],
-                                                numberText:index == 0
+                                                numberText: index == 0
                                                     ? homeController
                                                         .calibrationHomeCount[
                                                             'Location_Count']
@@ -749,7 +749,7 @@ class HomePageState extends State<HomePage>
                         mainTitleWidget: RichText(
                             text: TextSpan(children: [
                           TextSpan(
-                            text: 'We\'re ready to',
+                            text: 'We\'re ready for',
                             style: GoogleFonts.roboto(
                                 color: ColorResources.color294C73,
                                 fontSize: 40.sp,
