@@ -57,8 +57,7 @@ import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-final TrainingControllerHomee trainingController =
-    Get.put(TrainingControllerHomee());
+final TrainingControllerHomee trainingController = Get.put(TrainingControllerHomee());
 
 class TrainingControllerHomee extends GetxController {
   TodayTaskController todayTaskController = Get.put(TodayTaskController());
@@ -154,10 +153,8 @@ class TrainingControllerHomee extends GetxController {
   TextEditingController notesController = TextEditingController();
   TextEditingController dateControler = TextEditingController();
   TextEditingController locController = TextEditingController();
-  TextEditingController tradeLicenceExpiryDateController =
-      TextEditingController();
-  TextEditingController emiratesIdExpiryDateController =
-      TextEditingController();
+  TextEditingController tradeLicenceExpiryDateController = TextEditingController();
+  TextEditingController emiratesIdExpiryDateController = TextEditingController();
 
   Dio dio = Dio();
 
@@ -180,25 +177,16 @@ class TrainingControllerHomee extends GetxController {
 //method for updating controllers according to quantity
   void updateControllers(int quantity) {
     traineeImgUrl = List.generate(quantity, (index) => 'empty');
-    firstNameControllers =
-        List.generate(quantity, (index) => TextEditingController());
-    lastNameControllers =
-        List.generate(quantity, (index) => TextEditingController());
-    dobControllers =
-        List.generate(quantity, (index) => TextEditingController());
-    contactControllers =
-        List.generate(quantity, (index) => TextEditingController());
-    emailControllers =
-        List.generate(quantity, (index) => TextEditingController());
-    employeeidControllers =
-        List.generate(quantity, (index) => TextEditingController());
-    emiratesidControllers =
-        List.generate(quantity, (index) => TextEditingController());
-    applicationNumberIdControllers =
-        List.generate(quantity, (index) => TextEditingController());
+    firstNameControllers = List.generate(quantity, (index) => TextEditingController());
+    lastNameControllers = List.generate(quantity, (index) => TextEditingController());
+    dobControllers = List.generate(quantity, (index) => TextEditingController());
+    contactControllers = List.generate(quantity, (index) => TextEditingController());
+    emailControllers = List.generate(quantity, (index) => TextEditingController());
+    employeeidControllers = List.generate(quantity, (index) => TextEditingController());
+    emiratesidControllers = List.generate(quantity, (index) => TextEditingController());
+    applicationNumberIdControllers = List.generate(quantity, (index) => TextEditingController());
 
-    customLocationControllers =
-        List.generate(quantity, (index) => TextEditingController());
+    customLocationControllers = List.generate(quantity, (index) => TextEditingController());
 
     update();
   }
@@ -212,9 +200,7 @@ class TrainingControllerHomee extends GetxController {
         print('homedata//////');
         final responseData = response.data as List<dynamic>;
         final trainingDataList = responseData[0] as List<dynamic>;
-        trainingData.value = trainingDataList
-            .map((result) => TrainingHomeModel.fromJson(result))
-            .toList();
+        trainingData.value = trainingDataList.map((result) => TrainingHomeModel.fromJson(result)).toList();
       } else {
         throw Exception('Failed to load training data: ${response.statusCode}');
       }
@@ -230,9 +216,7 @@ class TrainingControllerHomee extends GetxController {
       if (response.statusCode == 200) {
         final responseData = response.data as List<dynamic>;
         final courseDataList = responseData[0] as List<dynamic>;
-        getItemDetailsData.value = courseDataList
-            .map((result) => ItemModelElement.fromJson(result))
-            .toList();
+        getItemDetailsData.value = courseDataList.map((result) => ItemModelElement.fromJson(result)).toList();
       } else {
         throw Exception('Failed to load training data: ${response.statusCode}');
       }
@@ -305,9 +289,7 @@ class TrainingControllerHomee extends GetxController {
           // cartData.clear();
           final cartDataList = responseData[0] as List<dynamic>;
 
-          cartData.value = cartDataList
-              .map((result) => GetCartItemModel.fromJson(result))
-              .toList();
+          cartData.value = cartDataList.map((result) => GetCartItemModel.fromJson(result)).toList();
 
           tcontoller.homeQuatity.value = cartData.length;
 
@@ -332,27 +314,22 @@ class TrainingControllerHomee extends GetxController {
 
               // subtotal += itemSubtotal;
 
-              double applicationFee =
-                  double.parse(cartData[index].applicationFee) * quantity;
-              double examinationFee =
-                  double.parse(cartData[index].examinationFee) * quantity;
-              double certificateFee =
-                  double.parse(cartData[index].certificateFee) * quantity;
+              double applicationFee = double.parse(cartData[index].applicationFee) * quantity;
+              double examinationFee = double.parse(cartData[index].examinationFee) * quantity;
+              double certificateFee = double.parse(cartData[index].certificateFee) * quantity;
 
               // double applicationVat = applicationFee * 2 / 100;
               // double examinationVat = examinationFee * 2 / 100;
               // double certificateVat = certificateFee * 2 / 100;
 
-              double itemSubtotal =
-                  applicationFee + examinationFee + certificateFee + quantPrice;
+              double itemSubtotal = applicationFee + examinationFee + certificateFee + quantPrice;
 
               subtotal += itemSubtotal;
               isCartscreenLoading.value = false;
 
               return CartPriceModel(
                   trainingCourseName: cartData[index].trainingCourseName,
-                  trainingCourseCategoryId:
-                      cartData[index].trainingCourseCategoryId,
+                  trainingCourseCategoryId: cartData[index].trainingCourseCategoryId,
                   trainingCourseId: cartData[index].trainingCourseId.toString(),
                   categoryName: cartData[index].categoryName,
                   quantity: cartData[index].quantity,
@@ -371,8 +348,7 @@ class TrainingControllerHomee extends GetxController {
                   examinationTax: cartData[index].examinationTax,
                   serviceCharge: cartData[index].serviceCharge,
                   tax: cartData[index].tax,
-                  retakeOnlyPracticalTax:
-                      cartData[index].retakeOnlyPracticalTax,
+                  retakeOnlyPracticalTax: cartData[index].retakeOnlyPracticalTax,
                   retakeWrittenFee: cartData[index].retakeOnlyWrittenFee,
                   retakepracticalFee: cartData[index].retakeOnlyPracticalFee,
                   retakeOnlyWrittenTax: cartData[index].retakeOnlyWrittenTax,
@@ -422,9 +398,7 @@ class TrainingControllerHomee extends GetxController {
         if (responseData.isNotEmpty) {
           priceData.clear();
           final cartDataList = responseData[0] as List<dynamic>;
-          final results = cartDataList
-              .map((result) => GetCartItemModel.fromJson(result))
-              .toList();
+          final results = cartDataList.map((result) => GetCartItemModel.fromJson(result)).toList();
           priceData.addAll(results);
           print(results);
         } else {
@@ -452,18 +426,14 @@ class TrainingControllerHomee extends GetxController {
     final prefs = await SharedPreferences.getInstance();
     final String customerId = prefs.getString('darlsco_id') ?? "6";
     isOrderscreenLoading.value = true;
-    await HttpRequest.httpGetRequest(
-            endPoint: HttpUrls.getOrderItems + customerId)
-        .then((response) {
+    await HttpRequest.httpGetRequest(endPoint: HttpUrls.getOrderItems + customerId).then((response) {
       if (response.statusCode == 200) {
         final responseData = response.data as List<dynamic>;
         print(responseData);
         if (responseData.isNotEmpty) {
           orderData.clear();
           final orderDataList = responseData[0] as List<dynamic>;
-          orderData.value = orderDataList
-              .map((result) => GetOrderItemModelElement.fromJson(result))
-              .toList();
+          orderData.value = orderDataList.map((result) => GetOrderItemModelElement.fromJson(result)).toList();
           isOrderscreenLoading.value = false;
         } else {
           isOrderscreenLoading.value = false;
@@ -480,16 +450,13 @@ class TrainingControllerHomee extends GetxController {
   }
 
   getSpecificOrderDetails({required String orderMasterId}) async {
-    await HttpRequest.httpGetRequest(
-            endPoint: HttpUrls.getSpecificOrderDetails + orderMasterId)
-        .then((response) {
+    await HttpRequest.httpGetRequest(endPoint: HttpUrls.getSpecificOrderDetails + orderMasterId).then((response) {
       if (response.statusCode == 200) {
         // print("get specific order details  ${ response.data[0][2].toString()  }");
 
         List data = response.data[0];
 
-        specificOrderDetailList =
-            data.map((e) => SpecificOrderDetailsModel.fromJson(e)).toList();
+        specificOrderDetailList = data.map((e) => SpecificOrderDetailsModel.fromJson(e)).toList();
       } else {
         throw Exception('Empty response data');
       }
@@ -497,11 +464,7 @@ class TrainingControllerHomee extends GetxController {
     update();
   }
 
-  void getOrdersItemsR(
-      {required BuildContext context,
-      required String orderId,
-      required DateTime selectedDate,
-      required String notes}) async {
+  void getOrdersItemsR({required BuildContext context, required String orderId, required DateTime selectedDate, required String notes}) async {
     // String formattedDate = selectedDate.toIso8601String();
 
     // Example JSON data
@@ -580,8 +543,7 @@ class TrainingControllerHomee extends GetxController {
         trainingController.notesController.clear();
         await trainingController.getUpComingTask();
 
-        ScaffoldMessenger.of(Get.context!).showSnackBar(const SnackBar(
-            content: Text('Reassign Request sent successfully')));
+        ScaffoldMessenger.of(Get.context!).showSnackBar(const SnackBar(content: Text('Reassign Request sent successfully')));
         // Get.offAll(() => const TrainingInspectionScreen());
       } else {
         print(response);
@@ -665,18 +627,13 @@ class TrainingControllerHomee extends GetxController {
     print("cart///////Device ID $deviceId");
     // SharedPreferences preferences = await SharedPreferences.getInstance();
     Loader.showLoader();
-    await HttpRequest.httpGetRequest(
-            endPoint:
-                '${HttpUrls.getOtpUrl}$phoneNumber/$countryCode/$deviceId')
-        .then((response) {
+    await HttpRequest.httpGetRequest(endPoint: '${HttpUrls.getOtpUrl}$phoneNumber/$countryCode/$deviceId').then((response) {
       if (response.statusCode == 200) {
         Loader.stopLoader();
         var responseData = response.data;
 
         trainingController.otpController.clear();
-        if (responseData.containsKey('Data') &&
-            responseData['Data'] is List &&
-            responseData['Data'].isNotEmpty) {
+        if (responseData.containsKey('Data') && responseData['Data'] is List && responseData['Data'].isNotEmpty) {
           var data = responseData['Data'][0];
           if (data.containsKey('OTP')) {
             var otp = data['OTP'];
@@ -686,8 +643,7 @@ class TrainingControllerHomee extends GetxController {
             // ScaffoldMessenger.of(Get.context!)
             //     .showSnackBar(SnackBar(content: Text('otp:$otp')));
             log('OTP received: $otp');
-            print(
-                'data cart in api call//////// ${trainingController.cartPriceList.length}');
+            print('data cart in api call//////// ${trainingController.cartPriceList.length}');
           } else {
             throw Exception('OTP not found in response data');
           }
@@ -703,9 +659,7 @@ class TrainingControllerHomee extends GetxController {
 
   //function for deleting items from the cart
   Future<void> deleteCartItem(int itemCartId) async {
-    await HttpRequest.httpGetRequest(
-            endPoint: '${HttpUrls.deleteCartItem}$itemCartId')
-        .then((response) async {
+    await HttpRequest.httpGetRequest(endPoint: '${HttpUrls.deleteCartItem}$itemCartId').then((response) async {
       if (response.statusCode == 200) {
         log('Item deleted successfully');
         print('getItemCart6');
@@ -722,9 +676,7 @@ class TrainingControllerHomee extends GetxController {
     print("cart///////Device ID $deviceId");
     final prefs = await SharedPreferences.getInstance();
     final String userId = prefs.getString('darlsco_id') ?? '0';
-    await HttpRequest.httpGetRequest(
-            endPoint: '${HttpUrls.deleteItemCart}$deviceId')
-        .then((response) async {
+    await HttpRequest.httpGetRequest(endPoint: '${HttpUrls.deleteItemCart}$deviceId').then((response) async {
       if (response.statusCode == 200) {
         log('Item deleted successfully');
         print('getItemCart6');
@@ -742,8 +694,7 @@ class TrainingControllerHomee extends GetxController {
     print('calling...........................');
     final prefs = await SharedPreferences.getInstance();
     final String customerId = prefs.getString('darlsco_id') ?? "";
-    await HttpRequest.httpGetRequest(endPoint: HttpUrls.getCount + customerId)
-        .then((response) {
+    await HttpRequest.httpGetRequest(endPoint: HttpUrls.getCount + customerId).then((response) {
       if (response.statusCode == 200) {
         final responseData = response.data as List<dynamic>;
         if (responseData.isNotEmpty) {
@@ -769,16 +720,13 @@ class TrainingControllerHomee extends GetxController {
     trainingController.todayTasksLst.clear();
     final prefs = await SharedPreferences.getInstance();
     final String staffId = prefs.getString('darlsco_id') ?? "";
-    await HttpRequest.httpGetRequest(endPoint: HttpUrls.getTodayTask + staffId)
-        .then((response) {
+    await HttpRequest.httpGetRequest(endPoint: HttpUrls.getTodayTask + staffId).then((response) {
       if (response.statusCode == 200) {
         final responseData = response.data as List<dynamic>;
         print(responseData);
         if (responseData.isNotEmpty) {
           final todayTaskList = responseData[0] as List<dynamic>;
-          trainingController.todayTasksLst.value = todayTaskList
-              .map((result) => GetTodayTaskModel.fromJson(result))
-              .toList();
+          trainingController.todayTasksLst.value = todayTaskList.map((result) => GetTodayTaskModel.fromJson(result)).toList();
           print('todays task from api   ${trainingController.todayTasksLst}');
 
           trainingController.update();
@@ -796,18 +744,14 @@ class TrainingControllerHomee extends GetxController {
   Future<void> getTodayExamDetails() async {
     final prefs = await SharedPreferences.getInstance();
     final String staffId = prefs.getString('darlsco_id') ?? "";
-    await HttpRequest.httpGetRequest(
-            endPoint: HttpUrls.getExamDetailsNow + staffId)
-        .then((response) {
+    await HttpRequest.httpGetRequest(endPoint: HttpUrls.getExamDetailsNow + staffId).then((response) {
       if (response.statusCode == 200) {
         todayExam.clear();
         final responseData = response.data as List<dynamic>;
         print(responseData);
         if (responseData.isNotEmpty) {
           final todayExamList = responseData[0] as List<dynamic>;
-          todayExam.value = todayExamList
-              .map((result) => GetExamDetailsNowModel.fromJson(result))
-              .toList();
+          todayExam.value = todayExamList.map((result) => GetExamDetailsNowModel.fromJson(result)).toList();
         } else {
           throw Exception('Empty response data');
         }
@@ -831,15 +775,12 @@ class TrainingControllerHomee extends GetxController {
         if (responseData.isNotEmpty) {
           upComingTasks.clear();
           final upComingTaskList = responseData[0] as List<dynamic>;
-          upComingTasks.value = upComingTaskList
-              .map((result) => UpComingTaskModel.fromJson(result))
-              .toList();
+          upComingTasks.value = upComingTaskList.map((result) => UpComingTaskModel.fromJson(result)).toList();
         } else {
           throw Exception('Empty response data');
         }
       } else {
-        throw Exception(
-            'Failed to load upcoming tasks: ${response.statusCode}');
+        throw Exception('Failed to load upcoming tasks: ${response.statusCode}');
       }
     });
     update();
@@ -849,18 +790,14 @@ class TrainingControllerHomee extends GetxController {
   Future<void> getTotalTraining() async {
     final prefs = await SharedPreferences.getInstance();
     final String staffId = prefs.getString('darlsco_id') ?? "";
-    await HttpRequest.httpGetRequest(
-            endPoint: HttpUrls.getTrainingAttended + staffId)
-        .then((response) {
+    await HttpRequest.httpGetRequest(endPoint: HttpUrls.getTrainingAttended + staffId).then((response) {
       if (response.statusCode == 200) {
         final responseData = response.data as List<dynamic>;
         print(responseData);
         if (responseData.isNotEmpty) {
           totalTrainingData.clear();
           final totalTrainingDetails = responseData[0] as List<dynamic>;
-          totalTrainingData.value = totalTrainingDetails
-              .map((result) => GetTotalTrainingModel.fromJson(result))
-              .toList();
+          totalTrainingData.value = totalTrainingDetails.map((result) => GetTotalTrainingModel.fromJson(result)).toList();
         }
       }
     });
@@ -877,9 +814,7 @@ class TrainingControllerHomee extends GetxController {
 
         if (responseData.isNotEmpty) {
           final orderDataList = responseData[0] as List<dynamic>;
-          final results = orderDataList
-              .map((result) => GetOrderModel.fromJson(result))
-              .toList();
+          final results = orderDataList.map((result) => GetOrderModel.fromJson(result)).toList();
           print(results);
           orderData.addAll(results as Iterable<GetOrderItemModelElement>);
         } else {
@@ -903,9 +838,7 @@ class TrainingControllerHomee extends GetxController {
         if (responseData.isNotEmpty) {
           final priceDetailsDatalist = responseData[0] as List<dynamic>;
           print(priceDetailsDatalist);
-          priceDetailsData.value = responseData[1]
-              .map((result) => PriceDetailsModelElement.fromJson(result))
-              .toList();
+          priceDetailsData.value = responseData[1].map((result) => PriceDetailsModelElement.fromJson(result)).toList();
         } else {
           throw Exception('Empty response data');
         }
@@ -921,9 +854,7 @@ class TrainingControllerHomee extends GetxController {
 
     List<String> chunks = [];
     for (int i = 0; i < words.length; i += 6) {
-      String chunk = words
-          .sublist(i, i + 6 > words.length ? words.length : i + 6)
-          .join(' ');
+      String chunk = words.sublist(i, i + 6 > words.length ? words.length : i + 6).join(' ');
       chunks.add(chunk);
     }
 
@@ -971,18 +902,15 @@ class TrainingControllerHomee extends GetxController {
     ).then((response) async {
       if (response != null && response.statusCode == 200) {
         print(response);
-        await trainingController.getLocationsCount(
-            user.orderDetailsId.toString(), user.orderLocationId.toString());
+        await trainingController.getLocationsCount(user.orderDetailsId.toString(), user.orderLocationId.toString());
         trainingController.update();
         Get.back();
         print("Successfull");
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-            content: Text('Reschedule Request sent Successfully')));
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Reschedule Request sent Successfully')));
         print(response.statusCode);
       } else {
         print(response);
-        ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Reschedule request failed')));
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Reschedule request failed')));
         print("Not Successfull");
       }
     });
@@ -991,26 +919,20 @@ class TrainingControllerHomee extends GetxController {
   }
 
 //function for get trainee details
-  Future<void> getTraineeDetails(String orderDetailsId, String orderLocationId,
-      String examMasterId) async {
+  Future<void> getTraineeDetails(String orderDetailsId, String orderLocationId, String examMasterId) async {
     // final prefs = await SharedPreferences.getInstance();
     // final String customerId = prefs.getString('darlsco_id') ?? "";
     await HttpRequest.httpGetRequest(
-      endPoint:
-          '${HttpUrls.getTraineeDetails + orderDetailsId}/$orderLocationId/$examMasterId',
+      endPoint: '${HttpUrls.getTraineeDetails + orderDetailsId}/$orderLocationId/$examMasterId',
     ).then((response) {
       if (response.statusCode == 200) {
         final responseData = response.data as List<dynamic>;
         if (responseData.isNotEmpty) {
           traineeDetails.clear();
           final traineeDetailsData = responseData[0] as List<dynamic>;
-          traineeDetails.value = traineeDetailsData
-              .map((result) => GetTraineeDetailModel.fromJson(result))
-              .toList();
+          traineeDetails.value = traineeDetailsData.map((result) => GetTraineeDetailModel.fromJson(result)).toList();
           print('dfwrnfjer $traineeDetails');
-          dropdownValues.value = List.generate(
-              trainingController.traineeDetails.length,
-              (index) => eligibleList.first);
+          dropdownValues.value = List.generate(trainingController.traineeDetails.length, (index) => eligibleList.first);
         } else {
           throw Exception('Empty response data');
         }
@@ -1035,11 +957,8 @@ class TrainingControllerHomee extends GetxController {
           isDocumentationscreenLoading.value = false;
 
           categoryEligibilityDetails.clear();
-          final categoryEligibilityDetailsData =
-              responseData[0] as List<dynamic>;
-          categoryEligibilityDetails.value = categoryEligibilityDetailsData
-              .map((result) => CategoryEligibleModelElement.fromJson(result))
-              .toList();
+          final categoryEligibilityDetailsData = responseData[0] as List<dynamic>;
+          categoryEligibilityDetails.value = categoryEligibilityDetailsData.map((result) => CategoryEligibleModelElement.fromJson(result)).toList();
         } else {
           isDocumentationscreenLoading.value = false;
 
@@ -1056,24 +975,18 @@ class TrainingControllerHomee extends GetxController {
   }
 
 //function for stop training course
-  stopTrainingCourse(
-      StopTrainingCourseModel item, BuildContext context, int index) async {
+  stopTrainingCourse(StopTrainingCourseModel item, BuildContext context, int index) async {
     await getTodayTask();
-    await getTraineeDetails(
-        trainingController.todayTasksLst[index].orderDetailsId.toString(),
-        trainingController.todayTasksLst[index].orderLocationId.toString(),
+    await getTraineeDetails(trainingController.todayTasksLst[index].orderDetailsId.toString(), trainingController.todayTasksLst[index].orderLocationId.toString(),
         trainingController.todayTasksLst[index].examMasterId.toString());
-    Map<String, dynamic> jsonData = {
-      "Order_Details_Sub_Id_": item.orderDetailsSubId
-    };
+    Map<String, dynamic> jsonData = {"Order_Details_Sub_Id_": item.orderDetailsSubId};
     await HttpRequest.httpPostBodyRequest(
       bodyData: jsonData,
       endPoint: HttpUrls.stopTrainingCourse,
     ).then((response) async {
       if (response?.data is List<dynamic> && response?.data.isNotEmpty) {
         var eligibility = response?.data[0]['Eligibility'];
-        if (trainingController.todayTasksLst[index].examMasterId == 0 &&
-            eligibility == 0) {
+        if (trainingController.todayTasksLst[index].examMasterId == 0 && eligibility == 0) {
           // print(todayTasksLst);
           Get.offAll(() => EligibleExamPage(
                 model: trainingController.todayTasksLst[index],
@@ -1108,19 +1021,13 @@ class TrainingControllerHomee extends GetxController {
                         padding: const EdgeInsets.all(12.0),
                         child: Text(
                           "Day completed",
-                          style: TextStyle(
-                              color: const Color(0xFF294C73),
-                              fontSize: 25.sp,
-                              fontWeight: FontWeight.bold),
+                          style: TextStyle(color: const Color(0xFF294C73), fontSize: 25.sp, fontWeight: FontWeight.bold),
                         ),
                       ),
                       Center(
                         child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                              shape: BeveledRectangleBorder(
-                                  side: BorderSide.none,
-                                  borderRadius: BorderRadius.circular(5)),
-                              backgroundColor: const Color(0xFFE5AA17)),
+                              shape: BeveledRectangleBorder(side: BorderSide.none, borderRadius: BorderRadius.circular(5)), backgroundColor: const Color(0xFFE5AA17)),
                           onPressed: () async {
                             print('dfknjfrvkef');
                             // widget.model.remainingDaysCount == 1
@@ -1133,9 +1040,7 @@ class TrainingControllerHomee extends GetxController {
                           },
                           child: Text(
                             'OK',
-                            style: TextStyle(
-                                color: const Color(0xFF294C73),
-                                fontSize: 18.sp),
+                            style: TextStyle(color: const Color(0xFF294C73), fontSize: 18.sp),
                           ),
                         ),
                       ),
@@ -1192,27 +1097,20 @@ class TrainingControllerHomee extends GetxController {
                       padding: const EdgeInsets.all(12.0),
                       child: Text(
                         "Exam completed",
-                        style: TextStyle(
-                            color: const Color(0xFF294C73),
-                            fontSize: 25.sp,
-                            fontWeight: FontWeight.bold),
+                        style: TextStyle(color: const Color(0xFF294C73), fontSize: 25.sp, fontWeight: FontWeight.bold),
                       ),
                     ),
                     Center(
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                            shape: BeveledRectangleBorder(
-                                side: BorderSide.none,
-                                borderRadius: BorderRadius.circular(5)),
-                            backgroundColor: const Color(0xFFE5AA17)),
+                            shape: BeveledRectangleBorder(side: BorderSide.none, borderRadius: BorderRadius.circular(5)), backgroundColor: const Color(0xFFE5AA17)),
                         onPressed: () async {
                           await todayTaskController.fetchTaskCount();
                           Get.to(() => const TrainingInspectionScreen());
                         },
                         child: Text(
                           'OK',
-                          style: TextStyle(
-                              color: const Color(0xFF294C73), fontSize: 18.sp),
+                          style: TextStyle(color: const Color(0xFF294C73), fontSize: 18.sp),
                         ),
                       ),
                     ),
@@ -1351,9 +1249,7 @@ class TrainingControllerHomee extends GetxController {
         if (responseData.isNotEmpty) {
           certificateDetails.clear();
           final certificateData = responseData[0] as List<dynamic>;
-          certificateDetails.value = certificateData
-              .map((result) => CertificateModelElement.fromJson(result))
-              .toList();
+          certificateDetails.value = certificateData.map((result) => CertificateModelElement.fromJson(result)).toList();
         } else {
           throw Exception('Empty response data');
         }
@@ -1366,15 +1262,12 @@ class TrainingControllerHomee extends GetxController {
   }
 
 //function for fetching category data
-  fetchCategoryData(String trainingCourseId,
-      {bool isCategorySelected = false}) async {
+  fetchCategoryData(String trainingCourseId, {bool isCategorySelected = false}) async {
     print('adasd');
     // trainingController.cartPriceList.clear();
     priceDetailsList.clear();
     catdisplay.clear();
-    await HttpRequest.httpGetRequest(
-            endPoint: '${HttpUrls.getItemDetails}/$trainingCourseId')
-        .then((response) async {
+    await HttpRequest.httpGetRequest(endPoint: '${HttpUrls.getItemDetails}/$trainingCourseId').then((response) async {
       if (response.statusCode == 200) {
         // getItemCart();
         List responseData = response.data[1];
@@ -1382,9 +1275,7 @@ class TrainingControllerHomee extends GetxController {
 
         getTriningDetailList = response.data[0];
         print(' getTriningDetailList  $getTriningDetailList');
-        catdisplay.value = responseData
-            .map((result) => CategorySelectModelElement.fromJson(result))
-            .toList();
+        catdisplay.value = responseData.map((result) => CategorySelectModelElement.fromJson(result)).toList();
         List data = response.data[1];
 
         // selectedCategory.value = catdisplay[0];
@@ -1392,12 +1283,9 @@ class TrainingControllerHomee extends GetxController {
         //     .map((result) => TrainingCourseDetailsModel.fromJson(result))
         //     .toList();
         // print('TRAINING COURSE DETAILS LIST$trainingDetailsCourse');
-        priceDetailsList = responsePriceDetails
-            .map((result) => CategorySelectModelElement.fromJson(result))
-            .toList();
+        priceDetailsList = responsePriceDetails.map((result) => CategorySelectModelElement.fromJson(result)).toList();
         SharedPreferences prefs = await SharedPreferences.getInstance();
-        prefs.setString(
-            'transaction_fee', priceDetailsList[0].serviceCharge.toString());
+        prefs.setString('transaction_fee', priceDetailsList[0].serviceCharge.toString());
 
         double subtotal = 0;
 
@@ -1408,26 +1296,20 @@ class TrainingControllerHomee extends GetxController {
             double price = double.tryParse(priceList.toString()) ?? 0.0;
             int quantity = tcontoller.quantity.value;
             double quantPrice = price * quantity;
-            double applicationFee =
-                double.parse(catdisplay[index].applicationFees) * quantity;
-            double examinationFee =
-                double.parse(catdisplay[index].examinationFees) * quantity;
-            double certificateFee =
-                double.parse(catdisplay[index].certificateFees) * quantity;
+            double applicationFee = double.parse(catdisplay[index].applicationFees) * quantity;
+            double examinationFee = double.parse(catdisplay[index].examinationFees) * quantity;
+            double certificateFee = double.parse(catdisplay[index].certificateFees) * quantity;
 
             // double applicationVat = applicationFee * 2 / 100;
             // double examinationVat = examinationFee * 2 / 100;
             // double certificateVat = certificateFee * 2 / 100;
 
-            double itemSubtotal =
-                applicationFee + examinationFee + certificateFee + quantPrice;
+            double itemSubtotal = applicationFee + examinationFee + certificateFee + quantPrice;
 
             return CartPriceModel(
-                trainingCourseName:
-                    response.data[0][0]['Training_Course_Name'] ?? 'Product',
+                trainingCourseName: response.data[0][0]['Training_Course_Name'] ?? 'Product',
                 trainingCourseId: catdisplay[index].trainingCourseId.toString(),
-                trainingCourseCategoryId:
-                    catdisplay[index].trainingCourseCategoryId,
+                trainingCourseCategoryId: catdisplay[index].trainingCourseCategoryId,
                 categoryName: catdisplay[index].categoryName,
                 quantity: tcontoller.quantity.value,
                 amount: price.toString(),
@@ -1444,8 +1326,7 @@ class TrainingControllerHomee extends GetxController {
                 examinationTax: catdisplay[index].examinationTax,
                 serviceCharge: catdisplay[index].serviceCharge,
                 tax: catdisplay[index].tax,
-                retakeOnlyPracticalTax:
-                    catdisplay[index].retakeOnlyPracticalTax,
+                retakeOnlyPracticalTax: catdisplay[index].retakeOnlyPracticalTax,
                 retakeOnlyWrittenTax: catdisplay[index].retakeOnlyWrittenTax,
                 retakeWrittenFee: catdisplay[index].retakeOnlyWritenFess,
                 retakepracticalFee: catdisplay[index].retakeOnlyPracticalFees,
@@ -1466,12 +1347,9 @@ class TrainingControllerHomee extends GetxController {
     if (isCategorySelected) {
       final listcategoryData = trainingController.catdisplay.where((item) {
         print('asdfghjkl ${item.categoryName}');
-        print(
-            'hghghghg ${trainingController.selectedCategoryAfterNavigation.value?.categoryName}');
+        print('hghghghg ${trainingController.selectedCategoryAfterNavigation.value?.categoryName}');
 
-        return item.categoryName ==
-            trainingController
-                .selectedCategoryAfterNavigation.value?.categoryName;
+        return item.categoryName == trainingController.selectedCategoryAfterNavigation.value?.categoryName;
       }).toList();
       if (listcategoryData.isNotEmpty) {
         trainingController.selectedCategory.value = listcategoryData[0];
@@ -1498,9 +1376,7 @@ class TrainingControllerHomee extends GetxController {
   }
 
 //method for add and edit profile
-  addProfileEdit(
-      ProfileEditModel profileEditModel, isFromPurchase, isFromHomePage,
-      {bool isEdit = false}) async {
+  addProfileEdit(ProfileEditModel profileEditModel, isFromPurchase, isFromHomePage, {bool isEdit = false}) async {
     final prefs = await SharedPreferences.getInstance();
     final String customerId = prefs.getString('darlsco_id') ?? "0";
     Map<String, dynamic> jsonData = {
@@ -1518,12 +1394,8 @@ class TrainingControllerHomee extends GetxController {
       "Individual_": profileEditModel.individual,
       "Corporate_": profileEditModel.corporate,
       "Trade_License_No_": profileEditModel.tradeLicenceNo,
-      "Trade_License_No_Expiry_Date_":
-          profileEditModel.tradeLicenceExpiryDate ?? '',
-      "File_Path_": profileEditModel.filePath != null &&
-              profileEditModel.filePath!.isNotEmpty
-          ? Uri.tryParse(profileEditModel.filePath.toString())!.path
-          : '',
+      "Trade_License_No_Expiry_Date_": profileEditModel.tradeLicenceExpiryDate ?? '',
+      "File_Path_": profileEditModel.filePath != null && profileEditModel.filePath!.isNotEmpty ? Uri.tryParse(profileEditModel.filePath.toString())!.path : '',
     };
 
     await HttpRequest.httpPostDataRequest(
@@ -1531,20 +1403,16 @@ class TrainingControllerHomee extends GetxController {
       endPoint: HttpUrls.saveProfile,
     ).then((response) async {
       if (response != null && response.statusCode == 200) {
-        prefs.setString(
-            'customerId', response.data[0]['Customer_Id_'].toString());
+        prefs.setString('customerId', response.data[0]['Customer_Id_'].toString());
         prefs.setString('customerName', response.data[0]['Name'].toString());
         prefs.setString('email_user', response.data[0]["Email"].toString());
         prefs.setString('Mobile_user', response.data[0]["Mobile"].toString());
         if (response.data[0]['Customer_Id_'].toString() == '-1') {
-          ScaffoldMessenger.of(Get.context!).showSnackBar(
-              const SnackBar(content: Text('Email ID Already Exists!')));
+          ScaffoldMessenger.of(Get.context!).showSnackBar(const SnackBar(content: Text('Email ID Already Exists!')));
         } else if (response.data[0]['Customer_Id_'].toString() == '-2') {
-          ScaffoldMessenger.of(Get.context!).showSnackBar(const SnackBar(
-              content: Text('Trade Licence No Already Exists!')));
+          ScaffoldMessenger.of(Get.context!).showSnackBar(const SnackBar(content: Text('Trade Licence No Already Exists!')));
         } else if (response.data[0]['Customer_Id_'].toString() == '-3') {
-          ScaffoldMessenger.of(Get.context!).showSnackBar(
-              const SnackBar(content: Text('Emirates ID Already Exists!')));
+          ScaffoldMessenger.of(Get.context!).showSnackBar(const SnackBar(content: Text('Emirates ID Already Exists!')));
         } else {
           print(response);
           trainingController.customerNameController.clear();
@@ -1558,11 +1426,9 @@ class TrainingControllerHomee extends GetxController {
 
           print("Successfull");
           if (!isEdit) {
-            ScaffoldMessenger.of(Get.context!).showSnackBar(
-                const SnackBar(content: Text('Profile Successfully Added')));
+            ScaffoldMessenger.of(Get.context!).showSnackBar(const SnackBar(content: Text('Profile Successfully Added')));
           } else {
-            ScaffoldMessenger.of(Get.context!).showSnackBar(
-                const SnackBar(content: Text('Profile Successfully Edited')));
+            ScaffoldMessenger.of(Get.context!).showSnackBar(const SnackBar(content: Text('Profile Successfully Edited')));
             Get.to(() => BottomNavigationWidget());
           }
 
@@ -1571,16 +1437,10 @@ class TrainingControllerHomee extends GetxController {
           } else if (isFromPurchase == true) {
             log(tcontoller.totalPrice.toString());
             log(tcontoller.coursePrice.toString());
-            print(
-                'Cartdata in telr//////// ${trainingController.cartPriceList.length}');
+            print('Cartdata in telr//////// ${trainingController.cartPriceList.length}');
             await homeController.purchaseGateWay(
-                name: response.data[0]['Name'],
-                phoneNumber: response.data[0]["Mobile"],
-                email: response.data[0]['Email'],
-                Get.context!,
-                tcontoller.coursePrice.toStringAsFixed(2));
-            print(
-                'Cartdata in telr//////// ${trainingController.cartPriceList.length}');
+                name: response.data[0]['Name'], phoneNumber: response.data[0]["Mobile"], email: response.data[0]['Email'], Get.context!, tcontoller.coursePrice.toStringAsFixed(2));
+            print('Cartdata in telr//////// ${trainingController.cartPriceList.length}');
           } else {
             Get.to(() => BottomNavigationWidget());
           }
@@ -1618,9 +1478,7 @@ class TrainingControllerHomee extends GetxController {
         if (responseData.isNotEmpty) {
           profileDetails.clear();
           final profileDetailsData = responseData[0] as List<dynamic>;
-          profileDetails.value = profileDetailsData
-              .map((result) => ProfileViewModel.fromJson(result))
-              .toList();
+          profileDetails.value = profileDetailsData.map((result) => ProfileViewModel.fromJson(result)).toList();
         } else {
           throw Exception('Empty response data');
         }
@@ -1645,15 +1503,12 @@ class TrainingControllerHomee extends GetxController {
           if (responseData.isNotEmpty) {
             getIndivivdualDetails.clear();
             final profileDetailsData = responseData[0] as List<dynamic>;
-            getIndivivdualDetails.value = profileDetailsData
-                .map((result) => ProfileViewModel.fromJson(result))
-                .toList();
+            getIndivivdualDetails.value = profileDetailsData.map((result) => ProfileViewModel.fromJson(result)).toList();
           } else {
             throw Exception('Empty response data');
           }
         } else {
-          throw Exception(
-              'Failed to load training data: ${response.statusCode}');
+          throw Exception('Failed to load training data: ${response.statusCode}');
         }
       });
     } catch (e) {
@@ -1675,9 +1530,7 @@ class TrainingControllerHomee extends GetxController {
         if (responseData.isNotEmpty) {
           examFailDetails.clear();
           final examFailDetailsData = responseData[0] as List<dynamic>;
-          examFailDetails.value = examFailDetailsData
-              .map((result) => ExamFailDetailsModel.fromJson(result))
-              .toList();
+          examFailDetails.value = examFailDetailsData.map((result) => ExamFailDetailsModel.fromJson(result)).toList();
         } else {
           throw Exception('Empty response data');
         }
@@ -1722,22 +1575,18 @@ class TrainingControllerHomee extends GetxController {
   // }
 
 //method for getting exam failed trainee details
-  Future<void> getExamFailedTraineeDetails(String trainingCid,
-      String trainingCourseCategoryId, String orderDetailsId) async {
+  Future<void> getExamFailedTraineeDetails(String trainingCid, String trainingCourseCategoryId, String orderDetailsId) async {
     final prefs = await SharedPreferences.getInstance();
     final String customerId = prefs.getString('darlsco_id') ?? "6";
     await HttpRequest.httpGetRequest(
-      endPoint:
-          '${HttpUrls.examFailedTraineeDetails}$trainingCid/$trainingCourseCategoryId/$customerId/$orderDetailsId',
+      endPoint: '${HttpUrls.examFailedTraineeDetails}$trainingCid/$trainingCourseCategoryId/$customerId/$orderDetailsId',
     ).then((response) {
       if (response.statusCode == 200) {
         final responseData = response.data as List<dynamic>;
         if (responseData.isNotEmpty) {
           examFailedTraineeDetails.clear();
           final examFailTraineeDetailsData = responseData[0] as List<dynamic>;
-          examFailedTraineeDetails.value = examFailTraineeDetailsData
-              .map((result) => ExamFailTraineeDetailsModel.fromJson(result))
-              .toList();
+          examFailedTraineeDetails.value = examFailTraineeDetailsData.map((result) => ExamFailTraineeDetailsModel.fromJson(result)).toList();
         } else {
           throw Exception('Empty response data');
         }
@@ -1753,44 +1602,22 @@ class TrainingControllerHomee extends GetxController {
   Future<void> getLocationsList() async {
     final prefs = await SharedPreferences.getInstance();
     final String customerId = prefs.getString('darlsco_id') ?? "0";
-    await HttpRequest.httpGetRequest(
-        endPoint: HttpUrls.locationDetails,
-        bodyData: {
-          'Customer_Id_': customerId,
-        }).then((response) {
+    await HttpRequest.httpGetRequest(endPoint: HttpUrls.locationDetails, bodyData: {
+      'Customer_Id_': customerId,
+    }).then((response) {
       if (response.statusCode == 200) {
         final responseData = response.data as List<dynamic>;
         if (responseData.isNotEmpty) {
           locList.clear();
           if (responseData[0].isNotEmpty) {
             final locListData = responseData[0] as List<dynamic>;
-            locList.value = locListData
-                .map((result) => LocationListModel.fromJson(result))
-                .toList();
+            locList.value = locListData.map((result) => LocationListModel.fromJson(result)).toList();
             // print('hiiiis ${locList[0].locationName}');
-            locList.insert(
-                0,
-                LocationListModel(
-                    locationId: -1,
-                    customerId: int.parse(customerId),
-                    locationName: 'Custom',
-                    link: '',
-                    latitude: '',
-                    longitude: '',
-                    deleteStatus: 0,
-                    nickname: ''));
+            locList.insert(0,
+                LocationListModel(locationId: -1, customerId: int.parse(customerId), locationName: 'Custom', link: '', latitude: '', longitude: '', deleteStatus: 0, nickname: ''));
           } else {
-            locList.insert(
-                0,
-                LocationListModel(
-                    locationId: -1,
-                    customerId: int.parse(customerId),
-                    locationName: 'Custom',
-                    link: '',
-                    latitude: '',
-                    longitude: '',
-                    deleteStatus: 0,
-                    nickname: ''));
+            locList.insert(0,
+                LocationListModel(locationId: -1, customerId: int.parse(customerId), locationName: 'Custom', link: '', latitude: '', longitude: '', deleteStatus: 0, nickname: ''));
           }
         } else {
           throw Exception('Empty response data');
@@ -1814,18 +1641,15 @@ class TrainingControllerHomee extends GetxController {
 
         if (responseData is Map<String, dynamic>) {
           final returnValue = responseData['returnvalue'];
-          if (returnValue is Map<String, dynamic> &&
-              returnValue.containsKey('Leads')) {
+          if (returnValue is Map<String, dynamic> && returnValue.containsKey('Leads')) {
             final leads = returnValue['Leads'] as List<dynamic>;
 
-            trainerList.value =
-                leads.map((result) => Lead.fromJson(result)).toList();
+            trainerList.value = leads.map((result) => Lead.fromJson(result)).toList();
           } else {
             throw Exception('Key "Leads" not found in return value');
           }
         } else {
-          throw Exception(
-              'Unexpected response data type: ${responseData.runtimeType}');
+          throw Exception('Unexpected response data type: ${responseData.runtimeType}');
         }
       } else {
         throw Exception('Failed to load training data: ${response.statusCode}');
@@ -1856,32 +1680,26 @@ class TrainingControllerHomee extends GetxController {
         if (responseData is Map<String, dynamic>) {
           final returnValue = responseData['returnvalue'];
 
-          if (returnValue is Map<String, dynamic> &&
-              returnValue.containsKey('Leads')) {
+          if (returnValue is Map<String, dynamic> && returnValue.containsKey('Leads')) {
             final eligible = returnValue['Leads'];
 
             if (eligible is List<dynamic>) {
               eligibilityDetails.clear();
-              eligibilityDetails.value = eligible
-                  .map((result) => EligibleModel.fromJson(result))
-                  .toList();
-              var eligibility =
-                  response.data['returnvalue']['Leads'][0]['Eligibility'];
+              eligibilityDetails.value = eligible.map((result) => EligibleModel.fromJson(result)).toList();
+              var eligibility = response.data['returnvalue']['Leads'][0]['Eligibility'];
               if (eligibility == 0) {
                 Get.offAll(() => EligibleExamPage(
                       model: todayTasksLst[index],
                     ));
               }
             } else {
-              throw Exception(
-                  'Expected List<dynamic> for "Leads", but got ${eligible.runtimeType}');
+              throw Exception('Expected List<dynamic> for "Leads", but got ${eligible.runtimeType}');
             }
           } else {
             throw Exception('Key "Leads" not found in return value');
           }
         } else {
-          throw Exception(
-              'Unexpected response data type: ${responseData.runtimeType}');
+          throw Exception('Unexpected response data type: ${responseData.runtimeType}');
         }
       } else {
         throw Exception('Failed to load training data: ${response.statusCode}');
@@ -1920,13 +1738,11 @@ class TrainingControllerHomee extends GetxController {
   // }
 
   //method for getting locations count
-  Future<void> getLocationsCount(
-      String orderDetailsId, String orderLocationId) async {
+  Future<void> getLocationsCount(String orderDetailsId, String orderLocationId) async {
     final prefs = await SharedPreferences.getInstance();
     final String userId = prefs.getString('darlsco_id') ?? "0";
     await HttpRequest.httpGetRequest(
-      endPoint:
-          '${HttpUrls.locationDetailsCount}$userId/$orderDetailsId/$orderLocationId',
+      endPoint: '${HttpUrls.locationDetailsCount}$userId/$orderDetailsId/$orderLocationId',
     ).then((response) {
       if (response.statusCode == 200) {
         final responseData = response.data as List<dynamic>;
@@ -1935,9 +1751,7 @@ class TrainingControllerHomee extends GetxController {
           final locListCountData = responseData[0] as List<dynamic>;
 
           print('response ${responseData[1]}');
-          locationCountDetails.value = locListCountData
-              .map((result) => GetLocationCountModel.fromJson(result))
-              .toList();
+          locationCountDetails.value = locListCountData.map((result) => GetLocationCountModel.fromJson(result)).toList();
         } else {
           throw Exception('Empty response data');
         }
@@ -1960,10 +1774,7 @@ class TrainingControllerHomee extends GetxController {
         final responseData = response.data as List<dynamic>;
         if (responseData.isNotEmpty) {
           final viewAddTraineesData = responseData[1] as List<dynamic>;
-          viewAddTrainees.value = viewAddTraineesData
-              .map((result) =>
-                  ViewAddTraineeDetailsModelElement.fromJson(result))
-              .toList();
+          viewAddTrainees.value = viewAddTraineesData.map((result) => ViewAddTraineeDetailsModelElement.fromJson(result)).toList();
         } else {
           throw Exception('Empty response data');
         }
@@ -1975,11 +1786,7 @@ class TrainingControllerHomee extends GetxController {
     update();
   }
 
-  rescheduleExam(
-      {required BuildContext context,
-      required GetTodayTaskModel todaysExamDetails,
-      required DateTime selectedDate,
-      required String notes}) async {
+  rescheduleExam({required BuildContext context, required GetTodayTaskModel todaysExamDetails, required DateTime selectedDate, required String notes}) async {
     print('reschedule ');
 
     final prefs = await SharedPreferences.getInstance();
@@ -2024,32 +1831,23 @@ class TrainingControllerHomee extends GetxController {
 //after payment
   saveTraineeRetake(paymentStatus, totalPrice, orderMasterId) async {
     print('retake purchase bill $retakePurchaseBillDataList');
-    trainingController.transactionFee =
-        await trainingController.getTransactionFee();
+    trainingController.transactionFee = await trainingController.getTransactionFee();
     double grantTotal = 0.00;
     double subTotal = 0.00;
     double totalVat = 0.00;
     final prefs = await SharedPreferences.getInstance();
     final String userId = prefs.getString('darlsco_id') ?? "0";
     trainingController.getTransactionFee();
-    for (var i = 0;
-        i < trainingController.retakePurchaseBillDataList.length;
-        i++) {
-      grantTotal +=
-          trainingController.retakePurchaseBillDataList[i]['grant_total'];
-      subTotal += double.parse(trainingController.retakePurchaseBillDataList[i]
-              ['Amount']
-          .toString());
-      totalVat += double.parse(
-          trainingController.retakePurchaseBillDataList[i]['Vat'].toString());
+    for (var i = 0; i < trainingController.retakePurchaseBillDataList.length; i++) {
+      grantTotal += trainingController.retakePurchaseBillDataList[i]['grant_total'];
+      subTotal += double.parse(trainingController.retakePurchaseBillDataList[i]['Amount'].toString());
+      totalVat += double.parse(trainingController.retakePurchaseBillDataList[i]['Vat'].toString());
     }
 
     List traineeDataList = [];
 
     if (failedTraineesData.isNotEmpty) {
-      traineeDataList = failedTraineesData
-          .where((element) => element['is_selected'] == true)
-          .toList();
+      traineeDataList = failedTraineesData.where((element) => element['is_selected'] == true).toList();
     }
 
     // print(
@@ -2066,12 +1864,10 @@ class TrainingControllerHomee extends GetxController {
       "Grand_Total_": tcontoller.totalPrice,
       "Sub_Total": subTotal,
       "Vat_Amount": totalVat,
-      "Service_Charge_":
-          (subTotal * double.parse(trainingController.transactionFee) / 100),
+      "Service_Charge_": (subTotal * double.parse(trainingController.transactionFee) / 100),
       "Vat_": double.tryParse(trainingController.transactionFee),
       "Service_Tax": double.tryParse(trainingController.transactionFee),
-      "Service_Tax_Amount":
-          (subTotal * double.parse(trainingController.transactionFee) / 100),
+      "Service_Tax_Amount": (subTotal * double.parse(trainingController.transactionFee) / 100),
     };
 
     await HttpRequest.httpPostBodyRequest(
@@ -2116,14 +1912,11 @@ class TrainingControllerHomee extends GetxController {
       print(response.data);
 
       if (response.statusCode == 200) {
-        final responseData =
-            response.data['returnvalue']['Leads'] as List<dynamic>;
+        final responseData = response.data['returnvalue']['Leads'] as List<dynamic>;
         if (responseData.isNotEmpty) {
           examFailedTraineeDetails.clear();
           final examFailTraineeDetailsData = responseData;
-          examFailDetails.value = examFailTraineeDetailsData
-              .map((result) => ExamFailDetailsModel.fromJson(result))
-              .toList();
+          examFailDetails.value = examFailTraineeDetailsData.map((result) => ExamFailDetailsModel.fromJson(result)).toList();
         } else {
           throw Exception('Empty response data');
         }
@@ -2145,16 +1938,12 @@ class TrainingControllerHomee extends GetxController {
       print(response.data);
 
       if (response.statusCode == 200) {
-        final responseData =
-            response.data['returnvalue']['Leads'] as List<dynamic>;
+        final responseData = response.data['returnvalue']['Leads'] as List<dynamic>;
         if (responseData.isNotEmpty) {
           examFailedTraineeDetails.clear();
           final examFailTraineeDetailsData = responseData;
-          examFailedTraineeDetails.value = examFailTraineeDetailsData
-              .map((result) => ExamFailTraineeDetailsModel.fromJson(result))
-              .toList();
-          prefs.setString('transaction_fee',
-              examFailedTraineeDetails[0].serviceCharge.toString());
+          examFailedTraineeDetails.value = examFailTraineeDetailsData.map((result) => ExamFailTraineeDetailsModel.fromJson(result)).toList();
+          prefs.setString('transaction_fee', examFailedTraineeDetails[0].serviceCharge.toString());
         } else {
           throw Exception('Empty response data');
         }
@@ -2193,15 +1982,11 @@ class TrainingControllerHomee extends GetxController {
         print(response);
 
         if (response.data[0].isNotEmpty) {
-          firstNameController.text =
-              response.data[0][0]['Employee_Firstname'] ?? "";
-          lastNameController.text =
-              response.data[0][0]['Employee_Lastname'] ?? "";
+          firstNameController.text = response.data[0][0]['Employee_Firstname'] ?? "";
+          lastNameController.text = response.data[0][0]['Employee_Lastname'] ?? "";
 
-          if (response.data[0][0]['DateofBirth'] != null &&
-              response.data[0][0]['DateofBirth'] != '') {
-            String formattedDate = DateFormat('yyyy-MM-dd')
-                .format(DateTime.parse(response.data[0][0]['DateofBirth']));
+          if (response.data[0][0]['DateofBirth'] != null && response.data[0][0]['DateofBirth'] != '') {
+            String formattedDate = DateFormat('yyyy-MM-dd').format(DateTime.parse(response.data[0][0]['DateofBirth']));
             DateTime parsedDate = DateTime.parse(formattedDate);
             String newDate = DateFormat('dd/MM/yyyy').format(parsedDate);
             dobController.text = newDate;

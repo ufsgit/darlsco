@@ -22,11 +22,7 @@ import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfilePage extends StatefulWidget {
-  const ProfilePage(
-      {super.key,
-      required this.isFromHomePage,
-      required this.isFromPurchase,
-      required this.isEdit});
+  const ProfilePage({super.key, required this.isFromHomePage, required this.isFromPurchase, required this.isEdit});
   final bool isFromHomePage;
   final bool isFromPurchase;
   final bool isEdit;
@@ -58,8 +54,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
   //from gallery
   Future<void> pickImageFromGallery() async {
-    final XFile? pickedImage =
-        await _picker.pickImage(source: ImageSource.gallery);
+    final XFile? pickedImage = await _picker.pickImage(source: ImageSource.gallery);
     if (pickedImage != null) {
       setState(() {
         image = File(pickedImage.path);
@@ -70,8 +65,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
   //from camera
   Future<void> pickImageFromCamera() async {
-    final XFile? pickedImage =
-        await _picker.pickImage(source: ImageSource.camera);
+    final XFile? pickedImage = await _picker.pickImage(source: ImageSource.camera);
     if (pickedImage != null) {
       setState(() {
         image = File(pickedImage.path);
@@ -103,8 +97,7 @@ class _ProfilePageState extends State<ProfilePage> {
     final prefs = await SharedPreferences.getInstance();
     final String phoneNo = prefs.getString('phone_no') ?? "9090909090";
     print("number//////////////////////$phoneNo");
-    print(
-        'cart in profile page<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>${trainingController.cartPriceList.length}');
+    print('cart in profile page<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>${trainingController.cartPriceList.length}');
     return phoneNo;
   }
 
@@ -132,31 +125,19 @@ class _ProfilePageState extends State<ProfilePage> {
                     Stack(
                       children: [
                         Container(
-                          height: _selectedProfileType != '' &&
-                                  _selectedProfileType == 'Individual'
-                              ? 180.h
-                              : 135.h,
+                          height: _selectedProfileType != '' && _selectedProfileType == 'Individual' ? 180.h : 135.h,
                           width: Get.width,
                           color: Colors.white,
                           child: Column(
                             children: [
                               Container(
-                                height: _selectedProfileType != '' &&
-                                        _selectedProfileType == 'Individual'
-                                    ? 130
-                                    : 100,
+                                height: _selectedProfileType != '' && _selectedProfileType == 'Individual' ? 130 : 100,
                                 width: Get.width,
-                                color:
-                                    const Color(0xFF0950A0).withOpacity(0.49),
+                                color: const Color(0xFF0950A0).withOpacity(0.49),
                                 child: Padding(
-                                  padding: EdgeInsets.symmetric(
-                                      vertical: 24.h.w, horizontal: 17.h.w),
+                                  padding: EdgeInsets.symmetric(vertical: 24.h.w, horizontal: 17.h.w),
                                   child: Row(
-                                    crossAxisAlignment: _selectedProfileType !=
-                                                '' &&
-                                            _selectedProfileType == 'Individual'
-                                        ? CrossAxisAlignment.start
-                                        : CrossAxisAlignment.center,
+                                    crossAxisAlignment: _selectedProfileType != '' && _selectedProfileType == 'Individual' ? CrossAxisAlignment.start : CrossAxisAlignment.center,
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Text(
@@ -175,27 +156,21 @@ class _ProfilePageState extends State<ProfilePage> {
                             ],
                           ),
                         ),
-                        _selectedProfileType != '' &&
-                                _selectedProfileType == 'Individual'
+                        _selectedProfileType != '' && _selectedProfileType == 'Individual'
                             ? Positioned(
                                 top: 60,
-                                left: screenWidth > 600
-                                    ? Get.width / 2.25
-                                    : Get.width / 2.60,
+                                left: screenWidth > 600 ? Get.width / 2.25 : Get.width / 2.60,
                                 child: Stack(
                                   children: [
                                     SizedBox(
                                       child: ClipRRect(
-                                        borderRadius:
-                                            BorderRadius.circular(100),
+                                        borderRadius: BorderRadius.circular(100),
                                         child: Container(
                                           height: 100.r,
                                           width: 100.r,
-                                          decoration: const BoxDecoration(
-                                              color: Colors.grey),
+                                          decoration: const BoxDecoration(color: Colors.grey),
                                           child: image != null
-                                              ? Image.file(image!,
-                                                  fit: BoxFit.cover)
+                                              ? Image.file(image!, fit: BoxFit.cover)
                                               : const Icon(
                                                   Icons.person_2,
                                                   size: 80,
@@ -224,8 +199,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                           );
                                         },
                                         child: const CircleAvatar(
-                                          backgroundColor:
-                                              ColorResources.color294C73,
+                                          backgroundColor: ColorResources.color294C73,
                                           child: Icon(
                                             Icons.camera_alt_outlined,
                                             color: ColorResources.whiteColor,
@@ -333,8 +307,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               //   });
                               // },
                               // errorText: errorTextCustomer,
-                              controller:
-                                  trainingController.customerNameController,
+                              controller: trainingController.customerNameController,
                             ),
                           ),
                           SizedBox(
@@ -342,11 +315,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           ),
                           Padding(
                             padding: EdgeInsets.symmetric(horizontal: 16.h),
-                            child: rowTextfieldWidget(
-                                mobileController: numberController,
-                                enabled: false,
-                                initialSelection: globalHomeController
-                                    .currentCountryCode.value),
+                            child: rowTextfieldWidget(mobileController: numberController, enabled: false, initialSelection: globalHomeController.currentCountryCode.value),
                           ),
                           SizedBox(
                             height: 8.h,
@@ -380,36 +349,31 @@ class _ProfilePageState extends State<ProfilePage> {
                               ? Column(
                                   children: [
                                     Padding(
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: 16.h),
+                                      padding: EdgeInsets.symmetric(horizontal: 16.h),
                                       child: profileTextFieldWidget(
                                         maxLength: 50,
                                         hintText: 'Enter Contact Person',
                                         title: 'Contact Person',
-                                        controller: trainingController
-                                            .contactPersonController,
+                                        controller: trainingController.contactPersonController,
                                       ),
                                     ),
                                     SizedBox(
                                       height: 8.h,
                                     ),
                                     Padding(
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: 16.h),
+                                      padding: EdgeInsets.symmetric(horizontal: 16.h),
                                       child: profileTextFieldWidget(
                                         maxLength: 12,
                                         hintText: 'Enter Trade Licence No',
                                         title: 'Trade Licence No',
-                                        controller: trainingController
-                                            .tradeLicenceNoController,
+                                        controller: trainingController.tradeLicenceNoController,
                                       ),
                                     ),
                                     SizedBox(
                                       height: 8.h,
                                     ),
                                     Padding(
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: 16.h),
+                                      padding: EdgeInsets.symmetric(horizontal: 16.h),
                                       child: Row(
                                         children: [
                                           Text(
@@ -427,64 +391,42 @@ class _ProfilePageState extends State<ProfilePage> {
                                       height: 8.h,
                                     ),
                                     Container(
-                                      margin: EdgeInsets.symmetric(
-                                          horizontal: 16.w),
+                                      margin: EdgeInsets.symmetric(horizontal: 16.w),
                                       width: Get.width,
                                       child: TextField(
                                         style: TextStyle(fontSize: 14.sp),
-                                        controller: trainingController
-                                            .tradeLicenceExpiryDateController,
+                                        controller: trainingController.tradeLicenceExpiryDateController,
                                         decoration: InputDecoration(
-                                            focusedBorder:
-                                                const OutlineInputBorder(
+                                            focusedBorder: const OutlineInputBorder(
                                               borderSide: BorderSide(
-                                                color:
-                                                    ColorResources.colorBlack,
+                                                color: ColorResources.colorBlack,
                                               ),
                                             ),
-                                            enabledBorder:
-                                                const OutlineInputBorder(
+                                            enabledBorder: const OutlineInputBorder(
                                               borderSide: BorderSide(
                                                 color: Color(0xFFCECECE),
                                               ),
                                             ),
-                                            contentPadding:
-                                                EdgeInsets.symmetric(
-                                                    vertical: 8.h,
-                                                    horizontal: 8.w),
+                                            contentPadding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 8.w),
                                             suffixIcon: Icon(
                                               Icons.calendar_today,
                                               size: 18.sp,
                                               color: ColorResources.color294C73,
                                             ),
                                             border: const OutlineInputBorder(),
-                                            hintText:
-                                                'Trade Licence Expiry Date'),
+                                            hintText: 'Trade Licence Expiry Date'),
                                         readOnly: true,
                                         onTap: () async {
-                                          DateTime? pickedDate =
-                                              await showDatePicker(
-                                                  barrierDismissible: false,
-                                                  context: context,
-                                                  initialDate: DateTime.now(),
-                                                  firstDate: DateTime.now(),
-                                                  lastDate: DateTime(2101));
+                                          DateTime? pickedDate = await showDatePicker(
+                                              barrierDismissible: false, context: context, initialDate: DateTime.now(), firstDate: DateTime.now(), lastDate: DateTime(2101));
 
-                                          String formattedDate =
-                                              DateFormat('dd-MM-yyyy')
-                                                  .format(pickedDate!);
-                                          trainingController
-                                              .tradeLicenceExpiryDateController
-                                              .text = DateFormat(
-                                                  'dd-MM-yyyy')
-                                              .format(DateFormat('yyyy-MM-dd')
-                                                  .parse((formattedDate)));
+                                          String formattedDate = DateFormat('dd-MM-yyyy').format(pickedDate!);
+                                          trainingController.tradeLicenceExpiryDateController.text =
+                                              DateFormat('dd-MM-yyyy').format(DateFormat('yyyy-MM-dd').parse((formattedDate)));
                                           print(pickedDate);
 
-                                          trainingController
-                                              .tradeLicenceExpiryDateController
-                                              .text = formattedDate;
-                                                                                },
+                                          trainingController.tradeLicenceExpiryDateController.text = formattedDate;
+                                        },
                                       ),
                                     ),
                                     SizedBox(
@@ -495,23 +437,20 @@ class _ProfilePageState extends State<ProfilePage> {
                               : Column(
                                   children: [
                                     Padding(
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: 16.h),
+                                      padding: EdgeInsets.symmetric(horizontal: 16.h),
                                       child: profileTextFieldWidget(
                                         hintText: 'Enter Emirates ID',
                                         title: 'Emirates ID',
-                                        maxLength: 18,
+                                        // maxLength: 18,
                                         keyboardType: TextInputType.number,
-                                        controller: trainingController
-                                            .emiratesIDController,
+                                        controller: trainingController.emiratesIDController,
                                       ),
                                     ),
                                     SizedBox(
                                       height: 8.h,
                                     ),
                                     Padding(
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: 16.h),
+                                      padding: EdgeInsets.symmetric(horizontal: 16.h),
                                       child: Row(
                                         children: [
                                           Text(
@@ -529,29 +468,24 @@ class _ProfilePageState extends State<ProfilePage> {
                                       height: 8.h,
                                     ),
                                     Container(
-                                      margin: EdgeInsets.symmetric(
-                                          horizontal: 16.w),
+                                      margin: EdgeInsets.symmetric(horizontal: 16.w),
                                       width: Get.width,
                                       child: TextField(
                                         style: TextStyle(fontSize: 14.sp),
-                                        controller: trainingController
-                                            .emiratesIdExpiryDateController,
+                                        controller: trainingController.emiratesIdExpiryDateController,
                                         decoration: InputDecoration(
                                           hintText: 'Emirates ID Expiry Date',
-                                          focusedBorder:
-                                              const OutlineInputBorder(
+                                          focusedBorder: const OutlineInputBorder(
                                             borderSide: BorderSide(
                                               color: ColorResources.colorBlack,
                                             ),
                                           ),
-                                          enabledBorder:
-                                              const OutlineInputBorder(
+                                          enabledBorder: const OutlineInputBorder(
                                             borderSide: BorderSide(
                                               color: Color(0xFFCECECE),
                                             ),
                                           ),
-                                          contentPadding: EdgeInsets.symmetric(
-                                              vertical: 8.h, horizontal: 8.w),
+                                          contentPadding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 8.w),
                                           suffixIcon: Icon(
                                             Icons.calendar_today,
                                             size: 18.sp,
@@ -561,28 +495,14 @@ class _ProfilePageState extends State<ProfilePage> {
                                         ),
                                         readOnly: true,
                                         onTap: () async {
-                                          DateTime? pickedDate =
-                                              await showDatePicker(
-                                                  barrierDismissible: false,
-                                                  context: context,
-                                                  initialDate: DateTime.now(),
-                                                  firstDate: DateTime.now(),
-                                                  lastDate: DateTime(2101));
+                                          DateTime? pickedDate = await showDatePicker(
+                                              barrierDismissible: false, context: context, initialDate: DateTime.now(), firstDate: DateTime.now(), lastDate: DateTime(2101));
 
-                                          String formattedDate =
-                                              DateFormat('dd-MM-yyyy')
-                                                  .format(pickedDate!);
-                                          trainingController
-                                              .emiratesIdExpiryDateController
-                                              .text = DateFormat(
-                                                  'dd-MM-yyyy')
-                                              .format(DateFormat('yyyy-MM-dd')
-                                                  .parse((formattedDate)));
+                                          String formattedDate = DateFormat('dd-MM-yyyy').format(pickedDate!);
+                                          trainingController.emiratesIdExpiryDateController.text = DateFormat('dd-MM-yyyy').format(DateFormat('yyyy-MM-dd').parse((formattedDate)));
 
-                                          trainingController
-                                              .emiratesIdExpiryDateController
-                                              .text = formattedDate;
-                                                                                },
+                                          trainingController.emiratesIdExpiryDateController.text = formattedDate;
+                                        },
                                       ),
                                     ),
                                   ],
@@ -600,306 +520,200 @@ class _ProfilePageState extends State<ProfilePage> {
               width: Get.width,
               backgroundColor: ColorResources.colorE5AA17,
               txtColor: ColorResources.colorBlack,
-              onPressed:trainingController.editProfileLoading.value?(){}: () async {
-               trainingController.editProfileLoading.value=true;
-                print(
-                    '/////////////////cartDATA in save>>>>>>>>>>>>>>${trainingController.cartPriceList.length}');
-                var img = '';
-                // Check if any field is missing
-                //final isValid = formKey.currentState!.validate();
-                if (image != null) {
-                  print('image aws${await AwsUpload.uploadToAws(image!)}');
-                  var img = await AwsUpload.uploadToAws(image!);
+              onPressed: trainingController.editProfileLoading.value
+                  ? () {}
+                  : () async {
+                      trainingController.editProfileLoading.value = true;
+                      print('/////////////////cartDATA in save>>>>>>>>>>>>>>${trainingController.cartPriceList.length}');
+                      var img = '';
+                      // Check if any field is missing
+                      //final isValid = formKey.currentState!.validate();
+                      if (image != null) {
+                        print('image aws${await AwsUpload.uploadToAws(image!)}');
+                        var img = await AwsUpload.uploadToAws(image!);
 
-                  print(Uri.parse(img!).path);
-                }
+                        print(Uri.parse(img!).path);
+                      }
 
-                print(
-                    'empty check ${trainingController.tradeLicenceExpiryDateController.text}');
+                      print('empty check ${trainingController.tradeLicenceExpiryDateController.text}');
 
-                if (trainingController.customerNameController.text.isEmpty ||
-                    trainingController.emailIDController.text.isEmpty ||
-                    !EmailValidator.validate(
-                        trainingController.emailIDController.text) ||
-                    image == null && _selectedProfileType == 'Individual' ||
-                    trainingController
-                            .emiratesIdExpiryDateController.text.isEmpty &&
-                        _selectedProfileType == 'Individual' ||
-                    trainingController.tradeLicenceNoController.text.length <
-                            6 &&
-                        _selectedProfileType == 'Corporate' ||
-                    trainingController
-                            .tradeLicenceExpiryDateController.text.isEmpty &&
-                        _selectedProfileType == 'Corporate' ||
-                    (_selectedProfileType == 'Individual' &&
-                        (trainingController.emiratesIDController.text.isEmpty ||
-                            trainingController
-                                    .emiratesIDController.text.length !=
-                                18)) ||
-                    (_selectedProfileType == 'Corporate' &&
-                        (trainingController
-                                .contactPersonController.text.isEmpty ||
-                            trainingController
-                                .tradeLicenceNoController.text.isEmpty))) {
-                  if (image == null && _selectedProfileType == 'Individual') {
-                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                        content: Text('Profile Image is Required!')));
-                  } else if (trainingController
-                      .customerNameController.text.isEmpty) {
-                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                        content: Text('Customer Name is Required!')));
-                  } else if (trainingController
-                      .emailIDController.text.isEmpty) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Email ID is Required!')));
-                  } else if (!EmailValidator.validate(
-                      trainingController.emailIDController.text)) {
-                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                        content: Text('Valid Email ID is Required!')));
-                  } else if (trainingController
-                          .emiratesIDController.text.isEmpty &&
-                      _selectedProfileType == 'Individual') {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Emirates ID required!')));
-                  } else if (trainingController
-                              .emiratesIDController.text.length <
-                          15 &&
-                      _selectedProfileType == 'Individual') {
-                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                        content: Text('Valid Emirates ID is Required!')));
-                  } else if (trainingController
-                          .contactPersonController.text.isEmpty &&
-                      _selectedProfileType == 'Corporate') {
-                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                        content: Text('Contact Person is Required!')));
-                  } else if (trainingController
-                          .tradeLicenceNoController.text.isEmpty &&
-                      _selectedProfileType == 'Corporate') {
-                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                        content: Text('Trade Licence No is Required!')));
-                  } else if (trainingController
-                              .tradeLicenceNoController.text.length <
-                          6 &&
-                      _selectedProfileType == 'Corporate') {
-                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                        content: Text('Valid Trade Licence No is Required!')));
-                  } else if (trainingController
-                          .tradeLicenceExpiryDateController.text.isEmpty &&
-                      _selectedProfileType == 'Corporate') {
-                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                        content:
-                            Text('Trade Licence Expiry Date is Required!')));
-                  } else if (trainingController
-                          .emiratesIdExpiryDateController.text.isEmpty &&
-                      _selectedProfileType == 'Individual') {
-                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                        content: Text('Emirates ID Expiry Date is Required!')));
-                  } else {
-                    SharedPreferences sharedPreferences =
-                        await SharedPreferences.getInstance();
+                      if (trainingController.customerNameController.text.isEmpty ||
+                          trainingController.emailIDController.text.isEmpty ||
+                          !EmailValidator.validate(trainingController.emailIDController.text) ||
+                          image == null && _selectedProfileType == 'Individual' ||
+                          trainingController.emiratesIdExpiryDateController.text.isEmpty && _selectedProfileType == 'Individual' ||
+                          trainingController.tradeLicenceNoController.text.length < 6 && _selectedProfileType == 'Corporate' ||
+                          trainingController.tradeLicenceExpiryDateController.text.isEmpty && _selectedProfileType == 'Corporate' ||
+                          (_selectedProfileType == 'Individual' &&
+                              (trainingController.emiratesIDController.text.isEmpty || trainingController.emiratesIDController.text.length != 18)) ||
+                          (_selectedProfileType == 'Corporate' &&
+                              (trainingController.contactPersonController.text.isEmpty || trainingController.tradeLicenceNoController.text.isEmpty))) {
+                        if (image == null && _selectedProfileType == 'Individual') {
+                          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Profile Image is Required!')));
+                        } else if (trainingController.customerNameController.text.isEmpty) {
+                          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Customer Name is Required!')));
+                        } else if (trainingController.emailIDController.text.isEmpty) {
+                          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Email ID is Required!')));
+                        } else if (!EmailValidator.validate(trainingController.emailIDController.text)) {
+                          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Valid Email ID is Required!')));
+                        } else if (trainingController.emiratesIDController.text.isEmpty && _selectedProfileType == 'Individual') {
+                          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Emirates ID required!')));
+                        } else if (trainingController.emiratesIDController.text.length < 15 && _selectedProfileType == 'Individual') {
+                          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Valid Emirates ID is Required!')));
+                        } else if (trainingController.contactPersonController.text.isEmpty && _selectedProfileType == 'Corporate') {
+                          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Contact Person is Required!')));
+                        } else if (trainingController.tradeLicenceNoController.text.isEmpty && _selectedProfileType == 'Corporate') {
+                          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Trade Licence No is Required!')));
+                        } else if (trainingController.tradeLicenceNoController.text.length < 6 && _selectedProfileType == 'Corporate') {
+                          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Valid Trade Licence No is Required!')));
+                        } else if (trainingController.tradeLicenceExpiryDateController.text.isEmpty && _selectedProfileType == 'Corporate') {
+                          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Trade Licence Expiry Date is Required!')));
+                        } else if (trainingController.emiratesIdExpiryDateController.text.isEmpty && _selectedProfileType == 'Individual') {
+                          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Emirates ID Expiry Date is Required!')));
+                        } else {
+                          SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
 
-                    int userId = int.parse(
-                        sharedPreferences.getString('darlsco_id') ?? '0');
-                    print('customer id $userId   sssss ${widget.isEdit}');
-                    String phoneNumber =
-                        sharedPreferences.getString('phone_no') ?? '';
-                    String email =
-                        sharedPreferences.getString('email_user_') ?? '';
-                    String name =
-                        sharedPreferences.getString('name_user_') ?? '';
-                    ProfileEditModel profileEdit = ProfileEditModel(
-                      tradeLicenceNo: _selectedProfileType == 'Corporate'
-                          ? trainingController.tradeLicenceNoController.text
-                          : '',
-                      tradeLicenceExpiryDate:
-                          _selectedProfileType == 'Corporate'
-                              ? selectedDateTradingLicenceExpire
-                              : null,
-                      corporate:
-                          _selectedProfileType == 'Corporate' ? '1' : '0',
-                      individual:
-                          _selectedProfileType == 'Individual' ? '1' : '0',
-                      customerId:
-                          userId, // You need to provide the customer ID if available
-                      customerName:
-                          trainingController.customerNameController.text,
-                      mobile: numberController.text,
-                      email: trainingController.emailIDController.text,
-                      contactName: _selectedProfileType == 'Corporate'
-                          ? trainingController.contactPersonController.text
-                          : '',
-                      emiratesId: _selectedProfileType == 'Individual'
-                          ? trainingController.emiratesIDController.text
-                          : '',
-                      emiratesDate: _selectedProfileType == 'Individual'
-                          ? selectedDateExpire
-                          : null,
+                          int userId = int.parse(sharedPreferences.getString('darlsco_id') ?? '0');
+                          print('customer id $userId   sssss ${widget.isEdit}');
+                          String phoneNumber = sharedPreferences.getString('phone_no') ?? '';
+                          String email = sharedPreferences.getString('email_user_') ?? '';
+                          String name = sharedPreferences.getString('name_user_') ?? '';
+                          ProfileEditModel profileEdit = ProfileEditModel(
+                            tradeLicenceNo: _selectedProfileType == 'Corporate' ? trainingController.tradeLicenceNoController.text : '',
+                            tradeLicenceExpiryDate: _selectedProfileType == 'Corporate' ? selectedDateTradingLicenceExpire : null,
+                            corporate: _selectedProfileType == 'Corporate' ? '1' : '0',
+                            individual: _selectedProfileType == 'Individual' ? '1' : '0',
+                            customerId: userId, // You need to provide the customer ID if available
+                            customerName: trainingController.customerNameController.text,
+                            mobile: numberController.text,
+                            email: trainingController.emailIDController.text,
+                            contactName: _selectedProfileType == 'Corporate' ? trainingController.contactPersonController.text : '',
+                            emiratesId: _selectedProfileType == 'Individual' ? trainingController.emiratesIDController.text : '',
+                            emiratesDate: _selectedProfileType == 'Individual' ? selectedDateExpire : null,
 
-                      countryCodeName: loginController.countryCode.value,
-                      countryCodeId: homeController.currentCountryCode.value,
+                            countryCodeName: loginController.countryCode.value,
+                            countryCodeId: homeController.currentCountryCode.value,
 
-                      filePath: image == null ? '' : img,
-                    );
+                            filePath: image == null ? '' : img,
+                          );
 
-                    // Call the addProfileEdit method and pass the ProfileEditModel object
-                    // await trainingController.addProfileEdit(profileEdit,
-                    //     widget.isFromPurchase, widget.isFromHomePage);
+                          // Call the addProfileEdit method and pass the ProfileEditModel object
+                          // await trainingController.addProfileEdit(profileEdit,
+                          //     widget.isFromPurchase, widget.isFromHomePage);
 
-                    // Show a snackbar indicating success
-                    // await Get.snackbar(
-                    //   'Success',
-                    //   'Profile Added Successfully',
-                    //   backgroundColor: ColorResources.color294C73,
-                    //   colorText: ColorResources.whiteColor,
-                    //   snackPosition: SnackPosition.BOTTOM,
-                    // );
-                    // ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                    //     content: Text('Profile Successfully Added')));
+                          // Show a snackbar indicating success
+                          // await Get.snackbar(
+                          //   'Success',
+                          //   'Profile Added Successfully',
+                          //   backgroundColor: ColorResources.color294C73,
+                          //   colorText: ColorResources.whiteColor,
+                          //   snackPosition: SnackPosition.BOTTOM,
+                          // );
+                          // ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                          //     content: Text('Profile Successfully Added')));
 
-                    if (widget.isFromPurchase == false &&
-                        widget.isFromHomePage == true) {
-                      Get.to(() => BottomNavigationWidget());
-                    } else if (widget.isFromPurchase == true) {
-                      await homeController.purchaseGateWay(
-                          phoneNumber: phoneNumber,
-                          email: email,
-                          name: name,
-                          Get.context,
-                          tcontoller.totalPrice.toStringAsFixed(2));
-                      // navigate to telr page continue payment
-                    } else {
-                      Get.to(() => BottomNavigationWidget());
-                    }
-                  }
-                }
-                //  else if (_selectedProfileType == 'Corporate') {
-                //   if (trainingController.customerNameController.text.isEmpty) {
-                //     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                //         content: Text('Customer name is required!')));
-                //   } else if (trainingController
-                //       .emailIDController.text.isEmpty) {
-                //     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                //         content: Text('Please enter a valid Email!')));
-                //   } else if (trainingController
-                //       .contactPersonController.text.isEmpty) {
-                //     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                //         content: Text('Contact Person required !')));
-                //   } else if (trainingController
-                //       .tradeLicenceNoController.text.isEmpty) {
-                //     errorTextLicense = 'Trade Licence No is required!';
-                //   }
+                          if (widget.isFromPurchase == false && widget.isFromHomePage == true) {
+                            Get.to(() => BottomNavigationWidget());
+                          } else if (widget.isFromPurchase == true) {
+                            await homeController.purchaseGateWay(phoneNumber: phoneNumber, email: email, name: name, Get.context, tcontoller.totalPrice.toStringAsFixed(2));
+                            // navigate to telr page continue payment
+                          } else {
+                            Get.to(() => BottomNavigationWidget());
+                          }
+                        }
+                      }
+                      //  else if (_selectedProfileType == 'Corporate') {
+                      //   if (trainingController.customerNameController.text.isEmpty) {
+                      //     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                      //         content: Text('Customer name is required!')));
+                      //   } else if (trainingController
+                      //       .emailIDController.text.isEmpty) {
+                      //     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                      //         content: Text('Please enter a valid Email!')));
+                      //   } else if (trainingController
+                      //       .contactPersonController.text.isEmpty) {
+                      //     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                      //         content: Text('Contact Person required !')));
+                      //   } else if (trainingController
+                      //       .tradeLicenceNoController.text.isEmpty) {
+                      //     errorTextLicense = 'Trade Licence No is required!';
+                      //   }
 
-                //   setState(() {});
-                //   ScaffoldMessenger.of(context).showSnackBar(
-                //       const SnackBar(content: Text('All fields are required!')));
-                // }
-                // if (isValid == false) {
-                //   ScaffoldMessenger.of(context).showSnackBar(
-                //       const SnackBar(content: Text('All fields are required!')));
-                // }
-                else {
-                  //dialog box begin
-                  showDialog(
-                    context: Get.context!,
-                    builder: (context) {
-                      return AlertDialog(
-                        content: Text(
-                          'Are you sure you want to save the details?',
-                          style: GoogleFonts.dmSans(
-                            fontSize: 16.sp.h,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                        actions: [
-                          textButtonWidget(
-                            text: 'No',
-                            onPressed: () {
-                              Get.back();
-                            },
-                          ),
-                          textButtonWidget(
-                            text: 'Yes',
-                            onPressed: () async {
-                              print(
-                                  'Cartdata//////// ${trainingController.cartPriceList.length}');
-                              print(
-                                  'hai ${trainingController.tradeLicenceExpiryDateController.text}');
-                              SharedPreferences sharedPreferences =
-                                  await SharedPreferences.getInstance();
+                      //   setState(() {});
+                      //   ScaffoldMessenger.of(context).showSnackBar(
+                      //       const SnackBar(content: Text('All fields are required!')));
+                      // }
+                      // if (isValid == false) {
+                      //   ScaffoldMessenger.of(context).showSnackBar(
+                      //       const SnackBar(content: Text('All fields are required!')));
+                      // }
+                      else {
+                        //dialog box begin
+                        showDialog(
+                          context: Get.context!,
+                          builder: (context) {
+                            return AlertDialog(
+                              content: Text(
+                                'Are you sure you want to save the details?',
+                                style: GoogleFonts.dmSans(
+                                  fontSize: 16.sp.h,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                              actions: [
+                                textButtonWidget(
+                                  text: 'No',
+                                  onPressed: () {
+                                    Get.back();
+                                  },
+                                ),
+                                textButtonWidget(
+                                  text: 'Yes',
+                                  onPressed: () async {
+                                    print('Cartdata//////// ${trainingController.cartPriceList.length}');
+                                    print('hai ${trainingController.tradeLicenceExpiryDateController.text}');
+                                    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
 
-                              int userId = int.parse(
-                                  sharedPreferences.getString('darlsco_id') ??
-                                      '0');
+                                    int userId = int.parse(sharedPreferences.getString('darlsco_id') ?? '0');
 
-                              ProfileEditModel profileEdit = ProfileEditModel(
-                                tradeLicenceNo:
-                                    _selectedProfileType == 'Corporate'
-                                        ? trainingController
-                                            .tradeLicenceNoController.text
-                                        : '',
-                                tradeLicenceExpiryDate: _selectedProfileType ==
-                                        'Corporate'
-                                    ? DateTime.parse(DateFormat('yyyy-MM-dd')
-                                        .format(DateFormat('dd-MM-yyyy').parse(
-                                            (trainingController
-                                                .tradeLicenceExpiryDateController
-                                                .text))))
-                                    : null,
+                                    ProfileEditModel profileEdit = ProfileEditModel(
+                                      tradeLicenceNo: _selectedProfileType == 'Corporate' ? trainingController.tradeLicenceNoController.text : '',
+                                      tradeLicenceExpiryDate: _selectedProfileType == 'Corporate'
+                                          ? DateTime.parse(
+                                              DateFormat('yyyy-MM-dd').format(DateFormat('dd-MM-yyyy').parse((trainingController.tradeLicenceExpiryDateController.text))))
+                                          : null,
 
-                                corporate: _selectedProfileType == 'Corporate'
-                                    ? '1'
-                                    : '0',
-                                individual: _selectedProfileType == 'Individual'
-                                    ? '1'
-                                    : '0',
-                                customerId:
-                                    userId, // You need to provide the customer ID if available
-                                customerName: trainingController
-                                    .customerNameController.text,
-                                mobile: numberController.text,
-                                email:
-                                    trainingController.emailIDController.text,
-                                contactName: _selectedProfileType == 'Corporate'
-                                    ? trainingController
-                                        .contactPersonController.text
-                                    : '',
-                                emiratesId: _selectedProfileType == 'Individual'
-                                    ? trainingController
-                                        .emiratesIDController.text
-                                    : '',
-                                emiratesDate: _selectedProfileType ==
-                                        'Individual'
-                                    ? DateTime.parse(DateFormat('yyyy-MM-dd')
-                                        .format(DateFormat('dd-MM-yyyy').parse(
-                                            (trainingController
-                                                .emiratesIdExpiryDateController
-                                                .text))))
-                                    : null,
-                                countryCodeName:
-                                    loginController.countryCode.value,
-                                countryCodeId: 'IN',
-                                filePath: Uri.parse(img).path,
-                              );
+                                      corporate: _selectedProfileType == 'Corporate' ? '1' : '0',
+                                      individual: _selectedProfileType == 'Individual' ? '1' : '0',
+                                      customerId: userId, // You need to provide the customer ID if available
+                                      customerName: trainingController.customerNameController.text,
+                                      mobile: numberController.text,
+                                      email: trainingController.emailIDController.text,
+                                      contactName: _selectedProfileType == 'Corporate' ? trainingController.contactPersonController.text : '',
+                                      emiratesId: _selectedProfileType == 'Individual' ? trainingController.emiratesIDController.text : '',
+                                      emiratesDate: _selectedProfileType == 'Individual'
+                                          ? DateTime.parse(
+                                              DateFormat('yyyy-MM-dd').format(DateFormat('dd-MM-yyyy').parse((trainingController.emiratesIdExpiryDateController.text))))
+                                          : null,
+                                      countryCodeName: loginController.countryCode.value,
+                                      countryCodeId: 'IN',
+                                      filePath: Uri.parse(img).path,
+                                    );
 
-                              Get.back();
-                              print(
-                                  'Cartdata in profile before//////// ${trainingController.cartPriceList.length}');
-                              // Call the addProfileEdit method and pass the ProfileEditModel object
-                              await trainingController.addProfileEdit(
-                                  profileEdit,
-                                  widget.isFromPurchase,
-                                  widget.isFromHomePage);
-                              print(
-                                  'Cartdata in profile//////// ${trainingController.cartPriceList.length}');
-                            },
-                          ),
-                        ],
-                      );
+                                    Get.back();
+                                    print('Cartdata in profile before//////// ${trainingController.cartPriceList.length}');
+                                    // Call the addProfileEdit method and pass the ProfileEditModel object
+                                    await trainingController.addProfileEdit(profileEdit, widget.isFromPurchase, widget.isFromHomePage);
+                                    print('Cartdata in profile//////// ${trainingController.cartPriceList.length}');
+                                  },
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      }
+                      trainingController.editProfileLoading.value = false;
                     },
-                  );
-                }
-                trainingController.editProfileLoading.value=false;
-              },
             )),
       ),
     );
