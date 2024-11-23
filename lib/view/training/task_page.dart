@@ -52,8 +52,7 @@ class _TaskPageState extends State<TaskPage> {
                 physics: const AlwaysScrollableScrollPhysics(),
                 child: Obx(() {
                   final taskCounts = todayTaskController.taskPageCount;
-                  final countModel =
-                      taskCounts.isNotEmpty ? taskCounts[0] : null;
+                  final countModel = taskCounts.isNotEmpty ? taskCounts[0] : null;
 
                   return Column(
                     children: [
@@ -62,17 +61,16 @@ class _TaskPageState extends State<TaskPage> {
                           selected.value = 0;
                           await todayTaskController.fetchTaskCount();
                           Get.to(() => TodayTask(
-                                todyasTask: todayTaskController.todayTasksLst,
-                              ));
+                                    todyasTask: todayTaskController.todayTasksLst,
+                                  ))!
+                              .whenComplete(() {
+                            todayTaskController.fetchTaskCount();
+                          });
                         },
                         child: taskWidget(
                           text: 'Today\'s Task',
-                          number: countModel != null
-                              ? countModel.countNow.toString()
-                              : '0',
-                          color: selected.value == 0
-                              ? ColorResources.color8DA0FF.withOpacity(.4)
-                              : ColorResources.colorA5A5A5.withOpacity(.2),
+                          number: countModel != null ? countModel.countNow.toString() : '0',
+                          color: selected.value == 0 ? ColorResources.color8DA0FF.withOpacity(.4) : ColorResources.colorA5A5A5.withOpacity(.2),
                         ),
                       ),
                       SizedBox(height: 8.h),
@@ -84,12 +82,8 @@ class _TaskPageState extends State<TaskPage> {
                         },
                         child: taskWidget(
                           text: 'Upcoming Task',
-                          number: countModel != null
-                              ? countModel.countFuture.toString()
-                              : '0',
-                          color: selected.value == 1
-                              ? ColorResources.color8DA0FF.withOpacity(.4)
-                              : ColorResources.colorA5A5A5.withOpacity(.2),
+                          number: countModel != null ? countModel.countFuture.toString() : '0',
+                          color: selected.value == 1 ? ColorResources.color8DA0FF.withOpacity(.4) : ColorResources.colorA5A5A5.withOpacity(.2),
                         ),
                       ),
                       SizedBox(height: 8.h),
@@ -102,12 +96,8 @@ class _TaskPageState extends State<TaskPage> {
                         },
                         child: taskWidget(
                           text: 'Total Task Attended',
-                          number: countModel != null
-                              ? countModel.countPast.toString()
-                              : '0',
-                          color: selected.value == 2
-                              ? ColorResources.color8DA0FF.withOpacity(.4)
-                              : ColorResources.colorA5A5A5.withOpacity(.2),
+                          number: countModel != null ? countModel.countPast.toString() : '0',
+                          color: selected.value == 2 ? ColorResources.color8DA0FF.withOpacity(.4) : ColorResources.colorA5A5A5.withOpacity(.2),
                         ),
                       ),
                       SizedBox(height: 8.h),

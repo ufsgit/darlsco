@@ -1,6 +1,6 @@
 class HttpUrls {
   static String baseUrl = 'http://3.89.129.51:3514';
-// 
+//
 // static String baseUrl = 'http://34.228.212.237:3514'; //  new live
 
   // static String baseUrl = 'https://317a-103-141-56-75.ngrok-free.app';

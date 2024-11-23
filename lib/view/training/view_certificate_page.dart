@@ -17,15 +17,13 @@ import 'package:url_launcher/url_launcher.dart';
 class PDFViewerPage extends StatefulWidget {
   final String pdfPath;
   final String fileName;
-  const PDFViewerPage(
-      {required this.pdfPath, super.key, required this.fileName});
+  const PDFViewerPage({required this.pdfPath, super.key, required this.fileName});
 
   @override
   _PDFViewerPageState createState() => _PDFViewerPageState();
 }
 
-class _PDFViewerPageState extends State<PDFViewerPage>
-    with WidgetsBindingObserver {
+class _PDFViewerPageState extends State<PDFViewerPage> with WidgetsBindingObserver {
   String? localPath;
   bool isIinitstate = false;
   int fileNumber = 1;
@@ -59,39 +57,66 @@ class _PDFViewerPageState extends State<PDFViewerPage>
   Future<bool> _downloadAndSavePdf({required bool isInitState}) async {
     // PermissionStatus photoStatus =await Permission.photos.status;
     PermissionStatus storage = await Permission.storage.status;
-    if(await Permission.storage.isLimited){
+    if (await Permission.storage.isLimited) {
       Get.back();
 
-    await Permission.photos.request();
-    await Permission.storage.request();
+      await Permission.photos.request();
+      await Permission.storage.request();
     }
     if (storage.isDenied) {
-      
-    await Permission.photos.request();
-    await Permission.storage.request();
+      await Permission.photos.request();
+      await Permission.storage.request();
     }
     // await Permission.manageExternalStorage.request();
     Dio dio = Dio();
 
     try {
-    String filePath = '';
-    final url =
-        'https://darlsco-files.s3.ap-south-1.amazonaws.com/${widget.pdfPath}';
-    log('PDF SAVE : URL = $url');
-    Directory dir;
+      String filePath = '';
+      final url = 'https://darlsco-files.s3.ap-south-1.amazonaws.com/${widget.pdfPath}';
+      log('PDF SAVE : URL = $url');
+      Directory dir;
 
-    if (Platform.isAndroid) {
-      log('PDF SAVE : isAndroid =true');
-      DeviceInfoPlugin plugin = DeviceInfoPlugin();
-      AndroidDeviceInfo android = await plugin.androidInfo;
-      log('SDK ${android.version.sdkInt}');
-      if (android.version.sdkInt >= 31) {
-        log('true');
-        dir = await getExternalStorageDirectory() ??
-            Directory('/storage/emulated/0/Download');
+      if (Platform.isAndroid) {
+        log('PDF SAVE : isAndroid =true');
+        DeviceInfoPlugin plugin = DeviceInfoPlugin();
+        AndroidDeviceInfo android = await plugin.androidInfo;
+        log('SDK ${android.version.sdkInt}');
+        if (android.version.sdkInt >= 31) {
+          log('true');
+          dir = await getExternalStorageDirectory() ?? Directory('/storage/emulated/0/Download');
+        } else {
+          dir = Directory('/storage/emulated/0/Download');
+        }
+        if (await File(filePath).exists()) {
+          Set<int> fileNumbers = {};
+          List<FileSystemEntity> filesList = dir.listSync();
+          log('FileNumber $fileNumber');
+          for (var i = 0; i < filesList.length; i++) {
+            String path = filesList[i].path;
+            try {
+              fileNumbers.add(
+                int.parse(path.split('/').last.split('-').last.replaceRange(1, null, ' ').trim()),
+              );
+            } catch (e) {}
+          }
+          log('FileList $filesList');
+          int highestNumber = fileNumbers.reduce((value, element) => value > element ? value : element);
+          setState(() {
+            fileNumber = highestNumber + 1;
+          });
+
+          print('sdffrw ${filesList.length}');
+        }
+
+        log('PDF SAVE : isAndroid filepath = $filePath');
       } else {
-        dir = Directory('/storage/emulated/0/Download');
+        log('PDF SAVE : isAndroid = false');
+        dir = await getApplicationDocumentsDirectory();
+        filePath = "${dir.path}/${widget.fileName}.pdf";
+        log('PDF SAVE : isIOS filepath = $filePath');
       }
+
+      filePath = "${dir.path}/${widget.fileName}-$fileNumber.pdf";
       if (await File(filePath).exists()) {
         Set<int> fileNumbers = {};
         List<FileSystemEntity> filesList = dir.listSync();
@@ -100,21 +125,12 @@ class _PDFViewerPageState extends State<PDFViewerPage>
           String path = filesList[i].path;
           try {
             fileNumbers.add(
-              int.parse(path
-                  .split('/')
-                  .last
-                  .split('-')
-                  .last
-                  .replaceRange(1, null, ' ')
-                  .trim()),
+              int.parse(path.split('/').last.split('-').last.replaceRange(1, null, ' ').trim()),
             );
-          } catch (e) {
-         
-          }
+          } catch (e) {}
         }
         log('FileList $filesList');
-        int highestNumber = fileNumbers
-            .reduce((value, element) => value > element ? value : element);
+        int highestNumber = fileNumbers.reduce((value, element) => value > element ? value : element);
         setState(() {
           fileNumber = highestNumber + 1;
         });
@@ -122,62 +138,25 @@ class _PDFViewerPageState extends State<PDFViewerPage>
         print('sdffrw ${filesList.length}');
       }
 
-      log('PDF SAVE : isAndroid filepath = $filePath');
-    } else {
-      log('PDF SAVE : isAndroid = false');
-      dir = await getApplicationDocumentsDirectory();
-      filePath = "${dir.path}/${widget.fileName}.pdf";
-      log('PDF SAVE : isIOS filepath = $filePath');
-    }
-
-    filePath = "${dir.path}/${widget.fileName}-$fileNumber.pdf";
-    if (await File(filePath).exists()) {
-      Set<int> fileNumbers = {};
-      List<FileSystemEntity> filesList = dir.listSync();
-      log('FileNumber $fileNumber');
-      for (var i = 0; i < filesList.length; i++) {
-        String path = filesList[i].path;
-        try {
-          fileNumbers.add(
-            int.parse(path
-                .split('/')
-                .last
-                .split('-')
-                .last
-                .replaceRange(1, null, ' ')
-                .trim()),
-          );
-        } catch (e) {}
+      // Download the file
+      if (!isIinitstate) {
+        await dio.download(url, filePath, onReceiveProgress: (received, total) {
+          // if (total != -1) {
+          //   print('Progress: ${(received / total * 100).toStringAsFixed(0)}%');
+          // }
+        });
       }
-      log('FileList $filesList');
-      int highestNumber = fileNumbers
-          .reduce((value, element) => value > element ? value : element);
+
       setState(() {
-        fileNumber = highestNumber + 1;
+        localPath = filePath;
       });
-
-      print('sdffrw ${filesList.length}');
-    }
-
-    // Download the file
-    if (!isIinitstate) {
-      await dio.download(url, filePath, onReceiveProgress: (received, total) {
-        // if (total != -1) {
-        //   print('Progress: ${(received / total * 100).toStringAsFixed(0)}%');
-        // }
-      });
-    }
-
-    setState(() {
-      localPath = filePath;
-    });
-    print('File downloaded to: $filePath');
-    return true;
+      print('File downloaded to: $filePath');
+      return true;
     } catch (e) {
       print('Error downloading file: $e');
-        //  showDialog(context: context, builder:(c)=> AlertDialog(
-        //       content: Text(e.toString()),
-        //     ));
+      //  showDialog(context: context, builder:(c)=> AlertDialog(
+      //       content: Text(e.toString()),
+      //     ));
       return false;
     }
   }
@@ -199,20 +178,16 @@ class _PDFViewerPageState extends State<PDFViewerPage>
                   AndroidDeviceInfo android = await plugin.androidInfo;
 
                   if (android.version.sdkInt >= 33) {
-                    await launchUrl(Uri.parse(
-                        'https://darlsco-files.s3.ap-south-1.amazonaws.com/${widget.pdfPath}'));
+                    await launchUrl(Uri.parse('https://darlsco-files.s3.ap-south-1.amazonaws.com/${widget.pdfPath}'));
                   } else {
-                    await _downloadAndSavePdf(isInitState: false).then((v) =>
-                        Get.snackbar(
+                    await _downloadAndSavePdf(isInitState: false).then((v) => Get.snackbar(
                             '${widget.fileName}-$fileNumber ${v ? 'Downloaded' : "Can't Download"}',
                             // '${widget.fileName} ${v ? 'Downloaded' : "Can't Download"}',
                             v ? 'Tap to open ' : '',
                             duration: const Duration(seconds: 10),
-                            backgroundColor:
-                                v ? ColorResources.colorBlue : Colors.red,
+                            backgroundColor: v ? ColorResources.colorBlue : Colors.red,
                             colorText: Colors.white,
-                            snackPosition: SnackPosition.BOTTOM,
-                            onTap: (s) async {
+                            snackPosition: SnackPosition.BOTTOM, onTap: (s) async {
                           if (v) {
                             if (Platform.isAndroid) {
                               final result = await OpenFilex.open(localPath!);
@@ -235,17 +210,14 @@ class _PDFViewerPageState extends State<PDFViewerPage>
                         }));
                   }
                 } else {
-                  _downloadAndSavePdf(isInitState: false).then((v) =>
-                      Get.snackbar(
+                  _downloadAndSavePdf(isInitState: false).then((v) => Get.snackbar(
                           '${widget.fileName}-$fileNumber ${v ? 'Downloaded' : "Can't Download"}',
                           // '${widget.fileName} ${v ? 'Downloaded' : "Can't Download"}',
                           v ? 'Tap to open ' : '',
                           duration: const Duration(seconds: 10),
-                          backgroundColor:
-                              v ? ColorResources.colorBlue : Colors.red,
+                          backgroundColor: v ? ColorResources.colorBlue : Colors.red,
                           colorText: Colors.white,
-                          snackPosition: SnackPosition.BOTTOM,
-                          onTap: (s) async {
+                          snackPosition: SnackPosition.BOTTOM, onTap: (s) async {
                         if (v) {
                           if (Platform.isAndroid) {
                             final result = await OpenFilex.open(localPath!);
@@ -298,77 +270,79 @@ class _PDFViewerPageState extends State<PDFViewerPage>
             ),
           ),
         ),
-        body: commonBackgroundLinearColorCart(
-            childWidget: localPath != null
+        body:
+            //  commonBackgroundLinearColorCart(
+            //     childWidget:
+            localPath != null
                 ? PDFView(filePath: localPath)
                 : const Column(
                     children: [
                       CircularProgressIndicator(),
                     ],
-                  )
-            // childWidget: SingleChildScrollView(
-            //   child: Padding(
-            //     padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 32.h),
-            //     child: Column(
-            //       mainAxisAlignment: MainAxisAlignment.start,
-            //       crossAxisAlignment: CrossAxisAlignment.start,
-            //       children: [
-            //         Row(
-            //           children: [
-            //             InkWell(
-            //               onTap: () {
-            //                 Get.back();
-            //               },
-            //               child: CircleAvatar(
-            //                 radius: 18.h,
-            //                 backgroundColor: Colors.transparent,
-            //                 child: Padding(
-            //                   padding: const EdgeInsets.only(left: 8),
-            //                   child: Icon(
-            //                     Icons.arrow_back_ios,
-            //                     size: 30.h,
-            //                     color: ColorResources.color294C73,
-            //                   ),
-            //                 ),
-            //               ),
-            //             ),
-            //             const Spacer(),
-            //             IconButton(
-            //                 onPressed: () => _downloadAndSavePdf().then(
-            //                       (value) =>
-            //                           ScaffoldMessenger.of(context).showSnackBar(
-            //                         const SnackBar(
-            //                           content: Text('PDF Downloded'),
-            //                         ),
-            //                       ),
-            //                     ),
-            //                 icon: const Icon(Icons.download))
-            //           ],
-            //         ),
-            //         Text(
-            //           'Certificate',
-            //           style: TextStyle(
-            //             fontSize: 32.sp.h,
-            //             color: ColorResources.color294C73,
-            //             fontWeight: FontWeight.bold,
-            //           ),
-            //         ),
-            //         SizedBox(
-            //           height: 16.h,
-            //         ),
-            //         localPath != null
-            //             ? ClipRRect(
-            //               borderRadius: BorderRadius.circular(8),
-            //               child: PDFView(
-            //                 filePath: localPath,
-            //               ),
-            //             )
-            //             : const Center(child: CircularProgressIndicator()),
-            //       ],
-            //     ),
-            //   ),
-            // ),
-            ),
+                    // )
+                    // childWidget: SingleChildScrollView(
+                    //   child: Padding(
+                    //     padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 32.h),
+                    //     child: Column(
+                    //       mainAxisAlignment: MainAxisAlignment.start,
+                    //       crossAxisAlignment: CrossAxisAlignment.start,
+                    //       children: [
+                    //         Row(
+                    //           children: [
+                    //             InkWell(
+                    //               onTap: () {
+                    //                 Get.back();
+                    //               },
+                    //               child: CircleAvatar(
+                    //                 radius: 18.h,
+                    //                 backgroundColor: Colors.transparent,
+                    //                 child: Padding(
+                    //                   padding: const EdgeInsets.only(left: 8),
+                    //                   child: Icon(
+                    //                     Icons.arrow_back_ios,
+                    //                     size: 30.h,
+                    //                     color: ColorResources.color294C73,
+                    //                   ),
+                    //                 ),
+                    //               ),
+                    //             ),
+                    //             const Spacer(),
+                    //             IconButton(
+                    //                 onPressed: () => _downloadAndSavePdf().then(
+                    //                       (value) =>
+                    //                           ScaffoldMessenger.of(context).showSnackBar(
+                    //                         const SnackBar(
+                    //                           content: Text('PDF Downloded'),
+                    //                         ),
+                    //                       ),
+                    //                     ),
+                    //                 icon: const Icon(Icons.download))
+                    //           ],
+                    //         ),
+                    //         Text(
+                    //           'Certificate',
+                    //           style: TextStyle(
+                    //             fontSize: 32.sp.h,
+                    //             color: ColorResources.color294C73,
+                    //             fontWeight: FontWeight.bold,
+                    //           ),
+                    //         ),
+                    //         SizedBox(
+                    //           height: 16.h,
+                    //         ),
+                    //         localPath != null
+                    //             ? ClipRRect(
+                    //               borderRadius: BorderRadius.circular(8),
+                    //               child: PDFView(
+                    //                 filePath: localPath,
+                    //               ),
+                    //             )
+                    //             : const Center(child: CircularProgressIndicator()),
+                    //       ],
+                    //     ),
+                    //   ),
+                    // ),
+                  ),
       ),
     );
   }

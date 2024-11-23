@@ -33,8 +33,7 @@ File? image;
 RxString imgUrl = ''.obs;
 final _picker = ImagePicker();
 Future<void> pickImageFromGallery() async {
-  final XFile? pickedImage =
-      await _picker.pickImage(source: ImageSource.gallery);
+  final XFile? pickedImage = await _picker.pickImage(source: ImageSource.gallery);
   if (pickedImage != null) {
     image = File(pickedImage.path);
     Get.back();
@@ -47,8 +46,7 @@ Future<void> pickImageFromGallery() async {
 }
 
 Future<void> pickImageFromCamera() async {
-  final XFile? pickedImage =
-      await _picker.pickImage(source: ImageSource.camera);
+  final XFile? pickedImage = await _picker.pickImage(source: ImageSource.camera);
   if (pickedImage != null) {
     image = File(pickedImage.path);
     Get.back();
@@ -61,26 +59,18 @@ Future<void> pickImageFromCamera() async {
   }
 }
 
-Container trainingBackgroundLinearColor(
-    {required BuildContext context, required Widget childWidget}) {
+Container trainingBackgroundLinearColor({required BuildContext context, required Widget childWidget}) {
   return Container(
     width: MediaQuery.sizeOf(context).width.w,
     height: 30.h,
     decoration: BoxDecoration(
-        borderRadius: const BorderRadius.only(
-            bottomLeft: Radius.circular(20), bottomRight: Radius.circular(20)),
-        gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: ColorResources.backgroundColors2)),
+        borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(20), bottomRight: Radius.circular(20)),
+        gradient: LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, colors: ColorResources.backgroundColors2)),
     child: childWidget,
   );
 }
 
-Widget servicesContainerWidget(
-    {required BuildContext context,
-    required String image,
-    required String text}) {
+Widget servicesContainerWidget({required BuildContext context, required String image, required String text}) {
   return Container(
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(20),
@@ -119,9 +109,7 @@ Widget gridViewWidget({
     physics: const ClampingScrollPhysics(),
     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
       crossAxisCount: crossAxisCount,
-      mainAxisExtent: MediaQuery.of(context).size.width < 850
-          ? MediaQuery.of(context).size.height / 5.5
-          : MediaQuery.of(context).size.height / 3.5,
+      mainAxisExtent: MediaQuery.of(context).size.width < 850 ? MediaQuery.of(context).size.height / 5.5 : MediaQuery.of(context).size.height / 3.5,
       mainAxisSpacing: 12,
       crossAxisSpacing: 12,
     ),
@@ -142,8 +130,7 @@ Widget gridViewWidget({
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
               image: DecorationImage(
-                image: NetworkImage(HttpUrls.imageBase +
-                    trainingController.trainingData[index].fileName!),
+                image: NetworkImage(HttpUrls.imageBase + trainingController.trainingData[index].fileName!),
                 fit: BoxFit.cover,
               ),
             ),
@@ -178,8 +165,7 @@ Widget gridViewWidget({
 Widget cartListViewWidget({
   required BuildContext context,
 }) {
-  TrainingControllerHomee trainingHomeController =
-      Get.put(TrainingControllerHomee());
+  TrainingControllerHomee trainingHomeController = Get.put(TrainingControllerHomee());
   return ListView.separated(
     separatorBuilder: (context, index) {
       return SizedBox(
@@ -194,8 +180,7 @@ Widget cartListViewWidget({
         // height: 150.h,
         index: index,
         courseName: trainingHomeController.cartData[index].trainingCourseName,
-        amount:
-            'AED ${double.parse(trainingHomeController.cartData[index].price) * double.parse(trainingHomeController.cartData[index].quantity.toString())}',
+        amount: 'AED ${double.parse(trainingHomeController.cartData[index].price) * double.parse(trainingHomeController.cartData[index].quantity.toString())}',
         quantity: trainingHomeController.cartData[index].quantity.toString(),
         categoryName: trainingHomeController.cartData[index].categoryName,
         fileName: trainingHomeController.cartData[index].fileName,
@@ -229,8 +214,7 @@ Widget cartListViewWidget({
                   textButtonWidget(
                     text: 'Yes',
                     onPressed: () {
-                      trainingHomeController.deleteCartItem(
-                          trainingHomeController.cartData[index].itemCartId);
+                      trainingHomeController.deleteCartItem(trainingHomeController.cartData[index].itemCartId);
                       Get.back();
                     },
                   ),
@@ -390,11 +374,7 @@ Widget cartDetailsWidget({
                       if (isCartpage != false)
                         cartDataQuatity.cartData.isNotEmpty
                             ? Text(
-                                (double.parse(cartDataQuatity
-                                            .cartData[index].amount) *
-                                        cartDataQuatity
-                                            .cartData[index].quantity)
-                                    .toStringAsFixed(2),
+                                (double.parse(cartDataQuatity.cartData[index].amount) * cartDataQuatity.cartData[index].quantity).toStringAsFixed(2),
                                 style: GoogleFonts.dmSans(
                                   color: amtColor,
                                   fontSize: 15.sp.h,
@@ -440,22 +420,15 @@ Widget cartDetailsWidget({
                           children: [
                             InkWell(
                               onTap: () async {
-                                if (cartDataQuatity.cartData[index].quantity >
-                                    1) {
+                                if (cartDataQuatity.cartData[index].quantity > 1) {
                                   cartDataQuatity.cartData[index].quantity--;
 
-                                  var amount = double.parse(cartDataQuatity
-                                          .cartData[index].price) *
-                                      double.parse(cartDataQuatity
-                                          .cartData[index].quantity
-                                          .toString());
+                                  var amount = double.parse(cartDataQuatity.cartData[index].price) * double.parse(cartDataQuatity.cartData[index].quantity.toString());
                                   trainingController.update();
 
                                   trainingController.updateItemCartQuatity(
-                                    itemCartId: cartDataQuatity
-                                        .cartData[index].itemCartId,
-                                    quantity: cartDataQuatity
-                                        .cartData[index].quantity,
+                                    itemCartId: cartDataQuatity.cartData[index].itemCartId,
+                                    quantity: cartDataQuatity.cartData[index].quantity,
                                     amount: amount,
                                   );
                                 }
@@ -467,11 +440,8 @@ Widget cartDetailsWidget({
                                 width: 50.w,
                                 height: 30.w,
                                 decoration: BoxDecoration(
-                                    color: const Color.fromARGB(
-                                        255, 244, 242, 242),
-                                    borderRadius: BorderRadius.only(
-                                        topLeft: Radius.circular(10.w),
-                                        bottomLeft: Radius.circular(10.w))),
+                                    color: const Color.fromARGB(255, 244, 242, 242),
+                                    borderRadius: BorderRadius.only(topLeft: Radius.circular(10.w), bottomLeft: Radius.circular(10.w))),
                                 child: Center(
                                   child: Icon(
                                     Icons.remove,
@@ -488,12 +458,10 @@ Widget cartDetailsWidget({
                               height: 30.w,
                               decoration: BoxDecoration(
                                 color: Colors.white,
-                                border: Border.all(
-                                    color: ColorResources.color294C73),
+                                border: Border.all(color: ColorResources.color294C73),
                               ),
                               child: Center(
-                                child: Text(
-                                    '${cartDataQuatity.cartData[index].quantity}'),
+                                child: Text('${cartDataQuatity.cartData[index].quantity}'),
                               ),
                             ),
                             SizedBox(
@@ -502,19 +470,11 @@ Widget cartDetailsWidget({
                             InkWell(
                               onTap: () {
                                 cartDataQuatity.cartData[index].quantity++;
-                                var amount = double.parse(
-                                        cartDataQuatity.cartData[index].price) *
-                                    double.parse(cartDataQuatity
-                                        .cartData[index].quantity
-                                        .toString());
+                                var amount = double.parse(cartDataQuatity.cartData[index].price) * double.parse(cartDataQuatity.cartData[index].quantity.toString());
                                 trainingController.update();
 
                                 trainingController.updateItemCartQuatity(
-                                    itemCartId: cartDataQuatity
-                                        .cartData[index].itemCartId,
-                                    quantity: cartDataQuatity
-                                        .cartData[index].quantity,
-                                    amount: amount);
+                                    itemCartId: cartDataQuatity.cartData[index].itemCartId, quantity: cartDataQuatity.cartData[index].quantity, amount: amount);
 
                                 trainingController.update();
                               },
@@ -522,11 +482,8 @@ Widget cartDetailsWidget({
                                 width: 50.w,
                                 height: 30.w,
                                 decoration: BoxDecoration(
-                                    color: const Color.fromARGB(
-                                        255, 244, 242, 242),
-                                    borderRadius: BorderRadius.only(
-                                        topRight: Radius.circular(10.w),
-                                        bottomRight: Radius.circular(10.w))),
+                                    color: const Color.fromARGB(255, 244, 242, 242),
+                                    borderRadius: BorderRadius.only(topRight: Radius.circular(10.w), bottomRight: Radius.circular(10.w))),
                                 child: Center(
                                     child: Icon(
                                   Icons.add,
@@ -703,10 +660,7 @@ Widget locationTileWidget({
   });
 }
 
-Widget authenticationImageWidget(
-    {required BuildContext context,
-    required bool? isPhoneNumberPage,
-    required String image}) {
+Widget authenticationImageWidget({required BuildContext context, required bool? isPhoneNumberPage, required String image}) {
   return Container(
     height: 360.h,
     decoration: BoxDecoration(
@@ -748,12 +702,7 @@ Widget authenticationImageWidget(
 }
 
 Widget elevatedButtonWidget(
-    {required BuildContext context,
-    required String text,
-    required double? width,
-    required Color? backgroundColor,
-    required Color? txtColor,
-    required void Function()? onPressed}) {
+    {required BuildContext context, required String text, required double? width, required Color? backgroundColor, required Color? txtColor, required void Function()? onPressed}) {
   return SizedBox(
     height: 55.h.w,
     width: width,
@@ -774,16 +723,12 @@ Widget elevatedButtonWidget(
   );
 }
 
-Widget textFieldWidget(
-    {required BuildContext context,
-    required TextEditingController? controller}) {
+Widget textFieldWidget({required BuildContext context, required TextEditingController? controller}) {
   return Row(
     children: [
       Container(
         height: 48,
-        decoration: BoxDecoration(
-            color: ColorResources.whiteColor,
-            borderRadius: BorderRadius.circular(8)),
+        decoration: BoxDecoration(color: ColorResources.whiteColor, borderRadius: BorderRadius.circular(8)),
         child: Obx(
           () => CountryCodePicker(
             padding: const EdgeInsets.all(0),
@@ -791,9 +736,7 @@ Widget textFieldWidget(
               print(value);
               loginController.countryCode.value = value.toString();
             },
-            initialSelection: homeController.currentCountryCode.value == ''
-                ? 'AE'
-                : homeController.currentCountryCode.value,
+            initialSelection: homeController.currentCountryCode.value == '' ? 'AE' : homeController.currentCountryCode.value,
             favorite: const ['+91', '+971'],
             showCountryOnly: false,
             textStyle: GoogleFonts.dmSans(
@@ -854,10 +797,7 @@ Widget richTextWidget({required String text, required String spanText}) {
       children: [
         TextSpan(
           text: text,
-          style: GoogleFonts.dmSans(
-              color: ColorResources.color294C73,
-              fontSize: 32.sp.h,
-              fontWeight: FontWeight.w900),
+          style: GoogleFonts.dmSans(color: ColorResources.color294C73, fontSize: 32.sp.h, fontWeight: FontWeight.w900),
         ),
         TextSpan(
           text: spanText,
@@ -875,21 +815,14 @@ Widget richTextWidget({required String text, required String spanText}) {
   );
 }
 
-Widget verificationContentWidget(
-    {required String text,
-    required String spanText,
-    required String title,
-    required bool isphone}) {
+Widget verificationContentWidget({required String text, required String spanText, required String title, required bool isphone}) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
       richTextWidget(text: text, spanText: spanText),
       Text(
         title,
-        style: GoogleFonts.dmSans(
-            color: ColorResources.color294C73,
-            fontSize: 15.sp.h,
-            fontWeight: FontWeight.w400),
+        style: GoogleFonts.dmSans(color: ColorResources.color294C73, fontSize: 15.sp.h, fontWeight: FontWeight.w400),
       ),
       isphone == true
           ? SizedBox(
@@ -912,10 +845,7 @@ Widget verificationContentWidget(
   );
 }
 
-Widget billTextStylewidget(
-    {required String text,
-    double fontSize = 14,
-    FontWeight fontWeight = FontWeight.w800}) {
+Widget billTextStylewidget({required String text, double fontSize = 14, FontWeight fontWeight = FontWeight.w800}) {
   return Text(
     text,
     // style: TextStyle(
@@ -934,8 +864,7 @@ double calculateTotalPrice() {
   double examinationFees = 0.0;
   double certificationFees = 0.0;
 
-  final TrainingControllerHomee pricecontroller =
-      Get.put(TrainingControllerHomee());
+  final TrainingControllerHomee pricecontroller = Get.put(TrainingControllerHomee());
 
   if (pricecontroller.priceDetailsData.isNotEmpty) {
     var priceDetails = pricecontroller.priceDetailsData[0];
@@ -959,8 +888,7 @@ double calculateSubtotal() {
   double examinationFees = 0.0;
   double certificationFees = 0.0;
 
-  final TrainingControllerHomee pricecontroller =
-      Get.put(TrainingControllerHomee());
+  final TrainingControllerHomee pricecontroller = Get.put(TrainingControllerHomee());
 
   if (pricecontroller.priceDetailsData.isNotEmpty) {
     var priceDetails = pricecontroller.priceDetailsData[0];
@@ -989,10 +917,7 @@ double calculateListTotal() {
   return grandTotal;
 }
 
-Widget billPriceTextStyleWidget(
-    {required String text,
-    double fontSize = 15,
-    FontWeight fontweight = FontWeight.w800}) {
+Widget billPriceTextStyleWidget({required String text, double fontSize = 15, FontWeight fontweight = FontWeight.w800}) {
   return SizedBox(
     width: 220.w.h,
     child: Text(
@@ -1020,10 +945,7 @@ Widget billWidget({
 
   // double transactionFee = calculateTransactionFee(totalPrice);
   double grandTotal = calculateListTotal();
-  double subTotal = (double.parse(applicationFee) +
-          double.parse(examFee) +
-          double.parse(certificateFee)) +
-      (quantity * double.parse(servicePrice));
+  double subTotal = (double.parse(applicationFee) + double.parse(examFee) + double.parse(certificateFee)) + (quantity * double.parse(servicePrice));
   double totalPriceVat = (subTotal * (double.parse(vat) / 100));
   double totalpriceFee = (subTotal * (double.parse('2.5') / 100));
   tcontoller.grandTotal.value = subTotal + totalPriceVat + totalpriceFee;
@@ -1112,8 +1034,7 @@ Widget billWidget({
           billPriceTextStyleWidget(text: 'VAT - $vat%'),
           SizedBox(
             width: 85.w.h,
-            child: billPriceTextStyleWidget(
-                text: 'AED ${totalPriceVat.toStringAsFixed(2)}'),
+            child: billPriceTextStyleWidget(text: 'AED ${totalPriceVat.toStringAsFixed(2)}'),
           )
         ],
       ),
@@ -1124,8 +1045,7 @@ Widget billWidget({
           billPriceTextStyleWidget(text: 'Transaction Fee - 2.5%'),
           SizedBox(
             width: 85.w.h,
-            child: billPriceTextStyleWidget(
-                text: 'AED ${totalpriceFee.toStringAsFixed(2)}'),
+            child: billPriceTextStyleWidget(text: 'AED ${totalpriceFee.toStringAsFixed(2)}'),
           ),
         ],
       ),
@@ -1190,17 +1110,11 @@ Widget billCartWidget({
           height: 15.h,
         ),
 
-        billTextStylewidget(
-            text: 'Category - $category',
-            fontSize: 14,
-            fontWeight: FontWeight.w500),
+        billTextStylewidget(text: 'Category - $category', fontSize: 14, fontWeight: FontWeight.w500),
         SizedBox(
           height: 4.h,
         ),
-        billTextStylewidget(
-            text: 'Quantity - $quantity',
-            fontSize: 14,
-            fontWeight: FontWeight.w500),
+        billTextStylewidget(text: 'Quantity - $quantity', fontSize: 14, fontWeight: FontWeight.w500),
         SizedBox(
           height: 14.h,
         ),
@@ -1210,24 +1124,17 @@ Widget billCartWidget({
             billTextStylewidget(text: 'Course Fee', fontSize: 16),
             SizedBox(
               width: 120.w.h,
-              child: billPriceTextStyleWidget(
-                  text: 'AED $servicePrice', fontSize: 16),
+              child: billPriceTextStyleWidget(text: 'AED $servicePrice', fontSize: 16),
             )
           ],
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            billTextStylewidget(
-                text: 'VAT $courseVatPer%',
-                fontSize: 14,
-                fontWeight: FontWeight.w500),
+            billTextStylewidget(text: 'VAT $courseVatPer%', fontSize: 14, fontWeight: FontWeight.w500),
             SizedBox(
               width: 120.w.h,
-              child: billPriceTextStyleWidget(
-                  text: 'AED $courseVat',
-                  fontSize: 14,
-                  fontweight: FontWeight.w500),
+              child: billPriceTextStyleWidget(text: 'AED $courseVat', fontSize: 14, fontweight: FontWeight.w500),
             )
           ],
         ),
@@ -1238,14 +1145,10 @@ Widget billCartWidget({
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            billTextStylewidget(
-                text: 'Application Fee',
-                fontSize: 16,
-                fontWeight: FontWeight.w800),
+            billTextStylewidget(text: 'Application Fee', fontSize: 16, fontWeight: FontWeight.w800),
             SizedBox(
               width: 120.w.h,
-              child: billPriceTextStyleWidget(
-                  text: 'AED $applicationFee', fontSize: 16),
+              child: billPriceTextStyleWidget(text: 'AED $applicationFee', fontSize: 16),
             )
           ],
         ),
@@ -1255,16 +1158,10 @@ Widget billCartWidget({
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            billTextStylewidget(
-                text: 'VAT $applicationVatpercentage%',
-                fontSize: 14,
-                fontWeight: FontWeight.w500),
+            billTextStylewidget(text: 'VAT $applicationVatpercentage%', fontSize: 14, fontWeight: FontWeight.w500),
             SizedBox(
               width: 120.w.h,
-              child: billPriceTextStyleWidget(
-                  text: 'AED $applicationVat',
-                  fontSize: 14,
-                  fontweight: FontWeight.w500),
+              child: billPriceTextStyleWidget(text: 'AED $applicationVat', fontSize: 14, fontweight: FontWeight.w500),
             )
           ],
         ),
@@ -1274,16 +1171,10 @@ Widget billCartWidget({
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            billTextStylewidget(
-                text: 'Examination Fee',
-                fontSize: 16,
-                fontWeight: FontWeight.w800),
+            billTextStylewidget(text: 'Examination Fee', fontSize: 16, fontWeight: FontWeight.w800),
             SizedBox(
               width: 120.w.h,
-              child: billPriceTextStyleWidget(
-                  text: 'AED $examFee',
-                  fontSize: 16,
-                  fontweight: FontWeight.w800),
+              child: billPriceTextStyleWidget(text: 'AED $examFee', fontSize: 16, fontweight: FontWeight.w800),
             )
           ],
         ),
@@ -1293,16 +1184,10 @@ Widget billCartWidget({
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            billTextStylewidget(
-                text: 'VAT $examinationVatpercentage%',
-                fontSize: 14,
-                fontWeight: FontWeight.w500),
+            billTextStylewidget(text: 'VAT $examinationVatpercentage%', fontSize: 14, fontWeight: FontWeight.w500),
             SizedBox(
               width: 120.w.h,
-              child: billPriceTextStyleWidget(
-                  text: 'AED $examinationVat',
-                  fontSize: 14,
-                  fontweight: FontWeight.w500),
+              child: billPriceTextStyleWidget(text: 'AED $examinationVat', fontSize: 14, fontweight: FontWeight.w500),
             )
           ],
         ),
@@ -1312,16 +1197,10 @@ Widget billCartWidget({
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            billTextStylewidget(
-                text: 'Certificate Fee ',
-                fontSize: 16,
-                fontWeight: FontWeight.w800),
+            billTextStylewidget(text: 'Certificate Fee ', fontSize: 16, fontWeight: FontWeight.w800),
             SizedBox(
               width: 120.w.h,
-              child: billPriceTextStyleWidget(
-                  text: 'AED $certificateFee',
-                  fontSize: 16,
-                  fontweight: FontWeight.w800),
+              child: billPriceTextStyleWidget(text: 'AED $certificateFee', fontSize: 16, fontweight: FontWeight.w800),
             )
           ],
         ),
@@ -1331,16 +1210,10 @@ Widget billCartWidget({
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            billTextStylewidget(
-                text: 'VAT $certificateVatpercentage%',
-                fontSize: 14,
-                fontWeight: FontWeight.w500),
+            billTextStylewidget(text: 'VAT $certificateVatpercentage%', fontSize: 14, fontWeight: FontWeight.w500),
             SizedBox(
               width: 120.w.h,
-              child: billPriceTextStyleWidget(
-                  text: 'AED $certificateVat',
-                  fontweight: FontWeight.w500,
-                  fontSize: 14),
+              child: billPriceTextStyleWidget(text: 'AED $certificateVat', fontweight: FontWeight.w500, fontSize: 14),
             )
           ],
         ),
@@ -1409,8 +1282,7 @@ Widget containerWidget({
   return Container(
     height: height,
     width: width,
-    decoration:
-        BoxDecoration(color: bgColor, borderRadius: BorderRadius.circular(16)),
+    decoration: BoxDecoration(color: bgColor, borderRadius: BorderRadius.circular(16)),
     child: Center(
       child: Text(
         text,
@@ -1743,8 +1615,7 @@ Widget bottomBillWidget({
   );
 }
 
-Widget textButtonWidget(
-    {required String text, required void Function()? onPressed, Color? color}) {
+Widget textButtonWidget({required String text, required void Function()? onPressed, Color? color}) {
   return TextButton(
       onPressed: onPressed,
       child: Text(
@@ -1757,12 +1628,10 @@ Widget textButtonWidget(
       ));
 }
 
-Widget cardDetailsWidget(
-    {required bool? clicked, required void Function(bool?)? onChanged}) {
+Widget cardDetailsWidget({required bool? clicked, required void Function(bool?)? onChanged}) {
   return Container(
     height: 72.h,
-    decoration: BoxDecoration(
-        color: Colors.white, borderRadius: BorderRadius.circular(10)),
+    decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10)),
     child: Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Row(
@@ -1971,13 +1840,9 @@ Widget traineeDetailsWidget(
                               child: Container(
                                 height: 100.r,
                                 width: 100.r,
-                                decoration:
-                                    const BoxDecoration(color: Colors.grey),
-                                child: image != null &&
-                                        imageListUrl[index] != 'empty'
-                                    ? Image.network(
-                                        '${HttpUrls.imageBase}${imageListUrl[index].substring(1)}',
-                                        fit: BoxFit.cover)
+                                decoration: const BoxDecoration(color: Colors.grey),
+                                child: image != null && imageListUrl[index] != 'empty'
+                                    ? Image.network('${HttpUrls.imageBase}${imageListUrl[index].substring(1)}', fit: BoxFit.cover)
                                     : const Icon(
                                         Icons.person_2,
                                         size: 80,
@@ -1999,15 +1864,13 @@ Widget traineeDetailsWidget(
                                         await pickImageFromCamera();
 
                                         imageListUrl[index] = imgUrl.value;
-                                        print(
-                                            'trainee//////////////////// url ${trainingController.traineeImgUrl}');
+                                        print('trainee//////////////////// url ${trainingController.traineeImgUrl}');
                                         trainingController.update();
                                       },
                                       fromGallery: () async {
                                         await pickImageFromGallery();
 
-                                        print(
-                                            'trainee//////////////////// url ${trainingController.traineeImgUrl}');
+                                        print('trainee//////////////////// url ${trainingController.traineeImgUrl}');
                                         print('image url $imageListUrl');
                                         imageListUrl[index] = imgUrl.value;
 
@@ -2094,8 +1957,7 @@ Widget traineeDetailsWidget(
                                   width: 1.1,
                                 )),
                                 hintText: 'Enter DOB',
-                                contentPadding: const EdgeInsets.symmetric(
-                                    vertical: 8, horizontal: 16),
+                                contentPadding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                                 hintStyle: GoogleFonts.dmSans(
                                   color: ColorResources.colorA5A5A5,
                                   fontSize: 13.sp,
@@ -2105,10 +1967,8 @@ Widget traineeDetailsWidget(
                               readOnly: true,
                               onTap: () async {
                                 DateTime today = DateTime.now();
-                                DateTime initialDate = DateTime(
-                                    today.year - 18, today.month, today.day);
-                                DateTime firstDate = DateTime(
-                                    today.year - 100, today.month, today.day);
+                                DateTime initialDate = DateTime(today.year - 18, today.month, today.day);
+                                DateTime firstDate = DateTime(today.year - 100, today.month, today.day);
                                 DateTime lastDate = initialDate;
 
                                 DateTime? pickedDate = await showDatePicker(
@@ -2119,15 +1979,11 @@ Widget traineeDetailsWidget(
                                   lastDate: lastDate,
                                 );
 
-                                String formattedDate =
-                                    DateFormat('yyyy-MM-dd')
-                                        .format(pickedDate!);
-                                DateTime parsedDate =
-                                    DateTime.parse(formattedDate);
-                                String newDate = DateFormat('dd/MM/yyyy')
-                                    .format(parsedDate);
+                                String formattedDate = DateFormat('yyyy-MM-dd').format(pickedDate!);
+                                DateTime parsedDate = DateTime.parse(formattedDate);
+                                String newDate = DateFormat('dd/MM/yyyy').format(parsedDate);
                                 dobController.text = newDate;
-                                                            },
+                              },
                             ),
                           ),
                         )
@@ -2179,23 +2035,16 @@ Widget traineeDetailsWidget(
                                       onChanged: (value) {
                                         print(value);
 
-                                        loginController.countryCode.value =
-                                            value.toString();
+                                        loginController.countryCode.value = value.toString();
                                       },
-                                      initialSelection: homeController
-                                                  .currentCountryCode.value ==
-                                              ''
-                                          ? 'AE'
-                                          : homeController
-                                              .currentCountryCode.value,
+                                      initialSelection: homeController.currentCountryCode.value == '' ? 'AE' : homeController.currentCountryCode.value,
                                       favorite: const ['+91', '+971'],
                                       showCountryOnly: false,
                                       showOnlyCountryWhenClosed: false,
                                       alignLeft: false,
                                     ),
                                   ),
-                                  contentPadding:
-                                      const EdgeInsets.only(bottom: 10),
+                                  contentPadding: const EdgeInsets.only(bottom: 10),
                                   // labelText: 'Enter phone number',
                                   labelStyle: const TextStyle(
                                     color: ColorResources.colorA5A5A5,
@@ -2278,7 +2127,7 @@ Widget traineeDetailsWidget(
 
                     rowField(
                         title: 'Emirates ID',
-                        maxLength: 18,
+                        // maxLength: 18,
                         keyboardType: TextInputType.number,
                         enabled: enabled,
                         context: context,
@@ -2433,13 +2282,9 @@ Widget traineeDetailsWidget(
                                 ),
                               ),
                               Container(
-                                width:
-                                    MediaQuery.of(context).size.width / 1.7.w,
+                                width: MediaQuery.of(context).size.width / 1.7.w,
                                 height: 54.h.w,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(6.r),
-                                    border: Border.all(
-                                        color: ColorResources.colorA5A5A5)),
+                                decoration: BoxDecoration(borderRadius: BorderRadius.circular(6.r), border: Border.all(color: ColorResources.colorA5A5A5)),
                                 child: Align(
                                   alignment: Alignment.centerRight,
                                   child: Padding(
@@ -2449,31 +2294,21 @@ Widget traineeDetailsWidget(
                                       child: SafeArea(
                                         child: Container(
                                           // height: 20.w,
-                                          padding: EdgeInsets.only(
-                                              bottom: MediaQuery.of(context)
-                                                  .viewInsets
-                                                  .bottom),
+                                          padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
 
-                                          child:
-                                              GooglePlaceAutoCompleteTextField(
+                                          child: GooglePlaceAutoCompleteTextField(
                                             containerVerticalPadding: 0,
 
-                                            textEditingController:
-                                                customLocationController,
-                                            googleAPIKey:
-                                                'AIzaSyA_bzviLciEVnc8Hv-s11zlYvUBIBhTpls',
+                                            textEditingController: customLocationController,
+                                            googleAPIKey: 'AIzaSyA_bzviLciEVnc8Hv-s11zlYvUBIBhTpls',
                                             // "AIzaSyCRKwhGwhXBzmCx4pA5rUYgnSDeMbVkClc  ",
                                             textStyle: GoogleFonts.dmSans(
                                               color: ColorResources.colorBlack,
                                               fontSize: 14.sp.h,
                                               fontWeight: FontWeight.w400,
                                             ),
-                                            boxDecoration: const BoxDecoration(
-                                                border: Border(
-                                                    left: BorderSide.none,
-                                                    right: BorderSide.none,
-                                                    bottom: BorderSide.none,
-                                                    top: BorderSide.none)),
+                                            boxDecoration:
+                                                const BoxDecoration(border: Border(left: BorderSide.none, right: BorderSide.none, bottom: BorderSide.none, top: BorderSide.none)),
                                             inputDecoration: InputDecoration(
                                               contentPadding: EdgeInsets.zero,
                                               disabledBorder: InputBorder.none,
@@ -2483,8 +2318,7 @@ Widget traineeDetailsWidget(
                                               errorBorder: InputBorder.none,
                                               hintText: 'Search Location',
                                               hintStyle: GoogleFonts.dmSans(
-                                                color:
-                                                    ColorResources.colorA5A5A5,
+                                                color: ColorResources.colorA5A5A5,
                                                 fontSize: 14.sp.h,
                                                 fontWeight: FontWeight.w400,
                                               ),
@@ -2493,48 +2327,34 @@ Widget traineeDetailsWidget(
                                             debounceTime: 600,
                                             placeType: PlaceType.establishment,
                                             countries: const [], // optional by default null is set
-                                            isLatLngRequired:
-                                                true, // if you required coordinates from place detail
-                                            getPlaceDetailWithLatLng:
-                                                (Prediction prediction) {
+                                            isLatLngRequired: true, // if you required coordinates from place detail
+                                            getPlaceDetailWithLatLng: (Prediction prediction) {
                                               // this method will return latlng with place detail
-                                              print(
-                                                  "placeDetails${prediction.lng}");
-                                              selectedLocation?.latitude =
-                                                  prediction.lat ?? '';
-                                              selectedLocation?.longitude =
-                                                  prediction.lng ?? '';
-                                              print(
-                                                  'latitude ${prediction.lat}');
-                                              print(
-                                                  'longitude ${prediction.lng}');
+                                              print("placeDetails${prediction.lng}");
+                                              selectedLocation?.latitude = prediction.lat ?? '';
+                                              selectedLocation?.longitude = prediction.lng ?? '';
+                                              print('latitude ${prediction.lat}');
+                                              print('longitude ${prediction.lng}');
                                             }, // this callback is called when isLatLngRequired is true
                                             itemClick: (Prediction prediction) {
-                                              customLocationController.text =
-                                                  prediction.description ?? '';
+                                              customLocationController.text = prediction.description ?? '';
 
-                                              print(
-                                                  'latitude ${prediction.lat}');
+                                              print('latitude ${prediction.lat}');
 
                                               // customLocationController.selection = TextSelection.fromPosition(TextPosition(offset: prediction.description?.length));
                                             },
                                             // if we want to make custom list item builder
-                                            itemBuilder: (context, index,
-                                                Prediction prediction) {
+                                            itemBuilder: (context, index, Prediction prediction) {
                                               return Container(
                                                 // height: 200.w,
                                                 // padding: EdgeInsets.all(10),
                                                 child: Row(
                                                   children: [
-                                                    const Icon(
-                                                        Icons.location_on),
+                                                    const Icon(Icons.location_on),
                                                     const SizedBox(
                                                       width: 7,
                                                     ),
-                                                    Expanded(
-                                                        child: Text(prediction
-                                                                .description ??
-                                                            ""))
+                                                    Expanded(child: Text(prediction.description ?? ""))
                                                   ],
                                                 ),
                                               );
@@ -2584,10 +2404,7 @@ Widget traineeDetailsWidget(
                         Container(
                           height: 15.h.w,
                           width: 20.w.h,
-                          decoration: const BoxDecoration(
-                              image: DecorationImage(
-                                  image: AssetImage('assets/images/icon.png'),
-                                  fit: BoxFit.cover)),
+                          decoration: const BoxDecoration(image: DecorationImage(image: AssetImage('assets/images/icon.png'), fit: BoxFit.cover)),
                         ),
                         SizedBox(
                           width: 6.w,
@@ -2680,9 +2497,7 @@ Widget traineeDetailAddWidget(
     required String traineecount}) {
   return Container(
     // height: 380.h,
-    decoration: BoxDecoration(
-        color: ColorResources.whiteColor,
-        borderRadius: BorderRadius.circular(12.r)),
+    decoration: BoxDecoration(color: ColorResources.whiteColor, borderRadius: BorderRadius.circular(12.r)),
     child: Padding(
       padding: const EdgeInsets.all(16),
       child: Column(
@@ -2726,11 +2541,7 @@ Widget traineeDetailAddWidget(
           imgUrl.isEmpty
               ? Align(
                   alignment: Alignment.center,
-                  child: Container(
-                      height: 80.r,
-                      width: 80.r,
-                      decoration: const BoxDecoration(
-                          color: Colors.grey, shape: BoxShape.circle)),
+                  child: Container(height: 80.r, width: 80.r, decoration: const BoxDecoration(color: Colors.grey, shape: BoxShape.circle)),
                 )
               : SizedBox(
                   child: ClipRRect(
@@ -2883,9 +2694,7 @@ Widget dobWidget({required BuildContext context}) {
         ),
       ),
       Container(
-        decoration: BoxDecoration(
-            border: Border.all(color: ColorResources.colorA5A5A5, width: .2),
-            borderRadius: BorderRadius.circular(8)),
+        decoration: BoxDecoration(border: Border.all(color: ColorResources.colorA5A5A5, width: .2), borderRadius: BorderRadius.circular(8)),
         height: 38.h.w,
         width: MediaQuery.of(context).size.width / 1.7.w,
         child: DatePickerExample(
@@ -2898,10 +2707,7 @@ Widget dobWidget({required BuildContext context}) {
   );
 }
 
-Widget rowViewTraineeField(
-    {required BuildContext context,
-    required String text,
-    required String title}) {
+Widget rowViewTraineeField({required BuildContext context, required String text, required String title}) {
   return Row(
     children: [
       SizedBox(
@@ -2951,9 +2757,7 @@ Widget certificateContainerWidget({
   required Color borderColor,
 }) {
   return Container(
-    decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(26),
-        color: ColorResources.whiteColor),
+    decoration: BoxDecoration(borderRadius: BorderRadius.circular(26), color: ColorResources.whiteColor),
     child: Align(
       alignment: Alignment.topLeft,
       child: Padding(
@@ -2985,12 +2789,9 @@ Widget certificateContainerWidget({
               itemBuilder: (context, index) {
                 return Container(
                   height: 90.h,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15),
-                      color: ColorResources.colorF1F8FF),
+                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(15), color: ColorResources.colorF1F8FF),
                   child: Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -3006,31 +2807,18 @@ Widget certificateContainerWidget({
                                 ),
                               ),
                             ),
-                            containerWidget(
-                                text: 'Passed',
-                                height: 22.w.h,
-                                width: 65.w.h,
-                                bgColor: ColorResources.colorD2EAFF,
-                                textColor: ColorResources.colorBlue),
+                            containerWidget(text: 'Passed', height: 22.w.h, width: 65.w.h, bgColor: ColorResources.colorD2EAFF, textColor: ColorResources.colorBlue),
                           ],
                         ),
                         Row(
                           children: [
                             certificateButtonWidget(
-                                borderColor: borderColor,
-                                onTap: () {},
-                                text: 'View Certificate',
-                                color: ColorResources.whiteColor,
-                                textColor: ColorResources.colorFF0950A0),
+                                borderColor: borderColor, onTap: () {}, text: 'View Certificate', color: ColorResources.whiteColor, textColor: ColorResources.colorFF0950A0),
                             SizedBox(
                               width: 10.w,
                             ),
                             certificateButtonWidget(
-                                borderColor: borderColor,
-                                onTap: () {},
-                                text: 'Download certificate',
-                                color: ColorResources.colorFF0950A0,
-                                textColor: ColorResources.whiteColor)
+                                borderColor: borderColor, onTap: () {}, text: 'Download certificate', color: ColorResources.colorFF0950A0, textColor: ColorResources.whiteColor)
                           ],
                         )
                       ],
@@ -3046,12 +2834,7 @@ Widget certificateContainerWidget({
   );
 }
 
-Widget certificateButtonWidget(
-    {required String text,
-    required Color color,
-    required Color textColor,
-    required Color borderColor,
-    void Function()? onTap}) {
+Widget certificateButtonWidget({required String text, required Color color, required Color textColor, required Color borderColor, void Function()? onTap}) {
   return Material(
     child: InkWell(
       onTap: onTap,
@@ -3060,10 +2843,7 @@ Widget certificateButtonWidget(
       borderRadius: BorderRadius.circular(10),
       child: Container(
         height: 30.h,
-        decoration: BoxDecoration(
-            color: color,
-            borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: borderColor)),
+        decoration: BoxDecoration(color: color, borderRadius: BorderRadius.circular(16), border: Border.all(color: borderColor)),
         child: Center(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8),
@@ -3152,11 +2932,7 @@ Widget certificateButtonWidget(
 // }
 
 Widget dropDownContainerWidget(
-    {required BuildContext context,
-    required String text,
-    required int itemcount,
-    required void Function(String?)? onChanged,
-    required String dropDownValue}) {
+    {required BuildContext context, required String text, required int itemcount, required void Function(String?)? onChanged, required String dropDownValue}) {
   return Container(
     decoration: BoxDecoration(
       color: ColorResources.whiteColor,
@@ -3278,16 +3054,11 @@ Widget dropdownExamWidget({
   );
 }
 
-Widget dropDownButtonWidget(
-    {required BuildContext context,
-    required String dropDownValue,
-    required void Function(String?)? onChanged}) {
+Widget dropDownButtonWidget({required BuildContext context, required String dropDownValue, required void Function(String?)? onChanged}) {
   return Container(
       width: MediaQuery.of(context).size.width / 1.7.w,
       height: 40.w,
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(6),
-          border: Border.all(color: ColorResources.colorA5A5A5)),
+      decoration: BoxDecoration(borderRadius: BorderRadius.circular(6), border: Border.all(color: ColorResources.colorA5A5A5)),
       child: DropdownButtonHideUnderline(
         child: DropdownButton(
           hint: const Text('Attendance'),
@@ -3313,16 +3084,11 @@ Widget dropDownButtonWidget(
       ));
 }
 
-Widget dropDownExamButtonWidget(
-    {required BuildContext context,
-    required String dropDownValue,
-    required void Function(String?)? onChanged}) {
+Widget dropDownExamButtonWidget({required BuildContext context, required String dropDownValue, required void Function(String?)? onChanged}) {
   return Container(
       width: MediaQuery.of(context).size.width / 1.7.w,
       height: 40.w,
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(6),
-          border: Border.all(color: ColorResources.colorA5A5A5)),
+      decoration: BoxDecoration(borderRadius: BorderRadius.circular(6), border: Border.all(color: ColorResources.colorA5A5A5)),
       child: DropdownButtonHideUnderline(
         child: DropdownButton(
           hint: const Text('Exam Attendance'),
@@ -3347,8 +3113,7 @@ Widget dropDownExamButtonWidget(
       ));
 }
 
-Widget taskWidget(
-    {required String text, required String number, required Color color}) {
+Widget taskWidget({required String text, required String number, required Color color}) {
   return Container(
     height: 72.h.w,
     decoration: BoxDecoration(
@@ -3378,9 +3143,7 @@ Widget taskWidget(
                   return Container(
                     width: 26.h.w,
                     height: 26.h.w,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(100),
-                        color: ColorResources.colorD2EAFF),
+                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(100), color: ColorResources.colorD2EAFF),
                     child: Center(
                         child: Text(
                       number,
@@ -3453,10 +3216,7 @@ Widget profileTextFieldWidget(
   );
 }
 
-Widget rowTextfieldWidget(
-    {required TextEditingController mobileController,
-    required bool enabled,
-    required String? initialSelection}) {
+Widget rowTextfieldWidget({required TextEditingController mobileController, required bool enabled, required String? initialSelection}) {
   return Row(
     children: [
       Column(
@@ -3490,10 +3250,7 @@ Widget rowTextfieldWidget(
 
                     loginController.countryCode.value = value.toString();
                   },
-                  initialSelection:
-                      homeController.currentCountryCode.value == ''
-                          ? 'AE'
-                          : homeController.currentCountryCode.value,
+                  initialSelection: homeController.currentCountryCode.value == '' ? 'AE' : homeController.currentCountryCode.value,
                   favorite: const ['+91', '+971'],
                   showCountryOnly: false,
                   showOnlyCountryWhenClosed: false,
@@ -3529,8 +3286,7 @@ Widget rowTextfieldWidget(
               keyboardType: TextInputType.phone,
               decoration: InputDecoration(
                 hintText: 'Enter phone number',
-                contentPadding:
-                    EdgeInsets.symmetric(vertical: 8.h, horizontal: 8.w),
+                contentPadding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 8.w),
                 focusedBorder: const OutlineInputBorder(
                   borderSide: BorderSide(
                     color: ColorResources.colorBlack,
@@ -3611,9 +3367,7 @@ Widget dropDownLocationWidget({
   return Container(
       width: MediaQuery.of(context).size.width / 1.7.w,
       height: 40.w.h,
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(6.r),
-          border: Border.all(color: ColorResources.colorA5A5A5)),
+      decoration: BoxDecoration(borderRadius: BorderRadius.circular(6.r), border: Border.all(color: ColorResources.colorA5A5A5)),
       child: DropdownButtonHideUnderline(
         child: DropdownButton(
           hint: Text(
@@ -3712,20 +3466,14 @@ Widget rowLocationWidget(
           Container(
               width: MediaQuery.of(context).size.width / 1.7.w,
               height: 54.h.w,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(6.r),
-                  border: Border.all(color: ColorResources.colorA5A5A5)),
+              decoration: BoxDecoration(borderRadius: BorderRadius.circular(6.r), border: Border.all(color: ColorResources.colorA5A5A5)),
               child: DropdownButtonHideUnderline(
                 child: DropdownButton<LocationListModel>(
                   focusNode: focusNode,
                   hint: Text(
-                    selectedLocation == null
-                        ? 'Select Location'
-                        : selectedLocation.locationName,
+                    selectedLocation == null ? 'Select Location' : selectedLocation.locationName,
                     style: GoogleFonts.dmSans(
-                      color: selectedLocation == null
-                          ? ColorResources.colorA5A5A5
-                          : Colors.black,
+                      color: selectedLocation == null ? ColorResources.colorA5A5A5 : Colors.black,
                       fontSize: 14.sp.h,
                       fontWeight: FontWeight.w400,
                     ),
@@ -3758,19 +3506,12 @@ Widget rowLocationWidget(
 }
 
 Widget examFailedWidget(
-    {required Color textColor,
-    required String courseName,
-    required String categoryName,
-    required String amount,
-    required BuildContext context,
-    required void Function()? onTap}) {
+    {required Color textColor, required String courseName, required String categoryName, required String amount, required BuildContext context, required void Function()? onTap}) {
   return Column(
     children: [
       Container(
           height: 118.h.w,
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
-              color: ColorResources.whiteColor),
+          decoration: BoxDecoration(borderRadius: BorderRadius.circular(20), color: ColorResources.whiteColor),
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 12.h, vertical: 12.h),
             child: Row(
@@ -3824,12 +3565,7 @@ Widget examFailedWidget(
   );
 }
 
-Widget loginBtnWidget(
-    {required String text,
-    required Color? backgroundColor,
-    required Color? txtcolor,
-    required void Function()? onPressed,
-    required Color borderColor}) {
+Widget loginBtnWidget({required String text, required Color? backgroundColor, required Color? txtcolor, required void Function()? onPressed, required Color borderColor}) {
   return SizedBox(
     width: Get.width / 2.3,
     child: ElevatedButton(
@@ -3856,14 +3592,9 @@ Widget trostunIndustries() {
         children: [
           const Text('Circle avatar'),
           Container(
-            decoration: const BoxDecoration(
-                color: ColorResources.color0d0d0d,
-                boxShadow: [
-                  BoxShadow(
-                      blurRadius: 5,
-                      color: Colors.amber,
-                      blurStyle: BlurStyle.outer),
-                ]),
+            decoration: const BoxDecoration(color: ColorResources.color0d0d0d, boxShadow: [
+              BoxShadow(blurRadius: 5, color: Colors.amber, blurStyle: BlurStyle.outer),
+            ]),
           ),
           const ListTile(
             leading: Icon(Icons.alarm),

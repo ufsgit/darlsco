@@ -24,14 +24,12 @@ class TrainerExamRescheduleScreen extends StatefulWidget {
   });
 
   @override
-  State<TrainerExamRescheduleScreen> createState() =>
-      _TrainerExamRescheduleScreenState();
+  State<TrainerExamRescheduleScreen> createState() => _TrainerExamRescheduleScreenState();
 }
 
-class _TrainerExamRescheduleScreenState
-    extends State<TrainerExamRescheduleScreen> {
+class _TrainerExamRescheduleScreenState extends State<TrainerExamRescheduleScreen> {
   TextEditingController notesController = TextEditingController();
-  DateTime? selectDate;
+  DateTime selectDate = DateTime.now();
   @override
   Widget build(BuildContext context) {
     DateTime now = DateTime.now();
@@ -47,8 +45,7 @@ class _TrainerExamRescheduleScreenState
               child: SafeArea(
                 child: SingleChildScrollView(
                   child: Padding(
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 8.h, vertical: 8.h),
+                    padding: EdgeInsets.symmetric(horizontal: 8.h, vertical: 8.h),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -81,10 +78,7 @@ class _TrainerExamRescheduleScreenState
                                 padding: const EdgeInsets.all(8.0),
                                 child: Text(
                                   widget.todaysTaskDetails.trainingCourseName,
-                                  style: TextStyle(
-                                      fontSize: 35.sp.h,
-                                      fontWeight: FontWeight.bold,
-                                      color: Color(0xFF294C73)),
+                                  style: TextStyle(fontSize: 35.sp.h, fontWeight: FontWeight.bold, color: Color(0xFF294C73)),
                                 ),
                               ),
                             ),
@@ -116,8 +110,7 @@ class _TrainerExamRescheduleScreenState
                                   Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: Text(
-                                      widget
-                                          .todaysTaskDetails.trainingCourseName,
+                                      widget.todaysTaskDetails.trainingCourseName,
                                       style: TextStyle(
                                         fontSize: 16.sp.h,
                                         color: Color(0xFF294C73),
@@ -152,9 +145,7 @@ class _TrainerExamRescheduleScreenState
                                     padding: const EdgeInsets.only(left: 8),
                                     child: Text(
                                       "Date may vary based on availability of trainer",
-                                      style: TextStyle(
-                                          fontSize: 12.sp.h,
-                                          color: Colors.grey),
+                                      style: TextStyle(fontSize: 12.sp.h, color: Colors.grey),
                                     ),
                                   ),
                                   Padding(
@@ -176,14 +167,10 @@ class _TrainerExamRescheduleScreenState
                                         hintText: "Write here....",
                                         hintStyle: TextStyle(fontSize: 16.sp.h),
                                         focusedBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                              color: Color(
-                                                  0xFFCECECE)), // Set border color here
+                                          borderSide: BorderSide(color: Color(0xFFCECECE)), // Set border color here
                                         ),
                                         enabledBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                              color: Color(
-                                                  0xFFCECECE)), // Set border color here
+                                          borderSide: BorderSide(color: Color(0xFFCECECE)), // Set border color here
                                         ),
                                       ),
                                       maxLines: 3,
@@ -217,15 +204,11 @@ class _TrainerExamRescheduleScreenState
                   print('Selected Date: $selectDate');
 
                   try {
-                    await trainingController.rescheduleExam(
-                        context: context,
-                        todaysExamDetails: widget.todaysTaskDetails,
-                        selectedDate: selectDate!,
-                        notes: notesController.text);
-                        await todayTaskController.getTodayTaskList();
-                        todayTaskController.update();
-                        trainingController.update();
-                        widget.setState((){});
+                    await trainingController.rescheduleExam(context: context, todaysExamDetails: widget.todaysTaskDetails, selectedDate: selectDate!, notes: notesController.text);
+                    await todayTaskController.getTodayTaskList();
+                    todayTaskController.update();
+                    trainingController.update();
+                    widget.setState(() {});
                   } catch (e) {
                     // Get.snackbar(
                     //   'Failed',
@@ -236,8 +219,7 @@ class _TrainerExamRescheduleScreenState
                     // );
                   }
                 } else {
-                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                      content: Text('Select date and fill notes')));
+                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Select date and fill notes')));
                 }
               },
             ),

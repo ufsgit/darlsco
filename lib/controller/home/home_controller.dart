@@ -280,7 +280,9 @@ class HomeController extends GetxController {
       // upcomingInspectionsController.getAllEquipments(
       //     isFromSplash: false, isNotHomeBlock: true);
       Get.to(
-        () => const EquipmentListScreenMob(),
+        () => const EquipmentListScreenMob(
+          isFromLocation: false,
+        ),
       );
       // Get.to(
       //   () => const ExpiringEquipmentScreen(),
@@ -734,7 +736,6 @@ class HomeController extends GetxController {
     int customerId = int.parse(sharedPreferences.getString('darlsco_id') ?? '');
 
     customerEquipmentData.clear();
-    customerEquipmentDataCalibration.clear();
     await HttpRequest.httpGetRequest(
       bodyData: {
         "Customer_Id_": customerId,
@@ -747,7 +748,9 @@ class HomeController extends GetxController {
       if (value.statusCode == 200) {
         if (isFromLocationScreen) {
           Get.to(
-            () => const EquipmentListScreenMob(),
+            () => const EquipmentListScreenMob(
+              isFromLocation: true,
+            ),
           );
           // return;
         } else {
@@ -776,7 +779,9 @@ class HomeController extends GetxController {
     ///
     // if(!isFromLocationScreen){
     //   print('dfwrferwgrd');
-    getEquipmentsCalibration(context, locationId);
+    if (homeController.isCalibrationSection.value) {
+      getEquipmentsCalibration(context, locationId);
+    }
     // }
     isLoadingEquipments.value = false;
 
@@ -806,7 +811,9 @@ class HomeController extends GetxController {
         }
         if (isFromLocationScreen) {
           Get.to(
-            () => const EquipmentListScreenMob(),
+            () => const EquipmentListScreenMob(
+              isFromLocation: true,
+            ),
           );
         } else {
           print('dfasd');
