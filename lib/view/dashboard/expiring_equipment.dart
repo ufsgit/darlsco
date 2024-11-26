@@ -161,7 +161,7 @@ class _ExpiringEquipmentScreenState extends State<ExpiringEquipmentScreen> {
                                 ? homeController
                                         .customerEquipmentExpiringDataCalibration
                                         .isEmpty
-                                    ? MainAxisAlignment.center
+                                     ? MainAxisAlignment.center
                                     : MainAxisAlignment.start
                                 : homeController
                                         .customerEquipmentExpiringData.isEmpty

@@ -3,8 +3,9 @@ class HttpUrls {
   // static String baseUrl = 'https://api.darlsco.com'; // api link
 
 // static String baseUrl = 'http://34.228.212.237:3514'; //  new live
+static String baseUrl = 'https://3717-103-141-56-75.ngrok-free.app'; //  new live
 
-  static String baseUrl = 'https://m6lzn5b5-3514.inc1.devtunnels.ms/';
+  // static String baseUrl = 'https://m6lzn5b5-3514.inc1.devtunnels.ms/';
   static String agentLogin = '/Login/Agent_Login/';
 
   static String agentLoginTraining = '/Login/Agent_Login_Training/';
