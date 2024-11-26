@@ -32,17 +32,13 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 class MyHttpOverrides extends HttpOverrides {
   @override
   HttpClient createHttpClient(SecurityContext? context) {
-    return super.createHttpClient(context)
-      ..badCertificateCallback =
-          (X509Certificate cert, String host, int port) => true;
+    return super.createHttpClient(context)..badCertificateCallback = (X509Certificate cert, String host, int port) => true;
   }
 }
 
-final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey =
-    GlobalKey<ScaffoldMessengerState>();
+final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
 final messageStreamController = BehaviorSubject<RemoteMessage>();
-const initializationSettings = InitializationSettings(
-    android: AndroidInitializationSettings('@mipmap/ic_launcher'));
+const initializationSettings = InitializationSettings(android: AndroidInitializationSettings('@mipmap/ic_launcher'));
 
 SendPort? uiSendPort;
 final callbackPort = ReceivePort();
@@ -51,18 +47,18 @@ Future<void> main() async {
   print(HttpUrls.baseUrl);
   WidgetsFlutterBinding.ensureInitialized();
   // if (Platform.isAndroid) {
-    //  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
-    // setPathUrlStrategy();
+  //  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+  // setPathUrlStrategy();
 
-   if (Firebase.apps.isEmpty) {
-    await Firebase.initializeApp();
+  if (Firebase.apps.isEmpty) {
+    await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   }
-    await FirebaseNotificationService.initialize();
+  await FirebaseNotificationService.initialize();
 
 // final channel =  IOWebSocketChannel.connect( Uri.parse('wss://192.168.1.94:4510')    );
 
 //      channel.sink.add('Hello from ufs!');
-    // HttpOverrides.global = MyHttpOverrides();
+  // HttpOverrides.global = MyHttpOverrides();
   // }
   runApp(const MyApp());
 }
@@ -82,8 +78,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
-      designSize: MediaQuery.of(context).size.width > 615 &&
-              MediaQuery.of(context).size.width < 1440
+      designSize: MediaQuery.of(context).size.width > 615 && MediaQuery.of(context).size.width < 1440
           ? const Size(834, 700)
           : MediaQuery.of(context).size.width < 615
               ? const Size(390, 890.2446)
@@ -102,10 +97,7 @@ class MyApp extends StatelessWidget {
           initialRoute: '/',
           theme: ThemeData(
             scaffoldBackgroundColor: const Color(0xFFF4F7FA),
-            elevatedButtonTheme: ElevatedButtonThemeData(
-                style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blue.shade700,
-                    foregroundColor: Colors.white)),
+            elevatedButtonTheme: ElevatedButtonThemeData(style: ElevatedButton.styleFrom(backgroundColor: Colors.blue.shade700, foregroundColor: Colors.white)),
             dialogTheme: const DialogTheme(
               backgroundColor: Colors.white,
               surfaceTintColor: Colors.white,
@@ -245,8 +237,7 @@ getcountry(BuildContext context) async {
         // requestLocationPermission(context);
 
         // loginController.countryCode.value=
-        homeController.currentCountryCode.value =
-            await getCountryName(context) ?? '';
+        homeController.currentCountryCode.value = await getCountryName(context) ?? '';
 
         print(homeController.currentCountryCode);
       }
@@ -334,21 +325,15 @@ Future<String?> getCountryName(BuildContext context) async {
   try {
     bool isLocationAccessed = await requestLocationPermission(context);
     if (isLocationAccessed) {
-      Position position = await Geolocator.getCurrentPosition(
-          desiredAccuracy: LocationAccuracy.high);
+      Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
       print('end');
-      List<Placemark> address =
-          await placemarkFromCoordinates(position.latitude, position.longitude);
+      List<Placemark> address = await placemarkFromCoordinates(position.latitude, position.longitude);
 
       Placemark placeMark = address.first;
       print('efgsgsnd${address.first}');
       String country = placeMark.isoCountryCode ?? '';
 
-      loginController.countryCode.value = Countries.allCountries
-              .where(
-                  (item) => item['code'] == placeMark.isoCountryCode.toString())
-              .toList()[0]['dial_code'] ??
-          '';
+      loginController.countryCode.value = Countries.allCountries.where((item) => item['code'] == placeMark.isoCountryCode.toString()).toList()[0]['dial_code'] ?? '';
       print('inital country code    ${loginController.countryCode.value}');
       print(placeMark.administrativeArea);
       print('end');
