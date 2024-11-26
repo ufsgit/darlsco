@@ -70,8 +70,8 @@ class LoginController extends GetxController {
 
           dashboardController.dashboardRole = loginData?.customerType;
 
-          if (loginData != null) {
-            // ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Otp: ${loginData!.customerOtp}')));
+          if (loginData != null&&HttpUrls.baseUrl=='http://3.89.129.51:3514') {
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Otp: ${loginData!.customerOtp}')));
           }
 
           Get.to(() => const OtpScreen());

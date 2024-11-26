@@ -1,4 +1,5 @@
 import 'package:darlsco/core/constants/common_widgets.dart';
+import 'package:darlsco/view/home/bottom_navigation_screen.dart';
 import 'package:darlsco/view/home/widgets/common_bottom_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -70,10 +71,12 @@ class AboutUsScreenTab extends StatelessWidget {
                         height: 500.w,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(9.r),
-                            image: const DecorationImage(
+                            image: DecorationImage(
                                 fit: BoxFit.cover,
                                 image: AssetImage(
-                                    'assets/images/about_us_img.png'))),
+                                    homeController.isCalibrationSection.value
+                                        ? 'assets/images/calib_2.png'
+                                        : 'assets/images/about_us_img.png'))),
                       ),
                       SizedBox(
                         height: 20.w,

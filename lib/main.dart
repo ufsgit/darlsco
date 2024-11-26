@@ -51,6 +51,7 @@ Future<void> main() async {
   // setPathUrlStrategy();
 
   if (Firebase.apps.isEmpty) {
+    print('Empty');
     await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   }
   await FirebaseNotificationService.initialize();

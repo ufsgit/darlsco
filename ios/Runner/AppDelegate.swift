@@ -8,8 +8,10 @@ import FirebaseCore
     _ application: UIApplication,
     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
   ) -> Bool {
-    // Initialize Firebase
-    FirebaseApp.configure()
+    // Ensure Firebase is only configured once
+    if FirebaseApp.app() == nil {
+      FirebaseApp.configure()
+    }
 
     // Register plugins
     GeneratedPluginRegistrant.register(with: self)

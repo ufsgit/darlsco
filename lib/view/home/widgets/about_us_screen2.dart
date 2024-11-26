@@ -73,9 +73,11 @@ class AboutUsScreen2 extends StatelessWidget {
                           height: 250.w,
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(9.r),
-                              image: const DecorationImage(
-                                  fit: BoxFit.cover,
+                              image:  DecorationImage(
+                                  fit: BoxFit.contain,
                                   image: AssetImage(
+                                    homeController.isCalibrationSection.value?
+                                    'assets/images/calib_2.png':
                                       'assets/images/about_us_img.png'))),
                         ),
                         SizedBox(
