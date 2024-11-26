@@ -68,7 +68,7 @@ class _SplashScreenState extends State<SplashScreen> {
       }
 
       await homeController.isUsersignedIn();
-      await getNotificationToken();
+      // await getNotificationToken();
       getcountry(context);
       // Future.delayed(const Duration(seconds: 2), () async {
       await checkUserType();

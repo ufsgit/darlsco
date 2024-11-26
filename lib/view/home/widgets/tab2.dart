@@ -112,9 +112,11 @@ class _Tab2State extends State<Tab2> {
                                     decoration: BoxDecoration(
                                         borderRadius:
                                             BorderRadius.circular(20.sp),
-                                        image: const DecorationImage(
+                                        image:  DecorationImage(
                                             fit: BoxFit.cover,
                                             image: AssetImage(
+                                              homeController.isCalibrationSection.value?
+                                              'assets/images/calib_1.jpeg':
                                                 'assets/images/inspection home image.png')
                                             // NetworkImage(imgurlList[index])
 

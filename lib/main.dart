@@ -50,20 +50,20 @@ final callbackPort = ReceivePort();
 Future<void> main() async {
   print(HttpUrls.baseUrl);
   WidgetsFlutterBinding.ensureInitialized();
-  if (Platform.isAndroid) {
+  // if (Platform.isAndroid) {
     //  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
     // setPathUrlStrategy();
 
-    await Firebase.initializeApp(
-      options: DefaultFirebaseOptions.currentPlatform,
-    );
+   if (Firebase.apps.isEmpty) {
+    await Firebase.initializeApp();
+  }
     await FirebaseNotificationService.initialize();
 
 // final channel =  IOWebSocketChannel.connect( Uri.parse('wss://192.168.1.94:4510')    );
 
 //      channel.sink.add('Hello from ufs!');
     // HttpOverrides.global = MyHttpOverrides();
-  }
+  // }
   runApp(const MyApp());
 }
 
@@ -201,25 +201,25 @@ class MyApp extends StatelessWidget {
   }
 }
 
-getNotificationToken() async {
-  try {
-    FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;
-    PermissionStatus notificationStatus = await Permission.notification.status;
-    print('FCM status $notificationStatus');
-    if (!notificationStatus.isDenied) {
-      print('FCM status requesting permission.....');
+// getNotificationToken() async {
+//   try {
+//     FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;
+//     PermissionStatus notificationStatus = await Permission.notification.status;
+//     print('FCM status $notificationStatus');
+//     if (!notificationStatus.isDenied) {
+//       print('FCM status requesting permission.....');
 
-      NotificationSettings notificationSettings =
-          await firebaseMessaging.requestPermission();
-      print('FCM NOT SETT ${notificationSettings.alert}');
-    } else if (!notificationStatus.isGranted) {
-      String? token = await firebaseMessaging.getToken();
-      print('FCM TOKEN $token');
-    }
-  } catch (e) {
-    print('FCM ERROR $e');
-  }
-}
+//       NotificationSettings notificationSettings =
+//           await firebaseMessaging.requestPermission();
+//       print('FCM NOT SETT ${notificationSettings.alert}');
+//     } else if (!notificationStatus.isGranted) {
+//       String? token = await firebaseMessaging.getToken();
+//       print('FCM TOKEN $token');
+//     }
+//   } catch (e) {
+//     print('FCM ERROR $e');
+//   }
+// }
 
 getcountry(BuildContext context) async {
   try {

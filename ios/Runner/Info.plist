@@ -28,14 +28,19 @@
 	<true/>
 	<key>LSSupportsOpeningDocumentsInPlace</key>
 	<true/>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+	</dict>
 	<key>NSCameraUsageDescription</key>
 	<string>Your app needs access to the camera to take photos and videos.</string>
 	<key>NSLocationAlwaysAndWhenInUsageDescription</key>
-	<string>App app want&apos;s to access your location to get address</string>
+	<string>App app want's to access your location to get address</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>App app want&apos;s to access your location to get address.</string>
+	<string>App app want's to access your location to get address.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>App app want&apos;s to access your location to get address.</string>
+	<string>App app want's to access your location to get address.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>We need your location to automatically detect your country code and provide location-specific services.</string>
 	<key>NSMotionUsageDescription</key>
@@ -44,9 +49,12 @@
 	<string>Your app needs access to the photo library to select photos and videos.</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<key>FirebaseAppDelegateProxyEnabled</key>
+   <true/>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>remote-notification</string>
+		<string>fetch</string>
 	</array>
 	<key>UIFileSharingEnabled</key>
 	<true/>
@@ -60,13 +68,6 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
-	<key>NSAppTransportSecurity</key>
-	<dict>
-		<key>NSAllowsArbitraryLoads</key>
-		<true/>
-	</dict>
-	<key>UIUserInterfaceStyle</key>
-	<string>Light</string>
 	<key>UISupportedInterfaceOrientations~ipad</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
@@ -74,6 +75,8 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>UIUserInterfaceStyle</key>
+	<string>Light</string>
 	<key>com.apple.developer.siri</key>
 	<true/>
 	<key>com.apple.security.files.user-selected.read-only</key>

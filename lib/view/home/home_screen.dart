@@ -35,7 +35,7 @@ class HomePageState extends State<HomePage>
   void initState() {
     super.initState();
     // setState(() {
-    getNotificationToken();
+    // getNotificationToken();
     //   homeController.isHomeLoading.value = true;
     // });
     bool areAnyTwoTrue = [
