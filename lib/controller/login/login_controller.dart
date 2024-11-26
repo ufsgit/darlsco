@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:darlsco/controller/dashboard/dashboard_controller.dart';
 import 'package:darlsco/controller/home/home_controller.dart';
@@ -70,7 +71,7 @@ class LoginController extends GetxController {
           dashboardController.dashboardRole = loginData?.customerType;
 
           if (loginData != null) {
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Otp: ${loginData!.customerOtp}')));
+            // ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Otp: ${loginData!.customerOtp}')));
           }
 
           Get.to(() => const OtpScreen());
@@ -267,10 +268,12 @@ class LoginController extends GetxController {
             default:
               Get.offAll(() => BottomNavigationWidget());
           }
-          // await FirebaseNotificationService.getNotificationPermission();
-          // await FirebaseNotificationService.subscribeToTopic(
-          //     userType: dashboardController.dashboardRole.toString(),
-          //     customerId: data['0'][0]['Id'].toString());
+         if(Platform.isAndroid){
+           await FirebaseNotificationService.getNotificationPermission();
+          await FirebaseNotificationService.subscribeToTopic(
+              userType: dashboardController.dashboardRole.toString(),
+              customerId: data['0'][0]['Id'].toString());
+         }
 
           // Get.offAll(() => const BottomNavigationScreen());
         }
@@ -384,7 +387,9 @@ class LoginController extends GetxController {
   logout(BuildContext context) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     String cusId = sharedPreferences.getString('darlsco_id').toString();
-
+if(Platform.isAndroid){
+  await FirebaseNotificationService.unsubscribeFromTopic(userType: dashboardController.dashboardRole.toString(), customerId: cusId);
+}
     await sharedPreferences.clear();
     // loginController.dispose();
     // tcontoller.refresh();

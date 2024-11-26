@@ -1,6 +1,6 @@
 class HttpUrls {
-  //  static String baseUrl = 'http://3.89.129.51:3514';
-  static String baseUrl = 'https://api.darlsco.com';
+   static String baseUrl = 'http://3.89.129.51:3514';
+  // static String baseUrl = 'https://api.darlsco.com'; // api link
 
 // static String baseUrl = 'http://34.228.212.237:3514'; //  new live
 
@@ -100,7 +100,7 @@ class HttpUrls {
 //endpoints
 
   // static String imageBase = 'http://darlsco-files.s3-website.ap-south-1.amazonaws.com/';
-  static String imageBase = 'https://d2d3b4kzecpaau.cloudfront.net/';
+  static String imageBase = 'https://d2d3b4kzecpaau.cloudfront.net/';// filepath
   static String saveToCart = '/Public_Data/Save_Item_Cart/';
 
   static String saveTrainee = '/Public_Data/Save_Trainee_Details_App/';
