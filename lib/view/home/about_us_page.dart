@@ -75,7 +75,7 @@ class AboutUsScreenTab extends StatelessWidget {
                                 fit: BoxFit.cover,
                                 image: AssetImage(
                                     homeController.isCalibrationSection.value
-                                        ? 'assets/images/calib_2.png'
+                                        ? 'assets/images/calib_2.jpeg'
                                         : 'assets/images/about_us_img.png'))),
                       ),
                       SizedBox(
