@@ -74,7 +74,7 @@ class AboutUsScreen2 extends StatelessWidget {
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(9.r),
                               image:  DecorationImage(
-                                  fit: BoxFit.contain,
+                                  fit: BoxFit.fill,
                                   image: AssetImage(
                                     homeController.isCalibrationSection.value?
                                     'assets/images/calib_2.jpeg':

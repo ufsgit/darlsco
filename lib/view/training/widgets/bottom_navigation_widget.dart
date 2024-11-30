@@ -128,177 +128,174 @@ class BottomNavigationWidgetState extends State<BottomNavigationWidget> {
   @override
   Widget build(BuildContext context) {
    
-    return PopScope(
-      canPop: false,
-      child: Obx(
-        () => Scaffold(
-          key: _scaffoldKey,
-          backgroundColor: Colors.black,
-          endDrawerEnableOpenDragGesture: false,
-          endDrawer: globalHomeController.isTraineeLogin.value
-              ? const Drawer(child: DrawerAccount())
-              : null,
-          body: getPage(),
-       
-          bottomNavigationBar: Obx(
-            () => BottomNavigationBar(
-                type: BottomNavigationBarType.fixed,
-                currentIndex: widget.selectedIndex,
-                selectedItemColor: const Color.fromARGB(255, 5, 60, 122),
-                unselectedItemColor: const Color.fromARGB(255, 5, 60, 122),
-                showSelectedLabels: true,
-                showUnselectedLabels: true,
-                selectedLabelStyle: TextStyle(
-                    color: ColorResources.colorBlack,
-                    fontSize: 10.sp,
-                    fontWeight: FontWeight.w900),
-                unselectedLabelStyle: GoogleFonts.dmSans(
-                  color: const Color.fromARGB(255, 5, 60, 122),
-                  fontSize: 9.sp,
-                  fontWeight: FontWeight.bold,
-                ),
-                onTap: _onItemTapped,
-                // items: globalHomeController.tabIndex.value == 0||
-                items: homeController.isInspectionSection.value
-                    ? [
-                        BottomNavigationBarItem(
-                            icon: homeController.pageIndex.value == 0
-                                ? const Icon(
-                                    Icons.home,
-                                    color: ColorResources.color294C73,
-                                  )
-                                : const Icon(Icons.home_outlined),
-                            label: 'Home'),
-                        BottomNavigationBarItem(
-                            icon: homeController.pageIndex.value == 1
-                                ? const Icon(
-                                    Icons.mail,
-                                    color: ColorResources.color294C73,
-                                  )
-                                : const Icon(Icons.mail_outline),
-                            label: 'Contact'),
-                        BottomNavigationBarItem(
-                            icon: globalHomeController.pageIndex.value == 2
-                                ? const Icon(
-                                    Icons.groups_2,
-                                    color: ColorResources.color294C73,
-                                  )
-                                : const Icon(Icons.groups_2_outlined),
-                            label: 'About Us'),
-                      ]
-                    :homeController.isTrainingSectionnew.value
-                            ? homeController.isUserLoggedIn
-                                ? [
-                                    BottomNavigationBarItem(
-                                      icon: _getIcon(
-                                          0, Icons.home, Icons.home_outlined),
-                                      label: 'Home',
-                                    ),
-                                    BottomNavigationBarItem(
-                                      icon: _getIcon(1, Icons.shopping_cart,
-                                          Icons.shopping_cart_outlined),
-                                      label: 'Cart',
-                                    ),
-                                    BottomNavigationBarItem(
-                                      icon: _getIcon(
-                                          2,
-                                          Icons.view_comfortable_rounded,
-                                          Icons.view_comfortable_outlined),
-                                      label: 'Order',
-                                    ),
-                                    BottomNavigationBarItem(
-                                      icon: _getIcon(
-                                          3, Icons.book, Icons.book_outlined),
-                                      label: 'Documentation',
-                                    ),
-                                    BottomNavigationBarItem(
-                                      icon: _getIcon(4, Icons.person_2_rounded,
-                                          Icons.person_2_outlined),
-                                      label: 'Profile',
-                                    ),
-                                  ]
-                                : [
-                                    BottomNavigationBarItem(
-                                      icon: _getIcon(
-                                          0, Icons.home, Icons.home_outlined),
-                                      label: 'Home',
-                                    ),
-                                    BottomNavigationBarItem(
-                                      icon: _getIcon(1, Icons.shopping_cart,
-                                          Icons.shopping_cart_outlined),
-                                      label: 'Cart',
-                                    ),
-                                    BottomNavigationBarItem(
-                                      icon: _getIcon(
-                                          2, Icons.mail, Icons.mail_outline),
-                                      label: 'Contact',
-                                    ),
-                                    BottomNavigationBarItem(
-                                      icon: _getIcon(3, Icons.groups,
-                                          Icons.groups_2_outlined),
-                                      label: 'About Us',
-                                    ),
-                                    BottomNavigationBarItem(
-                                      icon: _getIcon(
-                                          4, Icons.book, Icons.book_outlined),
-                                      label: 'Documentation',
-                                    ),
-                                  ]
-                            : homeController.isCalibrationSection.value?[
-                            BottomNavigationBarItem(
-                                icon: homeController.pageIndex.value == 0
-                                    ? const Icon(
-                                        Icons.home,
-                                        color: ColorResources.color294C73,
-                                      )
-                                    : const Icon(Icons.home_outlined),
-                                label: 'Home'),
-                            BottomNavigationBarItem(
-                                icon: homeController.pageIndex.value == 1
-                                    ? const Icon(
-                                        Icons.mail,
-                                        color: ColorResources.color294C73,
-                                      )
-                                    : const Icon(Icons.mail_outline),
-                                label: 'Contact'),
-                            BottomNavigationBarItem(
-                                icon: globalHomeController.pageIndex.value == 2
-                                    ? const Icon(
-                                        Icons.groups_2,
-                                        color: ColorResources.color294C73,
-                                      )
-                                    : const Icon(Icons.groups_2_outlined),
-                                label: 'About Us'),
-                          ]:
-                    
-                        [
-                            BottomNavigationBarItem(
-                                icon: homeController.pageIndex.value == 0
-                                    ? const Icon(
-                                        Icons.home,
-                                        color: ColorResources.color294C73,
-                                      )
-                                    : const Icon(Icons.home_outlined),
-                                label: 'Home'),
-                            BottomNavigationBarItem(
-                                icon: homeController.pageIndex.value == 1
-                                    ? const Icon(
-                                        Icons.mail,
-                                        color: ColorResources.color294C73,
-                                      )
-                                    : const Icon(Icons.mail_outline),
-                                label: 'Contact'),
-                            BottomNavigationBarItem(
-                                icon: globalHomeController.pageIndex.value == 2
-                                    ? const Icon(
-                                        Icons.groups_2,
-                                        color: ColorResources.color294C73,
-                                      )
-                                    : const Icon(Icons.groups_2_outlined),
-                                label: 'About Us'),
-                          ]
-                        ),
-          ),
+    return Obx(
+      () => Scaffold(
+        key: _scaffoldKey,
+        backgroundColor: Colors.black,
+        endDrawerEnableOpenDragGesture: false,
+        endDrawer: globalHomeController.isTraineeLogin.value
+            ? const Drawer(child: DrawerAccount())
+            : null,
+        body: getPage(),
+     
+        bottomNavigationBar: Obx(
+          () => BottomNavigationBar(
+              type: BottomNavigationBarType.fixed,
+              currentIndex: widget.selectedIndex,
+              selectedItemColor: const Color.fromARGB(255, 5, 60, 122),
+              unselectedItemColor: const Color.fromARGB(255, 5, 60, 122),
+              showSelectedLabels: true,
+              showUnselectedLabels: true,
+              selectedLabelStyle: TextStyle(
+                  color: ColorResources.colorBlack,
+                  fontSize: 10.sp,
+                  fontWeight: FontWeight.w900),
+              unselectedLabelStyle: GoogleFonts.dmSans(
+                color: const Color.fromARGB(255, 5, 60, 122),
+                fontSize: 9.sp,
+                fontWeight: FontWeight.bold,
+              ),
+              onTap: _onItemTapped,
+              // items: globalHomeController.tabIndex.value == 0||
+              items: homeController.isInspectionSection.value
+                  ? [
+                      BottomNavigationBarItem(
+                          icon: homeController.pageIndex.value == 0
+                              ? const Icon(
+                                  Icons.home,
+                                  color: ColorResources.color294C73,
+                                )
+                              : const Icon(Icons.home_outlined),
+                          label: 'Home'),
+                      BottomNavigationBarItem(
+                          icon: homeController.pageIndex.value == 1
+                              ? const Icon(
+                                  Icons.mail,
+                                  color: ColorResources.color294C73,
+                                )
+                              : const Icon(Icons.mail_outline),
+                          label: 'Contact'),
+                      BottomNavigationBarItem(
+                          icon: globalHomeController.pageIndex.value == 2
+                              ? const Icon(
+                                  Icons.groups_2,
+                                  color: ColorResources.color294C73,
+                                )
+                              : const Icon(Icons.groups_2_outlined),
+                          label: 'About Us'),
+                    ]
+                  :homeController.isTrainingSectionnew.value
+                          ? homeController.isUserLoggedIn
+                              ? [
+                                  BottomNavigationBarItem(
+                                    icon: _getIcon(
+                                        0, Icons.home, Icons.home_outlined),
+                                    label: 'Home',
+                                  ),
+                                  BottomNavigationBarItem(
+                                    icon: _getIcon(1, Icons.shopping_cart,
+                                        Icons.shopping_cart_outlined),
+                                    label: 'Cart',
+                                  ),
+                                  BottomNavigationBarItem(
+                                    icon: _getIcon(
+                                        2,
+                                        Icons.view_comfortable_rounded,
+                                        Icons.view_comfortable_outlined),
+                                    label: 'Order',
+                                  ),
+                                  BottomNavigationBarItem(
+                                    icon: _getIcon(
+                                        3, Icons.book, Icons.book_outlined),
+                                    label: 'Documentation',
+                                  ),
+                                  BottomNavigationBarItem(
+                                    icon: _getIcon(4, Icons.person_2_rounded,
+                                        Icons.person_2_outlined),
+                                    label: 'Profile',
+                                  ),
+                                ]
+                              : [
+                                  BottomNavigationBarItem(
+                                    icon: _getIcon(
+                                        0, Icons.home, Icons.home_outlined),
+                                    label: 'Home',
+                                  ),
+                                  BottomNavigationBarItem(
+                                    icon: _getIcon(1, Icons.shopping_cart,
+                                        Icons.shopping_cart_outlined),
+                                    label: 'Cart',
+                                  ),
+                                  BottomNavigationBarItem(
+                                    icon: _getIcon(
+                                        2, Icons.mail, Icons.mail_outline),
+                                    label: 'Contact',
+                                  ),
+                                  BottomNavigationBarItem(
+                                    icon: _getIcon(3, Icons.groups,
+                                        Icons.groups_2_outlined),
+                                    label: 'About Us',
+                                  ),
+                                  BottomNavigationBarItem(
+                                    icon: _getIcon(
+                                        4, Icons.book, Icons.book_outlined),
+                                    label: 'Documentation',
+                                  ),
+                                ]
+                          : homeController.isCalibrationSection.value?[
+                          BottomNavigationBarItem(
+                              icon: homeController.pageIndex.value == 0
+                                  ? const Icon(
+                                      Icons.home,
+                                      color: ColorResources.color294C73,
+                                    )
+                                  : const Icon(Icons.home_outlined),
+                              label: 'Home'),
+                          BottomNavigationBarItem(
+                              icon: homeController.pageIndex.value == 1
+                                  ? const Icon(
+                                      Icons.mail,
+                                      color: ColorResources.color294C73,
+                                    )
+                                  : const Icon(Icons.mail_outline),
+                              label: 'Contact'),
+                          BottomNavigationBarItem(
+                              icon: globalHomeController.pageIndex.value == 2
+                                  ? const Icon(
+                                      Icons.groups_2,
+                                      color: ColorResources.color294C73,
+                                    )
+                                  : const Icon(Icons.groups_2_outlined),
+                              label: 'About Us'),
+                        ]:
+                  
+                      [
+                          BottomNavigationBarItem(
+                              icon: homeController.pageIndex.value == 0
+                                  ? const Icon(
+                                      Icons.home,
+                                      color: ColorResources.color294C73,
+                                    )
+                                  : const Icon(Icons.home_outlined),
+                              label: 'Home'),
+                          BottomNavigationBarItem(
+                              icon: homeController.pageIndex.value == 1
+                                  ? const Icon(
+                                      Icons.mail,
+                                      color: ColorResources.color294C73,
+                                    )
+                                  : const Icon(Icons.mail_outline),
+                              label: 'Contact'),
+                          BottomNavigationBarItem(
+                              icon: globalHomeController.pageIndex.value == 2
+                                  ? const Icon(
+                                      Icons.groups_2,
+                                      color: ColorResources.color294C73,
+                                    )
+                                  : const Icon(Icons.groups_2_outlined),
+                              label: 'About Us'),
+                        ]
+                      ),
         ),
       ),
     );

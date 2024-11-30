@@ -75,17 +75,31 @@ class _TrainningScreenTabState extends State<TrainningScreenTab> {
                   ),
                   child: GetBuilder<UpcomingInspectionsController>(
                       builder: (data) {
+                        var eqData = homeController.isCalibrationSection.value
+                            ? upcomingInspectionsController
+                                .taskUserDetailsCalibration
+                            : upcomingInspectionsController.taskUserDetails;
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        if (upcomingInspectionsController.taskUserDetails[0]
-                                        ['Role_Id']
-                                    .toString() ==
-                                '38' &&
-                            upcomingInspectionsController.taskUserDetails[0]
-                                        ['Task_Status_Id']
-                                    .toString() ==
-                                '1')
+                                                    SizedBox(
+                              height: 20.h,
+                            ),
+                            
+                                                      if (!homeController
+                                              .isCalibrationSection.value &&
+                                          eqData[0]['Role_Id'].toString() ==
+                                              '38' &&
+                                          eqData[0]['Task_Status_Id']
+                                                  .toString() ==
+                                              '1' ||
+                                      homeController
+                                              .isCalibrationSection.value &&
+                                          eqData[0]['Role_Id'].toString() ==
+                                              '38' &&
+                                          eqData[0]['Task_Status_Id']
+                                                  .toString() ==
+                                              '15')
                           tcontoller.isTaskStarted.value == false
                               ? Align(
                                   alignment: Alignment.centerRight,
@@ -166,15 +180,19 @@ class _TrainningScreenTabState extends State<TrainningScreenTab> {
                           height: 15.h,
                         ),
 
-                        Text(
-                          data.taskDetailsData[0]['Customer_Name'] ?? '',
-                          style: TextStyle(
-                            fontFamily: "Roboto",
-                            fontSize: 14.sp,
-                            fontWeight: FontWeight.w400,
-                            color: ColorResources.color0d0d0d,
-                          ),
-                        ),
+                     Text(
+                                      homeController.isCalibrationSection.value
+                                          ? data.taskDetailsDataCalibration[0]
+                                                  ['Customer_Name'] ??
+                                              ''
+                                          : data.taskDetailsData[0]
+                                                  ['Customer_Name'] ??
+                                              '',
+                                      style: TextStyle(
+                                        fontFamily: "DM Sans",
+                                        fontSize: 14.sp,
+                                      ),
+                                    ),
                         SizedBox(
                           height: 15.h,
                         ),
@@ -205,14 +223,20 @@ class _TrainningScreenTabState extends State<TrainningScreenTab> {
                           margin: EdgeInsets.only(top: 10.w),
                           // margin: EdgeInsets.only(left:Get.width>615? 35.w:0),
                           child: Text(
-                            data.taskDetailsData[0]['Work_Code'] ?? '',
-                            style: TextStyle(
-                              fontFamily: "Roboto",
-                              fontSize: 14.sp,
-                              fontWeight: FontWeight.w400,
-                              color: ColorResources.color0d0d0d,
-                            ),
-                          ),
+                                      homeController.isCalibrationSection.value
+                                          ? data.taskDetailsDataCalibration[0]
+                                                  ['Work_Code'] ??
+                                              ''
+                                          : data.taskDetailsData[0]
+                                                  ['Work_Code'] ??
+                                              '',
+                                      style: TextStyle(
+                                        fontFamily: "Roboto",
+                                        fontSize: 14.sp,
+                                        fontWeight: FontWeight.w400,
+                                        color: ColorResources.color0d0d0d,
+                                      ),
+                                    ),
                         ),
 
                         SizedBox(
@@ -244,14 +268,20 @@ class _TrainningScreenTabState extends State<TrainningScreenTab> {
                           margin: EdgeInsets.only(top: 10.w),
                           // margin: EdgeInsets.only(left:Get.width>615? 35.w:0),
                           child: Text(
-                            data.taskDetailsData[0]['Task_Name'] ?? '',
-                            style: TextStyle(
-                              fontFamily: "Roboto",
-                              fontSize: 14.sp,
-                              fontWeight: FontWeight.w400,
-                              color: ColorResources.color0d0d0d,
-                            ),
-                          ),
+                                      homeController.isCalibrationSection.value
+                                          ? data.taskDetailsDataCalibration[0]
+                                                  ['Task_Name'] ??
+                                              ''
+                                          : data.taskDetailsData[0]
+                                                  ['Task_Name'] ??
+                                              '',
+                                      style: TextStyle(
+                                        fontFamily: "Roboto",
+                                        fontSize: 13.sp,
+                                        fontWeight: FontWeight.w400,
+                                        color: ColorResources.color0d0d0d,
+                                      ),
+                                    ),
                         ),
                         // SizedBox(
                         //   height: 15.h,
@@ -378,12 +408,23 @@ class _TrainningScreenTabState extends State<TrainningScreenTab> {
                         ),
                         commonNoteWidget(
                             isReadOnly: true,
-                            data: data.taskDetailsData[0]['Task_Note'] ?? ''),
+data: homeController
+                                              .isCalibrationSection.value
+                                          ? upcomingInspectionsController
+                                                      .taskDetailsDataCalibration[
+                                                  0]['Task_Note'] ??
+                                              ''
+                                          : upcomingInspectionsController
+                                                      .taskDetailsData[0]
+                                                  ['Task_Note'] ??
+                                              ''),
 
-                        if (upcomingInspectionsController.taskUserDetails[0]
-                                    ['Role_Id']
-                                .toString() ==
-                            '38')
+                                  if (!homeController
+                                          .isCalibrationSection.value &&
+                                      upcomingInspectionsController
+                                              .taskUserDetails[0]['Role_Id']
+                                              .toString() ==
+                                          '38')
                           Column(
                             children: [
                               Row(
