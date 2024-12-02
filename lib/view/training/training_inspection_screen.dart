@@ -19,11 +19,13 @@ class TrainingInspectionScreen extends StatefulWidget {
   const TrainingInspectionScreen({super.key, this.selectedIndex = 0});
   final int selectedIndex;
   @override
-  State<TrainingInspectionScreen> createState() => _TrainingInspectionScreenState();
+  State<TrainingInspectionScreen> createState() =>
+      _TrainingInspectionScreenState();
 }
 
 class _TrainingInspectionScreenState extends State<TrainingInspectionScreen> {
-  final upcomingInspectionsController = Get.put(UpcomingInspectionsController());
+  final upcomingInspectionsController =
+      Get.put(UpcomingInspectionsController());
   // final TrainingControllerHomee trainingControllerHomee =
   //     Get.put(TrainingControllerHomee());
   // final TrainingController tcontroller = Get.put(TrainingController());
@@ -50,7 +52,12 @@ class _TrainingInspectionScreenState extends State<TrainingInspectionScreen> {
     }
   }
 
-  bool areAnyTwoTrue = [homeController.isTrainingEnabled, homeController.isInspectionEnabled, homeController.isCalibrationEnabled].where((element) => element).length >= 2;
+  bool areAnyTwoTrue = [
+        homeController.isTrainingEnabled,
+        homeController.isInspectionEnabled,
+        homeController.isCalibrationEnabled
+      ].where((element) => element).length >=
+      2;
 
   @override
   Widget build(BuildContext context) {
@@ -59,8 +66,12 @@ class _TrainingInspectionScreenState extends State<TrainingInspectionScreen> {
     return GetBuilder<HomeController>(builder: (loginData) {
       return DefaultTabController(
         initialIndex: widget.selectedIndex,
-        length: homeController.isInspectionEnabled && homeController.isTrainingEnabled && homeController.isCalibrationEnabled ||
-                !homeController.isInspectionEnabled && !homeController.isTrainingEnabled && !homeController.isCalibrationEnabled
+       length: homeController.isInspectionEnabled &&
+                    homeController.isTrainingEnabled &&
+                    homeController.isCalibrationEnabled ||
+                !homeController.isInspectionEnabled &&
+                    !homeController.isTrainingEnabled &&
+                    !homeController.isCalibrationEnabled
             ? 3
             : areAnyTwoTrue
                 ? 2
@@ -70,7 +81,10 @@ class _TrainingInspectionScreenState extends State<TrainingInspectionScreen> {
           child: Scaffold(
             backgroundColor: Colors.transparent,
             appBar: PreferredSize(
-              preferredSize: MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width < 1440 ? Size(390.w, 100.h) : Size(390.w, 150.h),
+              preferredSize: MediaQuery.of(context).size.width > 600 &&
+                      MediaQuery.of(context).size.width < 1440
+                  ? Size(390.w, 100.h)
+                  : Size(390.w, 150.h),
               child: commonBackgroundLinearColorCart(
                 childWidget: AppBar(
                   leading: Container(),
@@ -123,12 +137,15 @@ class _TrainingInspectionScreenState extends State<TrainingInspectionScreen> {
                                 //   style: TextStyle(fontWeight: FontWeight.w800),
                                 // ),
                                 content: SingleChildScrollView(
-                                  child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                                    SizedBox(
-                                      height: 20.h,
-                                    ),
-                                    const Text("Are you sure to logout?")
-                                  ]),
+                                  child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        SizedBox(
+                                          height: 20.h,
+                                        ),
+                                        const Text("Are you sure to logout?")
+                                      ]),
                                 ),
                                 actions: [
                                   TextButton(
@@ -141,7 +158,8 @@ class _TrainingInspectionScreenState extends State<TrainingInspectionScreen> {
                                     child: const Text('Logout'),
                                     onPressed: () async {
                                       await loginController.logout(context);
-                                      await Get.to(() => BottomNavigationWidget());
+                                      await Get.to(
+                                          () => BottomNavigationWidget());
                                     },
                                   ),
                                 ],
@@ -166,22 +184,48 @@ class _TrainingInspectionScreenState extends State<TrainingInspectionScreen> {
                   bottom: TabBar(
                     onTap: (index) async {
                       homeController.mainTabIndex = index;
-                      homeController.isInspectionSection.value = index == 0 && homeController.isInspectionEnabled;
+                      homeController.isInspectionSection.value =
+                          index == 0 && homeController.isInspectionEnabled;
                       homeController.isTrainingSectionnew.value =
-                          index == 0 && !homeController.isInspectionEnabled || index == 1 && homeController.isTrainingEnabled && homeController.isInspectionEnabled;
+                          index == 0 && !homeController.isInspectionEnabled ||
+                              index == 1 &&
+                                  homeController.isTrainingEnabled &&
+                                  homeController.isInspectionEnabled;
 
-                      homeController.isCalibrationSection.value = index == 0 && !homeController.isInspectionEnabled && !homeController.isTrainingEnabled ||
-                          index == 1 && homeController.isInspectionEnabled && !homeController.isTrainingEnabled ||
-                          index == 1 && !homeController.isInspectionEnabled && homeController.isTrainingEnabled ||
-                          index == 2 && homeController.isInspectionEnabled && homeController.isTrainingEnabled && homeController.isCalibrationEnabled;
-                      homeController.isInspectionSection.value = index == 0 && homeController.isInspectionEnabled;
+                      homeController.isCalibrationSection.value = index == 0 &&
+                              !homeController.isInspectionEnabled &&
+                              !homeController.isTrainingEnabled ||
+                          index == 1 &&
+                              homeController.isInspectionEnabled &&
+                              !homeController.isTrainingEnabled ||
+                          index == 1 &&
+                              !homeController.isInspectionEnabled &&
+                              homeController.isTrainingEnabled ||
+                          index == 2 &&
+                              homeController.isInspectionEnabled &&
+                              homeController.isTrainingEnabled &&
+                              homeController.isCalibrationEnabled;
+                      homeController.isInspectionSection.value =
+                          index == 0 && homeController.isInspectionEnabled;
                       homeController.isTrainingSectionnew.value =
-                          index == 0 && !homeController.isInspectionEnabled || index == 1 && homeController.isTrainingEnabled && homeController.isInspectionEnabled;
+                          index == 0 && !homeController.isInspectionEnabled ||
+                              index == 1 &&
+                                  homeController.isTrainingEnabled &&
+                                  homeController.isInspectionEnabled;
 
-                      homeController.isCalibrationSection.value = index == 0 && !homeController.isInspectionEnabled && !homeController.isTrainingEnabled ||
-                          index == 1 && homeController.isInspectionEnabled && !homeController.isTrainingEnabled ||
-                          index == 1 && !homeController.isInspectionEnabled && homeController.isTrainingEnabled ||
-                          index == 2 && homeController.isInspectionEnabled && homeController.isTrainingEnabled && homeController.isCalibrationEnabled;
+                      homeController.isCalibrationSection.value = index == 0 &&
+                              !homeController.isInspectionEnabled &&
+                              !homeController.isTrainingEnabled ||
+                          index == 1 &&
+                              homeController.isInspectionEnabled &&
+                              !homeController.isTrainingEnabled ||
+                          index == 1 &&
+                              !homeController.isInspectionEnabled &&
+                              homeController.isTrainingEnabled ||
+                          index == 2 &&
+                              homeController.isInspectionEnabled &&
+                              homeController.isTrainingEnabled &&
+                              homeController.isCalibrationEnabled;
                       upcomingInspectionsController.taskInitFunction(context);
                     },
                     tabAlignment: TabAlignment.fill,
@@ -201,7 +245,11 @@ class _TrainingInspectionScreenState extends State<TrainingInspectionScreen> {
                     tabs: [
                       // if (loginData.isuserLogin.value == true)
                       if (homeController.isInspectionEnabled)
-                        const Tab(iconMargin: EdgeInsets.all(0), text: 'Inspection', icon: Icon(Icons.query_stats, color: ColorResources.color294C73, size: 30)),
+                        const Tab(
+                            iconMargin: EdgeInsets.all(0),
+                            text: 'Inspection',
+                            icon: Icon(Icons.query_stats,
+                                color: ColorResources.color294C73, size: 30)),
                       // if (loginData.isTraineeLogin.value == true)
 
                       if (homeController.isTrainingEnabled)
@@ -269,18 +317,32 @@ class _TrainingInspectionScreenState extends State<TrainingInspectionScreen> {
                             ),
                             bottom: TabBar(
                               onTap: (index) async {
-                                upcomingInspectionsController.selectDateTaskListData.clear();
-                                upcomingInspectionsController.selectDateTaskListDataCalibration.clear();
+                                upcomingInspectionsController
+                                    .selectDateTaskListData
+                                    .clear();
+                                upcomingInspectionsController
+                                    .selectDateTaskListDataCalibration
+                                    .clear();
                                 upcomingInspectionsController.update();
-                                upcomingInspectionsController.startDatePickController.clear();
-                                upcomingInspectionsController.endDatePickController.clear();
+                                upcomingInspectionsController
+                                    .startDatePickController
+                                    .clear();
+                                upcomingInspectionsController
+                                    .endDatePickController
+                                    .clear();
 
-                                upcomingInspectionsController.selectDateTaskListData.clear();
-                                upcomingInspectionsController.selectDateTaskListDataCalibration.clear();
+                                upcomingInspectionsController
+                                    .selectDateTaskListData
+                                    .clear();
+                                upcomingInspectionsController
+                                    .selectDateTaskListDataCalibration
+                                    .clear();
 
-                                upcomingInspectionsController.update(['date_picker_in']);
+                                upcomingInspectionsController
+                                    .update(['date_picker_in']);
 
-                                await upcomingInspectionsController.taskInitFunction(context);
+                                await upcomingInspectionsController
+                                    .taskInitFunction(context);
                                 print(index);
                               },
                               tabAlignment: TabAlignment.fill,
@@ -333,196 +395,305 @@ class _TrainingInspectionScreenState extends State<TrainingInspectionScreen> {
                             ),
                           ),
                         ),
-                        body: TabBarView(physics: const NeverScrollableScrollPhysics(), children: [
-                          RefreshIndicator(
-                            onRefresh: () async {
-                              await upcomingInspectionsController.taskInitFunction(context);
-                            },
-                            child: SingleChildScrollView(
-                              physics: const AlwaysScrollableScrollPhysics(),
-                              child: GetBuilder<UpcomingInspectionsController>(builder: (yesterdayData) {
-                                return Container(
-                                  padding: EdgeInsets.all(15.sp),
-                                  child: yesterdayData.isLoading.value
-                                      ? SizedBox(
-                                          height: 500.h,
-                                          child: const Center(
-                                            child: CircularProgressIndicator(),
-                                          ),
-                                        )
-                                      : yesterdayData.yesterdayTaskListData.isEmpty
+                        body: TabBarView(
+                            physics: const NeverScrollableScrollPhysics(),
+                            children: [
+                              RefreshIndicator(
+                                onRefresh: () async {
+                                  await upcomingInspectionsController
+                                      .taskInitFunction(context);
+                                },
+                                child: SingleChildScrollView(
+                                  physics:
+                                      const AlwaysScrollableScrollPhysics(),
+                                  child:
+                                      GetBuilder<UpcomingInspectionsController>(
+                                          builder: (yesterdayData) {
+                                    return Container(
+                                      padding: EdgeInsets.all(15.sp),
+                                      child: yesterdayData.isLoading.value
+                                          ? SizedBox(
+                                              height: 500.h,
+                                              child: const Center(
+                                                child:
+                                                    CircularProgressIndicator(),
+                                              ),
+                                            )
+                                          : yesterdayData
+                                                  .yesterdayTaskListData.isEmpty
+                                              ? SizedBox(
+                                                  height: 500.h,
+                                                  child: const Center(
+                                                    child:
+                                                        Text('Task not found!'),
+                                                  ),
+                                                )
+                                              : taskListTileData(
+                                                  taskListData: yesterdayData
+                                                      .yesterdayTaskListData),
+                                    );
+                                  }),
+                                ),
+                              ),
+                              RefreshIndicator(
+                                onRefresh: () async {
+                                  await upcomingInspectionsController
+                                      .taskInitFunction(context);
+                                },
+                                child: SingleChildScrollView(
+                                  physics:
+                                      const AlwaysScrollableScrollPhysics(),
+                                  child:
+                                      GetBuilder<UpcomingInspectionsController>(
+                                          builder: (todayData) {
+                                    return Container(
+                                      padding: EdgeInsets.all(15.sp),
+                                      child: todayData.isLoading.value
+                                          ? SizedBox(
+                                              height: 500.h,
+                                              child: const Center(
+                                                child:
+                                                    CircularProgressIndicator(),
+                                              ),
+                                            )
+                                          : todayData.todayTaskListData.isEmpty
+                                              ? SizedBox(
+                                                  height: 500.h,
+                                                  child: const Center(
+                                                    child:
+                                                        Text('Task not found!'),
+                                                  ),
+                                                )
+                                              : taskListTileData(
+                                                  taskListData: todayData
+                                                      .todayTaskListData),
+                                    );
+                                  }),
+                                ),
+                              ),
+                              RefreshIndicator(
+                                onRefresh: () async {
+                                  await upcomingInspectionsController
+                                      .taskInitFunction(context);
+                                },
+                                child: SingleChildScrollView(
+                                  physics:
+                                      const AlwaysScrollableScrollPhysics(),
+                                  child:
+                                      GetBuilder<UpcomingInspectionsController>(
+                                          builder: (tommorowData) {
+                                    return Container(
+                                      child: tommorowData.isLoading.value
                                           ? SizedBox(
                                               height: 500.h,
                                               child: const Center(
                                                 child: Text('Task not found!'),
                                               ),
                                             )
-                                          : taskListTileData(taskListData: yesterdayData.yesterdayTaskListData),
-                                );
-                              }),
-                            ),
-                          ),
-                          RefreshIndicator(
-                            onRefresh: () async {
-                              await upcomingInspectionsController.taskInitFunction(context);
-                            },
-                            child: SingleChildScrollView(
-                              physics: const AlwaysScrollableScrollPhysics(),
-                              child: GetBuilder<UpcomingInspectionsController>(builder: (todayData) {
-                                return Container(
-                                  padding: EdgeInsets.all(15.sp),
-                                  child: todayData.isLoading.value
-                                      ? SizedBox(
-                                          height: 500.h,
-                                          child: const Center(
-                                            child: CircularProgressIndicator(),
-                                          ),
-                                        )
-                                      : todayData.todayTaskListData.isEmpty
-                                          ? SizedBox(
-                                              height: 500.h,
-                                              child: const Center(
-                                                child: Text('Task not found!'),
-                                              ),
-                                            )
-                                          : taskListTileData(taskListData: todayData.todayTaskListData),
-                                );
-                              }),
-                            ),
-                          ),
-                          RefreshIndicator(
-                            onRefresh: () async {
-                              await upcomingInspectionsController.taskInitFunction(context);
-                            },
-                            child: SingleChildScrollView(
-                              physics: const AlwaysScrollableScrollPhysics(),
-                              child: GetBuilder<UpcomingInspectionsController>(builder: (tommorowData) {
-                                return Container(
-                                  child: tommorowData.isLoading.value
-                                      ? SizedBox(
-                                          height: 500.h,
-                                          child: const Center(
-                                            child: Text('Task not found!'),
-                                          ),
-                                        )
-                                      : tommorowData.tommorowTaskListData.isEmpty
-                                          ? SizedBox(
-                                              height: 500.h,
-                                              child: const Center(
-                                                child: Text('Task not found!'),
-                                              ),
-                                            )
-                                          : taskListTileData(taskListData: tommorowData.tommorowTaskListData),
-                                );
-                              }),
-                            ),
-                          ),
-                          Container(
-                            padding: EdgeInsets.all(15.sp),
-                            // color: Colors.amber,
-                            child: SingleChildScrollView(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Container(
-                                    width: Get.width,
-                                    // height: 227.h,
-                                    padding: EdgeInsets.all(15.sp),
-                                    margin: EdgeInsets.only(top: 20.h),
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(20.r),
-                                      color: ColorResources.whiteColor,
-                                    ),
-                                    child: Column(
-                                      children: [
-                                        Wrap(
-                                          alignment: WrapAlignment.start,
-                                          runSpacing: Get.width < 615 ? 5.h : 15.h,
-                                          spacing: Get.width < 615 ? 5.w : 15.w,
-                                          // crossAxisAlignment: CrossAxisAlignment.start,
+                                          : tommorowData
+                                                  .tommorowTaskListData.isEmpty
+                                              ? SizedBox(
+                                                  height: 500.h,
+                                                  child: const Center(
+                                                    child:
+                                                        Text('Task not found!'),
+                                                  ),
+                                                )
+                                              : taskListTileData(
+                                                  taskListData: tommorowData
+                                                      .tommorowTaskListData),
+                                    );
+                                  }),
+                                ),
+                              ),
+                              Container(
+                                padding: EdgeInsets.all(15.sp),
+                                // color: Colors.amber,
+                                child: SingleChildScrollView(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Container(
+                                        width: Get.width,
+                                        // height: 227.h,
+                                        padding: EdgeInsets.all(15.sp),
+                                        margin: EdgeInsets.only(top: 20.h),
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(20.r),
+                                          color: ColorResources.whiteColor,
+                                        ),
+                                        child: Column(
                                           children: [
-                                            datepickerWidget(
-                                                context: context, datePickController: upcomingInspectionsController.startDatePickController, labelText: 'From Date', titleText: ''),
-                                            datepickerWidget(
-                                                context: context, datePickController: upcomingInspectionsController.endDatePickController, labelText: 'To Date', titleText: ''),
-                                            SizedBox(
-                                              height: 13.h,
+                                            Wrap(
+                                              alignment: WrapAlignment.start,
+                                              runSpacing:
+                                                  Get.width < 615 ? 5.h : 15.h,
+                                              spacing:
+                                                  Get.width < 615 ? 5.w : 15.w,
+                                              // crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                datepickerWidget(
+                                                    context: context,
+                                                    datePickController:
+                                                        upcomingInspectionsController
+                                                            .startDatePickController,
+                                                    labelText: 'From Date',
+                                                    titleText: ''),
+                                                datepickerWidget(
+                                                    context: context,
+                                                    datePickController:
+                                                        upcomingInspectionsController
+                                                            .endDatePickController,
+                                                    labelText: 'To Date',
+                                                    titleText: ''),
+                                                SizedBox(
+                                                  height: 13.h,
+                                                ),
+                                              ],
+                                            ),
+                                            Align(
+                                              alignment: Alignment.centerRight,
+                                              child: IconButton(
+                                                onPressed: () async {
+                                                  if (upcomingInspectionsController
+                                                          .startDatePickController
+                                                          .text
+                                                          .isNotEmpty &&
+                                                      upcomingInspectionsController
+                                                          .endDatePickController
+                                                          .text
+                                                          .isNotEmpty) {
+                                                    if (DateFormat('dd-MM-yyyy')
+                                                        .parse(upcomingInspectionsController
+                                                            .startDatePickController
+                                                            .text)
+                                                        .isAfter(DateFormat(
+                                                                'dd-MM-yyyy')
+                                                            .parse(upcomingInspectionsController
+                                                                .endDatePickController
+                                                                .text))) {
+                                                      ScaffoldMessenger.of(
+                                                              context)
+                                                          .showSnackBar(
+                                                              const SnackBar(
+                                                                  content: Text(
+                                                                      'Choose valid date!')));
+                                                    } else {
+                                                      upcomingInspectionsController
+                                                              .isDateSubmitBtnClicked =
+                                                          true;
+                                                      if (homeController
+                                                          .isCalibrationSection
+                                                          .value) {
+                                                        upcomingInspectionsController
+                                                                .selectDateTaskListDataCalibration =
+                                                            await upcomingInspectionsController
+                                                                .getuserTaskDateRange(
+                                                          isInitSate: false,
+                                                          startDate: DateFormat(
+                                                                  'dd-MM-yyyy')
+                                                              .parse(upcomingInspectionsController
+                                                                  .startDatePickController
+                                                                  .text),
+                                                          endDate: DateFormat(
+                                                                  'dd-MM-yyyy')
+                                                              .parse(upcomingInspectionsController
+                                                                  .endDatePickController
+                                                                  .text),
+                                                        );
+                                                      } else {
+                                                        upcomingInspectionsController
+                                                                .selectDateTaskListData =
+                                                            await upcomingInspectionsController
+                                                                .getuserTaskDateRange(
+                                                          isInitSate: false,
+                                                          startDate: DateFormat(
+                                                                  'dd-MM-yyyy')
+                                                              .parse(upcomingInspectionsController
+                                                                  .startDatePickController
+                                                                  .text),
+                                                          endDate: DateFormat(
+                                                                  'dd-MM-yyyy')
+                                                              .parse(upcomingInspectionsController
+                                                                  .endDatePickController
+                                                                  .text),
+                                                        );
+                                                      }
+                                                    }
+                                                  } else {
+                                                    ScaffoldMessenger.of(
+                                                            context)
+                                                        .showSnackBar(
+                                                            const SnackBar(
+                                                                content: Text(
+                                                                    'From Date and To Date is Required!')));
+                                                  }
+                                                },
+                                                icon: Container(
+                                                  width: 84.w,
+                                                  height: 32.h,
+                                                  decoration: BoxDecoration(
+                                                      color: ColorResources
+                                                          .color32C000,
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              43.r)),
+                                                  child: Center(
+                                                      child: Text(
+                                                    "Submit",
+                                                    style: TextStyle(
+                                                      fontFamily: "Roboto",
+                                                      fontSize: 14.sp,
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      color: ColorResources
+                                                          .whiteColor,
+                                                    ),
+                                                    textAlign: TextAlign.center,
+                                                  )),
+                                                ),
+                                              ),
                                             ),
                                           ],
                                         ),
-                                        Align(
-                                          alignment: Alignment.centerRight,
-                                          child: IconButton(
-                                            onPressed: () async {
-                                              if (upcomingInspectionsController.startDatePickController.text.isNotEmpty &&
-                                                  upcomingInspectionsController.endDatePickController.text.isNotEmpty) {
-                                                if (DateFormat('dd-MM-yyyy')
-                                                    .parse(upcomingInspectionsController.startDatePickController.text)
-                                                    .isAfter(DateFormat('dd-MM-yyyy').parse(upcomingInspectionsController.endDatePickController.text))) {
-                                                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Choose valid date!')));
-                                                } else {
-                                                  upcomingInspectionsController.isDateSubmitBtnClicked = true;
-                                                  if (homeController.isCalibrationSection.value) {
-                                                    upcomingInspectionsController.selectDateTaskListDataCalibration = await upcomingInspectionsController.getuserTaskDateRange(
-                                                      isInitSate: false,
-                                                      startDate: DateFormat('dd-MM-yyyy').parse(upcomingInspectionsController.startDatePickController.text),
-                                                      endDate: DateFormat('dd-MM-yyyy').parse(upcomingInspectionsController.endDatePickController.text),
-                                                    );
-                                                  } else {
-                                                    upcomingInspectionsController.selectDateTaskListData = await upcomingInspectionsController.getuserTaskDateRange(
-                                                      isInitSate: false,
-                                                      startDate: DateFormat('dd-MM-yyyy').parse(upcomingInspectionsController.startDatePickController.text),
-                                                      endDate: DateFormat('dd-MM-yyyy').parse(upcomingInspectionsController.endDatePickController.text),
-                                                    );
-                                                  }
-                                                }
-                                              } else {
-                                                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('From Date and To Date is Required!')));
-                                              }
-                                            },
-                                            icon: Container(
-                                              width: 84.w,
-                                              height: 32.h,
-                                              decoration: BoxDecoration(color: ColorResources.color32C000, borderRadius: BorderRadius.circular(43.r)),
-                                              child: Center(
-                                                  child: Text(
-                                                "Submit",
-                                                style: TextStyle(
-                                                  fontFamily: "Roboto",
-                                                  fontSize: 14.sp,
-                                                  fontWeight: FontWeight.w500,
-                                                  color: ColorResources.whiteColor,
-                                                ),
-                                                textAlign: TextAlign.center,
-                                              )),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
+                                      ),
+                                      SizedBox(
+                                        height: 20.h,
+                                      ),
+                                      GetBuilder<UpcomingInspectionsController>(
+                                          id: 'date_picker_in',
+                                          builder: (selectData) {
+                                            return Container(
+                                              child: selectData
+                                                          .selectDateTaskListData
+                                                          .isEmpty &&
+                                                      upcomingInspectionsController
+                                                          .endDatePickController
+                                                          .text
+                                                          .isNotEmpty &&
+                                                      upcomingInspectionsController
+                                                          .startDatePickController
+                                                          .text
+                                                          .isNotEmpty &&
+                                                      upcomingInspectionsController
+                                                              .isDateSubmitBtnClicked ==
+                                                          true
+                                                  ? const Center(
+                                                      child: Text(
+                                                          'Task not found!'),
+                                                    )
+                                                  : taskListTileData(
+                                                      taskListData: selectData
+                                                          .selectDateTaskListData),
+                                            );
+                                          }),
+                                    ],
                                   ),
-                                  SizedBox(
-                                    height: 20.h,
-                                  ),
-                                  GetBuilder<UpcomingInspectionsController>(
-                                      id: 'date_picker_in',
-                                      builder: (selectData) {
-                                        return Container(
-                                          child: selectData.selectDateTaskListData.isEmpty &&
-                                                  upcomingInspectionsController.endDatePickController.text.isNotEmpty &&
-                                                  upcomingInspectionsController.startDatePickController.text.isNotEmpty &&
-                                                  upcomingInspectionsController.isDateSubmitBtnClicked == true
-                                              ? const Center(
-                                                  child: Text('Task not found!'),
-                                                )
-                                              : taskListTileData(taskListData: selectData.selectDateTaskListData),
-                                        );
-                                      }),
-                                ],
+                                ),
                               ),
-                            ),
-                          ),
-                        ]),
+                            ]),
                       ),
                     ),
                   ),
@@ -553,18 +724,32 @@ class _TrainingInspectionScreenState extends State<TrainingInspectionScreen> {
                             ),
                             bottom: TabBar(
                               onTap: (index) async {
-                                upcomingInspectionsController.selectDateTaskListData.clear();
-                                upcomingInspectionsController.selectDateTaskListDataCalibration.clear();
+                                upcomingInspectionsController
+                                    .selectDateTaskListData
+                                    .clear();
+                                upcomingInspectionsController
+                                    .selectDateTaskListDataCalibration
+                                    .clear();
                                 upcomingInspectionsController.update();
-                                upcomingInspectionsController.startDatePickController.clear();
-                                upcomingInspectionsController.endDatePickController.clear();
+                                upcomingInspectionsController
+                                    .startDatePickController
+                                    .clear();
+                                upcomingInspectionsController
+                                    .endDatePickController
+                                    .clear();
 
-                                upcomingInspectionsController.selectDateTaskListData.clear();
-                                upcomingInspectionsController.selectDateTaskListDataCalibration.clear();
+                                upcomingInspectionsController
+                                    .selectDateTaskListData
+                                    .clear();
+                                upcomingInspectionsController
+                                    .selectDateTaskListDataCalibration
+                                    .clear();
 
-                                upcomingInspectionsController.update(['date_picker_ca']);
+                                upcomingInspectionsController
+                                    .update(['date_picker_ca']);
 
-                                await upcomingInspectionsController.taskInitFunction(context);
+                                await upcomingInspectionsController
+                                    .taskInitFunction(context);
                                 print(index);
                               },
                               tabAlignment: TabAlignment.fill,
@@ -617,197 +802,312 @@ class _TrainingInspectionScreenState extends State<TrainingInspectionScreen> {
                             ),
                           ),
                         ),
-                        body: TabBarView(physics: const NeverScrollableScrollPhysics(), children: [
-                          RefreshIndicator(
-                            onRefresh: () async {
-                              await upcomingInspectionsController.taskInitFunction(context);
-                              print('jj213483jjj ${upcomingInspectionsController.yesterdayTaskListDataCalibration}');
-                            },
-                            child: SingleChildScrollView(
-                              physics: const AlwaysScrollableScrollPhysics(),
-                              child: GetBuilder<UpcomingInspectionsController>(builder: (yesterdayData) {
-                                return Container(
-                                  padding: EdgeInsets.all(15.sp),
-                                  child: yesterdayData.isLoading.value
-                                      ? SizedBox(
-                                          height: 500.h,
-                                          child: const Center(
-                                            child: CircularProgressIndicator(),
-                                          ),
-                                        )
-                                      : yesterdayData.yesterdayTaskListDataCalibration.isEmpty
+                        body: TabBarView(
+                            physics: const NeverScrollableScrollPhysics(),
+                            children: [
+                              RefreshIndicator(
+                                onRefresh: () async {
+                                  await upcomingInspectionsController
+                                      .taskInitFunction(context);
+                                  print(
+                                      'jj213483jjj ${upcomingInspectionsController.yesterdayTaskListDataCalibration}');
+                                },
+                                child: SingleChildScrollView(
+                                  physics:
+                                      const AlwaysScrollableScrollPhysics(),
+                                  child:
+                                      GetBuilder<UpcomingInspectionsController>(
+                                          builder: (yesterdayData) {
+                                    return Container(
+                                      padding: EdgeInsets.all(15.sp),
+                                      child: yesterdayData.isLoading.value
                                           ? SizedBox(
                                               height: 500.h,
                                               child: const Center(
-                                                child: Text('Task not found!'),
+                                                child:
+                                                    CircularProgressIndicator(),
                                               ),
                                             )
-                                          : taskListTileData(taskListData: yesterdayData.yesterdayTaskListDataCalibration),
-                                );
-                              }),
-                            ),
-                          ),
-                          RefreshIndicator(
-                            onRefresh: () async {
-                              await upcomingInspectionsController.taskInitFunction(context);
-                            },
-                            child: SingleChildScrollView(
-                              physics: const AlwaysScrollableScrollPhysics(),
-                              child: GetBuilder<UpcomingInspectionsController>(builder: (todayData) {
-                                return Container(
-                                  padding: EdgeInsets.all(15.sp),
-                                  child: todayData.isLoading.value
-                                      ? SizedBox(
-                                          height: 500.h,
-                                          child: const Center(
-                                            child: CircularProgressIndicator(),
-                                          ),
-                                        )
-                                      : todayData.todayTaskListDataCalibration.isEmpty
+                                          : yesterdayData
+                                                  .yesterdayTaskListDataCalibration
+                                                  .isEmpty
+                                              ? SizedBox(
+                                                  height: 500.h,
+                                                  child: const Center(
+                                                    child:
+                                                        Text('Task not found!'),
+                                                  ),
+                                                )
+                                              : taskListTileData(
+                                                  taskListData: yesterdayData
+                                                      .yesterdayTaskListDataCalibration),
+                                    );
+                                  }),
+                                ),
+                              ),
+                              RefreshIndicator(
+                                onRefresh: () async {
+                                  await upcomingInspectionsController
+                                      .taskInitFunction(context);
+                                },
+                                child: SingleChildScrollView(
+                                  physics:
+                                      const AlwaysScrollableScrollPhysics(),
+                                  child:
+                                      GetBuilder<UpcomingInspectionsController>(
+                                          builder: (todayData) {
+                                    return Container(
+                                      padding: EdgeInsets.all(15.sp),
+                                      child: todayData.isLoading.value
                                           ? SizedBox(
                                               height: 500.h,
                                               child: const Center(
-                                                child: Text('Task not found!'),
+                                                child:
+                                                    CircularProgressIndicator(),
                                               ),
                                             )
-                                          : taskListTileData(taskListData: todayData.todayTaskListDataCalibration),
-                                );
-                              }),
-                            ),
-                          ),
-                          RefreshIndicator(
-                            onRefresh: () async {
-                              await upcomingInspectionsController.taskInitFunction(context);
-                            },
-                            child: SingleChildScrollView(
-                              physics: const AlwaysScrollableScrollPhysics(),
-                              child: GetBuilder<UpcomingInspectionsController>(builder: (tommorowData) {
-                                return Container(
-                                  child: tommorowData.isLoading.value
-                                      ? SizedBox(
-                                          height: 500.h,
-                                          child: const Center(
-                                            child: CircularProgressIndicator(),
-                                          ),
-                                        )
-                                      : tommorowData.tommorowTaskListDataCalibration.isEmpty
+                                          : todayData
+                                                  .todayTaskListDataCalibration
+                                                  .isEmpty
+                                              ? SizedBox(
+                                                  height: 500.h,
+                                                  child: const Center(
+                                                    child:
+                                                        Text('Task not found!'),
+                                                  ),
+                                                )
+                                              : taskListTileData(
+                                                  taskListData: todayData
+                                                      .todayTaskListDataCalibration),
+                                    );
+                                  }),
+                                ),
+                              ),
+                              RefreshIndicator(
+                                onRefresh: () async {
+                                  await upcomingInspectionsController
+                                      .taskInitFunction(context);
+                                },
+                                child: SingleChildScrollView(
+                                  physics:
+                                      const AlwaysScrollableScrollPhysics(),
+                                  child:
+                                      GetBuilder<UpcomingInspectionsController>(
+                                          builder: (tommorowData) {
+                                    return Container(
+                                      child: tommorowData.isLoading.value
                                           ? SizedBox(
                                               height: 500.h,
                                               child: const Center(
-                                                child: Text('Task not found!'),
+                                                child:
+                                                    CircularProgressIndicator(),
                                               ),
                                             )
-                                          : taskListTileData(taskListData: tommorowData.tommorowTaskListDataCalibration),
-                                );
-                              }),
-                            ),
-                          ),
-                          Container(
-                            padding: EdgeInsets.all(15.sp),
-                            // color: Colors.amber,
-                            child: SingleChildScrollView(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Container(
-                                    width: Get.width,
-                                    // height: 227.h,
-                                    padding: EdgeInsets.all(15.sp),
-                                    margin: EdgeInsets.only(top: 20.h),
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(20.r),
-                                      color: ColorResources.whiteColor,
-                                    ),
-                                    child: Column(
-                                      children: [
-                                        Wrap(
-                                          alignment: WrapAlignment.start,
-                                          runSpacing: Get.width < 615 ? 5.h : 15.h,
-                                          spacing: Get.width < 615 ? 5.w : 15.w,
-                                          // crossAxisAlignment: CrossAxisAlignment.start,
+                                          : tommorowData
+                                                  .tommorowTaskListDataCalibration
+                                                  .isEmpty
+                                              ? SizedBox(
+                                                  height: 500.h,
+                                                  child: const Center(
+                                                    child:
+                                                        Text('Task not found!'),
+                                                  ),
+                                                )
+                                              : taskListTileData(
+                                                  taskListData: tommorowData
+                                                      .tommorowTaskListDataCalibration),
+                                    );
+                                  }),
+                                ),
+                              ),
+                              Container(
+                                padding: EdgeInsets.all(15.sp),
+                                // color: Colors.amber,
+                                child: SingleChildScrollView(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Container(
+                                        width: Get.width,
+                                        // height: 227.h,
+                                        padding: EdgeInsets.all(15.sp),
+                                        margin: EdgeInsets.only(top: 20.h),
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(20.r),
+                                          color: ColorResources.whiteColor,
+                                        ),
+                                        child: Column(
                                           children: [
-                                            datepickerWidget(
-                                                context: context, datePickController: upcomingInspectionsController.startDatePickController, labelText: 'From Date', titleText: ''),
-                                            datepickerWidget(
-                                                context: context, datePickController: upcomingInspectionsController.endDatePickController, labelText: 'To Date', titleText: ''),
-                                            SizedBox(
-                                              height: 13.h,
+                                            Wrap(
+                                              alignment: WrapAlignment.start,
+                                              runSpacing:
+                                                  Get.width < 615 ? 5.h : 15.h,
+                                              spacing:
+                                                  Get.width < 615 ? 5.w : 15.w,
+                                              // crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                datepickerWidget(
+                                                    context: context,
+                                                    datePickController:
+                                                        upcomingInspectionsController
+                                                            .startDatePickController,
+                                                    labelText: 'From Date',
+                                                    titleText: ''),
+                                                datepickerWidget(
+                                                    context: context,
+                                                    datePickController:
+                                                        upcomingInspectionsController
+                                                            .endDatePickController,
+                                                    labelText: 'To Date',
+                                                    titleText: ''),
+                                                SizedBox(
+                                                  height: 13.h,
+                                                ),
+                                              ],
+                                            ),
+                                            Align(
+                                              alignment: Alignment.centerRight,
+                                              child: IconButton(
+                                                onPressed: () async {
+                                                  if (upcomingInspectionsController
+                                                          .startDatePickController
+                                                          .text
+                                                          .isNotEmpty &&
+                                                      upcomingInspectionsController
+                                                          .endDatePickController
+                                                          .text
+                                                          .isNotEmpty) {
+                                                    if (DateFormat('dd-MM-yyyy')
+                                                        .parse(upcomingInspectionsController
+                                                            .startDatePickController
+                                                            .text)
+                                                        .isAfter(DateFormat(
+                                                                'dd-MM-yyyy')
+                                                            .parse(upcomingInspectionsController
+                                                                .endDatePickController
+                                                                .text))) {
+                                                      ScaffoldMessenger.of(
+                                                              context)
+                                                          .showSnackBar(
+                                                              const SnackBar(
+                                                                  content: Text(
+                                                                      'Choose valid date!')));
+                                                    } else {
+                                                      upcomingInspectionsController
+                                                              .isDateSubmitBtnClicked =
+                                                          true;
+                                                      if (homeController
+                                                          .isCalibrationSection
+                                                          .value) {
+                                                        upcomingInspectionsController
+                                                                .selectDateTaskListDataCalibration =
+                                                            await upcomingInspectionsController
+                                                                .getCalibrationTasks(
+                                                          isInitSate: false,
+                                                          startDate: DateFormat(
+                                                                  'dd-MM-yyyy')
+                                                              .parse(upcomingInspectionsController
+                                                                  .startDatePickController
+                                                                  .text),
+                                                          endDate: DateFormat(
+                                                                  'dd-MM-yyyy')
+                                                              .parse(upcomingInspectionsController
+                                                                  .endDatePickController
+                                                                  .text),
+                                                        );
+                                                      } else {
+                                                        upcomingInspectionsController
+                                                                .selectDateTaskListData =
+                                                            await upcomingInspectionsController
+                                                                .getuserTaskDateRange(
+                                                          isInitSate: false,
+                                                          startDate: DateFormat(
+                                                                  'dd-MM-yyyy')
+                                                              .parse(upcomingInspectionsController
+                                                                  .startDatePickController
+                                                                  .text),
+                                                          endDate: DateFormat(
+                                                                  'dd-MM-yyyy')
+                                                              .parse(upcomingInspectionsController
+                                                                  .endDatePickController
+                                                                  .text),
+                                                        );
+                                                      }
+                                                    }
+                                                  } else {
+                                                    ScaffoldMessenger.of(
+                                                            context)
+                                                        .showSnackBar(
+                                                            const SnackBar(
+                                                                content: Text(
+                                                                    'From Date and To Date is Required!')));
+                                                  }
+                                                },
+                                                icon: Container(
+                                                  width: 84.w,
+                                                  height: 32.h,
+                                                  decoration: BoxDecoration(
+                                                      color: ColorResources
+                                                          .color32C000,
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              43.r)),
+                                                  child: Center(
+                                                      child: Text(
+                                                    "Submit",
+                                                    style: TextStyle(
+                                                      fontFamily: "Roboto",
+                                                      fontSize: 14.sp,
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      color: ColorResources
+                                                          .whiteColor,
+                                                    ),
+                                                    textAlign: TextAlign.center,
+                                                  )),
+                                                ),
+                                              ),
                                             ),
                                           ],
                                         ),
-                                        Align(
-                                          alignment: Alignment.centerRight,
-                                          child: IconButton(
-                                            onPressed: () async {
-                                              if (upcomingInspectionsController.startDatePickController.text.isNotEmpty &&
-                                                  upcomingInspectionsController.endDatePickController.text.isNotEmpty) {
-                                                if (DateFormat('dd-MM-yyyy')
-                                                    .parse(upcomingInspectionsController.startDatePickController.text)
-                                                    .isAfter(DateFormat('dd-MM-yyyy').parse(upcomingInspectionsController.endDatePickController.text))) {
-                                                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Choose valid date!')));
-                                                } else {
-                                                  upcomingInspectionsController.isDateSubmitBtnClicked = true;
-                                                  if (homeController.isCalibrationSection.value) {
-                                                    upcomingInspectionsController.selectDateTaskListDataCalibration = await upcomingInspectionsController.getCalibrationTasks(
-                                                      isInitSate: false,
-                                                      startDate: DateFormat('dd-MM-yyyy').parse(upcomingInspectionsController.startDatePickController.text),
-                                                      endDate: DateFormat('dd-MM-yyyy').parse(upcomingInspectionsController.endDatePickController.text),
-                                                    );
-                                                  } else {
-                                                    upcomingInspectionsController.selectDateTaskListData = await upcomingInspectionsController.getuserTaskDateRange(
-                                                      isInitSate: false,
-                                                      startDate: DateFormat('dd-MM-yyyy').parse(upcomingInspectionsController.startDatePickController.text),
-                                                      endDate: DateFormat('dd-MM-yyyy').parse(upcomingInspectionsController.endDatePickController.text),
-                                                    );
-                                                  }
-                                                }
-                                              } else {
-                                                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('From Date and To Date is Required!')));
-                                              }
-                                            },
-                                            icon: Container(
-                                              width: 84.w,
-                                              height: 32.h,
-                                              decoration: BoxDecoration(color: ColorResources.color32C000, borderRadius: BorderRadius.circular(43.r)),
-                                              child: Center(
-                                                  child: Text(
-                                                "Submit",
-                                                style: TextStyle(
-                                                  fontFamily: "Roboto",
-                                                  fontSize: 14.sp,
-                                                  fontWeight: FontWeight.w500,
-                                                  color: ColorResources.whiteColor,
-                                                ),
-                                                textAlign: TextAlign.center,
-                                              )),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
+                                      ),
+                                      SizedBox(
+                                        height: 20.h,
+                                      ),
+                                      GetBuilder<UpcomingInspectionsController>(
+                                          id: 'date_picker_ca',
+                                          builder: (selectData) {
+                                            return Container(
+                                              child: selectData
+                                                          .selectDateTaskListDataCalibration
+                                                          .isEmpty &&
+                                                      upcomingInspectionsController
+                                                          .endDatePickController
+                                                          .text
+                                                          .isNotEmpty &&
+                                                      upcomingInspectionsController
+                                                          .startDatePickController
+                                                          .text
+                                                          .isNotEmpty &&
+                                                      upcomingInspectionsController
+                                                              .isDateSubmitBtnClicked ==
+                                                          true
+                                                  ? const Center(
+                                                      child: Text(
+                                                          'Task not found!'),
+                                                    )
+                                                  : taskListTileData(
+                                                      taskListData: selectData
+                                                          .selectDateTaskListDataCalibration),
+                                            );
+                                          }),
+                                    ],
                                   ),
-                                  SizedBox(
-                                    height: 20.h,
-                                  ),
-                                  GetBuilder<UpcomingInspectionsController>(
-                                      id: 'date_picker_ca',
-                                      builder: (selectData) {
-                                        return Container(
-                                          child: selectData.selectDateTaskListDataCalibration.isEmpty &&
-                                                  upcomingInspectionsController.endDatePickController.text.isNotEmpty &&
-                                                  upcomingInspectionsController.startDatePickController.text.isNotEmpty &&
-                                                  upcomingInspectionsController.isDateSubmitBtnClicked == true
-                                              ? const Center(
-                                                  child: Text('Task not found!'),
-                                                )
-                                              : taskListTileData(taskListData: selectData.selectDateTaskListDataCalibration),
-                                        );
-                                      }),
-                                ],
+                                ),
                               ),
-                            ),
-                          ),
-                        ]),
+                            ]),
                       ),
                     ),
                   ),
@@ -833,7 +1133,11 @@ class _TrainingInspectionScreenState extends State<TrainingInspectionScreen> {
     });
   }
 
-  SizedBox datepickerWidget({required BuildContext context, required String labelText, required TextEditingController datePickController, required String titleText}) {
+  SizedBox datepickerWidget(
+      {required BuildContext context,
+      required String labelText,
+      required TextEditingController datePickController,
+      required String titleText}) {
     FocusScope.of(context).unfocus();
     return SizedBox(
       width: Get.width > 615 ? 375.w : 340.w,
@@ -869,10 +1173,15 @@ class _TrainingInspectionScreenState extends State<TrainingInspectionScreen> {
                   label: Text(labelText)),
               readOnly: true,
               onTap: () async {
-                DateTime? pickedDate =
-                    await showDatePicker(barrierDismissible: false, context: context, initialDate: DateTime.now(), firstDate: DateTime(2000), lastDate: DateTime(2101));
+                DateTime? pickedDate = await showDatePicker(
+                    barrierDismissible: false,
+                    context: context,
+                    initialDate: DateTime.now(),
+                    firstDate: DateTime(2000),
+                    lastDate: DateTime(2101));
 
-                String formattedDate = DateFormat('dd-MM-yyyy').format(pickedDate!);
+                String formattedDate =
+                    DateFormat('dd-MM-yyyy').format(pickedDate!);
 
                 setState(() {
                   datePickController.text = formattedDate;
@@ -902,14 +1211,19 @@ class _TrainingInspectionScreenState extends State<TrainingInspectionScreen> {
               onLongPress: () {},
               onTap: () {
                 upcomingInspectionsController.isScreenLoading.value = true;
-                upcomingInspectionsController.getUserTaskDetails(status: taskListData[index]['Task_Status_Name'], taskId: taskListData[index]['Task_Id']);
+                upcomingInspectionsController.getUserTaskDetails(
+                    status: taskListData[index]['Task_Status_Name'],
+                    taskId: taskListData[index]['Task_Id']);
               },
               child: Container(
                 width: 367.w,
                 // height: 217.h,
-                margin: EdgeInsets.only(top: 5.h, right: 5.w, left: 5.w, bottom: 5.w),
+                margin: EdgeInsets.only(
+                    top: 5.h, right: 5.w, left: 5.w, bottom: 5.w),
                 padding: EdgeInsets.only(left: 15.sp, right: 15.sp, top: 15.sp),
-                decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(6.sp)),
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(6.sp)),
                 child: Stack(
                   alignment: Alignment.centerRight,
                   children: [
@@ -935,47 +1249,66 @@ class _TrainingInspectionScreenState extends State<TrainingInspectionScreen> {
                         // SizedBox(
                         //   height: 18.h,
                         // ),
-                        Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
-                          Expanded(
-                            flex: 50,
-                            child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                              upcomingInspectionCommonItemWidget(
-                                icon: Icons.business,
-                                valueText: taskListData[index]['Task_Name'] ?? '',
+                        Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Expanded(
+                                flex: 50,
+                                child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      upcomingInspectionCommonItemWidget(
+                                        icon: Icons.business,
+                                        valueText: taskListData[index]
+                                                ['Task_Name'] ??
+                                            '',
+                                      ),
+                                      upcomingInspectionCommonItemWidget(
+                                        icon: Icons.calendar_month,
+                                        valueText: DateFormat('dd-MM-yyyy')
+                                            .format(DateTime.parse(
+                                                taskListData[index]
+                                                        ['Task_Date'] ??
+                                                    '')),
+                                      ),
+                                      upcomingInspectionCommonItemWidget(
+                                          icon: Icons.timer_outlined,
+                                          valueText: taskListData[index]
+                                                  ['Time'] ??
+                                              ''),
+                                      upcomingInspectionCommonItemWidget(
+                                        icon: Icons.location_on_outlined,
+                                        valueText: taskListData[index]
+                                                ['Location_Name'] ??
+                                            '',
+                                      ),
+                                      upcomingInspectionCommonItemWidget(
+                                        icon: Icons.task_alt_outlined,
+                                        valueText: taskListData[index]
+                                                ['Task_Status_Name'] ??
+                                            '',
+                                      ),
+                                      // upcomingInspectionCommonItemWidget(
+                                      //   icon: Icons.abc,
+                                      //   valueText: equipmentListController
+                                      //       .equipmentListData[index]['make'],
+                                      // ),
+                                      //  upcomingInspectionCommonItemWidget(
+                                      //   icon: Icons.abc,
+                                      //   valueText: equipmentListController.equipmentListData[index]['model'],
+                                      // ),
+                                      //  upcomingInspectionCommonItemWidget(
+                                      //   icon:  Icons.abc,
+                                      //   valueText: equipmentListController.equipmentListData[index]['serial_no'],
+                                      // ),
+                                      //  upcomingInspectionCommonItemWidget(
+                                      //   icon:  Icons.abc,
+                                      //   valueText: equipmentListController.equipmentListData[index]['expiring_date'],
+                                      // ),
+                                    ]),
                               ),
-                              upcomingInspectionCommonItemWidget(
-                                icon: Icons.calendar_month,
-                                valueText: DateFormat('dd-MM-yyyy').format(DateTime.parse(taskListData[index]['Task_Date'] ?? '')),
-                              ),
-                              upcomingInspectionCommonItemWidget(icon: Icons.timer_outlined, valueText: taskListData[index]['Time'] ?? ''),
-                              upcomingInspectionCommonItemWidget(
-                                icon: Icons.location_on_outlined,
-                                valueText: taskListData[index]['Location_Name'] ?? '',
-                              ),
-                              upcomingInspectionCommonItemWidget(
-                                icon: Icons.task_alt_outlined,
-                                valueText: taskListData[index]['Task_Status_Name'] ?? '',
-                              ),
-                              // upcomingInspectionCommonItemWidget(
-                              //   icon: Icons.abc,
-                              //   valueText: equipmentListController
-                              //       .equipmentListData[index]['make'],
-                              // ),
-                              //  upcomingInspectionCommonItemWidget(
-                              //   icon: Icons.abc,
-                              //   valueText: equipmentListController.equipmentListData[index]['model'],
-                              // ),
-                              //  upcomingInspectionCommonItemWidget(
-                              //   icon:  Icons.abc,
-                              //   valueText: equipmentListController.equipmentListData[index]['serial_no'],
-                              // ),
-                              //  upcomingInspectionCommonItemWidget(
-                              //   icon:  Icons.abc,
-                              //   valueText: equipmentListController.equipmentListData[index]['expiring_date'],
-                              // ),
                             ]),
-                          ),
-                        ]),
 
                         SizedBox(
                           height: 15.h,

@@ -44,8 +44,8 @@ class _SplashScreenState extends State<SplashScreen> {
   mainInitFunction() async {
     try {
       loginController.isFromSplashOrLogin = true;
-      PackageInfo packageInfo = await PackageInfo.fromPlatform();
       const String version = '1.0.15';
+      // 16 // ====> LATEST
       await homeController.versionCheck(version, context);
       if (homeController.isAppBlocked.value) {
         Get.to(() => const UserBlockScreen());
@@ -57,126 +57,19 @@ class _SplashScreenState extends State<SplashScreen> {
       String token = preferences.getString('token') ?? '';
       String customerType = preferences.getString('type') ?? '';
 
-      print(packageInfo.version);
       if (token != '' && customerType == 'customer') {
         bool? verifyProfile = await homeController.verifyCustomerProfile();
         if (verifyProfile == false) {
           await loginController.logout(context);
 
-          //  Get.offAll(() =>const   ProfilePage(isEdit: false,isFromHomePage: false,isFromPurchase: false,));
         }
       }
 
       await homeController.isUsersignedIn();
-      // await getNotificationToken();
       getcountry(context);
-      // Future.delayed(const Duration(seconds: 2), () async {
       await checkUserType();
     } catch (e) {
-      //  errorLoggingSnackbaR(context, functionName: 'mainInitFunction', error: e.toString());
     }
-    // if(Platform.isAndroid ){
-    //   await checkForUpdate(setState);
-
-    // }
-
-    // if (updateInfo != null) {
-    //   if (updateInfo!.updateAvailability ==
-    //       UpdateAvailability.updateAvailable) {
-    //     InAppUpdate.startFlexibleUpdate();
-    //   } else {
-    //     homeController.isUsersignedIn();
-
-    //      getcountry();
-    //     // Future.delayed(const Duration(seconds: 2), () async {
-    //     await checkUserType();
-    //   }
-    // } else {
-    //   homeController.isUsersignedIn();
-
-    //    getcountry();
-    //   // Future.delayed(const Duration(seconds: 2), () async {
-    //   await checkUserType();
-    // }
-
-    // homeController.versionCheck(packageInfo.version);
-    // await MessageHandler. initNotifications();
-
-//   await flutterLocalNotificationsPlugin.initialize(initializationSettings,
-//       onSelectNotification: (value) async {
-//     // Get.to(()=>UpcomingInspectionsScreen());
-//   });
-
-//   await Firebase.initializeApp(
-//       options: kIsWeb
-//           ? DefaultFirebaseOptions.web
-//           : Platform.isAndroid
-//               ? DefaultFirebaseOptions.android
-//               : Platform.isIOS
-//                   ? DefaultFirebaseOptions.ios
-//                   : DefaultFirebaseOptions.android);
-//   final NotificationAppLaunchDetails? notificationAppLaunchDetails =
-//       await flutterLocalNotificationsPlugin.getNotificationAppLaunchDetails();
-// // String? payload = notificationAppLaunchDetails!.payload;
-//   final didNotificationLaunchApp =
-//       notificationAppLaunchDetails?.didNotificationLaunchApp ?? false;
-
-//   if (didNotificationLaunchApp) {
-//     // var payload = notificationAppLaunchDetails!.notificationResponse;
-//     // print(payload);
-//     // onSelectNotification(payload!);
-//     // saveLocal(payload.toString(), "localdata");
-//     // onSelectNotification(
-
-//     //   );
-//   } else {
-//     // await flutterLocalNotificationsPlugin.initialize(initializationSettings,
-//     //     onDidReceiveNotificationResponse: onSelectNotification,
-//     //     onDidReceiveBackgroundNotificationResponse: onSelectNotification);
-//   }
-
-//   // payload= notificationAppLaunchDetails!.payload;
-//   // if (payload != null) {
-//   //   routeToGo = '/Interview';
-//   //   navigatorKey.currentState?.pushNamed('/Interview');
-//   // }
-
-//   // FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) async {
-//   //   if (message.notification!.body != null) {
-//   //     SharedPreferences preferences = await SharedPreferences.getInstance();
-//   //     final userType = preferences.getString('type');
-
-//   //     switch (userType) {
-//   //       case 'user':
-//   //         Get.to(() => const TrainingInspectionScreen());
-
-//   //         break;
-//   //       case 'customer':
-//   //         Get.to(() => UpcomingInspectionsScreen());
-//   //         break;
-//   //       default:
-//   //         Get.to(() => const BottomNavigationScreen());
-//   //     }
-//   //   }
-//   // });
-//   // await flutterLocalNotificationsPlugin.getNotificationAppLaunchDetails();
-//   // FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
-//   //     alert: true, badge: true, sound: true);
-//   // NotificationService.messageNotificationRequest();
-//   // FirebaseMessaging.instance.getNotificationSettings();
-
-//   // FirebaseMessaging.instance.getInitialMessage();
-
-//   // MessageHandler.onMessageListener(messageStreamController);
-//   // FirebaseMessaging.onBackgroundMessage(
-//   //     MessageHandler.firebaseMessagingBackgroundHandler);
-
-//   // FirebaseAnalytics.instance.setAnalyticsCollectionEnabled(true);
-
-    // Get.off(
-    //   () => const BottomNavigationScreen(),
-    // );
-    // });
   }
 
   Future<void> _deleteCacheDir() async {

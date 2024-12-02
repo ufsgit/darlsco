@@ -388,7 +388,7 @@ class LoginController extends GetxController {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     String cusId = sharedPreferences.getString('darlsco_id').toString();
 // if(Platform.isAndroid){
-  await FirebaseNotificationService.unsubscribeFromTopic(userType: dashboardController.dashboardRole.toString(), customerId: cusId);
+  
 // }
     await sharedPreferences.clear();
     // loginController.dispose();
@@ -406,5 +406,8 @@ class LoginController extends GetxController {
     globalHomeController.isCalibrationSection.value = false;
     getcountry(context);
     homeController.isUsersignedIn();
+    Get.offAll(() => BottomNavigationWidget(), duration: Duration.zero);
+      await FirebaseNotificationService.unsubscribeFromTopic(userType: dashboardController.dashboardRole.toString(), customerId: cusId);
+
   }
 }

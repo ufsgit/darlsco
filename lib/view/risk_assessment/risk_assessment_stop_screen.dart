@@ -595,7 +595,7 @@ class _RiskAssesmentStopScreenState extends State<RiskAssesmentStopScreen> {
                                       '38'
                               ? 'Ok'
                               : 'Stop'),
-                          onPressed: () {
+                          onPressed: () async{
                             Get.back();
 
                             if (tcontoller.getAllStaffStatus
@@ -618,7 +618,7 @@ class _RiskAssesmentStopScreenState extends State<RiskAssesmentStopScreen> {
                                 setState(() {
                                   isLoading = true;
                                 });
-                                riskAssessmentController.saveTaskStop(
+                               await riskAssessmentController.saveTaskStop(
                                     tcontoller.selectedStatusValue.value,
                                     riskAssessmentController
                                         .stopnoteController.text);
