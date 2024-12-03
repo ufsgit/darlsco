@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import 'package:darlsco/controller/tainning/trainnig_controller.dart';
 import 'package:darlsco/controller/tody_task_controller.dart';
 import 'package:darlsco/core/constants/color_resources.dart';
 import 'package:darlsco/core/constants/common_widgets.dart';
@@ -239,19 +240,19 @@ class _TodayTaskViewState extends State<TodayTaskView> {
                                             ],
                                           ),
                                           GetBuilder<TodayTaskController>(
-                                            builder: (todayTaskData) {
-                                              return Text(
-                                                todayTaskData
-                                                    .traineeAttendanceList.length
-                                                    .toString(),
-                                                style: GoogleFonts.dmSans(
-                                                  color: ColorResources.colorBlack,
-                                                  fontSize: 15.sp.h,
-                                                  fontWeight: FontWeight.bold,
-                                                ),
-                                              );
-                                            }
-                                          ),
+                                              builder: (todayTaskData) {
+                                            return Text(
+                                              todayTaskData
+                                                  .traineeAttendanceList.length
+                                                  .toString(),
+                                              style: GoogleFonts.dmSans(
+                                                color:
+                                                    ColorResources.colorBlack,
+                                                fontSize: 15.sp.h,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            );
+                                          }),
                                         ]),
                                         TableRow(children: [
                                           Row(
@@ -415,7 +416,8 @@ class _TodayTaskViewState extends State<TodayTaskView> {
                                             ],
                                           ),
                                           Text(
-                                            widget.model.actualSatrtTime.toUpperCase(),
+                                            widget.model.actualSatrtTime
+                                                .toUpperCase(),
                                             style: GoogleFonts.dmSans(
                                               color: ColorResources.colorBlack,
                                               fontSize: 15.sp.h,
@@ -459,7 +461,8 @@ class _TodayTaskViewState extends State<TodayTaskView> {
                                             ],
                                           ),
                                           Text(
-                                       widget.model.actualendTime.toUpperCase(),
+                                            widget.model.actualendTime
+                                                .toUpperCase(),
                                             style: GoogleFonts.dmSans(
                                               color: ColorResources.colorBlack,
                                               fontSize: 16.sp.h,
@@ -501,6 +504,16 @@ class _TodayTaskViewState extends State<TodayTaskView> {
             backgroundColor: ColorResources.colorE5AA17,
             txtColor: ColorResources.colorBlack,
             onPressed: () async {
+              var s = await tcontoller.geofenceLocation(
+                  fenceLatitude: double.parse(widget.model.lat.toString()),
+                  fenceLongitude: double.parse(widget.model.long.toString()));
+              if (s == "outside") {
+                ScaffoldMessenger.of(Get.context!).showSnackBar(const SnackBar(
+                    content: Text(
+                        "Your current location doesn't match the task location. You won't be able to start the task!")));
+
+                return;
+              }
               showDialog(
                 context: context,
                 builder: (context) {

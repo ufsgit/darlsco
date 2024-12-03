@@ -160,7 +160,8 @@ class FirebaseNotificationService {
 
             Get.offAll(
               TrainingInspectionScreen(
-                selectedIndex: homeController.isInspectionSection.value
+                selectedIndex:
+                 homeController.isInspectionSection.value
                     ? 0
                     : homeController.isTrainingSectionnew.value
                         ? homeController.isInspectionEnabled

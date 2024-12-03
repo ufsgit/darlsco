@@ -307,23 +307,24 @@ class TrainingController extends GetxController {
           Position position = await Geolocator.getCurrentPosition(
               desiredAccuracy: LocationAccuracy.high);
 
-        double distance = Geolocator.distanceBetween(position.latitude,
+          double distance = Geolocator.distanceBetween(position.latitude,
               position.longitude, fenceLatitude, fenceLongitude);
           var d = acos(sin(position.latitude) * sin(fenceLatitude) +
                   cos(position.latitude) *
                       cos(fenceLatitude) *
                       cos(fenceLongitude - position.longitude)) *
               6371;
+              var dInMeters = d * 1000;
 
-          print('DISTANCE $d');
+          print('DISTANCE $dInMeters');
           // Get.snackbar('Location', 'You are ${d.round()} meter away');
           // await Loader.stopLoader();
 
-          if (d <= 500) {
+          if (dInMeters <= 500) {
             await Loader.stopLoader();
             return 'inside';
           } else {
-                  await Loader.stopLoader();
+            await Loader.stopLoader();
 
             return 'outside';
           }

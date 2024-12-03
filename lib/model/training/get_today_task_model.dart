@@ -25,10 +25,13 @@ class GetTodayTaskModel {
   String startTime;
   String endTime;
   String eligibilityMarked;
-
+  String lat;
+  String long;
   // String eligibility;
 
   GetTodayTaskModel({
+    required this.lat,
+    required this.long,
     required this.eligibilityMarked,
     required this.customerId,
     required this.orderDetailsId,
@@ -40,10 +43,6 @@ class GetTodayTaskModel {
     required this.categoryName,
     required this.actualSatrtTime,
     required this.startTime,
-
-    
-
-
     required this.endTime,
     required this.actualendTime,
     required this.duration,
@@ -65,6 +64,8 @@ class GetTodayTaskModel {
 
   factory GetTodayTaskModel.fromJson(Map<String, dynamic> json) =>
       GetTodayTaskModel(
+        lat: json["Latitude"],
+        long: json['Longitude'],
         eligibilityMarked: json["Eligibility_Marked"],
         customerId: json["Customer_Id"] ?? 0,
         orderDetailsId: json["Order_Details_Id"] ?? 0,
@@ -74,7 +75,7 @@ class GetTodayTaskModel {
         trainingCourseId: json["Training_Course_Id"],
         trainingCourseCategoryId: json["Training_Course_Category_Id"],
         trainingCourseName: json["Training_Course_Name"],
-        categoryName: json["Category_Name"]??'',
+        categoryName: json["Category_Name"] ?? '',
         startTime: json["Start_Time"] ?? '',
         endTime: json["End_Time"] ?? '',
         duration: json["Duration"] ?? '',
@@ -89,8 +90,8 @@ class GetTodayTaskModel {
         statusId: json['Status_Id'].toString(),
         statusName: json['Status_Name'] ?? '',
         traineeId: json['Trainee_Details_Id'] ?? '0',
-        actualSatrtTime: json['Expected_Start_Time']??'',
-        actualendTime: json['Expected_End_Time']??'',
+        actualSatrtTime: json['Expected_Start_Time'] ?? '',
+        actualendTime: json['Expected_End_Time'] ?? '',
 
         // eligibility: json["Eligibility"],
       );

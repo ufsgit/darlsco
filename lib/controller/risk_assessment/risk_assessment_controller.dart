@@ -2224,10 +2224,42 @@ class RiskAssessmentController extends GetxController {
     // erganomicsOthersEquipmentListController.clear();
   }
 
-  
   saveTaskStop(statusName, stopNote) async {
     Loader.showLoader();
+    var s = await tcontoller.geofenceLocation(
+      fenceLatitude: !homeController.isCalibrationSection.value
+          ? upcomingInspectionsController.taskDetailsData.isEmpty
+              ? 10.005548201562277
+              : double.parse(upcomingInspectionsController.taskDetailsData[0]
+                      ['Latitude']
+                  .toString())
+          : upcomingInspectionsController.taskDetailsDataCalibration.isEmpty
+              ? 10.005548201562277
+              : double.parse(upcomingInspectionsController
+                  .taskDetailsDataCalibration[0]['Latitude']
+                  .toString()),
+      fenceLongitude: homeController.isCalibrationSection.value
+          ? upcomingInspectionsController.taskDetailsDataCalibration.isEmpty
+              ? 76.37540812327876
+              : double.parse(
+                  upcomingInspectionsController.taskDetailsDataCalibration[0]
+                          ['Longitude']
+                      .toString(),
+                )
+          : upcomingInspectionsController.taskDetailsData.isEmpty
+              ? 76.37540812327876
+              : double.parse(
+                  upcomingInspectionsController.taskDetailsData[0]['Longitude']
+                      .toString(),
+                ),
+    );
+    if (s == "outside") {
+      ScaffoldMessenger.of(Get.context!).showSnackBar(const SnackBar(
+          content: Text(
+              "Your current location doesn't match the task location. You won't be able to start the task!")));
 
+      return;
+    }
     String dateTimeString = '';
     final dio = Dio();
     try {

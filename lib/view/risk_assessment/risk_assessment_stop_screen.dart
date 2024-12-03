@@ -619,6 +619,7 @@ class _RiskAssesmentStopScreenState extends State<RiskAssesmentStopScreen> {
                                 setState(() {
                                   isLoading = true;
                                 });
+                                
                                 await riskAssessmentController.saveTaskStop(
                                     tcontoller.selectedStatusValue.value,
                                     riskAssessmentController
