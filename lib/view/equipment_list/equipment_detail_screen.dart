@@ -6,6 +6,7 @@ import 'package:darlsco/view/training/view_certificate_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class EquipmentDetailScreen extends StatefulWidget {
   const EquipmentDetailScreen({super.key, required this.equipmentId});
@@ -46,7 +47,7 @@ class _EquipmentDetailScreenState extends State<EquipmentDetailScreen> {
         preferredSize: Size(70.w, 70.h),
         child: commonBackgroundLinearColor(
           childWidget: AppBar(
-            title: Text('Certificate List'),
+            // title: Text('Certificate List'),
             leading: IconButton(
                 onPressed: () {
                   homeController.inspectionDropdownValue.value = '';
@@ -79,58 +80,92 @@ class _EquipmentDetailScreenState extends State<EquipmentDetailScreen> {
                   );
                 }
                 {
-                  return ListView(
-                    padding: const EdgeInsets.all(18),
-                    children: List.generate(
-                      homeController
-                              .equipmentDetailModel.returnvalue?.leads.length ??
-                          0,
-                      (index) => Card(
-                        color: Colors.white,
-                        surfaceTintColor: Colors.white,
-                        child: Padding(
-                          padding: const EdgeInsets.all(13.0),
-                          child: Column(
-                            children: [
-                              element(
-                                keyText: 'Certificate No.',
-                                valueText:
-                                homeController
-                                    .equipmentDetailModel
-                                    .returnvalue!
-                                    .leads[index]
-                                    .certificateNumber,
+                  return RefreshIndicator(
+                    onRefresh: ()=>getData(),
+                    child: ListView(
+                      padding: const EdgeInsets.all(18),
+                      children: [
+                        RichText(
+                            text: TextSpan(children: [
+                          TextSpan(
+                            text: 'Certificate',
+                            style: GoogleFonts.roboto(
+                                color: ColorResources.color294C73,
+                                fontSize: 40.sp,
+                                fontWeight: FontWeight.w700),
+                          ),
+                          TextSpan(
+                            text: ' List',
+                            style: GoogleFonts.roboto(
+                              fontSize: 40.sp,
+                              fontWeight: FontWeight.w700,
+                              foreground: Paint()
+                                ..style = PaintingStyle.stroke
+                                ..strokeWidth = 1
+                                ..color = ColorResources.color294C73,
+                            ),
+                          ),
+                        ])),
+                        SizedBox(height: 50),
+                        ListView.builder(
+                          shrinkWrap: true,
+                          physics: NeverScrollableScrollPhysics(),
+                          itemCount: homeController.equipmentDetailModel
+                                  .returnvalue?.leads.length ??
+                              0,
+                          itemBuilder: (c, index) => Card(
+                            color: Colors.white,
+                            surfaceTintColor: Colors.white,
+                            child: Padding(
+                              padding: const EdgeInsets.all(13.0),
+                              child: Column(
+                                children: [
+                                  element(
+                                    keyText: 'Certificate No.',
+                                    valueText: homeController
+                                        .equipmentDetailModel
+                                        .returnvalue!
+                                        .leads[index]
+                                        .certificateNumber,
+                                  ),
+                                  element(
+                                      keyText: 'Issue Date',
+                                      valueText: homeController
+                                          .equipmentDetailModel
+                                          .returnvalue!
+                                          .leads[index]
+                                          .issueDateG),
+                                  //      element(
+                                  // keyText: 'Period From',
+                                  // valueText: homeController
+                                  //     .equipmentDetailModel
+                                  //     .returnvalue!
+                                  //     .leads[index]
+                                  //     .periodFromG),
+                                  element(
+                                      keyText: 'Expiry Date',
+                                      valueText: homeController
+                                          .equipmentDetailModel
+                                          .returnvalue!
+                                          .leads[index]
+                                          .periodToG),
+                                  element(
+                                    name: homeController
+                                        .equipmentDetailModel
+                                        .returnvalue!
+                                        .leads[index]
+                                        .certificateNumber,
+                                    keyText: '',
+                                    pdfPath: homeController.equipmentDetailModel
+                                        .returnvalue!.leads[index].fileKey,
+                                    valueText: '',
+                                  ),
+                                ],
                               ),
-                              element(
-                                  keyText: 'Issue Date',
-                                  valueText: homeController.equipmentDetailModel
-                                      .returnvalue!.leads[index].issueDateG),
-                              //      element(
-                              // keyText: 'Period From',
-                              // valueText: homeController
-                              //     .equipmentDetailModel
-                              //     .returnvalue!
-                              //     .leads[index]
-                              //     .periodFromG),
-                              element(
-                                  keyText: 'Expiry Date',
-                                  valueText: homeController.equipmentDetailModel
-                                      .returnvalue!.leads[index].periodToG),
-                              element(
-                                name: homeController
-                                    .equipmentDetailModel
-                                    .returnvalue!
-                                    .leads[index]
-                                    .certificateNumber,
-                                keyText: '',
-                                pdfPath: homeController.equipmentDetailModel
-                                    .returnvalue!.leads[index].fileKey,
-                                valueText: '',
-                              ),
-                            ],
+                            ),
                           ),
                         ),
-                      ),
+                      ],
                     ),
                   );
                 }

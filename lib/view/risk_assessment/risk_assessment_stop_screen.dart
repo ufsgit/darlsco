@@ -459,7 +459,8 @@ class _RiskAssesmentStopScreenState extends State<RiskAssesmentStopScreen> {
                   print('iygiyuibuyui $data');
                   if (data.isNotEmpty) {
                     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                        content: Text("Members didn't completed task")));
+                        content: Text(
+                            "You can stop your task only after stopping another team member in this task.")));
                     return;
                   }
                 }
@@ -595,7 +596,7 @@ class _RiskAssesmentStopScreenState extends State<RiskAssesmentStopScreen> {
                                       '38'
                               ? 'Ok'
                               : 'Stop'),
-                          onPressed: () async{
+                          onPressed: () async {
                             Get.back();
 
                             if (tcontoller.getAllStaffStatus
@@ -618,7 +619,7 @@ class _RiskAssesmentStopScreenState extends State<RiskAssesmentStopScreen> {
                                 setState(() {
                                   isLoading = true;
                                 });
-                               await riskAssessmentController.saveTaskStop(
+                                await riskAssessmentController.saveTaskStop(
                                     tcontoller.selectedStatusValue.value,
                                     riskAssessmentController
                                         .stopnoteController.text);
@@ -648,7 +649,7 @@ class _RiskAssesmentStopScreenState extends State<RiskAssesmentStopScreen> {
                                   upcomingInspectionController
                                       .taskInitFunction(context);
 
-                                  Get.to(() =>  TrainingInspectionScreen(
+                                  Get.to(() => TrainingInspectionScreen(
                                       selectedIndex:
                                           homeController.mainTabIndex));
                                 },

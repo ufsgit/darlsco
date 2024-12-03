@@ -118,7 +118,11 @@ class HomePageState extends State<HomePage>
   }
 
   void _handleTabSelection() {
-    setState(() {});
+    try {
+      setState(() {});
+    } catch (e) {
+      
+    }
   }
 
   getData() {

@@ -18,13 +18,15 @@ import 'package:url_launcher/url_launcher.dart';
 class PDFViewerPage extends StatefulWidget {
   final String pdfPath;
   final String fileName;
-  const PDFViewerPage({required this.pdfPath, super.key, required this.fileName});
+  const PDFViewerPage(
+      {required this.pdfPath, super.key, required this.fileName});
 
   @override
   _PDFViewerPageState createState() => _PDFViewerPageState();
 }
 
-class _PDFViewerPageState extends State<PDFViewerPage> with WidgetsBindingObserver {
+class _PDFViewerPageState extends State<PDFViewerPage>
+    with WidgetsBindingObserver {
   String? localPath;
   bool isIinitstate = false;
   int fileNumber = 1;
@@ -34,7 +36,7 @@ class _PDFViewerPageState extends State<PDFViewerPage> with WidgetsBindingObserv
     super.initState();
     WidgetsBinding.instance.addObserver(this);
 
-    _downloadAndSavePdf(isInitState: isIinitstate);
+    downloadAndSavePdf(isInitState: isIinitstate);
   }
 
   @override
@@ -47,7 +49,7 @@ class _PDFViewerPageState extends State<PDFViewerPage> with WidgetsBindingObserv
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.paused) {
       print('App is in background');
-      _downloadAndSavePdf(isInitState: isIinitstate);
+      downloadAndSavePdf(isInitState: isIinitstate);
       Get.back();
     } else if (state == AppLifecycleState.resumed) {
       print('App is in foreground');
@@ -55,7 +57,7 @@ class _PDFViewerPageState extends State<PDFViewerPage> with WidgetsBindingObserv
     }
   }
 
-  Future<bool> _downloadAndSavePdf({required bool isInitState}) async {
+  Future<bool> downloadAndSavePdf({required bool isInitState}) async {
     // PermissionStatus photoStatus =await Permission.photos.status;
     PermissionStatus storage = await Permission.storage.status;
     if (await Permission.storage.isLimited) {
@@ -84,7 +86,8 @@ class _PDFViewerPageState extends State<PDFViewerPage> with WidgetsBindingObserv
         log('SDK ${android.version.sdkInt}');
         if (android.version.sdkInt >= 31) {
           log('true');
-          dir = await getExternalStorageDirectory() ?? Directory('/storage/emulated/0/Download');
+          dir = await getExternalStorageDirectory() ??
+              Directory('/storage/emulated/0/Download');
         } else {
           dir = Directory('/storage/emulated/0/Download');
         }
@@ -96,12 +99,19 @@ class _PDFViewerPageState extends State<PDFViewerPage> with WidgetsBindingObserv
             String path = filesList[i].path;
             try {
               fileNumbers.add(
-                int.parse(path.split('/').last.split('-').last.replaceRange(1, null, ' ').trim()),
+                int.parse(path
+                    .split('/')
+                    .last
+                    .split('-')
+                    .last
+                    .replaceRange(1, null, ' ')
+                    .trim()),
               );
             } catch (e) {}
           }
           log('FileList $filesList');
-          int highestNumber = fileNumbers.reduce((value, element) => value > element ? value : element);
+          int highestNumber = fileNumbers
+              .reduce((value, element) => value > element ? value : element);
           setState(() {
             fileNumber = highestNumber + 1;
           });
@@ -126,15 +136,25 @@ class _PDFViewerPageState extends State<PDFViewerPage> with WidgetsBindingObserv
           String path = filesList[i].path;
           try {
             fileNumbers.add(
-              int.parse(path.split('/').last.split('-').last.replaceRange(1, null, ' ').trim()),
+              int.parse(path
+                  .split('/')
+                  .last
+                  .split('-')
+                  .last
+                  .replaceRange(1, null, ' ')
+                  .trim()),
             );
           } catch (e) {}
         }
         log('FileList $filesList');
-        int highestNumber = fileNumbers.reduce((value, element) => value > element ? value : element);
-        setState(() {
-          fileNumber = highestNumber + 1;
-        });
+        try {
+          int highestNumber = fileNumbers
+              .reduce((value, element) => value > element ? value : element);
+
+          setState(() {
+            fileNumber = highestNumber + 1;
+          });
+        } catch (e) {}
 
         print('sdffrw ${filesList.length}');
       }
@@ -179,16 +199,20 @@ class _PDFViewerPageState extends State<PDFViewerPage> with WidgetsBindingObserv
                   AndroidDeviceInfo android = await plugin.androidInfo;
 
                   if (android.version.sdkInt >= 33) {
-                    await launchUrl(Uri.parse('https://darlsco-files.s3.ap-south-1.amazonaws.com/${widget.pdfPath}'));
+                    await launchUrl(Uri.parse(
+                        'https://darlsco-files.s3.ap-south-1.amazonaws.com/${widget.pdfPath}'));
                   } else {
-                    await _downloadAndSavePdf(isInitState: false).then((v) => Get.snackbar(
+                    await downloadAndSavePdf(isInitState: false).then((v) =>
+                        Get.snackbar(
                             '${widget.fileName}-$fileNumber ${v ? 'Downloaded' : "Can't Download"}',
                             // '${widget.fileName} ${v ? 'Downloaded' : "Can't Download"}',
                             v ? 'Tap to open ' : '',
                             duration: const Duration(seconds: 10),
-                            backgroundColor: v ? ColorResources.colorBlue : Colors.red,
+                            backgroundColor:
+                                v ? ColorResources.colorBlue : Colors.red,
                             colorText: Colors.white,
-                            snackPosition: SnackPosition.BOTTOM, onTap: (s) async {
+                            snackPosition: SnackPosition.BOTTOM,
+                            onTap: (s) async {
                           if (v) {
                             if (Platform.isAndroid) {
                               final result = await OpenFilex.open(localPath!);
@@ -211,14 +235,17 @@ class _PDFViewerPageState extends State<PDFViewerPage> with WidgetsBindingObserv
                         }));
                   }
                 } else {
-                  _downloadAndSavePdf(isInitState: false).then((v) => Get.snackbar(
+                  downloadAndSavePdf(isInitState: false).then((v) =>
+                      Get.snackbar(
                           '${widget.fileName}-$fileNumber ${v ? 'Downloaded' : "Can't Download"}',
                           // '${widget.fileName} ${v ? 'Downloaded' : "Can't Download"}',
                           v ? 'Tap to open ' : '',
                           duration: const Duration(seconds: 10),
-                          backgroundColor: v ? ColorResources.colorBlue : Colors.red,
+                          backgroundColor:
+                              v ? ColorResources.colorBlue : Colors.red,
                           colorText: Colors.white,
-                          snackPosition: SnackPosition.BOTTOM, onTap: (s) async {
+                          snackPosition: SnackPosition.BOTTOM,
+                          onTap: (s) async {
                         if (v) {
                           if (Platform.isAndroid) {
                             final result = await OpenFilex.open(localPath!);
@@ -264,8 +291,8 @@ class _PDFViewerPageState extends State<PDFViewerPage> with WidgetsBindingObserv
                 padding: const EdgeInsets.only(left: 8),
                 child: Icon(
                   Icons.arrow_back_ios,
-                  size: 30.h,
-                  color: ColorResources.color294C73,
+                  // size: 30.h,
+                  // color: ColorResources.color294C73,
                 ),
               ),
             ),
@@ -275,7 +302,12 @@ class _PDFViewerPageState extends State<PDFViewerPage> with WidgetsBindingObserv
             //  commonBackgroundLinearColorCart(
             //     childWidget:
             localPath != null
-                ? PDFView(filePath: localPath)
+                ? commonBackgroundLinearColor(
+                  childWidget: PDFView(
+                    
+                    backgroundColor: Colors.grey.shade300,
+                  filePath: localPath),
+                )
                 : const Column(
                     children: [
                       CircularProgressIndicator(),

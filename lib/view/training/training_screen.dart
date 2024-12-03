@@ -1,5 +1,6 @@
 import 'package:darlsco/controller/tainning/trainnig_controller.dart';
 import 'package:darlsco/controller/upcoming_inspections/upcoming_inspection_controller.dart';
+import 'package:darlsco/core/constants/common_widgets.dart';
 import 'package:darlsco/view/training/training_screen_tab.dart';
 import 'package:darlsco/view/widgets/responsive_widget.dart';
 import 'package:flutter/material.dart';
@@ -7,18 +8,58 @@ import 'package:get/get.dart';
 
 import 'training_screen_mobile.dart';
 
-class TrainningScreen extends StatelessWidget {
-  TrainningScreen({super.key});
+class TrainningScreen extends StatefulWidget {
+  TrainningScreen({super.key, required this.status, required this.taskId});
+  final String status;
+  final int taskId;
+  @override
+  State<TrainningScreen> createState() => _TrainningScreenState();
+}
 
+class _TrainningScreenState extends State<TrainningScreen> {
   final UpcomingInspectionsController upcomingInspectionsController =
       Get.put(UpcomingInspectionsController());
-  final TrainingController tcontroller = Get.put(TrainingController());
 
+  final TrainingController tcontroller = Get.put(TrainingController());
+  bool isLoading = false;
+  @override
+  initState() {
+    super.initState();
+    getData();
+  }
+
+  getData() async {
+    try {
+      setState(() {
+        isLoading = true;
+      });
+      await upcomingInspectionsController.getUserTaskDetails(
+          status: widget.status, taskId: widget.taskId);
+    } catch (e) {
+    } finally {
+      setState(() {
+        isLoading = false;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    return const ResponsiveWidget(
-        mobile: TrainingScreenMobile(), tab:  TrainningScreenTab());
+    return ResponsiveWidget(
+        mobile: isLoading
+            ? commonBackgroundLinearColor(
+                childWidget: Center(
+                  child: CircularProgressIndicator(),
+                ),
+              )
+            : TrainingScreenMobile(),
+        tab: isLoading
+            ? commonBackgroundLinearColor(
+                childWidget: Center(
+                  child: CircularProgressIndicator(),
+                ),
+              )
+            : TrainningScreenTab());
 
     //   return Scaffold(
     //     appBar: PreferredSize(

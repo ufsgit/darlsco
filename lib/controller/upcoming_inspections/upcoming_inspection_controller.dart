@@ -86,8 +86,8 @@ class UpcomingInspectionsController extends GetxController {
       await upcomingInspectionsController.getYesterdayTaskDetails(true);
       if (homeController.isuserLogin.value == true ||
           homeController.isTraineeLogin.value == true) {
-        Timer.periodic(const Duration(minutes: 1), (timer) {
-          homeController.checkUserTypeChanged(
+        Timer.periodic(const Duration(minutes: 1), (timer)async {
+         await homeController.checkUserTypeChanged(
             context,
           );
         });
@@ -843,7 +843,10 @@ class UpcomingInspectionsController extends GetxController {
                     : false;
 
             if (!isNotPageNavigation) {
-              Get.to(() => TrainningScreen());
+              Get.to(() => TrainningScreen(
+                status: status.toString(),
+                taskId: taskId,
+              ));
             }
           }
 
@@ -997,7 +1000,10 @@ class UpcomingInspectionsController extends GetxController {
                 Get.to(() => RiskAssesmentStopScreen(
                     taskId: taskId, taskStatusName: status ?? ''));
               } else {
-                Get.to(() => TrainningScreen());
+                Get.to(() => TrainningScreen(
+                  status: status.toString(),
+                  taskId: taskId,
+                ));
               }
             }
           }

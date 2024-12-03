@@ -78,7 +78,7 @@ dependencies:
   google_places_flutter: ^2.0.9
   dropdown_search: ^6.0.1
   dropdown_button2: ^2.3.9
-  connectivity_plus: any
+  connectivity_plus: ^6.1.0
 
   intl: 
   version_check: ^0.4.0

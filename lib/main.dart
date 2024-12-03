@@ -4,10 +4,12 @@ import 'dart:isolate';
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:darlsco/app_%20config/all_countries.dart';
 import 'package:darlsco/controller/login/login_controller.dart';
+import 'package:darlsco/controller/network/network_helper.dart';
 import 'package:darlsco/firebase_options.dart';
 import 'package:darlsco/http/http_urls.dart';
 import 'package:darlsco/notification.dart';
 import 'package:darlsco/view/home/bottom_navigation_screen.dart';
+import 'package:darlsco/view/telr/network_helper_class.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:location/location.dart' as loc;
 
@@ -30,36 +32,47 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 class MyHttpOverrides extends HttpOverrides {
   @override
   HttpClient createHttpClient(SecurityContext? context) {
-    return super.createHttpClient(context)..badCertificateCallback = (X509Certificate cert, String host, int port) => true;
+    return super.createHttpClient(context)
+      ..badCertificateCallback =
+          (X509Certificate cert, String host, int port) => true;
   }
 }
 
-final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
+final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey =
+    GlobalKey<ScaffoldMessengerState>();
 final messageStreamController = BehaviorSubject<RemoteMessage>();
-const initializationSettings = InitializationSettings(android: AndroidInitializationSettings('@mipmap/ic_launcher'));
+const initializationSettings = InitializationSettings(
+    android: AndroidInitializationSettings('@mipmap/ic_launcher'));
 
 SendPort? uiSendPort;
 final callbackPort = ReceivePort();
-
+bool isConnected =true;
 Future<void> main() async {
   print(HttpUrls.baseUrl);
   WidgetsFlutterBinding.ensureInitialized();
-  
 
   if (Firebase.apps.isEmpty) {
-    await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+    await Firebase.initializeApp(
+        options: DefaultFirebaseOptions.currentPlatform);
   }
   await FirebaseNotificationService.initialize();
+  // NetworChecker().initConnectivity();
+
+  // NetworChecker.connectivitySubscription = NetworChecker
+  //     .connectivity.onConnectivityChanged
+  //     .listen(NetworChecker().updateConnectionStatus);
 
   runApp(const MyApp());
 }
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
-      designSize: MediaQuery.of(context).size.width > 615 && MediaQuery.of(context).size.width < 1440
+      designSize: MediaQuery.of(context).size.width > 615 &&
+              MediaQuery.of(context).size.width < 1440
           ? const Size(834, 700)
           : MediaQuery.of(context).size.width < 615
               ? const Size(390, 890.2446)
@@ -69,13 +82,14 @@ class MyApp extends StatelessWidget {
       builder: (_, child) {
         return GetMaterialApp(
           title: 'Darlsco',
-
           debugShowCheckedModeBanner: false,
-          
           initialRoute: '/',
           theme: ThemeData(
             scaffoldBackgroundColor: const Color(0xFFF4F7FA),
-            elevatedButtonTheme: ElevatedButtonThemeData(style: ElevatedButton.styleFrom(backgroundColor: Colors.blue.shade700, foregroundColor: Colors.white)),
+            elevatedButtonTheme: ElevatedButtonThemeData(
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.blue.shade700,
+                    foregroundColor: Colors.white)),
             dialogTheme: const DialogTheme(
               backgroundColor: Colors.white,
               surfaceTintColor: Colors.white,
@@ -183,18 +197,15 @@ getcountry(BuildContext context) async {
 
       if (storageStatus.isDenied) {}
       storageStatus = await Permission.storage.request();
-      
 
       if (!locationStatus.isDenied) {
-        
-        homeController.currentCountryCode.value = await getCountryName(context) ?? '';
-
+        homeController.currentCountryCode.value =
+            await getCountryName(context) ?? '';
       }
     }
-  } catch (e) {
-  
-  }
+  } catch (e) {}
 }
+
 Future<bool> requestLocationPermission(BuildContext context) async {
   final loc.Location location = loc.Location();
   bool serviceStatus = await location.serviceEnabled();
@@ -206,27 +217,30 @@ Future<bool> requestLocationPermission(BuildContext context) async {
   } else {
     return false;
   }
- 
 }
 
 Future<String?> getCountryName(BuildContext context) async {
   try {
     bool isLocationAccessed = await requestLocationPermission(context);
     if (isLocationAccessed) {
-      Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
-      List<Placemark> address = await placemarkFromCoordinates(position.latitude, position.longitude);
+      Position position = await Geolocator.getCurrentPosition(
+          desiredAccuracy: LocationAccuracy.high);
+      List<Placemark> address =
+          await placemarkFromCoordinates(position.latitude, position.longitude);
 
       Placemark placeMark = address.first;
       String country = placeMark.isoCountryCode ?? '';
 
-      loginController.countryCode.value = Countries.allCountries.where((item) => item['code'] == placeMark.isoCountryCode.toString()).toList()[0]['dial_code'] ?? '';
+      loginController.countryCode.value = Countries.allCountries
+              .where(
+                  (item) => item['code'] == placeMark.isoCountryCode.toString())
+              .toList()[0]['dial_code'] ??
+          '';
       print(placeMark.administrativeArea);
       return country;
     } else {
       return null;
     }
-  } catch (e) {
-  }
+  } catch (e) {}
   return null;
 }
-

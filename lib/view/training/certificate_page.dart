@@ -33,18 +33,16 @@ class _CertificatePageState extends State<CertificatePage> {
       _downloadProgress = 0.0;
     });
 
-  try {
-      String ?filePath;
+    try {
+      String? filePath;
       if (Platform.isAndroid) {
-        var dir =Directory('/storage/emulated/0/Download');
-               filePath = "${dir.path}/$fileName";
-
+        var dir = Directory('/storage/emulated/0/Download');
+        filePath = "${dir.path}/$fileName";
       } else {
         var dir = await getApplicationDocumentsDirectory();
-       filePath = "${dir.path}/$fileName";
-    
+        filePath = "${dir.path}/$fileName";
       }
-        await _dio.download(
+      await _dio.download(
         url,
         filePath,
         onReceiveProgress: (received, total) {
@@ -97,151 +95,130 @@ class _CertificatePageState extends State<CertificatePage> {
                   SizedBox(
                     height: 24.h,
                   ),
-                  GetBuilder<TrainingControllerHomee>(
-                    init: trainingHomeController,
-                    builder: (contr) {
-                      return ListView.separated(
-                        separatorBuilder: (context, index) {
-                          return Container(
-                            height: 16.h,
-                          );
-                        },
-                        itemCount: contr.certificateDetails.length,
-                        shrinkWrap: true,
-                        physics: const ClampingScrollPhysics(),
-                        itemBuilder: (context, index) {
-                          final certificate = contr.certificateDetails[index];
-                          final hasCertificate =
-                              certificate.certificate.isNotEmpty;
+                  trainingHomeController.certificateDetails.isEmpty
+                      ? Container(
+                        height: MediaQuery.sizeOf(context).height/1.3,
+                        child: Center(
+                            child: Text('No Data found'),
+                          ),
+                      )
+                      : GetBuilder<TrainingControllerHomee>(
+                          init: trainingHomeController,
+                          builder: (contr) {
+                            return ListView.separated(
+                              separatorBuilder: (context, index) {
+                                return Container(
+                                  height: 16.h,
+                                );
+                              },
+                              itemCount: contr.certificateDetails.length,
+                              shrinkWrap: true,
+                              physics: const ClampingScrollPhysics(),
+                              itemBuilder: (context, index) {
+                                final certificate =
+                                    contr.certificateDetails[index];
+                                final hasCertificate =
+                                    certificate.certificate.isNotEmpty;
 
-                          return Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(26),
-                              color: ColorResources.whiteColor,
-                            ),
-                            child: Align(
-                              alignment: Alignment.topLeft,
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 16, vertical: 24),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceAround,
-                                  children: [
-                                    Text(
-                                      certificate.trainingCourseName,
-                                      style: GoogleFonts.dmSans(
-                                        color: ColorResources.color294C73,
-                                        fontSize: 18.sp.h,
-                                        fontWeight: FontWeight.w700,
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      height: 8.h.w,
-                                    ),
-                                    Container(
-                                      height: 90.h,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(15),
-                                        color: ColorResources.colorF1F8FF,
-                                      ),
-                                      child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 16, vertical: 8),
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Row(
-                                              children: [
-                                                Expanded(
-                                                  child: Text(
-                                                    certificate.traineeName,
-                                                    style: GoogleFonts.dmSans(
-                                                      color: ColorResources
-                                                          .color294C73,
-                                                      fontSize: 17.sp.h,
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                    ),
-                                                  ),
-                                                ),
-                                                containerWidget(
-                                                  text: 'Passed',
-                                                  height: 22.w.h,
-                                                  width: 65.w.h,
-                                                  bgColor: ColorResources
-                                                      .colorD2EAFF,
-                                                  textColor:
-                                                      ColorResources.colorBlue,
-                                                ),
-                                              ],
+                                return Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(26),
+                                    color: ColorResources.whiteColor,
+                                  ),
+                                  child: Align(
+                                    alignment: Alignment.topLeft,
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 16, vertical: 24),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceAround,
+                                        children: [
+                                          Text(
+                                            certificate.trainingCourseName,
+                                            style: GoogleFonts.dmSans(
+                                              color: ColorResources.color294C73,
+                                              fontSize: 18.sp.h,
+                                              fontWeight: FontWeight.w700,
                                             ),
-                                            Row(
-                                              children: [
-                                                certificateButtonWidget(
-                                                  onTap: hasCertificate
-                                                      ? () {
-                                                          Get.to(() => PDFViewerPage(
-                                                             fileName: certificate.trainingCourseName,
-                                                              pdfPath: certificate
-                                                                  .certificate));
-                                                        }
-                                                      : null,
-                                                  text: 'View Certificate',
-                                                  color: hasCertificate
-                                                      ? ColorResources
-                                                          .whiteColor
-                                                      : Colors.grey
-                                                          .withOpacity(.6),
-                                                  textColor: hasCertificate
-                                                      ? ColorResources
-                                                          .colorFF0950A0
-                                                      : ColorResources
-                                                          .whiteColor,
-                                                  borderColor: hasCertificate
-                                                      ? ColorResources
-                                                          .colorFF0950A0
-                                                      : Colors.grey
-                                                          .withOpacity(.6),
-                                                ),
-                                                SizedBox(
-                                                  width: 10.w,
-                                                ),
-                                                _isDownloading
-                                                    ? CircularProgressIndicator(
-                                                        value:
-                                                            _downloadProgress,
-                                                        valueColor:
-                                                            const AlwaysStoppedAnimation<
-                                                                Color>(
-                                                          ColorResources
-                                                              .colorFF0950A0,
+                                          ),
+                                          SizedBox(
+                                            height: 8.h.w,
+                                          ),
+                                          Container(
+                                            height: 90.h,
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(15),
+                                              color: ColorResources.colorF1F8FF,
+                                            ),
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 16,
+                                                      vertical: 8),
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  Row(
+                                                    children: [
+                                                      Expanded(
+                                                        child: Text(
+                                                          certificate
+                                                              .traineeName,
+                                                          style: GoogleFonts
+                                                              .dmSans(
+                                                            color: ColorResources
+                                                                .color294C73,
+                                                            fontSize: 17.sp.h,
+                                                            fontWeight:
+                                                                FontWeight.w500,
+                                                          ),
                                                         ),
-                                                      )
-                                                    : certificateButtonWidget(
+                                                      ),
+                                                      containerWidget(
+                                                        text: 'Passed',
+                                                        height: 22.w.h,
+                                                        width: 65.w.h,
+                                                        bgColor: ColorResources
+                                                            .colorD2EAFF,
+                                                        textColor:
+                                                            ColorResources
+                                                                .colorBlue,
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  Row(
+                                                    children: [
+                                                      certificateButtonWidget(
                                                         onTap: hasCertificate
                                                             ? () {
-                                                                downloadCertificate(
-                                                                    'https://darlsco-files.s3.ap-south-1.amazonaws.com/${certificate.certificate}',
-                                                                    "certificate_${index + 1}.pdf");
+                                                                Get.to(() => PDFViewerPage(
+                                                                    fileName:
+                                                                        certificate
+                                                                            .trainingCourseName,
+                                                                    pdfPath:
+                                                                        certificate
+                                                                            .certificate));
                                                               }
                                                             : null,
                                                         text:
-                                                            'Download certificate',
+                                                            'View Certificate',
                                                         color: hasCertificate
                                                             ? ColorResources
-                                                                .colorFF0950A0
+                                                                .whiteColor
                                                             : Colors.grey
                                                                 .withOpacity(
                                                                     .6),
-                                                        textColor:
-                                                            hasCertificate
-                                                                ? ColorResources
-                                                                    .whiteColor
-                                                                : ColorResources
-                                                                    .whiteColor,
+                                                        textColor: hasCertificate
+                                                            ? ColorResources
+                                                                .colorFF0950A0
+                                                            : ColorResources
+                                                                .whiteColor,
                                                         borderColor: hasCertificate
                                                             ? ColorResources
                                                                 .colorFF0950A0
@@ -249,21 +226,64 @@ class _CertificatePageState extends State<CertificatePage> {
                                                                 .withOpacity(
                                                                     .6),
                                                       ),
-                                              ],
+                                                      SizedBox(
+                                                        width: 10.w,
+                                                      ),
+                                                      _isDownloading
+                                                          ? CircularProgressIndicator(
+                                                              value:
+                                                                  _downloadProgress,
+                                                              valueColor:
+                                                                  const AlwaysStoppedAnimation<
+                                                                      Color>(
+                                                                ColorResources
+                                                                    .colorFF0950A0,
+                                                              ),
+                                                            )
+                                                          : certificateButtonWidget(
+                                                              onTap:
+                                                                  hasCertificate
+                                                                      ? () {
+                                                                          downloadCertificate(
+                                                                              'https://darlsco-files.s3.ap-south-1.amazonaws.com/${certificate.certificate}',
+                                                                              "certificate_${index + 1}.pdf");
+                                                                        }
+                                                                      : null,
+                                                              text:
+                                                                  'Download certificate',
+                                                              color: hasCertificate
+                                                                  ? ColorResources
+                                                                      .colorFF0950A0
+                                                                  : Colors.grey
+                                                                      .withOpacity(
+                                                                          .6),
+                                                              textColor: hasCertificate
+                                                                  ? ColorResources
+                                                                      .whiteColor
+                                                                  : ColorResources
+                                                                      .whiteColor,
+                                                              borderColor: hasCertificate
+                                                                  ? ColorResources
+                                                                      .colorFF0950A0
+                                                                  : Colors.grey
+                                                                      .withOpacity(
+                                                                          .6),
+                                                            ),
+                                                    ],
+                                                  ),
+                                                ],
+                                              ),
                                             ),
-                                          ],
-                                        ),
+                                          ),
+                                        ],
                                       ),
                                     ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          );
-                        },
-                      );
-                    },
-                  ),
+                                  ),
+                                );
+                              },
+                            );
+                          },
+                        ),
                 ],
               ),
             ),

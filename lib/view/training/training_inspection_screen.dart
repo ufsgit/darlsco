@@ -3,6 +3,7 @@ import 'package:darlsco/controller/upcoming_inspections/upcoming_inspection_cont
 import 'package:darlsco/core/constants/common_widgets.dart';
 import 'package:darlsco/view/home/bottom_navigation_screen.dart';
 import 'package:darlsco/view/training/task_page.dart';
+import 'package:darlsco/view/training/training_screen.dart';
 import 'package:darlsco/view/training/widgets/bottom_navigation_widget.dart';
 import 'package:darlsco/view/up_coming_inspectons/up_coming_inspections_screen.dart';
 
@@ -26,6 +27,7 @@ class TrainingInspectionScreen extends StatefulWidget {
 class _TrainingInspectionScreenState extends State<TrainingInspectionScreen> {
   final upcomingInspectionsController =
       Get.put(UpcomingInspectionsController());
+      bool isLoading =false;
   // final TrainingControllerHomee trainingControllerHomee =
   //     Get.put(TrainingControllerHomee());
   // final TrainingController tcontroller = Get.put(TrainingController());
@@ -506,6 +508,7 @@ class _TrainingInspectionScreenState extends State<TrainingInspectionScreen> {
                                   }),
                                 ),
                               ),
+                            
                               Container(
                                 padding: EdgeInsets.all(15.sp),
                                 // color: Colors.amber,
@@ -555,9 +558,15 @@ class _TrainingInspectionScreenState extends State<TrainingInspectionScreen> {
                                             ),
                                             Align(
                                               alignment: Alignment.centerRight,
-                                              child: IconButton(
+                                              child:isLoading? CircularProgressIndicator(
+                                                strokeWidth: 2,
+                                              ):  IconButton(
                                                 onPressed: () async {
-                                                  if (upcomingInspectionsController
+                                                  try {
+                                                     setState(() {
+                                                      isLoading=true;
+                                                    });
+                                                    if (upcomingInspectionsController
                                                           .startDatePickController
                                                           .text
                                                           .isNotEmpty &&
@@ -629,6 +638,13 @@ class _TrainingInspectionScreenState extends State<TrainingInspectionScreen> {
                                                             const SnackBar(
                                                                 content: Text(
                                                                     'From Date and To Date is Required!')));
+                                                  }
+                                                  } catch (e) {
+                                                    
+                                                  }finally{
+                                                    setState(() {
+                                                      isLoading=false;
+                                                    });
                                                   }
                                                 },
                                                 icon: Container(
@@ -920,6 +936,7 @@ class _TrainingInspectionScreenState extends State<TrainingInspectionScreen> {
                                   }),
                                 ),
                               ),
+                           
                               Container(
                                 padding: EdgeInsets.all(15.sp),
                                 // color: Colors.amber,
@@ -967,11 +984,18 @@ class _TrainingInspectionScreenState extends State<TrainingInspectionScreen> {
                                                 ),
                                               ],
                                             ),
+                                            
                                             Align(
                                               alignment: Alignment.centerRight,
-                                              child: IconButton(
+                                              child:isLoading? CircularProgressIndicator(
+                                                strokeWidth: 2,
+                                              ): IconButton(
                                                 onPressed: () async {
-                                                  if (upcomingInspectionsController
+                                                 try {
+                                                  setState(() {
+                                                    isLoading=true;
+                                                  }); 
+                                                    if (upcomingInspectionsController
                                                           .startDatePickController
                                                           .text
                                                           .isNotEmpty &&
@@ -1044,7 +1068,15 @@ class _TrainingInspectionScreenState extends State<TrainingInspectionScreen> {
                                                                 content: Text(
                                                                     'From Date and To Date is Required!')));
                                                   }
-                                                },
+                                               
+                                                 } catch (e) {
+                                                  
+                                                 }finally{
+                                                  setState(() {
+                                                    isLoading=false;
+                                                  }); 
+                                                 }
+                                                  },
                                                 icon: Container(
                                                   width: 84.w,
                                                   height: 32.h,
@@ -1210,10 +1242,10 @@ class _TrainingInspectionScreenState extends State<TrainingInspectionScreen> {
               borderRadius: BorderRadius.circular(6.sp),
               onLongPress: () {},
               onTap: () {
-                upcomingInspectionsController.isScreenLoading.value = true;
-                upcomingInspectionsController.getUserTaskDetails(
-                    status: taskListData[index]['Task_Status_Name'],
-                    taskId: taskListData[index]['Task_Id']);
+                // upcomingInspectionsController.isScreenLoading.value = true;
+                
+               Get.to(()=>TrainningScreen( status: taskListData[index]['Task_Status_Name'],
+                    taskId: taskListData[index]['Task_Id']));
               },
               child: Container(
                 width: 367.w,

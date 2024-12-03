@@ -36,7 +36,7 @@ class FirebaseNotificationService {
           _firebaseMessagingBackgroundHandler);
 
       // Request permissions and initialize settings
-      await _setupNotifications();
+      // await _setupNotifications();
 
       // Handle foreground messages
       await _setupForegroundMessaging();
@@ -224,16 +224,16 @@ class FirebaseNotificationService {
 
   static Future<void> getNotificationPermission() async {
     try {
-      final notificationStatus = await Permission.notification.status;
-      log('Notification permission status: $notificationStatus');
+      // final notificationStatus = await Permission.notification.status;
+      // log('Notification permission status: $notificationStatus');
 
-      if (notificationStatus.isDenied) {
-        log('Requesting notification permission...');
-        final status = await Permission.notification.request();
-        if (status.isDenied) {
-          log('Notification permission denied');
-        }
-      }
+      // if (notificationStatus.isDenied) {
+      //   log('Requesting notification permission...');
+      //   final status = await Permission.notification.request();
+      //   if (status.isDenied) {
+      //     log('Notification permission denied');
+      //   }
+      // }
     } catch (e) {
       log('Error getting Notification permission', error: e);
     }
@@ -242,6 +242,8 @@ class FirebaseNotificationService {
   // Method to subscribe to topics
   static Future<void> subscribeToTopic(
       {required String userType, required String customerId}) async {
+              await _setupNotifications();
+
     if (userType == 'user') {
       await _firebaseMessaging.subscribeToTopic('USR-$customerId');
       print('blah blah USR-$customerId');
