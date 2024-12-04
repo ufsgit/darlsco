@@ -85,6 +85,11 @@ class MyApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           initialRoute: '/',
           theme: ThemeData(
+            dropdownMenuTheme: DropdownMenuThemeData(
+              inputDecorationTheme: InputDecorationTheme(
+                
+              )
+            ),
             scaffoldBackgroundColor: const Color(0xFFF4F7FA),
             elevatedButtonTheme: ElevatedButtonThemeData(
                 style: ElevatedButton.styleFrom(

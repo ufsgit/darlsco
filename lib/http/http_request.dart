@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:darlsco/controller/login/login_controller.dart';
 import 'package:darlsco/http/http_urls.dart';
 import 'package:darlsco/view/widgets/loader.dart';
 import 'package:dio/dio.dart';
@@ -10,7 +11,7 @@ import 'package:get/get.dart' as getMain;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class HttpRequest {
- static bool isNetworkConnected=true;
+  static bool isNetworkConnected = true;
   static Future<Response> httpGetRequest(
       {Map<String, dynamic>? bodyData, String endPoint = ''}) async {
     // Loader.showLoader();
@@ -47,14 +48,18 @@ class HttpRequest {
       } else {
         print(connectivityResult);
       }
-
+      if (response.statusCode == 401) {
+        loginController.logout(getMain.Get.context!);
+        return response;
+      }
       // Loader.stopLoader();
-    } catch (e) {      Loader.stopLoader();
+    } catch (e) {
+      Loader.stopLoader();
 
       if (e is DioException) {
         // Check for connection error (Failed host lookup, timeout, etc.)
         if (e.type == DioExceptionType.connectionError) {
-          isNetworkConnected=false;
+          isNetworkConnected = false;
           ScaffoldMessenger.of(getMain.Get.context!)
               .showSnackBar(SnackBar(content: Text('Network Error')));
         }
@@ -92,12 +97,12 @@ class HttpRequest {
         print('get result ====> $response  ');
       }
     } catch (e) {
-            Loader.stopLoader();
+      Loader.stopLoader();
 
       if (e is DioException) {
         // Check for connection error (Failed host lookup, timeout, etc.)
         if (e.type == DioExceptionType.connectionError) {
-                    isNetworkConnected=false;
+          isNetworkConnected = false;
 
           ScaffoldMessenger.of(getMain.Get.context!)
               .showSnackBar(SnackBar(content: Text('Network Error')));
@@ -108,6 +113,10 @@ class HttpRequest {
     }
     if (response.data != null) {
       Loader.stopLoader();
+    }
+    if (response.statusCode == 401) {
+      loginController.logout(getMain.Get.context!);
+      return response;
     }
     return response;
   }
@@ -138,13 +147,16 @@ class HttpRequest {
       }
 
       Loader.stopLoader();
-
+      if (response.statusCode == 401) {
+        loginController.logout(getMain.Get.context!);
+        return response;
+      }
       return response;
     } catch (e) {
-       if (e is DioException) {
+      if (e is DioException) {
         // Check for connection error (Failed host lookup, timeout, etc.)
         if (e.type == DioExceptionType.connectionError) {
-                    isNetworkConnected=false;
+          isNetworkConnected = false;
 
           ScaffoldMessenger.of(getMain.Get.context!)
               .showSnackBar(SnackBar(content: Text('Network Error')));
@@ -183,7 +195,10 @@ class HttpRequest {
       if (kDebugMode) {
         print('post result ====> ${response.data}  ');
       }
-
+      if (response.statusCode == 401) {
+        loginController.logout(getMain.Get.context!);
+        return response;
+      }
       return response;
     } catch (e) {
       print(e);
@@ -191,7 +206,7 @@ class HttpRequest {
       if (e is DioException) {
         // Check for connection error (Failed host lookup, timeout, etc.)
         if (e.type == DioExceptionType.connectionError) {
-                    isNetworkConnected=false;
+          isNetworkConnected = false;
 
           ScaffoldMessenger.of(getMain.Get.context!)
               .showSnackBar(SnackBar(content: Text('Network Error')));
@@ -231,14 +246,16 @@ class HttpRequest {
       if (kDebugMode) {
         print('post result ====> ${response.data}  ');
       }
-
+      if (response.statusCode == 401) {
+        loginController.logout(getMain.Get.context!);
+        return response;
+      }
       return response;
     } catch (e) {
-
       if (e is DioException) {
         // Check for connection error (Failed host lookup, timeout, etc.)
         if (e.type == DioExceptionType.connectionError) {
-                    isNetworkConnected=false;
+          isNetworkConnected = false;
 
           ScaffoldMessenger.of(getMain.Get.context!)
               .showSnackBar(SnackBar(content: Text('Network Error')));
