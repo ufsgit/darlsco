@@ -316,11 +316,11 @@ class TrainingController extends GetxController {
               6371;
               var dInMeters = d * 1000;
 
-          print('DISTANCE $dInMeters');
+          print('DISTANCE $distance');
           // Get.snackbar('Location', 'You are ${d.round()} meter away');
           // await Loader.stopLoader();
 
-          if (dInMeters <= 500) {
+          if (distance <= 500) {
             await Loader.stopLoader();
             return 'inside';
           } else {

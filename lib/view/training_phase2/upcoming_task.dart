@@ -22,12 +22,23 @@ class _UpcomingTaskState extends State<UpcomingTask> {
   late bool dataLoaded = false;
   final TrainingControllerHomee trainingHomeController =
       Get.put(TrainingControllerHomee());
-
+  bool isLoading = false;
   @override
   void initState() {
-    trainingHomeController.getUpComingTask();
-
     super.initState();
+  }
+
+  getData() async {
+    try {
+      setState(() {
+        isLoading = true;
+      });
+      await trainingHomeController.getUpComingTask();
+    } finally {
+      setState(() {
+        isLoading = false;
+      });
+    }
   }
 
   @override
@@ -92,274 +103,307 @@ class _UpcomingTaskState extends State<UpcomingTask> {
                           ),
                         ],
                       ),
-                      GetBuilder<TrainingControllerHomee>(
-                          init: trainingHomeController,
-                          builder: (controller) {
-                            return ListView.builder(
-                              shrinkWrap: true,
-                              physics: ClampingScrollPhysics(),
-                              itemCount: controller.upComingTasks.length,
-                              itemBuilder: (context, index) {
-                                return Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.circular(10),
-                                    ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(12.0),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Row(
-                                            children: [
-                                              Icon(Icons.business,
-                                                  color: Color(0xFF294C73)),
-                                              SizedBox(width: 5),
-                                              Text(
-                                                controller.upComingTasks[index]
-                                                    .customerName,
-                                                style: TextStyle(
-                                                  fontSize: 15.sp.h,
-                                                  color: Color(0xFF294C73),
-                                                  fontWeight: FontWeight.bold,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                          SizedBox(height: 15.h),
-                                          Row(
-                                            children: [
-                                              Icon(Icons.circle_outlined,
-                                                  color: Color(0xFF294C73)),
-                                              SizedBox(width: 5),
-                                              Text(
-                                                "${controller.upComingTasks[index].trainingCourseName} - ${controller.upComingTasks[index].type}",
-                                                style: TextStyle(
-                                                  fontSize: 13.sp.h,
-                                                  color: Color(0xFF294C73),
-                                                  fontWeight: FontWeight.w600,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                          SizedBox(height: 15.h),
-                                          Row(
-                                            children: [
-                                              Icon(Icons.group_outlined,
-                                                  color: Color(0xFF294C73),
-                                                  size: 16),
-                                              SizedBox(width: 5),
-                                              Text(
-                                                'Trainees - ${controller.upComingTasks[index].traineeCount.toString()}',
-                                                style: TextStyle(
-                                                  color: Color(0xFF294C73),
-                                                  fontSize: 16.sp.h,
-                                                  fontWeight: FontWeight.w600,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                          SizedBox(height: 15.h),
-                                          Row(
-                                            children: [
-                                              Icon(
-                                                  Icons.calendar_month_outlined,
-                                                  color: Color(0xFF294C73),
-                                                  size: 16),
-                                              SizedBox(width: 5),
-                                              Text(
-                                                controller.upComingTasks[index]
-                                                    .startDate
-                                                    .toString(),
-                                                style: TextStyle(
-                                                  color: Color(0xFF294C73),
-                                                  fontSize: 16.sp.h,
-                                                  fontWeight: FontWeight.w600,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                          SizedBox(height: 15.h),
-                                          Row(
-                                            children: [
-                                              Icon(Icons.access_time,
-                                                  color: Color(0xFF294C73),
-                                                  size: 16),
-                                              SizedBox(width: 5),
-                                              Text(
-                                                controller.upComingTasks[index]
-                                                    .startTime
-                                                    .toString(),
-                                                style: TextStyle(
-                                                  color: Color(0xFF294C73),
-                                                  fontSize: 16.sp.h,
-                                                  fontWeight: FontWeight.w600,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                          SizedBox(height: 15.h),
-                                          controller.upComingTasks[index]
-                                                      .type ==
-                                                  'Training'
-                                              ? SizedBox(
-                                                  width: MediaQuery.of(context)
-                                                      .size
-                                                      .width,
-                                                  height: MediaQuery.of(context)
-                                                              .size
-                                                              .width >
-                                                          700
-                                                      ? 55
-                                                      : 40,
-                                                  child: MouseRegion(
-                                                    onEnter: (_) {
-                                                      setState(() {
-                                                        _isButtonHovered = true;
-                                                      });
-                                                    },
-                                                    onExit: (_) {
-                                                      setState(() {
-                                                        _isButtonHovered =
-                                                            false;
-                                                      });
-                                                    },
-                                                    child: OutlinedButton(
-                                                      style: OutlinedButton
-                                                          .styleFrom(
-                                                        side: BorderSide(
-                                                            color: controller
-                                                                        .upComingTasks[
-                                                                            index]
-                                                                        .statusId ==
-                                                                    '5'
-                                                                ? Colors.grey
-                                                                    .withOpacity(
-                                                                        .2)
-                                                                : Color(
-                                                                    0xFFE5AA17)),
-                                                        backgroundColor: controller
-                                                                    .upComingTasks[
-                                                                        index]
-                                                                    .statusId ==
-                                                                '5'
-                                                            ? Colors.grey
-                                                                .withOpacity(.2)
-                                                            : _isButtonHovered
-                                                                ? Color(
-                                                                    0xFFE5AA17)
-                                                                : Colors
-                                                                    .amber[100],
+                      isLoading
+                          ? Container(
+                              height: MediaQuery.sizeOf(context).height / 3,
+                              width: MediaQuery.sizeOf(context).width,
+                              child: Center(
+                                child: CircularProgressIndicator(),
+                              ),
+                            )
+                          : trainingHomeController.upComingTasks.isEmpty
+                              ? Align(child: Text('No Upcomng Tasks'))
+                              : GetBuilder<TrainingControllerHomee>(
+                                  init: trainingHomeController,
+                                  builder: (controller) {
+                                    return ListView.builder(
+                                      shrinkWrap: true,
+                                      physics: ClampingScrollPhysics(),
+                                      itemCount:
+                                          controller.upComingTasks.length,
+                                      itemBuilder: (context, index) {
+                                        return Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                            ),
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.all(12.0),
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Row(
+                                                    children: [
+                                                      Icon(Icons.business,
+                                                          color: Color(
+                                                              0xFF294C73)),
+                                                      SizedBox(width: 5),
+                                                      Text(
+                                                        controller
+                                                            .upComingTasks[
+                                                                index]
+                                                            .customerName,
+                                                        style: TextStyle(
+                                                          fontSize: 15.sp.h,
+                                                          color:
+                                                              Color(0xFF294C73),
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                        ),
                                                       ),
-                                                      onPressed: controller
-                                                                  .upComingTasks[
-                                                                      index]
-                                                                  .statusId ==
-                                                              '5'
-                                                          ? null
-                                                          : () {
-                                                              showDialog(
-                                                                context:
-                                                                    context,
-                                                                builder:
-                                                                    (context) {
-                                                                  return AlertDialog(
-                                                                    backgroundColor:
-                                                                        ColorResources
-                                                                            .whiteColor,
-                                                                    shape: ContinuousRectangleBorder(
-                                                                        borderRadius:
-                                                                            BorderRadius.circular(15.r)),
-                                                                    elevation:
-                                                                        10,
-                                                                    shadowColor:
-                                                                        ColorResources
-                                                                            .color294C73,
-                                                                    content:
-                                                                        Text(
-                                                                      'Are you sure!\nDo you want to reassign this task?',
-                                                                      style: GoogleFonts
-                                                                          .dmSans(
-                                                                        color: ColorResources
-                                                                            .colorBlack,
-                                                                        fontSize: 16
-                                                                            .sp
-                                                                            .h,
-                                                                        fontWeight:
-                                                                            FontWeight.w700,
-                                                                      ),
-                                                                    ),
-                                                                    actions: [
-                                                                      textButtonWidget(
-                                                                        text:
-                                                                            'Yes',
-                                                                        onPressed:
-                                                                            () {
-                                                                          Get.back();
-                                                                          Get.to(() =>
-                                                                              TrainnerAssigning(
-                                                                                upComingTask: controller.upComingTasks[index],
-                                                                              ));
-                                                                        },
-                                                                      ),
-                                                                      textButtonWidget(
-                                                                        text:
-                                                                            'No',
-                                                                        onPressed:
-                                                                            () {
-                                                                          Get.back();
-                                                                        },
-                                                                      )
-                                                                    ],
-                                                                  );
-                                                                },
-                                                              );
+                                                    ],
+                                                  ),
+                                                  SizedBox(height: 15.h),
+                                                  Row(
+                                                    children: [
+                                                      Icon(
+                                                          Icons.circle_outlined,
+                                                          color: Color(
+                                                              0xFF294C73)),
+                                                      SizedBox(width: 5),
+                                                      Text(
+                                                        "${controller.upComingTasks[index].trainingCourseName} - ${controller.upComingTasks[index].type}",
+                                                        style: TextStyle(
+                                                          fontSize: 13.sp.h,
+                                                          color:
+                                                              Color(0xFF294C73),
+                                                          fontWeight:
+                                                              FontWeight.w600,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  SizedBox(height: 15.h),
+                                                  Row(
+                                                    children: [
+                                                      Icon(Icons.group_outlined,
+                                                          color:
+                                                              Color(0xFF294C73),
+                                                          size: 16),
+                                                      SizedBox(width: 5),
+                                                      Text(
+                                                        'Trainees - ${controller.upComingTasks[index].traineeCount.toString()}',
+                                                        style: TextStyle(
+                                                          color:
+                                                              Color(0xFF294C73),
+                                                          fontSize: 16.sp.h,
+                                                          fontWeight:
+                                                              FontWeight.w600,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  SizedBox(height: 15.h),
+                                                  Row(
+                                                    children: [
+                                                      Icon(
+                                                          Icons
+                                                              .calendar_month_outlined,
+                                                          color:
+                                                              Color(0xFF294C73),
+                                                          size: 16),
+                                                      SizedBox(width: 5),
+                                                      Text(
+                                                        controller
+                                                            .upComingTasks[
+                                                                index]
+                                                            .startDate
+                                                            .toString(),
+                                                        style: TextStyle(
+                                                          color:
+                                                              Color(0xFF294C73),
+                                                          fontSize: 16.sp.h,
+                                                          fontWeight:
+                                                              FontWeight.w600,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  SizedBox(height: 15.h),
+                                                  Row(
+                                                    children: [
+                                                      Icon(Icons.access_time,
+                                                          color:
+                                                              Color(0xFF294C73),
+                                                          size: 16),
+                                                      SizedBox(width: 5),
+                                                      Text(
+                                                        controller
+                                                            .upComingTasks[
+                                                                index]
+                                                            .startTime
+                                                            .toString(),
+                                                        style: TextStyle(
+                                                          color:
+                                                              Color(0xFF294C73),
+                                                          fontSize: 16.sp.h,
+                                                          fontWeight:
+                                                              FontWeight.w600,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  SizedBox(height: 15.h),
+                                                  controller
+                                                              .upComingTasks[
+                                                                  index]
+                                                              .type ==
+                                                          'Training'
+                                                      ? SizedBox(
+                                                          width: MediaQuery.of(
+                                                                  context)
+                                                              .size
+                                                              .width,
+                                                          height: MediaQuery.of(
+                                                                          context)
+                                                                      .size
+                                                                      .width >
+                                                                  700
+                                                              ? 55
+                                                              : 40,
+                                                          child: MouseRegion(
+                                                            onEnter: (_) {
+                                                              setState(() {
+                                                                _isButtonHovered =
+                                                                    true;
+                                                              });
                                                             },
-                                                      child: Text("Reassign",
-                                                          style: TextStyle(
-                                                              color: controller
+                                                            onExit: (_) {
+                                                              setState(() {
+                                                                _isButtonHovered =
+                                                                    false;
+                                                              });
+                                                            },
+                                                            child:
+                                                                OutlinedButton(
+                                                              style:
+                                                                  OutlinedButton
+                                                                      .styleFrom(
+                                                                side: BorderSide(
+                                                                    color: controller.upComingTasks[index].statusId ==
+                                                                            '5'
+                                                                        ? Colors
+                                                                            .grey
+                                                                            .withOpacity(
+                                                                                .2)
+                                                                        : Color(
+                                                                            0xFFE5AA17)),
+                                                                backgroundColor: controller
+                                                                            .upComingTasks[
+                                                                                index]
+                                                                            .statusId ==
+                                                                        '5'
+                                                                    ? Colors
+                                                                        .grey
+                                                                        .withOpacity(
+                                                                            .2)
+                                                                    : _isButtonHovered
+                                                                        ? Color(
+                                                                            0xFFE5AA17)
+                                                                        : Colors
+                                                                            .amber[100],
+                                                              ),
+                                                              onPressed: controller
                                                                           .upComingTasks[
                                                                               index]
                                                                           .statusId ==
                                                                       '5'
-                                                                  ? Colors.black
-                                                                      .withOpacity(
-                                                                          .7)
-                                                                  : Colors
-                                                                      .black,
-                                                              fontSize:
-                                                                  14.sp.h)),
-                                                    ),
+                                                                  ? null
+                                                                  : () {
+                                                                      showDialog(
+                                                                        context:
+                                                                            context,
+                                                                        builder:
+                                                                            (context) {
+                                                                          return AlertDialog(
+                                                                            backgroundColor:
+                                                                                ColorResources.whiteColor,
+                                                                            shape:
+                                                                                ContinuousRectangleBorder(borderRadius: BorderRadius.circular(15.r)),
+                                                                            elevation:
+                                                                                10,
+                                                                            shadowColor:
+                                                                                ColorResources.color294C73,
+                                                                            content:
+                                                                                Text(
+                                                                              'Are you sure!\nDo you want to reassign this task?',
+                                                                              style: GoogleFonts.dmSans(
+                                                                                color: ColorResources.colorBlack,
+                                                                                fontSize: 16.sp.h,
+                                                                                fontWeight: FontWeight.w700,
+                                                                              ),
+                                                                            ),
+                                                                            actions: [
+                                                                              textButtonWidget(
+                                                                                text: 'Yes',
+                                                                                onPressed: () {
+                                                                                  Get.back();
+                                                                                  Get.to(() => TrainnerAssigning(
+                                                                                        upComingTask: controller.upComingTasks[index],
+                                                                                      ));
+                                                                                },
+                                                                              ),
+                                                                              textButtonWidget(
+                                                                                text: 'No',
+                                                                                onPressed: () {
+                                                                                  Get.back();
+                                                                                },
+                                                                              )
+                                                                            ],
+                                                                          );
+                                                                        },
+                                                                      );
+                                                                    },
+                                                              child: Text(
+                                                                  "Reassign",
+                                                                  style: TextStyle(
+                                                                      color: controller.upComingTasks[index].statusId ==
+                                                                              '5'
+                                                                          ? Colors.black.withOpacity(
+                                                                              .7)
+                                                                          : Colors
+                                                                              .black,
+                                                                      fontSize: 14
+                                                                          .sp
+                                                                          .h)),
+                                                            ),
+                                                          ),
+                                                        )
+                                                      : SizedBox(),
+                                                  SizedBox(
+                                                    height: 8.h,
                                                   ),
-                                                )
-                                              : SizedBox(),
-                                          SizedBox(
-                                            height: 8.h,
+                                                  controller
+                                                              .upComingTasks[
+                                                                  index]
+                                                              .statusId ==
+                                                          '5'
+                                                      ? Align(
+                                                          alignment:
+                                                              Alignment.center,
+                                                          child: Text(
+                                                            'Reassign Requested',
+                                                            style: TextStyle(
+                                                                color:
+                                                                    Colors.red,
+                                                                fontSize:
+                                                                    12.sp),
+                                                          ),
+                                                        )
+                                                      : Container(),
+                                                ],
+                                              ),
+                                            ),
                                           ),
-                                          controller.upComingTasks[index]
-                                                      .statusId ==
-                                                  '5'
-                                              ? Align(
-                                                  alignment: Alignment.center,
-                                                  child: Text(
-                                                    'Reassign Requested',
-                                                    style: TextStyle(
-                                                        color: Colors.red,
-                                                        fontSize: 12.sp),
-                                                  ),
-                                                )
-                                              : Container(),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                );
-                              },
-                            );
-                          })
+                                        );
+                                      },
+                                    );
+                                  })
                     ],
                   ),
                 ),

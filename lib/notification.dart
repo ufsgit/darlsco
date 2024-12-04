@@ -115,14 +115,22 @@ class FirebaseNotificationService {
     // For example, navigate to a specific screen based on the message
     var data = message.data;
     print('jon $data');
-    if (data.isNotEmpty) {      List payloadKeys = ["Calibration_Task","Inspection_Task","new_trainer","Exam"];
+    if (data.isNotEmpty) {
+      List payloadKeys = [
+        "Calibration_Task",
+        "Inspection_Task",
+        "new_trainer",
+        "Exam"
+      ];
 
-       bool isUserSide =false;
-          for (var element in payloadKeys) {
-             if( data["type"]==element){
-              isUserSide=true;
-              break;
-             }}  }
+      bool isUserSide = false;
+      for (var element in payloadKeys) {
+        if (data["type"] == element) {
+          isUserSide = true;
+          break;
+        }
+      }
+    }
   }
 
   static void _handleNotificationTap(NotificationResponse response) async {
@@ -135,17 +143,23 @@ class FirebaseNotificationService {
     try {
       String fixedJson = fixMalformedJson(rawNotificationData);
       Map<String, dynamic> data = jsonDecode(fixedJson);
-      List payloadKeys = ["Calibration_Task","Inspection_Task","new_trainer","Exam"];
+      List payloadKeys = [
+        "Calibration_Task",
+        "Inspection_Task",
+        "new_trainer",
+        "Exam"
+      ];
       print('dfsoidnf 7487 ${data.isNotEmpty} $data');
       if (dashboardController.dashboardRole == "user") {
         print('dfsoidnf 748700 ');
         if (data.isNotEmpty) {
-          bool isUserSide =false;
+          bool isUserSide = false;
           for (var element in payloadKeys) {
-             if( data["type"]==element){
-              isUserSide=true;
+            if (data["type"] == element) {
+              isUserSide = true;
               break;
-             }}
+            }
+          }
           if (isUserSide) {
             homeController.isCalibrationSection.value =
                 homeController.isCalibrationEnabled &&
@@ -160,8 +174,7 @@ class FirebaseNotificationService {
 
             Get.offAll(
               TrainingInspectionScreen(
-                selectedIndex:
-                 homeController.isInspectionSection.value
+                selectedIndex: homeController.isInspectionSection.value
                     ? 0
                     : homeController.isTrainingSectionnew.value
                         ? homeController.isInspectionEnabled
@@ -243,7 +256,7 @@ class FirebaseNotificationService {
   // Method to subscribe to topics
   static Future<void> subscribeToTopic(
       {required String userType, required String customerId}) async {
-              await _setupNotifications();
+    await _setupNotifications();
 
     if (userType == 'user') {
       await _firebaseMessaging.subscribeToTopic('USR-$customerId');

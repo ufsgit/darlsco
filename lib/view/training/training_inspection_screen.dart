@@ -160,8 +160,8 @@ class _TrainingInspectionScreenState extends State<TrainingInspectionScreen> {
                                     child: const Text('Logout'),
                                     onPressed: () async {
                                       await loginController.logout(context);
-                                      await Get.to(
-                                          () => BottomNavigationWidget());
+                                      // await Get.to(
+                                      //     () => BottomNavigationWidget());
                                     },
                                   ),
                                 ],
