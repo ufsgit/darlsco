@@ -10,19 +10,21 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart' as getMain;
 import 'package:shared_preferences/shared_preferences.dart';
 
+bool isNetworkConnected = true;
+
 class HttpRequest {
-  static bool isNetworkConnected = true;
   static Future<Response> httpGetRequest(
       {Map<String, dynamic>? bodyData, String endPoint = ''}) async {
     // Loader.showLoader();
     if (kDebugMode) {
       print('Adeeb get request ====> $endPoint $bodyData ');
     }
+    final Dio dio = Client().init();
 
-    final Dio dio = Dio();
     final prefs = await SharedPreferences.getInstance();
     final String token = prefs.getString('token') ?? "";
     print('regrt $token');
+
     // String token =
     //     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOnsiVXNlcl9EZXRhaWxzX0lkIjoxNTEsIlVzZXJfRGV0YWlsc19OYW1lIjoiQWRtaW4iLCJVc2VyX1R5cGUiOjEsIlJvbGVfSWQiOjMwLCJCcmFuY2hfSWQiOjQxLCJEZXBhcnRtZW50X0lkIjozNzAsIk5vdGlmaWNhdGlvbl9Db3VudCI6MCwiRXh0ZW5zaW9uIjoiMSIsIkRlcGFydG1lbnRfTmFtZSI6IkFETUlOIiwiVXBkYXRlZF9TZXJpYWxfSWQiOjc3fSwiaWF0IjoxNzEwODI0ODM2fQ.lupsZPLvOUe7EhV2qvZa7qt3ps-nnXrZqiAcwM_9dQo';
     var response;
@@ -37,6 +39,8 @@ class HttpRequest {
         queryParameters: bodyData,
       );
 
+      print('get result ====> ${dio.options}  ');
+
       if (kDebugMode) {
         print('get result ====> $response  ');
       }
@@ -48,14 +52,28 @@ class HttpRequest {
       } else {
         print(connectivityResult);
       }
-      if (response.statusCode == 401) {
-        loginController.logout(getMain.Get.context!);
+      print('dfnrsifiug ${response.statusCode}');
+      print('dfnrsifiug ${response.data}');
+
+      if (response.statusCode == 401 || response.data == null) {
+        Loader.stopLoader();
+
+        await loginController.logout(getMain.Get.context!);
         return response;
       }
+
       // Loader.stopLoader();
     } catch (e) {
       Loader.stopLoader();
+      print('dfnrsifiug ${response}');
+      print('dfnrsifiug ${response}');
 
+      if (response == null) {
+        Loader.stopLoader();
+
+        await loginController.logout(getMain.Get.context!);
+        return response;
+      }
       if (e is DioException) {
         // Check for connection error (Failed host lookup, timeout, etc.)
         if (e.type == DioExceptionType.connectionError) {
@@ -76,8 +94,7 @@ class HttpRequest {
     if (kDebugMode) {
       print('get request ====> $endPoint $bodyData ');
     }
-
-    final Dio dio = Dio();
+    final Dio dio = Client().init();
     final prefs = await SharedPreferences.getInstance();
     final String token = prefs.getString('token') ?? "";
     // String token =
@@ -96,29 +113,24 @@ class HttpRequest {
       if (kDebugMode) {
         print('get result ====> $response  ');
       }
+      if (response.data != null) {
+        Loader.stopLoader();
+      }
+      print('dfnrsifiug ${response.statusCode}');
+      print('dfnrsifiug ${response.data}');
+
+      if (response.statusCode == 401 || response.data == null) {
+        loginController.logout(getMain.Get.context!);
+        return response;
+      }
+      return response;
     } catch (e) {
       Loader.stopLoader();
+      print('dfnrsifiug ${response.statusCode}');
+      print('dfnrsifiug ${response.data}');
 
-      if (e is DioException) {
-        // Check for connection error (Failed host lookup, timeout, etc.)
-        if (e.type == DioExceptionType.connectionError) {
-          isNetworkConnected = false;
-
-          ScaffoldMessenger.of(getMain.Get.context!)
-              .showSnackBar(SnackBar(content: Text('Network Error')));
-        }
-      } else {
-        print('ijoi An unknown error occurred: $e');
-      }
-    }
-    if (response.data != null) {
-      Loader.stopLoader();
-    }
-    if (response.statusCode == 401) {
-      loginController.logout(getMain.Get.context!);
       return response;
     }
-    return response;
   }
 
   static Future<Response?> httpPostRequest(
@@ -129,7 +141,7 @@ class HttpRequest {
     if (kDebugMode) {
       print('post request ====> $endPoint $bodyData ');
     }
-    final Dio dio = Dio();
+    final Dio dio = Client().init();
     final prefs = await SharedPreferences.getInstance();
     final String token = prefs.getString('token') ?? "";
     try {
@@ -147,23 +159,14 @@ class HttpRequest {
       }
 
       Loader.stopLoader();
-      if (response.statusCode == 401) {
-        loginController.logout(getMain.Get.context!);
-        return response;
-      }
+      print('dfnrsifiug ${response.statusCode}');
+      print('dfnrsifiug ${response.data}');
+
+      print('dfnrsifiug ${response.statusCode}');
+      print('dfnrsifiug ${response.data}');
+
       return response;
     } catch (e) {
-      if (e is DioException) {
-        // Check for connection error (Failed host lookup, timeout, etc.)
-        if (e.type == DioExceptionType.connectionError) {
-          isNetworkConnected = false;
-
-          ScaffoldMessenger.of(getMain.Get.context!)
-              .showSnackBar(SnackBar(content: Text('Network Error')));
-        }
-      } else {
-        print('ijoi An unknown error occurred: $e');
-      }
       Loader.stopLoader();
       return null;
     }
@@ -178,7 +181,7 @@ class HttpRequest {
     if (kDebugMode) {
       print('post request ====> $endPoint $bodyData ');
     }
-    final Dio dio = Dio();
+    final Dio dio = Client().init();
 
     try {
       final Response response = await dio.post(
@@ -195,25 +198,16 @@ class HttpRequest {
       if (kDebugMode) {
         print('post result ====> ${response.data}  ');
       }
-      if (response.statusCode == 401) {
-        loginController.logout(getMain.Get.context!);
-        return response;
-      }
+      print('dfnrsifiug ${response.statusCode}');
+      print('dfnrsifiug ${response.data}');
+
+      print('dfnrsifiug ${response.statusCode}');
+      print('dfnrsifiug ${response.data}');
+
       return response;
     } catch (e) {
       print(e);
 
-      if (e is DioException) {
-        // Check for connection error (Failed host lookup, timeout, etc.)
-        if (e.type == DioExceptionType.connectionError) {
-          isNetworkConnected = false;
-
-          ScaffoldMessenger.of(getMain.Get.context!)
-              .showSnackBar(SnackBar(content: Text('Network Error')));
-        }
-      } else {
-        print('ijoi An unknown error occurred: $e');
-      }
       Loader.stopLoader();
       return null;
     }
@@ -229,7 +223,7 @@ class HttpRequest {
     if (kDebugMode) {
       print('post request ====> $endPoint $bodyData ');
     }
-    final Dio dio = Dio();
+    final Dio dio = Client().init();
 
     try {
       final Response response = await dio.post(
@@ -246,25 +240,44 @@ class HttpRequest {
       if (kDebugMode) {
         print('post result ====> ${response.data}  ');
       }
-      if (response.statusCode == 401) {
-        loginController.logout(getMain.Get.context!);
-        return response;
-      }
+      print('dfnrsifiug ${response.statusCode}');
+      print('dfnrsifiug ${response.data}');
+
+      print('dfnrsifiug ${response.statusCode}');
+      print('dfnrsifiug ${response.data}');
+
       return response;
     } catch (e) {
-      if (e is DioException) {
-        // Check for connection error (Failed host lookup, timeout, etc.)
-        if (e.type == DioExceptionType.connectionError) {
-          isNetworkConnected = false;
-
-          ScaffoldMessenger.of(getMain.Get.context!)
-              .showSnackBar(SnackBar(content: Text('Network Error')));
-        }
-      } else {
-        print('ijoi An unknown error occurred: $e');
-      }
       Loader.stopLoader();
       return null;
     }
+  }
+}
+
+class Client {
+  Dio init() {
+    print(';dfsdf');
+    final Dio dio = Dio();
+    dio.interceptors.add(
+      InterceptorsWrapper(
+        onRequest: (options, handler) {
+          print('options ioi ${options.data}');
+          // Add the access token to the request header
+          return handler.next(options);
+        },
+        onError: (DioError e, handler) async {
+          if (e.type == DioExceptionType.connectionError) {
+            isNetworkConnected = false;
+
+            ScaffoldMessenger.of(getMain.Get.context!)
+                .showSnackBar(SnackBar(content: Text('Network Error')));
+          }
+          if (e.response?.statusCode == 401) {
+            await loginController.logout(getMain.Get.context!);
+          }
+        },
+      ),
+    );
+    return dio;
   }
 }

@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:darlsco/controller/tainning/training_controller_home.dart';
 import 'package:darlsco/core/constants/color_resources.dart';
 import 'package:darlsco/core/constants/common_widgets.dart';
+import 'package:darlsco/http/http_urls.dart';
 import 'package:darlsco/view/training/view_certificate_page.dart';
 import 'package:darlsco/view/training/widgets/training_widgets.dart';
 import 'package:dio/dio.dart';
@@ -97,11 +98,11 @@ class _CertificatePageState extends State<CertificatePage> {
                   ),
                   trainingHomeController.certificateDetails.isEmpty
                       ? Container(
-                        height: MediaQuery.sizeOf(context).height/1.3,
-                        child: Center(
+                          height: MediaQuery.sizeOf(context).height / 1.3,
+                          child: Center(
                             child: Text('No Data found'),
                           ),
-                      )
+                        )
                       : GetBuilder<TrainingControllerHomee>(
                           init: trainingHomeController,
                           builder: (contr) {
@@ -245,7 +246,7 @@ class _CertificatePageState extends State<CertificatePage> {
                                                                   hasCertificate
                                                                       ? () {
                                                                           downloadCertificate(
-                                                                              'https://darlsco-files.s3.ap-south-1.amazonaws.com/${certificate.certificate}',
+                                                                              '${HttpUrls.imageBase}${certificate.certificate}',
                                                                               "certificate_${index + 1}.pdf");
                                                                         }
                                                                       : null,

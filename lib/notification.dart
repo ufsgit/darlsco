@@ -4,8 +4,10 @@ import 'package:darlsco/controller/dashboard/dashboard_controller.dart';
 import 'package:darlsco/controller/upcoming_inspections/upcoming_inspection_controller.dart';
 import 'package:darlsco/view/home/bottom_navigation_screen.dart';
 import 'package:darlsco/view/training/training_inspection_screen.dart';
+import 'package:darlsco/view/training/view_certificate_page.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:get/get.dart';
 import 'package:permission_handler/permission_handler.dart';
 
@@ -89,6 +91,7 @@ class FirebaseNotificationService {
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       log('Got a message whilst in the foreground!');
       log('Message data: ${message.data}');
+    print('buig ${dashboardController.dashboardRole}');
 
       if (message.notification != null) {
         _showLocalNotification(message);
@@ -110,27 +113,75 @@ class FirebaseNotificationService {
   }
 
   static void _handleMessage(RemoteMessage message) {
-    log('Handling message: ${message.messageId}');
-    // Add your message handling logic here
-    // For example, navigate to a specific screen based on the message
-    var data = message.data;
-    print('jon $data');
+    print('buig ${dashboardController.dashboardRole}');
+    Map<String, dynamic> data = message.data;
+    List payloadKeys = [
+      "Calibration_Task",
+      "Inspection_Task",
+      "new_trainer",
+      "Exam"
+    ];
     if (data.isNotEmpty) {
-      List payloadKeys = [
-        "Calibration_Task",
-        "Inspection_Task",
-        "new_trainer",
-        "Exam"
-      ];
-
-      bool isUserSide = false;
-      for (var element in payloadKeys) {
-        if (data["type"] == element) {
-          isUserSide = true;
-          break;
+      if (dashboardController.dashboardRole == "user") {
+        bool needToNvaigate = false;
+        for (var element in payloadKeys) {
+          if (data["type"] == element) {
+            needToNvaigate = true;
+            break;
+          }
         }
+        if (needToNvaigate) {
+          homeController.isCalibrationSection.value =
+              homeController.isCalibrationEnabled &&
+                  data['type'] == 'Calibration_Task';
+          homeController.isInspectionSection.value =
+              homeController.isInspectionEnabled &&
+                  data['type'] == 'Inspection_Task';
+          homeController.isTrainingSectionnew.value =
+              homeController.isTrainingEnabled &&
+                      data['type'] == 'new_trainer' ||
+                  homeController.isTrainingEnabled && data['type'] == 'Exam';
+
+          Get.offAll(
+            TrainingInspectionScreen(
+              selectedIndex: homeController.isInspectionSection.value
+                  ? 0
+                  : homeController.isTrainingSectionnew.value
+                      ? homeController.isInspectionEnabled
+                          ? 1
+                          : 0
+                      : homeController.isCalibrationSection.value
+                          ? !homeController.isInspectionEnabled &&
+                                  !homeController.isTrainingEnabled
+                              ? 0
+                              : !homeController.isInspectionEnabled &&
+                                          homeController.isTrainingEnabled ||
+                                      homeController.isInspectionEnabled &&
+                                          !homeController.isTrainingEnabled
+                                  ? 1
+                                  : homeController.isInspectionEnabled &&
+                                          homeController.isTrainingEnabled &&
+                                          homeController.isCalibrationEnabled
+                                      ? 2
+                                      : 0
+                          : 0,
+            ),
+          );
+
+          homeController.update();
+        }
+      } else if (data["type"] == "equipment_certificate") {
+        Get.offAll(() => PDFViewerPage(
+              isFromNotification: true,
+              fileName: data['certificate_No'],
+              pdfPath: data['File_Key'],
+            ));
       }
     }
+
+    // } catch (e) {
+    //   print('Error parsing JSON: $e');
+    // }
   }
 
   static void _handleNotificationTap(NotificationResponse response) async {
@@ -149,18 +200,16 @@ class FirebaseNotificationService {
         "new_trainer",
         "Exam"
       ];
-      print('dfsoidnf 7487 ${data.isNotEmpty} $data');
-      if (dashboardController.dashboardRole == "user") {
-        print('dfsoidnf 748700 ');
-        if (data.isNotEmpty) {
-          bool isUserSide = false;
+      if (data.isNotEmpty) {
+        if (dashboardController.dashboardRole == "user") {
+          bool needToNvaigate = false;
           for (var element in payloadKeys) {
             if (data["type"] == element) {
-              isUserSide = true;
+              needToNvaigate = true;
               break;
             }
           }
-          if (isUserSide) {
+          if (needToNvaigate) {
             homeController.isCalibrationSection.value =
                 homeController.isCalibrationEnabled &&
                     data['type'] == 'Calibration_Task';
@@ -197,16 +246,17 @@ class FirebaseNotificationService {
                             : 0,
               ),
             );
-            // homeController.tabController.animateTo(2);
-            print(homeController.isCalibrationSection.value);
-            print(homeController.isInspectionSection.value);
-            print(homeController.isTrainingSectionnew.value);
+
             homeController.update();
           }
+        } else if (data["type"] == "equipment_certificate") {
+          Get.offAll(() => PDFViewerPage(
+                isFromNotification: true,
+                fileName: data['certificate_No'],
+                pdfPath: data['File_Key'],
+              ));
         }
       }
-
-      print(data); // Successfully parsed map
     } catch (e) {
       print('Error parsing JSON: $e');
     }

@@ -69,7 +69,7 @@ class _TrainingHomeScreenState extends State<TrainingHomeScreen> {
                     : ListView(
                     padding: EdgeInsets.symmetric(
                         horizontal: 16.w, vertical: 32.w),                            children: [
-                        !HttpRequest.isNetworkConnected
+                        !isNetworkConnected
                             ? Container(
                               height: MediaQuery.sizeOf(context).height/2,
                               child: Center(

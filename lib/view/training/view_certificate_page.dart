@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:darlsco/core/constants/common_widgets.dart';
 import 'package:darlsco/http/http_urls.dart';
+import 'package:darlsco/view/training/widgets/bottom_navigation_widget.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_pdfview/flutter_pdfview.dart';
@@ -18,8 +19,12 @@ import 'package:url_launcher/url_launcher.dart';
 class PDFViewerPage extends StatefulWidget {
   final String pdfPath;
   final String fileName;
+  final bool isFromNotification;
   const PDFViewerPage(
-      {required this.pdfPath, super.key, required this.fileName});
+      {required this.pdfPath,
+      super.key,
+      required this.fileName,
+      this.isFromNotification = false});
 
   @override
   _PDFViewerPageState createState() => _PDFViewerPageState();
@@ -50,7 +55,11 @@ class _PDFViewerPageState extends State<PDFViewerPage>
     if (state == AppLifecycleState.paused) {
       print('App is in background');
       downloadAndSavePdf(isInitState: isIinitstate);
-      Get.back();
+      if (widget.isFromNotification) {
+        Get.offAll(() => BottomNavigationWidget());
+      } else {
+        Get.back();
+      }
     } else if (state == AppLifecycleState.resumed) {
       print('App is in foreground');
       // _downloadAndSavePdf();
@@ -61,7 +70,11 @@ class _PDFViewerPageState extends State<PDFViewerPage>
     // PermissionStatus photoStatus =await Permission.photos.status;
     PermissionStatus storage = await Permission.storage.status;
     if (await Permission.storage.isLimited) {
-      Get.back();
+      if (widget.isFromNotification) {
+        Get.offAll(() => BottomNavigationWidget());
+      } else {
+        Get.back();
+      }
 
       await Permission.photos.request();
       await Permission.storage.request();
@@ -282,7 +295,11 @@ class _PDFViewerPageState extends State<PDFViewerPage>
           ),
           leading: InkWell(
             onTap: () {
-              Get.back();
+              if (widget.isFromNotification) {
+                Get.offAll(() => BottomNavigationWidget());
+              } else {
+                Get.back();
+              }
             },
             child: CircleAvatar(
               radius: 18.h,
@@ -303,11 +320,10 @@ class _PDFViewerPageState extends State<PDFViewerPage>
             //     childWidget:
             localPath != null
                 ? commonBackgroundLinearColor(
-                  childWidget: PDFView(
-                    
-                    backgroundColor: Colors.grey.shade300,
-                  filePath: localPath),
-                )
+                    childWidget: PDFView(
+                        backgroundColor: Colors.grey.shade300,
+                        filePath: localPath),
+                  )
                 : const Column(
                     children: [
                       CircularProgressIndicator(),
@@ -324,8 +340,9 @@ class _PDFViewerPageState extends State<PDFViewerPage>
                     //           children: [
                     //             InkWell(
                     //               onTap: () {
-                    //                 Get.back();
-                    //               },
+                    //             if(widget.isFromNotification){
+                    //   Get.offAll(()=>BottomNavigationWidget())
+                    // }else{Get.back();};                    //               },
                     //               child: CircleAvatar(
                     //                 radius: 18.h,
                     //                 backgroundColor: Colors.transparent,

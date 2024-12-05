@@ -65,7 +65,7 @@ class _DrawerAccountState extends State<DrawerAccount> {
                             return Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: SizedBox(
-                                width: 185.w,
+                                // width: 185.w,
                                 child: Text(
                                   profileData.profileDetails[0].customerName,
                                   style: GoogleFonts.dmSans(
