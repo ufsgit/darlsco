@@ -90,8 +90,8 @@ class FirebaseNotificationService {
   static Future<void> _setupForegroundMessaging() async {
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       log('Got a message whilst in the foreground!');
-      log('Message data: ${message.data}');
-    print('buig ${dashboardController.dashboardRole}');
+      log('jhbisud: ${message.data}');
+    print('jhbisud ${dashboardController.dashboardRole}');
 
       if (message.notification != null) {
         _showLocalNotification(message);
@@ -107,6 +107,8 @@ class FirebaseNotificationService {
     if (initialMessage != null) {
       _handleMessage(initialMessage);
     }
+          print('jhbisud $initialMessage');
+
 
     // Handle notification taps when app is in background
     FirebaseMessaging.onMessageOpenedApp.listen(_handleMessage);
@@ -115,6 +117,8 @@ class FirebaseNotificationService {
   static void _handleMessage(RemoteMessage message) {
     print('buig ${dashboardController.dashboardRole}');
     Map<String, dynamic> data = message.data;
+              print('jhbisud $data');
+
     List payloadKeys = [
       "Calibration_Task",
       "Inspection_Task",
@@ -185,7 +189,7 @@ class FirebaseNotificationService {
   }
 
   static void _handleNotificationTap(NotificationResponse response) async {
-    log('Notification tapped: ${response.payload}');
+    log('jhbisud: ${response.payload}');
     String rawNotificationData = response.payload.toString();
 
     // Fixing the malformed string
@@ -200,6 +204,7 @@ class FirebaseNotificationService {
         "new_trainer",
         "Exam"
       ];
+      print('jhbisud $data');
       if (data.isNotEmpty) {
         if (dashboardController.dashboardRole == "user") {
           bool needToNvaigate = false;

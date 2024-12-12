@@ -44,8 +44,8 @@ class _SplashScreenState extends State<SplashScreen> {
   mainInitFunction() async {
     try {
       loginController.isFromSplashOrLogin = true;
-      const String version = '1.0.17';
-      // 17 // ====> LATEST
+      const String version = '1.0.18';
+      // 18 // ====> LATEST
       await homeController.versionCheck(version, context);
       if (homeController.isAppBlocked.value) {
         Get.to(() => const UserBlockScreen());
