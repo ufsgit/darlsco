@@ -173,8 +173,8 @@ FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =FlutterLocalNot
           android: AndroidInitializationSettings('@mipmap/ic_launcher'),
           iOS: DarwinInitializationSettings(),
         ),
-        onDidReceiveNotificationResponse: (jjj){
-          _handleNotificationTap(jsonDecode(jjj.payload.toString()));
+        onDidReceiveNotificationResponse: (NotificationResponse  notification){
+          _handleNotificationTap(jsonDecode(notification.payload.toString()));
         },
       );
     } catch (e) {
@@ -285,16 +285,16 @@ FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =FlutterLocalNot
     }
   }
 
-  static void _handleNotificationTap( response) async {
-    log('jhbisud: ${response.payload}');
-    String rawNotificationData = response.payload.toString();
+  static void _handleNotificationTap( Map<String, dynamic> data) async {
+    // log('jhbisud: ${response.payload}');
+    // String rawNotificationData = response.payload.toString();
 
     // Fixing the malformed string  
 
     // Now decoding the fixed JSON string
     try {
       // String fixedJson = fixMalformedJson(rawNotificationData);
-      Map<String, dynamic> data = response.data;
+      // Map<String, dynamic> data = response;
       print('fgasdg $data ${data.runtimeType}');
       List payloadKeys = [
         "Calibration_Task",
