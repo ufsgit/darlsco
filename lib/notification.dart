@@ -1,11 +1,13 @@
 import 'dart:convert';
 import 'dart:developer';
+import 'dart:io';
 import 'package:darlsco/controller/dashboard/dashboard_controller.dart';
 import 'package:darlsco/controller/upcoming_inspections/upcoming_inspection_controller.dart';
 import 'package:darlsco/view/home/bottom_navigation_screen.dart';
 import 'package:darlsco/view/training/training_inspection_screen.dart';
 import 'package:darlsco/view/training/view_certificate_page.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:get/get.dart';
@@ -31,31 +33,132 @@ class FirebaseNotificationService {
     importance: Importance.high,
   );
 
-  static Future<void> initialize() async {
-    try {
-      // Set up background message handler
-      FirebaseMessaging.onBackgroundMessage(
-          _firebaseMessagingBackgroundHandler);
+  // static Future<void> initialize() async {
+  //   try {
+  //     // Set up background message handler
+  //     FirebaseMessaging.onBackgroundMessage(
+  //         _firebaseMessagingBackgroundHandler);
 
-      // Request permissions and initialize settings
-      // await _setupNotifications();
+  //     // Request permissions and initialize settings
+  //     // await _setupNotifications();
 
-      // Handle foreground messages
-      await _setupForegroundMessaging();
+  //     // Handle foreground messages
+  //     await _setupForegroundMessaging();
 
-      // Handle notification clicks when app is terminated/closed
-      await _handleInitialMessage();
+  //     // Handle notification clicks when app is terminated/closed
+  //     await _handleInitialMessage();
 
-      // Get the token
-      // await getNotificationToken();
+  //     // Get the token
+  //     // await getNotificationToken();
 
-      log('Firebase Notification Service initialized successfully');
-    } catch (e, stackTrace) {
-      log('Error initializing Firebase Notification Service',
-          error: e, stackTrace: stackTrace);
+  //     log('Firebase Notification Service initialized successfully');
+  //   } catch (e, stackTrace) {
+  //     log('Error initializing Firebase Notification Service',
+  //         error: e, stackTrace: stackTrace);
+  //   }
+  // }
+Future<void> initialize() async {
+    AndroidNotificationChannel? channel;
+FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =FlutterLocalNotificationsPlugin();
+    var androidInitializationSettings =
+        const AndroidInitializationSettings('@mipmap/ic_launcher');
+    var iosInitializationSettings = const DarwinInitializationSettings();
+
+    var initializationSetting = InitializationSettings(
+        android: androidInitializationSettings, iOS: iosInitializationSettings);
+
+    await flutterLocalNotificationsPlugin.initialize(initializationSetting,
+        onDidReceiveNotificationResponse: (response) {
+      Map<String, dynamic> payLoad = {};
+      if (response.payload!=null||response.payload!.isNotEmpty) {
+        payLoad = jsonDecode(response.payload!);
+        handleNotificationClick(payLoad);
+      }
+      // handle interaction when app is active for android
+      // handleMessage(message,context);
+    });
+    FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;
+
+    if (!kIsWeb) {
+      channel = const AndroidNotificationChannel(
+        'high_importance_channel', // id
+        'High Importance Notifications', // title
+        description:
+            'This channel is used for important notifications.', // description
+        importance: Importance.max,
+      );
     }
-  }
+    if (Platform.isIOS) {
+      await FirebaseMessaging.instance
+          .setForegroundNotificationPresentationOptions(
+        alert: true,
+        badge: true,
+        sound: true,
+      );
+    }
 
+    await flutterLocalNotificationsPlugin
+        .resolvePlatformSpecificImplementation<
+            AndroidFlutterLocalNotificationsPlugin>()
+        ?.createNotificationChannel(channel!);
+
+    if (!kIsWeb) {
+      firebaseMessaging.subscribeToTopic("CUS-58");
+    }
+
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      print("");
+      showFlutterNotification(message);
+    });
+
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+      Map<String, dynamic> data = message.data;
+      RemoteNotification? notification = message.notification;
+      AndroidNotification? android = message.notification?.android;
+      AppleNotification? apple = message.notification?.apple;
+      String imgUrl = "";
+
+      if (notification != null) {
+        if (null != android && !android.imageUrl.isNullOrEmpty()) {
+          imgUrl = android.imageUrl ?? "";
+        }
+        if (null != apple && !apple.imageUrl.isNullOrEmpty()) {
+          imgUrl = apple.imageUrl ?? "";
+        }
+        Map<String, dynamic> newData1 = {
+          'body': notification.body,
+          'title': notification.title,
+          'imageUrl': imgUrl,
+        };
+        data.addAll(newData1);
+        handleNotificationClick(data);
+      }
+    });
+    //This method will call when the app is in kill state
+    FirebaseMessaging.instance.getInitialMessage().then((message) {
+      RemoteNotification? notification = message?.notification;
+      AndroidNotification? android = message?.notification?.android;
+      AppleNotification? apple = message?.notification?.apple;
+      String imgUrl = "";
+
+      if (notification != null) {
+        if (null != android && !android.imageUrl.isNullOrEmpty()) {
+          imgUrl = android.imageUrl ?? "";
+        }
+        if (null != apple && !apple.imageUrl.isNullOrEmpty()) {
+          imgUrl = apple.imageUrl ?? "";
+        }
+        Map<String, dynamic> data = message!.data;
+        Map<String, dynamic> newData1 = {
+          'body': notification.body,
+          'title': notification.title,
+          'imageUrl': imgUrl,
+        };
+        data.addAll(newData1);
+        handleNotificationClick(data);
+      }
+    });
+  }
   static Future<void> _setupNotifications() async {
     try {
       // Request notification permission
@@ -80,7 +183,9 @@ class FirebaseNotificationService {
           android: AndroidInitializationSettings('@mipmap/ic_launcher'),
           iOS: DarwinInitializationSettings(),
         ),
-        onDidReceiveNotificationResponse: _handleNotificationTap,
+        onDidReceiveNotificationResponse: (jjj){
+          _handleNotificationTap(jjj);
+        },
       );
     } catch (e) {
       log('Error setting up notifications', error: e);
@@ -116,6 +221,7 @@ class FirebaseNotificationService {
 
   static void _handleMessage(RemoteMessage message) {
     print('buig ${dashboardController.dashboardRole}');
+    try{
     Map<String, dynamic> data = message.data;
               print('jhbisud $data');
 
@@ -125,6 +231,7 @@ class FirebaseNotificationService {
       "new_trainer",
       "Exam"
     ];
+
     if (data.isNotEmpty) {
       if (dashboardController.dashboardRole == "user") {
         bool needToNvaigate = false;
@@ -183,28 +290,29 @@ class FirebaseNotificationService {
       }
     }
 
-    // } catch (e) {
-    //   print('Error parsing JSON: $e');
-    // }
+    } catch (e) {
+      print('Error parsing JSON: $e');
+    }
   }
 
   static void _handleNotificationTap(NotificationResponse response) async {
     log('jhbisud: ${response.payload}');
     String rawNotificationData = response.payload.toString();
 
-    // Fixing the malformed string
+    // Fixing the malformed string  
 
     // Now decoding the fixed JSON string
     try {
-      String fixedJson = fixMalformedJson(rawNotificationData);
-      Map<String, dynamic> data = jsonDecode(fixedJson);
+      // String fixedJson = fixMalformedJson(rawNotificationData);
+      Map<String, dynamic> data = jsonDecode(rawNotificationData);
+      print('fgasdg $data ${data.runtimeType}');
       List payloadKeys = [
         "Calibration_Task",
         "Inspection_Task",
         "new_trainer",
         "Exam"
       ];
-      print('jhbisud $data');
+      print('jhbisud da$data');
       if (data.isNotEmpty) {
         if (dashboardController.dashboardRole == "user") {
           bool needToNvaigate = false;
@@ -286,28 +394,12 @@ class FirebaseNotificationService {
           ),
           iOS: const DarwinNotificationDetails(),
         ),
-        payload: message.data.toString(),
+        payload: jsonEncode(message.data),
       );
     }
   }
 
-  static Future<void> getNotificationPermission() async {
-    try {
-      // final notificationStatus = await Permission.notification.status;
-      // log('Notification permission status: $notificationStatus');
-
-      // if (notificationStatus.isDenied) {
-      //   log('Requesting notification permission...');
-      //   final status = await Permission.notification.request();
-      //   if (status.isDenied) {
-      //     log('Notification permission denied');
-      //   }
-      // }
-    } catch (e) {
-      log('Error getting Notification permission', error: e);
-    }
-  }
-
+  
   // Method to subscribe to topics
   static Future<void> subscribeToTopic(
       {required String userType, required String customerId}) async {
@@ -335,6 +427,16 @@ class FirebaseNotificationService {
       await _firebaseMessaging.unsubscribeFromTopic('CUS-$customerId');
     }
   }
+  
+  void handleNotificationClick(Map<String, dynamic> payLoad) {
+    print('asdfk cl$payLoad');
+  }
+  
+  void showFlutterNotification(RemoteMessage message) {
+    print('asdfk sgw${message.data}');
+    _setupForegroundMessaging();
+    _setupNotifications();
+  }
 }
 
 String fixMalformedJson(String rawNotificationData) {
@@ -357,4 +459,14 @@ String fixMalformedJson(String rawNotificationData) {
   );
 
   return fixedJson;
+}
+extension StringExtensions on String? {
+
+  // String capitalize() {
+  //   if (this.isEmpty) return this;
+  //   return this[0].toUpperCase() + this.substring(1);
+  // }
+  bool isNullOrEmpty() {
+    return this == null || this!.isEmpty;
+  }
 }

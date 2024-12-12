@@ -97,7 +97,7 @@ class _CertificatePageState extends State<CertificatePage> {
                     height: 24.h,
                   ),
                   trainingHomeController.certificateDetails.isEmpty
-                      ? Container(
+                      ? SizedBox(
                           height: MediaQuery.sizeOf(context).height / 1.3,
                           child: Center(
                             child: Text('No Data found'),

@@ -33,7 +33,7 @@ class ContactUsController extends GetxController {
       bodyData: mapData,
       endPoint:homeController.isCalibrationSection.value? HttpUrls.saveEnquiriesCalibration: HttpUrls.saveEnquiries,
     ).then((value) {
-      print('objectjkhbiu ${value}');
+      print('objectjkhbiu $value');
       if (value != null) {
         if (value.statusCode == 200) {
           // Loader.stopLoader();

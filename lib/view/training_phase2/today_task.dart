@@ -155,7 +155,7 @@ class _TodayTaskState extends State<TodayTask> {
                             return Column(
                               children: isLoading
                                   ? [
-                                      Container(
+                                      SizedBox(
                                         height:
                                             MediaQuery.sizeOf(context).height /
                                                 3,

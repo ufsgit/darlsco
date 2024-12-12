@@ -767,7 +767,7 @@ class HomeController extends GetxController {
 
         // final data=jsonDecode(value.data[0].toString());
 // ist<CustomerEquipmentList> result= value.data[0].map((e)=>CustomerEquipmentList.fromJson(e)).toList()as  List<CustomerEquipmentList> ;
-        print('sdfasdkjnf ${equipmentCheckValue}');
+        print('sdfasdkjnf $equipmentCheckValue');
         if (equipmentCheckValue.isEmpty || equipmentCheckValue.length != customerEquipmentData.length) {
           equipmentCheckValue = List.generate(homeController.customerEquipmentData.length, (index) => false);
         }

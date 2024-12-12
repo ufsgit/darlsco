@@ -169,7 +169,7 @@ class _ExpiringEquipmentScreenState extends State<ExpiringEquipmentScreen> {
                                     : MainAxisAlignment.start,
                             children: isScreenLoading
                                 ? [
-                                    Container(
+                                    SizedBox(
                                         height:
                                             MediaQuery.sizeOf(context).height /
                                                 2,

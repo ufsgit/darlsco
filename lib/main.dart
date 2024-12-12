@@ -4,12 +4,10 @@ import 'dart:isolate';
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:darlsco/app_%20config/all_countries.dart';
 import 'package:darlsco/controller/login/login_controller.dart';
-import 'package:darlsco/controller/network/network_helper.dart';
 import 'package:darlsco/firebase_options.dart';
 import 'package:darlsco/http/http_urls.dart';
 import 'package:darlsco/notification.dart';
 import 'package:darlsco/view/home/bottom_navigation_screen.dart';
-import 'package:darlsco/view/telr/network_helper_class.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:location/location.dart' as loc;
 
@@ -55,7 +53,7 @@ Future<void> main() async {
     await Firebase.initializeApp(
         options: DefaultFirebaseOptions.currentPlatform);
   }
-  await FirebaseNotificationService.initialize();
+  await FirebaseNotificationService().initialize();
   // NetworChecker().initConnectivity();
 
   // NetworChecker.connectivitySubscription = NetworChecker

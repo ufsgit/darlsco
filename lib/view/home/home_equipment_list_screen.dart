@@ -1,5 +1,4 @@
 import 'package:darlsco/controller/home/home_controller.dart';
-import 'package:darlsco/controller/upcoming_inspections/upcoming_inspection_controller.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

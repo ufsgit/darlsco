@@ -3,7 +3,6 @@ import 'package:darlsco/core/constants/color_resources.dart';
 import 'package:darlsco/view/home/bottom_navigation_screen.dart';
 import 'package:darlsco/view/risk_assessment/risk_assessment_stop_screen.dart';
 import 'package:darlsco/view/training/training_screen_mobile.dart';
-import 'package:darlsco/view/widgets/loader.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';

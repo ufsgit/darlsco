@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:darlsco/controller/dashboard/dashboard_controller.dart';
 import 'package:darlsco/controller/home/home_controller.dart';
@@ -269,7 +268,6 @@ class LoginController extends GetxController {
               Get.offAll(() => BottomNavigationWidget());
           }
         //  if(Platform.isAndroid){
-           await FirebaseNotificationService.getNotificationPermission();
           await FirebaseNotificationService.subscribeToTopic(
               userType: dashboardController.dashboardRole.toString(),
               customerId: data['0'][0]['Id'].toString());

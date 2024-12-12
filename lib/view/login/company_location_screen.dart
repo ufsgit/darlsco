@@ -9,7 +9,7 @@ import '../../core/constants/color_resources.dart';
 import '../../core/constants/common_widgets.dart';
 
 class CompanyLocationScreen extends StatefulWidget {
-  CompanyLocationScreen({super.key});
+  const CompanyLocationScreen({super.key});
 
   @override
   State<CompanyLocationScreen> createState() => _CompanyLocationScreenState();

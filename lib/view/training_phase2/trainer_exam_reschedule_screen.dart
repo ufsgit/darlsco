@@ -200,28 +200,24 @@ class _TrainerExamRescheduleScreenState extends State<TrainerExamRescheduleScree
               backgroundColor: ColorResources.colorE5AA17,
               txtColor: ColorResources.colorBlack,
               onPressed: () async {
-                if (selectDate != null) {
-                  print('Selected Date: $selectDate');
+                print('Selected Date: $selectDate');
 
-                  try {
-                    await trainingController.rescheduleExam(context: context, todaysExamDetails: widget.todaysTaskDetails, selectedDate: selectDate!, notes: notesController.text);
-                    await todayTaskController.getTodayTaskList();
-                    todayTaskController.update();
-                    trainingController.update();
-                    widget.setState(() {});
-                  } catch (e) {
-                    // Get.snackbar(
-                    //   'Failed',
-                    //   'Failed to reschedule course: $e',
-                    //   backgroundColor: Colors.red,
-                    //   colorText: Colors.white,
-                    //   snackPosition: SnackPosition.BOTTOM,
-                    // );
-                  }
-                } else {
-                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Select date and fill notes')));
+                try {
+                  await trainingController.rescheduleExam(context: context, todaysExamDetails: widget.todaysTaskDetails, selectedDate: selectDate!, notes: notesController.text);
+                  await todayTaskController.getTodayTaskList();
+                  todayTaskController.update();
+                  trainingController.update();
+                  widget.setState(() {});
+                } catch (e) {
+                  // Get.snackbar(
+                  //   'Failed',
+                  //   'Failed to reschedule course: $e',
+                  //   backgroundColor: Colors.red,
+                  //   colorText: Colors.white,
+                  //   snackPosition: SnackPosition.BOTTOM,
+                  // );
                 }
-              },
+                            },
             ),
           )
         ],

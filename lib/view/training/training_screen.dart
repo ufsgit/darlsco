@@ -9,7 +9,7 @@ import 'package:get/get.dart';
 import 'training_screen_mobile.dart';
 
 class TrainningScreen extends StatefulWidget {
-  TrainningScreen({super.key, required this.status, required this.taskId});
+  const TrainningScreen({super.key, required this.status, required this.taskId});
   final String status;
   final int taskId;
   @override
@@ -35,7 +35,6 @@ class _TrainningScreenState extends State<TrainningScreen> {
       });
       await upcomingInspectionsController.getUserTaskDetails(
           status: widget.status, taskId: widget.taskId);
-    } catch (e) {
     } finally {
       setState(() {
         isLoading = false;

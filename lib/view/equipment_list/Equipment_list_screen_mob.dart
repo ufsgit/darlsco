@@ -105,7 +105,7 @@ class _EquipmentListScreenMobState extends State<EquipmentListScreenMob> {
                     return Wrap(
                       children: isScreenLoading || eqData.isLoadingEquipments.value
                           ? [
-                              Container(
+                              SizedBox(
                                 height: MediaQuery.sizeOf(context).height / 2,
                                 child: Center(
                                   child: CircularProgressIndicator(),

@@ -44,7 +44,7 @@ Future<void> initConnectivity() async {
       print('nbiu');
       
     }
-    print('Connectivity changed: ${result}');
+    print('Connectivity changed: $result');
   }
 
 }

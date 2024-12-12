@@ -70,7 +70,7 @@ class _TrainingHomeScreenState extends State<TrainingHomeScreen> {
                     padding: EdgeInsets.symmetric(
                         horizontal: 16.w, vertical: 32.w),                            children: [
                         !isNetworkConnected
-                            ? Container(
+                            ? SizedBox(
                               height: MediaQuery.sizeOf(context).height/2,
                               child: Center(
                                   child: Column(

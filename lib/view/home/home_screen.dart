@@ -1,10 +1,9 @@
+import 'package:darlsco/controller/dashboard/dashboard_controller.dart';
 import 'package:darlsco/controller/home/home_controller.dart';
 import 'package:darlsco/controller/login/login_controller.dart';
 import 'package:darlsco/controller/tainning/training_controller_home.dart';
-import 'package:darlsco/controller/upcoming_inspections/upcoming_inspection_controller.dart';
 import 'package:darlsco/core/constants/color_resources.dart';
 import 'package:darlsco/core/constants/common_widgets.dart';
-import 'package:darlsco/main.dart';
 import 'package:darlsco/view/training/training_home_screen.dart';
 import 'package:darlsco/view/training/widgets/training_widgets.dart';
 import 'package:darlsco/view/training_phase2/drawer_account.dart';
@@ -285,6 +284,7 @@ class HomePageState extends State<HomePage>
                                                   TextButton(
                                                     child: const Text('Logout'),
                                                     onPressed: () async {
+                                                      // Get.back();
                                                       await loginController
                                                           .logout(context);
                                                       globalHomeController
@@ -298,7 +298,6 @@ class HomePageState extends State<HomePage>
                                                           false;
 
                                                       _handleTabSelection();
-                                                      Get.back();
                                                     },
                                                   ),
                                                 ],
@@ -347,9 +346,10 @@ class HomePageState extends State<HomePage>
 
                             onTap: (index) async {
                               // await upcomingInspectionsController
+                                print('dfgswrlkkkjkhk ${dashboardController.dashboardRole}');
                               // .getUpComingCalibration(isFromSplash: true);
                               if (homeController.isHomeLoading.value) {
-                                print('dfgswrlkkkjkhk 12343');
+                                print('dfgswrlkkkjkhk ${dashboardController.dashboardRole}');
                               } else {}
                               if (index == 2 &&
                                   homeController.isTraineeLogin.value == true &&

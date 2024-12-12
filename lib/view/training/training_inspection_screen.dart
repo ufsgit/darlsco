@@ -639,8 +639,6 @@ class _TrainingInspectionScreenState extends State<TrainingInspectionScreen> {
                                                                 content: Text(
                                                                     'From Date and To Date is Required!')));
                                                   }
-                                                  } catch (e) {
-                                                    
                                                   }finally{
                                                     setState(() {
                                                       isLoading=false;
@@ -1069,8 +1067,6 @@ class _TrainingInspectionScreenState extends State<TrainingInspectionScreen> {
                                                                     'From Date and To Date is Required!')));
                                                   }
                                                
-                                                 } catch (e) {
-                                                  
                                                  }finally{
                                                   setState(() {
                                                     isLoading=false;

@@ -104,7 +104,7 @@ class _UpcomingTaskState extends State<UpcomingTask> {
                         ],
                       ),
                       isLoading
-                          ? Container(
+                          ? SizedBox(
                               height: MediaQuery.sizeOf(context).height / 3,
                               width: MediaQuery.sizeOf(context).width,
                               child: Center(
