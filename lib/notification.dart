@@ -125,12 +125,7 @@ FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =FlutterLocalNot
         if (null != apple && !apple.imageUrl.isNullOrEmpty()) {
           imgUrl = apple.imageUrl ?? "";
         }
-        Map<String, dynamic> newData1 = {
-          'body': notification.body,
-          'title': notification.title,
-          'imageUrl': imgUrl,
-        };
-        data.addAll(newData1);
+      
         handleNotificationClick(data);
       }
     });
@@ -149,12 +144,7 @@ FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =FlutterLocalNot
           imgUrl = apple.imageUrl ?? "";
         }
         Map<String, dynamic> data = message!.data;
-        Map<String, dynamic> newData1 = {
-          'body': notification.body,
-          'title': notification.title,
-          'imageUrl': imgUrl,
-        };
-        data.addAll(newData1);
+      
         handleNotificationClick(data);
       }
     });
@@ -184,7 +174,7 @@ FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =FlutterLocalNot
           iOS: DarwinInitializationSettings(),
         ),
         onDidReceiveNotificationResponse: (jjj){
-          _handleNotificationTap(jjj);
+          _handleNotificationTap(jsonDecode(jjj.payload.toString()));
         },
       );
     } catch (e) {
@@ -295,7 +285,7 @@ FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =FlutterLocalNot
     }
   }
 
-  static void _handleNotificationTap(NotificationResponse response) async {
+  static void _handleNotificationTap( response) async {
     log('jhbisud: ${response.payload}');
     String rawNotificationData = response.payload.toString();
 
@@ -304,7 +294,7 @@ FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =FlutterLocalNot
     // Now decoding the fixed JSON string
     try {
       // String fixedJson = fixMalformedJson(rawNotificationData);
-      Map<String, dynamic> data = jsonDecode(rawNotificationData);
+      Map<String, dynamic> data = response.data;
       print('fgasdg $data ${data.runtimeType}');
       List payloadKeys = [
         "Calibration_Task",
@@ -429,8 +419,71 @@ FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =FlutterLocalNot
   }
   
   void handleNotificationClick(Map<String, dynamic> payLoad) {
-    print('asdfk cl$payLoad');
-  }
+    Map<String,dynamic> data=payLoad;
+List payloadKeys = [
+        "Calibration_Task",
+        "Inspection_Task",
+        "new_trainer",
+        "Exam"
+      ];
+      print('jhbisud da$data');
+      if (data.isNotEmpty) {
+        if (dashboardController.dashboardRole == "user") {
+          bool needToNvaigate = false;
+          for (var element in payloadKeys) {
+            if (data["type"] == element) {
+              needToNvaigate = true;
+              break;
+            }
+          }
+          if (needToNvaigate) {
+            homeController.isCalibrationSection.value =
+                homeController.isCalibrationEnabled &&
+                    data['type'] == 'Calibration_Task';
+            homeController.isInspectionSection.value =
+                homeController.isInspectionEnabled &&
+                    data['type'] == 'Inspection_Task';
+            homeController.isTrainingSectionnew.value =
+                homeController.isTrainingEnabled &&
+                        data['type'] == 'new_trainer' ||
+                    homeController.isTrainingEnabled && data['type'] == 'Exam';
+
+            Get.offAll(
+              TrainingInspectionScreen(
+                selectedIndex: homeController.isInspectionSection.value
+                    ? 0
+                    : homeController.isTrainingSectionnew.value
+                        ? homeController.isInspectionEnabled
+                            ? 1
+                            : 0
+                        : homeController.isCalibrationSection.value
+                            ? !homeController.isInspectionEnabled &&
+                                    !homeController.isTrainingEnabled
+                                ? 0
+                                : !homeController.isInspectionEnabled &&
+                                            homeController.isTrainingEnabled ||
+                                        homeController.isInspectionEnabled &&
+                                            !homeController.isTrainingEnabled
+                                    ? 1
+                                    : homeController.isInspectionEnabled &&
+                                            homeController.isTrainingEnabled &&
+                                            homeController.isCalibrationEnabled
+                                        ? 2
+                                        : 0
+                            : 0,
+              ),
+            );
+
+            homeController.update();
+          }
+        } else if (data["type"] == "equipment_certificate") {
+          Get.offAll(() => PDFViewerPage(
+                isFromNotification: true,
+                fileName: data['certificate_No'],
+                pdfPath: data['File_Key'],
+              ));
+        }
+      }  }
   
   void showFlutterNotification(RemoteMessage message) {
     print('asdfk sgw${message.data}');
